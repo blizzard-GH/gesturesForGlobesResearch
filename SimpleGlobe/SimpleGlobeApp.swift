@@ -32,6 +32,8 @@ struct SimpleGlobeApp: App {
     /// View model injected in environment.
     @State private var model = ViewModel.shared
     
+    @State private var webViewStatus: WebViewStatus = .loading
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -41,7 +43,7 @@ struct SimpleGlobeApp: App {
 
         WindowGroup(id: "info", for: UUID.self) { $globeId in
             if let infoURL = model.globe.infoURL {
-                WebViewDecorated(url: infoURL)
+                WebViewDecorated(url: infoURL, webViewStatus: $webViewStatus)
                     .ornament(attachmentAnchor: .scene(.bottom)) {
                         Button("Open in Safari") { openURL(infoURL) }
                         .padding()

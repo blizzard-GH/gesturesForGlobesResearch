@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D60D9512CF84F2900D7C8AD /* GoogleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D94D2CF84F2900D7C8AD /* GoogleForm.swift */; };
+		7D60D9522CF84F2900D7C8AD /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D94E2CF84F2900D7C8AD /* TaskView.swift */; };
+		7D60D9532CF84F2900D7C8AD /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D94F2CF84F2900D7C8AD /* WelcomeView.swift */; };
+		7D60D9562CF84F2C00D7C8AD /* CaseIterable+Next.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D9542CF84F2C00D7C8AD /* CaseIterable+Next.swift */; };
+		7D60D9582CF8550F00D7C8AD /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D9572CF8550F00D7C8AD /* Page.swift */; };
+		7D60D95A2CF85E9300D7C8AD /* ThankYouView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D9592CF85E9300D7C8AD /* ThankYouView.swift */; };
 		7DC8613E2CA43EDB00D2F90F /* Georeferencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC8613D2CA43ED600D2F90F /* Georeferencer.swift */; };
 		7DC861422CA448F700D2F90F /* AttributeTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC861412CA448F700D2F90F /* AttributeTable.swift */; };
 		7DC861442CA44E0D00D2F90F /* geo.csv in Resources */ = {isa = PBXBuildFile; fileRef = 7DC861432CA44E0D00D2F90F /* geo.csv */; };
@@ -37,6 +43,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7D60D94D2CF84F2900D7C8AD /* GoogleForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleForm.swift; sourceTree = "<group>"; };
+		7D60D94E2CF84F2900D7C8AD /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
+		7D60D94F2CF84F2900D7C8AD /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		7D60D9542CF84F2C00D7C8AD /* CaseIterable+Next.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaseIterable+Next.swift"; sourceTree = "<group>"; };
+		7D60D9572CF8550F00D7C8AD /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
+		7D60D9592CF85E9300D7C8AD /* ThankYouView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYouView.swift; sourceTree = "<group>"; };
 		7DC8613D2CA43ED600D2F90F /* Georeferencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Georeferencer.swift; sourceTree = "<group>"; };
 		7DC861412CA448F700D2F90F /* AttributeTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeTable.swift; sourceTree = "<group>"; };
 		7DC861432CA44E0D00D2F90F /* geo.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = geo.csv; sourceTree = "<group>"; };
@@ -79,6 +91,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7D60D9502CF84F2900D7C8AD /* PageViews */ = {
+			isa = PBXGroup;
+			children = (
+				7D60D9572CF8550F00D7C8AD /* Page.swift */,
+				7D60D94F2CF84F2900D7C8AD /* WelcomeView.swift */,
+				7D60D94D2CF84F2900D7C8AD /* GoogleForm.swift */,
+				7D60D94E2CF84F2900D7C8AD /* TaskView.swift */,
+				7D60D9592CF85E9300D7C8AD /* ThankYouView.swift */,
+			);
+			path = PageViews;
+			sourceTree = "<group>";
+		};
+		7D60D9552CF84F2C00D7C8AD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7D60D9542CF84F2C00D7C8AD /* CaseIterable+Next.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		7DD56E482C6CC830009AE72C = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +136,7 @@
 				7DD56E752C6CC9EB009AE72C /* Systems & Components */,
 				7DD56E8C2C6CD171009AE72C /* Views */,
 				7DD56E972C6DAFF2009AE72C /* Gestures */,
+				7D60D9552CF84F2C00D7C8AD /* Extensions */,
 				7DD56E822C6CCAF3009AE72C /* Utilities */,
 				7DD56E5E2C6CC831009AE72C /* Assets.xcassets */,
 				7DC861452CA537A900D2F90F /* ISO 3166-1 numeric-3.asc */,
@@ -166,8 +199,9 @@
 		7DD56E8C2C6CD171009AE72C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7DD56E8F2C6CD1F0009AE72C /* ButtonImage.swift */,
 				7DD56E5A2C6CC830009AE72C /* ContentView.swift */,
+				7D60D9502CF84F2900D7C8AD /* PageViews */,
+				7DD56E8F2C6CD1F0009AE72C /* ButtonImage.swift */,
 				7DD56E8D2C6CD19A009AE72C /* GaugeProgressStyle.swift */,
 				7DD56E8A2C6CD134009AE72C /* GlobeAttachmentView.swift */,
 				7DD56E932C6CD4D7009AE72C /* GlobeButton.swift */,
@@ -261,6 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DC8613E2CA43EDB00D2F90F /* Georeferencer.swift in Sources */,
+				7D60D9562CF84F2C00D7C8AD /* CaseIterable+Next.swift in Sources */,
 				7DD56E8E2C6CD19A009AE72C /* GaugeProgressStyle.swift in Sources */,
 				7DE6A6F62C6E1DCC00E0D956 /* WebView.swift in Sources */,
 				7DD56E992C6DB033009AE72C /* GlobeGesturesModifier.swift in Sources */,
@@ -274,9 +309,14 @@
 				7DD56E852C6CCB60009AE72C /* ViewModel.swift in Sources */,
 				7DD56E6F2C6CC93D009AE72C /* GlobeConfiguration.swift in Sources */,
 				7DD56E592C6CC830009AE72C /* SimpleGlobeApp.swift in Sources */,
+				7D60D9512CF84F2900D7C8AD /* GoogleForm.swift in Sources */,
+				7D60D9522CF84F2900D7C8AD /* TaskView.swift in Sources */,
+				7D60D9532CF84F2900D7C8AD /* WelcomeView.swift in Sources */,
+				7D60D9582CF8550F00D7C8AD /* Page.swift in Sources */,
 				7DD56E5D2C6CC830009AE72C /* ImmersiveView.swift in Sources */,
 				7DD56E762C6CC9EC009AE72C /* CameraTracker.swift in Sources */,
 				7DD56E892C6CCFD6009AE72C /* ViewModel+Preview.swift in Sources */,
+				7D60D95A2CF85E9300D7C8AD /* ThankYouView.swift in Sources */,
 				7DC861422CA448F700D2F90F /* AttributeTable.swift in Sources */,
 				7DD56E772C6CC9EC009AE72C /* GlobeBillboardSystem.swift in Sources */,
 				7DD56E882C6CCFD6009AE72C /* Globe+Preview.swift in Sources */,

@@ -10,19 +10,24 @@ import SwiftUI
 /// A `WebView` for displaying a webpage .
 struct WebViewDecorated: View {
     let url: URL
+    var googleFormsConfirmationMessage: String? = nil
     
-    @State private var webViewStatus: WebViewStatus = .loading
+    @Binding var webViewStatus: WebViewStatus
     
     var body: some View {
         ZStack {
-            WebView(url: url, status: $webViewStatus)
+            WebView(
+                url: url,
+                googleFormsConfirmationMessage: googleFormsConfirmationMessage,
+                status: $webViewStatus
+            )
             
             switch webViewStatus {
             case .loading:
                 ProgressView("Loading Page")
                     .padding()
                     .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 20))
-            case .finishedLoading:
+            case .finishedLoading, .googleFormsSubmitted:
                 EmptyView()
             case .failed(let error):
                 VStack {
@@ -38,7 +43,7 @@ struct WebViewDecorated: View {
 
 #if DEBUG
 #Preview(windowStyle: .automatic) {
-    WebViewDecorated(url: URL(string: "https://apple.com")!)
+    WebViewDecorated(url: URL(string: "https://apple.com")!, webViewStatus: .constant(.loading))
         .environment(ViewModel.preview)
 }
 #endif
