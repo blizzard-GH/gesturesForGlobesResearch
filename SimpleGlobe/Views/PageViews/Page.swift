@@ -17,7 +17,7 @@ enum Page: String, CaseIterable {
     case task2Form
     case task3
     case task3Form
-//    case outroForm // there is currently a bug that prevents two web pages to be loaded consecutively.
+    case outroForm
     case thankYou
     
     /// A task number or nil if the page does not start a set of tasks.
@@ -57,11 +57,11 @@ enum Page: String, CaseIterable {
                 "https://forms.gle/eLq5Dcz5FzJ26rrv9",
                 confirmationMessage: "Your response has been recorded. (4)" // important: the confirmation message must be unique
             )
-//        case .outroForm:
-//            try? GoogleForm(
-//                "https://forms.gle/faVXY4bCZ1x6hQVE7",
-//                confirmationMessage: "Your response has been recorded. (5)" // important: the confirmation message must be unique
-//            )
+        case .outroForm:
+            try? GoogleForm(
+                "https://forms.gle/faVXY4bCZ1x6hQVE7",
+                confirmationMessage: "Your response has been recorded. (5)" // important: the confirmation message must be unique
+            )
         default:
             nil
         }

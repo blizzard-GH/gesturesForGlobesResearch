@@ -19,6 +19,7 @@ struct ContentView: View {
     
     var body: some View {
         pageViewForCurrentPage
+            .id(currentPage)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onChange(of: webViewStatus) {
                 // after a Google Forms is submitted, show the Google Forms web page for a few seconds,

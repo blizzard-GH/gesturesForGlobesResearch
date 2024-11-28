@@ -18,7 +18,7 @@ struct TaskView: View {
             GlobeButton(globe: model.globe)
                 .padding()
 #warning("This button is currently always visible, but it should only be shown once all tasks have been completed.")
-            Button("Answer Questions") {
+            Button("Answer Questions about Task \(taskNumber)") {
                 currentPage = currentPage.next()
             }
         }
