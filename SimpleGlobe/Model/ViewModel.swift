@@ -39,6 +39,20 @@ import SwiftUI
         texture: "Bellerby65cmSchminkeGagarin"
     )
     
+    @MainActor
+    let secondGlobe = Globe(
+        name: "Second Globe",
+        shortName: "Target Globe",
+        nameTranslated: nil,
+        authorSurname: "None",
+        authorFirstName: "None",
+        date: "None",
+        description: "This is a target globe.",
+        infoURL: URL(string: "https://www.solarsystemscope.com/textures/"),
+        radius: 0.325,
+        texture: "EarthBW"
+    )
+    
     // MARK: - Visible Globes
     
     @MainActor
@@ -48,6 +62,7 @@ import SwiftUI
     @MainActor
     /// After a globe is loaded, a `GlobeEntity` is initialized. SwiftUI observes this object and synchronises the content of the `ImmersiveView` (a `RealityView`)`.
     var globeEntity: GlobeEntity?
+    var secondGlobeEntity: GlobeEntity?
     
     @MainActor
     init() {
@@ -78,44 +93,79 @@ import SwiftUI
     ///   - selection: When selection is not `none`, the texture is replaced periodically with a texture of one of the globes in the selection.
     ///   - openImmersiveSpaceAction: Action for opening an immersive space.
     func load(
-        globe: Globe,
+        firstGlobe: Globe,
+        secondGlobe: Globe,
         openImmersiveSpaceAction: OpenImmersiveSpaceAction
     ) {
         configuration.isLoading = true
         configuration.isVisible = false
         configuration.showAttachment = false
         
+//        Task {
+//            openImmersiveGlobeSpace(openImmersiveSpaceAction)            
+//            let globeEntity = try await GlobeEntity(globe: globe)
+//            Task { @MainActor in
+////                ViewModel.shared.storeGlobeEntity(globeEntity)
+//                self.storeGlobeEntity(globeEntity, globe: globe)
+//            }
+//        }
         Task {
-            openImmersiveGlobeSpace(openImmersiveSpaceAction)            
-            let globeEntity = try await GlobeEntity(globe: globe)
-            Task { @MainActor in
-                ViewModel.shared.storeGlobeEntity(globeEntity)
+                openImmersiveGlobeSpace(openImmersiveSpaceAction)
+                
+                async let firstGlobeEntity = GlobeEntity(globe: firstGlobe)
+                async let secondGlobeEntity = GlobeEntity(globe: secondGlobe)
+                
+                do {
+                    let entities = try await (firstGlobeEntity, secondGlobeEntity)
+                    Task { @MainActor in
+                        storeGlobeEntity(entities.0, entities.1)
+                    }
+                } catch {
+                    Task { @MainActor in
+                        loadingGlobeFailed(id: nil)
+                    }
+                }
             }
-        }
     }
     
     @MainActor
     /// Called after a  globe entity has been loaded.
     /// - Parameter globeEntity: The globe entity to add.
-    func storeGlobeEntity(_ globeEntity: GlobeEntity) {
+//    func storeGlobeEntity(_ globeEntity: GlobeEntity, globe: Globe) {
+    func storeGlobeEntity(_ firstEntity: GlobeEntity, _ secondEntity: GlobeEntity) {
+//        if globe == self.globe {
+//            self.globeEntity = globeEntity
+//        } else {
+//            self.secondGlobeEntity = globeEntity
+//        }
+        // Configure and position first globe
+//        firstEntity.scale = [0.01, 0.01, 0.01]
+        firstEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
+        
+        // Configure and position second globe
+//        secondEntity.scale = [0.01, 0.01, 0.01]
+        secondEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: 0.5)
+        
+        globeEntity = firstEntity
+        secondGlobeEntity = secondEntity
         configuration.isLoading = false
         configuration.isVisible = true
         
         // Set the initial scale and position for a move-in animation.
         // The animation is started by a DidAddEntity event when the immersive space has been created and the globe has been added to the scene.
-        globeEntity.scale = [0.01, 0.01, 0.01]
-        globeEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 2)
+//        globeEntity.scale = [0.01, 0.01, 0.01]
+//        globeEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 2)
         
         // Rotate the central meridian to the camera, to avoid showing the empty hemisphere on the backside of some globes.
         // The central meridian is at [-1, 0, 0], because the texture u-coordinate with lon = -180° starts at the x-axis.
-        if let viewDirection = CameraTracker.shared.viewDirection {
-            var orientation = simd_quatf(from: [-1, 0, 0], to: -viewDirection)
-            orientation = GlobeEntity.orientToNorth(orientation: globeEntity.orientation)
-            globeEntity.orientation = orientation
-        }
+//        if let viewDirection = CameraTracker.shared.viewDirection {
+//            var orientation = simd_quatf(from: [-1, 0, 0], to: -viewDirection)
+//            orientation = GlobeEntity.orientToNorth(orientation: globeEntity.orientation)
+//            globeEntity.orientation = orientation
+//        }
         
         // store the globe entity
-        self.globeEntity = globeEntity
+//        self.globeEntity = globeEntity
     }
     
     @MainActor
@@ -139,6 +189,7 @@ import SwiftUI
                 radius: globe.radius,
                 duration: duration
             )
+        secondGlobeEntity?.scaleAndAdjustDistanceToCamera(newScale: 0.001, radius: secondGlobe.radius, duration: duration)
         
         configuration.isVisible = false
         configuration.showAttachment = false

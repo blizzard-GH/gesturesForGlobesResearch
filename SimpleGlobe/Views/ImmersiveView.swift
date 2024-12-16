@@ -24,7 +24,7 @@ struct ImmersiveView: View {
             // initialize the globes
             updateGlobeEntity(to: content, attachments: attachments)
             
-            _ = content.subscribe(to: SceneEvents.DidAddEntity.self, handleDidAddEntity(_:))
+//            _ = content.subscribe(to: SceneEvents.DidAddEntity.self, handleDidAddEntity(_:))
         } update: { content, attachments in // synchronous on MainActor
             updateGlobeEntity(to: content, attachments: attachments)
         } attachments: { // synchronous on MainActor
@@ -52,6 +52,7 @@ struct ImmersiveView: View {
     private func animateMoveIn(of entity: Entity) {
         if let globeEntity = entity as? GlobeEntity {
             let targetPosition = model.configuration.positionRelativeToCamera(distanceToGlobe: 0.5)
+            
             globeEntity.animateTransform(scale: 1, position: targetPosition)
         }
     }
@@ -73,6 +74,9 @@ struct ImmersiveView: View {
         } else {
             if let globeEntity = model.globeEntity {
                 root.addChild(globeEntity)
+            }
+            if let secondGlobeEntity = model.secondGlobeEntity {
+                root.addChild(secondGlobeEntity)
             }
         }
         

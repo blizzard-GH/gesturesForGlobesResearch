@@ -35,7 +35,7 @@ struct GlobeConfiguration: Equatable {
     /// Position the globe relative to the camera location such that the closest point on the globe is at `distanceToGlobe`.
     /// The direction between the camera and the globe is 30 degrees below the horizon.
     /// - Parameter distanceToGlobe: Distance to globe
-    func positionRelativeToCamera(distanceToGlobe: Float) -> SIMD3<Float> {
+    func positionRelativeToCamera(distanceToGlobe: Float, xOffset: Float = 0) -> SIMD3<Float> {
         guard let cameraViewDirection = CameraTracker.shared.viewDirection,
               let cameraPosition = CameraTracker.shared.position else {
             return SIMD3(0, 1, 0)
@@ -51,6 +51,7 @@ struct GlobeConfiguration: Equatable {
         // the center of the globe is at this angle below the horizon
         let alpha: Float = 30 / 180 * .pi
         position.y -= sin(alpha) * d
+        position.x = xOffset
         
         return position
     }

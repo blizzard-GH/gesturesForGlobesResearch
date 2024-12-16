@@ -28,6 +28,7 @@ class GlobeEntity: Entity {
     /// Controller for stopping animated transformations.
     var animationPlaybackController: AnimationPlaybackController? = nil
     
+    
     @MainActor required init() {
         super.init()
     }

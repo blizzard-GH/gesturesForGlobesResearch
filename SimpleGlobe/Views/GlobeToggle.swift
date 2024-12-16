@@ -1,19 +1,18 @@
 //
 //  GlobeButton.swift
-//  SimpleGlobe
+//  Globes
 //
-//  Created by Faisal Agung Abdillah on 11/12/2024.
+//  Created by Bernhard Jenny on 5/5/2024.
 //
 
 import SwiftUI
 
-struct GlobeButton: View {
+struct GlobeToggle: View {
     @Environment(ViewModel.self) private var model
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     
     let firstGlobe: Globe
     let secondGlobe: Globe
-    @Binding var isDoingTask: Bool
     
     @MainActor
     private var globeBinding: Binding<Bool> { Binding (
@@ -23,14 +22,10 @@ struct GlobeButton: View {
     
     var body: some View {
         VStack {
-            Button(action: {globeBinding.wrappedValue.toggle()
-                isDoingTask = true})
-            {
-                if !isDoingTask{
-                    Label("Start Task", systemImage: globeBinding.wrappedValue ? "globe.fill" : "globe")
-                }
-            }
-            .buttonStyle(PlainButtonStyle())
+            Toggle(isOn: globeBinding, label: {
+                Label("Show Globe", systemImage: "globe")
+            })
+            .fixedSize(horizontal: true, vertical: false)
             
             ProgressView()
                 .opacity(model.configuration.isLoading ? 1 : 0)

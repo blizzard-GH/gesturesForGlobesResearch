@@ -21,16 +21,16 @@ enum Page: String, CaseIterable {
     case thankYou
     
     /// A task number or nil if the page does not start a set of tasks.
-    var taskNumber: Int? {
+    var taskDetails: (taskNumber: Int, description: String, instructions: String)? {
         switch self {
         case .task1:
-            1
+            return (1, "Positioning the globe", "We are measuring effectiveness for positioning the globe." )
         case .task2:
-            2
+            return (2, "Scaling the globe", "We are measuring effectiveness for scaling the globe.")
         case .task3:
-            3
+            return (3, "Rotating the globe", "We are measuing effectiveness for rotating the globe.")
         default:
-            nil
+            return nil
         }
     }
     
