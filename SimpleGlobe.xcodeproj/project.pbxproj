@@ -41,7 +41,10 @@
 		7DE6A6F62C6E1DCC00E0D956 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */; };
 		7DE6A6F72C6E1DCC00E0D956 /* WebViewDecorated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */; };
 		970D876A2D0A636A00700830 /* StudyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970D87692D0A636300700830 /* StudyModel.swift */; };
-		97D85BFD2D09299300C9D1B9 /* GlobeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D85BFC2D09298B00C9D1B9 /* GlobeButton.swift */; };
+		9798B5372D11C7F400D0319C /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9798B5362D11C7EF00D0319C /* Instruction.swift */; };
+		97C37A202D12787200E628CB /* GetReady.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C37A1F2D12786F00E628CB /* GetReady.swift */; };
+		97C37A222D12DDCB00E628CB /* PositionMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C37A212D12DDC700E628CB /* PositionMatcher.swift */; };
+		97D85BFD2D09299300C9D1B9 /* StartTaskButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D85BFC2D09298B00C9D1B9 /* StartTaskButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,7 +84,10 @@
 		7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewDecorated.swift; sourceTree = "<group>"; };
 		970D87692D0A636300700830 /* StudyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyModel.swift; sourceTree = "<group>"; };
-		97D85BFC2D09298B00C9D1B9 /* GlobeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeButton.swift; sourceTree = "<group>"; };
+		9798B5362D11C7EF00D0319C /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
+		97C37A1F2D12786F00E628CB /* GetReady.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReady.swift; sourceTree = "<group>"; };
+		97C37A212D12DDC700E628CB /* PositionMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionMatcher.swift; sourceTree = "<group>"; };
+		97D85BFC2D09298B00C9D1B9 /* StartTaskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTaskButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +170,7 @@
 		7DD56E6D2C6CC93D009AE72C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				97C37A212D12DDC700E628CB /* PositionMatcher.swift */,
 				970D87692D0A636300700830 /* StudyModel.swift */,
 				7DD56E692C6CC93D009AE72C /* Globe.swift */,
 				7DD56E6A2C6CC93D009AE72C /* GlobeConfiguration.swift */,
@@ -204,12 +211,14 @@
 		7DD56E8C2C6CD171009AE72C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				97C37A1F2D12786F00E628CB /* GetReady.swift */,
+				9798B5362D11C7EF00D0319C /* Instruction.swift */,
 				7DD56E5A2C6CC830009AE72C /* ContentView.swift */,
 				7D60D9502CF84F2900D7C8AD /* PageViews */,
 				7DD56E8F2C6CD1F0009AE72C /* ButtonImage.swift */,
 				7DD56E8D2C6CD19A009AE72C /* GaugeProgressStyle.swift */,
 				7DD56E8A2C6CD134009AE72C /* GlobeAttachmentView.swift */,
-				97D85BFC2D09298B00C9D1B9 /* GlobeButton.swift */,
+				97D85BFC2D09298B00C9D1B9 /* StartTaskButton.swift */,
 				7DD56E932C6CD4D7009AE72C /* GlobeToggle.swift */,
 				7DD56E5C2C6CC830009AE72C /* ImmersiveView.swift */,
 				7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */,
@@ -302,6 +311,7 @@
 			files = (
 				7DC8613E2CA43EDB00D2F90F /* Georeferencer.swift in Sources */,
 				7D60D9562CF84F2C00D7C8AD /* CaseIterable+Next.swift in Sources */,
+				9798B5372D11C7F400D0319C /* Instruction.swift in Sources */,
 				7DD56E8E2C6CD19A009AE72C /* GaugeProgressStyle.swift in Sources */,
 				7DE6A6F62C6E1DCC00E0D956 /* WebView.swift in Sources */,
 				970D876A2D0A636A00700830 /* StudyModel.swift in Sources */,
@@ -318,9 +328,11 @@
 				7DD56E592C6CC830009AE72C /* SimpleGlobeApp.swift in Sources */,
 				7D60D9512CF84F2900D7C8AD /* GoogleForm.swift in Sources */,
 				7D60D9522CF84F2900D7C8AD /* TaskView.swift in Sources */,
+				97C37A222D12DDCB00E628CB /* PositionMatcher.swift in Sources */,
 				7D60D9532CF84F2900D7C8AD /* WelcomeView.swift in Sources */,
 				7D60D9582CF8550F00D7C8AD /* Page.swift in Sources */,
 				7DD56E5D2C6CC830009AE72C /* ImmersiveView.swift in Sources */,
+				97C37A202D12787200E628CB /* GetReady.swift in Sources */,
 				7DD56E762C6CC9EC009AE72C /* CameraTracker.swift in Sources */,
 				7DD56E892C6CCFD6009AE72C /* ViewModel+Preview.swift in Sources */,
 				7D60D95A2CF85E9300D7C8AD /* ThankYouView.swift in Sources */,
@@ -330,7 +342,7 @@
 				7DD56E6E2C6CC93D009AE72C /* Globe.swift in Sources */,
 				7DD56E782C6CC9EC009AE72C /* RotationSystem.swift in Sources */,
 				7DE6A6F72C6E1DCC00E0D956 /* WebViewDecorated.swift in Sources */,
-				97D85BFD2D09299300C9D1B9 /* GlobeButton.swift in Sources */,
+				97D85BFD2D09299300C9D1B9 /* StartTaskButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

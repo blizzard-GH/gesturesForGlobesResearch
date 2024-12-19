@@ -35,24 +35,28 @@ struct SimpleGlobeApp: App {
     @State private var webViewStatus: WebViewStatus = .loading
     
     var body: some Scene {
-                WindowGroup {
-                    ContentView()
-                        .environment(model)
-                }
-                .windowResizability(.contentSize) // window resizability is derived from window content
+        WindowGroup {
+            ContentView()
+                .environment(model)
+        }
+        .windowResizability(
+            .contentSize
+        ) // window resizability is derived from window content
         
-                WindowGroup(id: "info", for: UUID.self) { $globeId in
-                    if let infoURL = model.globe.infoURL {
-                        WebViewDecorated(url: infoURL, webViewStatus: $webViewStatus)
-                            .ornament(attachmentAnchor: .scene(.bottom)) {
-                                Button("Open in Safari") { openURL(infoURL) }
-                                .padding()
-                                .glassBackgroundEffect()
-                            }
-                            .frame(minWidth: 500)
+        WindowGroup(id: "info", for: UUID.self) { $globeId in
+            if let infoURL = model.globe.infoURL {
+                WebViewDecorated(url: infoURL, webViewStatus: $webViewStatus)
+                    .ornament(attachmentAnchor: .scene(.bottom)) {
+                        Button("Open in Safari") { openURL(infoURL) }
+                            .padding()
+                            .glassBackgroundEffect()
                     }
-                }
-                .windowResizability(.contentSize) // window resizability is derived from window content
+                    .frame(minWidth: 500)
+            }
+        }
+        .windowResizability(
+            .contentSize
+        ) // window resizability is derived from window content
         
 
         ImmersiveSpace(id: "ImmersiveGlobeSpace") {

@@ -62,7 +62,7 @@ import SwiftUI
     @MainActor
     /// After a globe is loaded, a `GlobeEntity` is initialized. SwiftUI observes this object and synchronises the content of the `ImmersiveView` (a `RealityView`)`.
     var globeEntity: GlobeEntity?
-    var secondGlobeEntity: GlobeEntity?
+    var secondGlobeEntity: GlobeEntity?        
     
     @MainActor
     init() {
