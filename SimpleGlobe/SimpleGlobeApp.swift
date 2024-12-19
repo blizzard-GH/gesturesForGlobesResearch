@@ -34,10 +34,13 @@ struct SimpleGlobeApp: App {
     
     @State private var webViewStatus: WebViewStatus = .loading
     
+    @State private var studyModel = StudyModel()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(model)
+                .environment(studyModel)
         }
         .windowResizability(
             .contentSize
@@ -62,8 +65,8 @@ struct SimpleGlobeApp: App {
         ImmersiveSpace(id: "ImmersiveGlobeSpace") {
             ImmersiveView()
                 .environment(model)
+                .environment(studyModel)
         }
-    
     }
 }
 

@@ -10,6 +10,7 @@ import RealityKit
 
 struct ImmersiveView: View {
     @Environment(ViewModel.self) private var model
+    @Environment(StudyModel.self) private var studyModel
     
     var body: some View {
         RealityView { content, attachments in // async on MainActor
@@ -32,7 +33,7 @@ struct ImmersiveView: View {
                 GlobeAttachmentView(globe: model.globe)
             }
         }
-        .globeGestures(model: model)
+        .globeGestures(model: model, studyModel: studyModel)
     }
     
     @MainActor

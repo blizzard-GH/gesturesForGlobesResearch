@@ -8,14 +8,11 @@
 import Foundation
 import RealityKit
 
-class PositionMatcher: ObservableObject {
-    @Published var isPositionMatched: Bool = false
+@Observable
+class PositionMatcher {
+    var isPositionMatched: Bool = false
     
-    private var timer: Timer? = nil
-    
-//    func checkPositionMatched() -> Bool {
-//        return isPositionMatched
-//    }
+    @ObservationIgnored private var timer: Timer? = nil
     
     @MainActor
     func checkPosition(model: ViewModel, tolerance: Float = 2) {

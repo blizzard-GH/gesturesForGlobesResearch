@@ -9,8 +9,8 @@ import SwiftUI
 
 struct TaskView: View {
     @Environment(ViewModel.self) var model
+    @Environment(StudyModel.self) var studyModel
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
-    @StateObject private var positionMatcher = PositionMatcher()
     
     @Binding var currentPage: Page
     @State private var isDoingTask: Bool = false
@@ -42,18 +42,16 @@ struct TaskView: View {
                             startTimer()
                         }
                     } else {
-                        
-                        if positionMatcher.isPositionMatched{
+                        if studyModel.positionMatcher.isPositionMatched {
                             Text("Position matched!")
                                 .font(.headline)
                                 .foregroundColor(.green)
                                 .padding()
                         }
-                        Text(
-                            "Time elapsed: \(String(format: "%.2f", elapsedTime)) seconds"
-                        )
-                        .font(.title)
-                        .padding()
+                        Text("Time elapsed: \(String(format: "%.2f", elapsedTime)) seconds")
+                            .font(.title)
+                            .monospacedDigit()
+                            .padding()
                         Instruction()
                         Button(
                             "Answer Questions about Task \(details.taskNumber)"
@@ -71,27 +69,26 @@ struct TaskView: View {
             }
         }
     }
+    
+    func startTimer() {
+        elapsedTime = 0
+        startTime = Date()
         
-        func startTimer() {
-            elapsedTime = 0
-            startTime = Date()
-            
-            
-            var timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-                if let startTime = startTime {
-                    elapsedTime = Date().timeIntervalSince(startTime)
-                }
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+            if let startTime = startTime {
+                elapsedTime = Date().timeIntervalSince(startTime)
             }
         }
-        
-        
-        func stopTimer() {
-            timer?.invalidate()
-            timer = nil
-        }
+    }
+    
+    func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
     
     @MainActor
     private func showOrHideGlobe(_ show: Bool) {
+#warning("the `show` parameter is not used")
         Task { @MainActor in
             if model.configuration.isVisible {
                 model.hideGlobe()
@@ -105,6 +102,5 @@ struct TaskView: View {
             }
         }
     }
-
-    }
+}
 

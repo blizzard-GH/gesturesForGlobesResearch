@@ -6,9 +6,9 @@ import SwiftUI
 extension View {
     /// Adds gestures for moving, scaling and rotating a globe.
     @MainActor
-    func globeGestures(model: ViewModel) -> some View {
+    func globeGestures(model: ViewModel, studyModel: StudyModel) -> some View {
         self.modifier(
-            GlobeGesturesModifier(model: model)
+            GlobeGesturesModifier(model: model, studyModel: studyModel)
         )
     }
 }
@@ -59,6 +59,7 @@ private struct GlobeGesturesModifier: ViewModifier {
     }
     
     let model: ViewModel
+    let studyModel: StudyModel
     
     @State private var state = GlobeGestureState()
     
@@ -190,6 +191,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         state.isDragging = true
                         state.positionAtGestureStart = value.entity.position(relativeTo: nil)
                         state.localRotationAtGestureStart = (value.entity as? GlobeEntity)?.orientation
+                        studyModel.currentTask.startTime = .now
                     }
                     
                     if let positionAtGestureStart = state.positionAtGestureStart,
@@ -222,6 +224,8 @@ private struct GlobeGesturesModifier: ViewModifier {
             .onEnded { _ in
                 log("end drag")
                 state.endGesture()
+                studyModel.positionMatcher.checkPosition(model: model)
+                studyModel.currentTask.endTime = .now
             }
     }
     
