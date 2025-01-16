@@ -19,6 +19,3 @@ struct ThankYouView: View {
     }
 }
 
-#Preview {
-    ThankYouView()
-}

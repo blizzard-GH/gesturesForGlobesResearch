@@ -41,10 +41,15 @@
 		7DE6A6F62C6E1DCC00E0D956 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */; };
 		7DE6A6F72C6E1DCC00E0D956 /* WebViewDecorated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */; };
 		970D876A2D0A636A00700830 /* StudyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970D87692D0A636300700830 /* StudyModel.swift */; };
+		9742BB292D33E1B7001079D4 /* GestureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9742BB282D33E1B2001079D4 /* GestureType.swift */; };
+		978066432D36AE28007BD05D /* DataAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978066422D36AE20007BD05D /* DataAnalysis.swift */; };
 		9798B5372D11C7F400D0319C /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9798B5362D11C7EF00D0319C /* Instruction.swift */; };
+		97C198AF2D2ED1F100655735 /* RotationMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C198AE2D2ED1E100655735 /* RotationMatcher.swift */; };
+		97C198B12D2ED20100655735 /* ScaleMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C198B02D2ED1FA00655735 /* ScaleMatcher.swift */; };
 		97C37A202D12787200E628CB /* GetReady.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C37A1F2D12786F00E628CB /* GetReady.swift */; };
 		97C37A222D12DDCB00E628CB /* PositionMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C37A212D12DDC700E628CB /* PositionMatcher.swift */; };
 		97D85BFD2D09299300C9D1B9 /* StartTaskButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D85BFC2D09298B00C9D1B9 /* StartTaskButton.swift */; };
+		97E8FA832D377B8F007B3201 /* TaskMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E8FA822D377B89007B3201 /* TaskMode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,10 +89,15 @@
 		7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewDecorated.swift; sourceTree = "<group>"; };
 		970D87692D0A636300700830 /* StudyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyModel.swift; sourceTree = "<group>"; };
+		9742BB282D33E1B2001079D4 /* GestureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureType.swift; sourceTree = "<group>"; };
+		978066422D36AE20007BD05D /* DataAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAnalysis.swift; sourceTree = "<group>"; };
 		9798B5362D11C7EF00D0319C /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
+		97C198AE2D2ED1E100655735 /* RotationMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationMatcher.swift; sourceTree = "<group>"; };
+		97C198B02D2ED1FA00655735 /* ScaleMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleMatcher.swift; sourceTree = "<group>"; };
 		97C37A1F2D12786F00E628CB /* GetReady.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReady.swift; sourceTree = "<group>"; };
 		97C37A212D12DDC700E628CB /* PositionMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionMatcher.swift; sourceTree = "<group>"; };
 		97D85BFC2D09298B00C9D1B9 /* StartTaskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTaskButton.swift; sourceTree = "<group>"; };
+		97E8FA822D377B89007B3201 /* TaskMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,7 +180,12 @@
 		7DD56E6D2C6CC93D009AE72C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				978066422D36AE20007BD05D /* DataAnalysis.swift */,
+				97E8FA822D377B89007B3201 /* TaskMode.swift */,
+				9742BB282D33E1B2001079D4 /* GestureType.swift */,
 				97C37A212D12DDC700E628CB /* PositionMatcher.swift */,
+				97C198AE2D2ED1E100655735 /* RotationMatcher.swift */,
+				97C198B02D2ED1FA00655735 /* ScaleMatcher.swift */,
 				970D87692D0A636300700830 /* StudyModel.swift */,
 				7DD56E692C6CC93D009AE72C /* Globe.swift */,
 				7DD56E6A2C6CC93D009AE72C /* GlobeConfiguration.swift */,
@@ -314,6 +329,7 @@
 				9798B5372D11C7F400D0319C /* Instruction.swift in Sources */,
 				7DD56E8E2C6CD19A009AE72C /* GaugeProgressStyle.swift in Sources */,
 				7DE6A6F62C6E1DCC00E0D956 /* WebView.swift in Sources */,
+				97C198AF2D2ED1F100655735 /* RotationMatcher.swift in Sources */,
 				970D876A2D0A636A00700830 /* StudyModel.swift in Sources */,
 				7DD56E992C6DB033009AE72C /* GlobeGesturesModifier.swift in Sources */,
 				7DD56E7E2C6CCA71009AE72C /* GlobeEntity.swift in Sources */,
@@ -324,15 +340,18 @@
 				7DD56E5B2C6CC830009AE72C /* ContentView.swift in Sources */,
 				7DD56E942C6CD4D7009AE72C /* GlobeToggle.swift in Sources */,
 				7DD56E852C6CCB60009AE72C /* ViewModel.swift in Sources */,
+				978066432D36AE28007BD05D /* DataAnalysis.swift in Sources */,
 				7DD56E6F2C6CC93D009AE72C /* GlobeConfiguration.swift in Sources */,
 				7DD56E592C6CC830009AE72C /* SimpleGlobeApp.swift in Sources */,
 				7D60D9512CF84F2900D7C8AD /* GoogleForm.swift in Sources */,
 				7D60D9522CF84F2900D7C8AD /* TaskView.swift in Sources */,
 				97C37A222D12DDCB00E628CB /* PositionMatcher.swift in Sources */,
+				9742BB292D33E1B7001079D4 /* GestureType.swift in Sources */,
 				7D60D9532CF84F2900D7C8AD /* WelcomeView.swift in Sources */,
 				7D60D9582CF8550F00D7C8AD /* Page.swift in Sources */,
 				7DD56E5D2C6CC830009AE72C /* ImmersiveView.swift in Sources */,
 				97C37A202D12787200E628CB /* GetReady.swift in Sources */,
+				97C198B12D2ED20100655735 /* ScaleMatcher.swift in Sources */,
 				7DD56E762C6CC9EC009AE72C /* CameraTracker.swift in Sources */,
 				7DD56E892C6CCFD6009AE72C /* ViewModel+Preview.swift in Sources */,
 				7D60D95A2CF85E9300D7C8AD /* ThankYouView.swift in Sources */,
@@ -340,6 +359,7 @@
 				7DD56E772C6CC9EC009AE72C /* GlobeBillboardSystem.swift in Sources */,
 				7DD56E882C6CCFD6009AE72C /* Globe+Preview.swift in Sources */,
 				7DD56E6E2C6CC93D009AE72C /* Globe.swift in Sources */,
+				97E8FA832D377B8F007B3201 /* TaskMode.swift in Sources */,
 				7DD56E782C6CC9EC009AE72C /* RotationSystem.swift in Sources */,
 				7DE6A6F72C6E1DCC00E0D956 /* WebViewDecorated.swift in Sources */,
 				97D85BFD2D09299300C9D1B9 /* StartTaskButton.swift in Sources */,

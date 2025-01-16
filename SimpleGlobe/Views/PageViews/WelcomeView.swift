@@ -56,6 +56,6 @@ Please follow the instructions on the next screens carefully. Thank you for cont
     }
 }
     
-#Preview {
-    WelcomeView(currentPage: .constant(.welcome))
-}
+//#Preview {
+//    WelcomeView(currentPage: .constant(.welcome))
+//}

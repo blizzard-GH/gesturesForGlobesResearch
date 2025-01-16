@@ -191,7 +191,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         state.isDragging = true
                         state.positionAtGestureStart = value.entity.position(relativeTo: nil)
                         state.localRotationAtGestureStart = (value.entity as? GlobeEntity)?.orientation
-                        studyModel.currentTask.startTime = .now
+                        studyModel.startNextTask(taskMode: studyModel.currentTaskMode, gestureType: studyModel.currentTaskGesture)
                     }
                     
                     if let positionAtGestureStart = state.positionAtGestureStart,
@@ -221,11 +221,25 @@ private struct GlobeGesturesModifier: ViewModifier {
                     }
                 }
             }
-            .onEnded { _ in
+            .onEnded { value in
                 log("end drag")
                 state.endGesture()
-                studyModel.positionMatcher.checkPosition(model: model)
-                studyModel.currentTask.endTime = .now
+                if studyModel.getMatcher(taskNumber: studyModel.currentTaskPage.taskDetails?.taskNumber ?? "1a", model: model) {
+                    switch studyModel.currentTaskMode{
+                    case .time:
+                        print("\(studyModel.currentTaskGesture)")
+                        print("\(studyModel.currentTaskMode)")
+                        studyModel.endTimeTask(taskType: studyModel.currentTaskGesture)
+                    case .accuracy:
+                        studyModel.endAccuracyTask(taskType: studyModel.currentTaskGesture)
+                    }
+//                    model.globeEntity?.respawnGlobe()
+
+                }
+
+//                Below might be used in location-based measurements.
+//                print("Drag started at: \(value.startLocation)")
+//                print("Drag ended at: \(value.location)")
             }
     }
     

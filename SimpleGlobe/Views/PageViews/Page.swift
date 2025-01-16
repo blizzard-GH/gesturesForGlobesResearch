@@ -11,24 +11,61 @@ import Foundation
 enum Page: String, CaseIterable {
     case welcome
     case introForm
-    case task1
+    case task1a // Positioning; time task //Should be named 'measure'
+    case task1b // Positioning; accuracy task
     case task1Form
-    case task2
+    case task2a // Rotation; time task
+    case task2b // Rotation; accuracy task
     case task2Form
-    case task3
+    case task3a // scale; time task
+    case task3b // scale; accuracy task
     case task3Form
     case outroForm
     case thankYou
     
     /// A task number or nil if the page does not start a set of tasks.
-    var taskDetails: (taskNumber: Int, description: String, instructions: String)? {
+    var taskDetails: (taskNumber: String,
+                      description: String,
+                      instructions: String,
+                      taskMode: TaskMode,
+                      taskGesture: GestureType)? {
         switch self {
-        case .task1:
-            return (1, "Positioning the globe", "We are measuring effectiveness for positioning the globe." )
-        case .task2:
-            return (2, "Scaling the globe", "We are measuring effectiveness for scaling the globe.")
-        case .task3:
-            return (3, "Rotating the globe", "We are measuing effectiveness for rotating the globe.")
+        case .task1a:
+            return ("1a",
+                    "Positioning the globe",
+                    "We are measuring the time required to properly position the globe.",
+                    .time,
+                    .positioning)
+        case .task1b:
+            return ("1b",
+                    "Positioning the globe",
+                    "We are measuring the attempts required to properly position the globe",
+                    .accuracy,
+                    .positioning)
+        case .task2a:
+            return ("2a",
+                    "Rotating the globe",
+                    "We are measuring the time required to properly rotate the globe.",
+                    .time,
+                    .rotation)
+        case .task2b:
+            return ("2b",
+                    "Rotating the globe",
+                    "We are measuring the attempts required to properly rotate the globe.",
+                    .accuracy,
+                    .rotation)
+        case .task3a:
+            return ("3a",
+                    "Scaling the globe",
+                    "We are measuring the time required to properly scale the globe.",
+                    .time,
+                    .scale)
+        case .task3b:
+            return ("3b",
+                    "Scaling the globe",
+                    "We are measuring the attempts required to properly scale the globe",
+                    .accuracy,
+                    .scale)
         default:
             return nil
         }

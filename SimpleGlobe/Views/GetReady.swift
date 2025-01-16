@@ -11,7 +11,7 @@ struct GetReady: View {
     @Environment(ViewModel.self) private var model
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     
-    @State private var remainingTime: Int = 5
+    @State private var remainingTime: Int = 2
     @State private var timer: Timer? = nil
     
     var onCountdownComplete: () -> Void
@@ -25,7 +25,7 @@ struct GetReady: View {
                 .padding(.top, 20)
             
             Text("""
-            After 5 seconds, the timer will begin to count your elapsed time to complete the task.
+            After \(remainingTime) seconds, the timer will begin to count your elapsed time to complete the task.
             """)
                 .font(.body)
                 .italic()
@@ -57,7 +57,7 @@ struct GetReady: View {
     
     func startCountdown() {
         timer?.invalidate()
-        remainingTime = 5
+//        remainingTime = 2
         
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             if remainingTime > 0 {
@@ -70,9 +70,3 @@ struct GetReady: View {
     }
 }
 
-
-
-#Preview(windowStyle: .automatic) {
-    GetReady(onCountdownComplete: {})
-        .environment(ViewModel.preview)
-}

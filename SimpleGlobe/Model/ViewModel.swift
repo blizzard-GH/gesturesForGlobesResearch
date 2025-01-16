@@ -50,7 +50,7 @@ import SwiftUI
         description: "This is a target globe.",
         infoURL: URL(string: "https://www.solarsystemscope.com/textures/"),
         radius: 0.325,
-        texture: "EarthBW"
+        texture: "Bellerby65cmSchminkeGagarin"
     )
     
     // MARK: - Visible Globes
@@ -145,6 +145,12 @@ import SwiftUI
         // Configure and position second globe
 //        secondEntity.scale = [0.01, 0.01, 0.01]
         secondEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: 0.5)
+        
+        if secondEntity.components.has(OpacityComponent.self) {
+            secondEntity.components[OpacityComponent.self] = OpacityComponent(opacity: 0.5)
+        } else {
+            secondEntity.components.set(OpacityComponent(opacity: 0.5))
+        }
         
         globeEntity = firstEntity
         secondGlobeEntity = secondEntity

@@ -18,6 +18,7 @@ struct TaskView: View {
     @State private var timer: Timer? = nil
     @State private var startTime: Date? = nil
     @State private var showTaskContent: Bool = false
+//    @State private var isCurrentTaskMatched: Bool = false
     
     var body: some View {
         VStack {
@@ -40,10 +41,13 @@ struct TaskView: View {
                             showTaskContent = true
                             showOrHideGlobe(true)
                             startTimer()
+//                            Task{
+//                                await checkMatchingStatus(taskNumber : details.taskNumber, model: model)
+//                            }
                         }
                     } else {
-                        if studyModel.positionMatcher.isPositionMatched {
-                            Text("Position matched!")
+                        if studyModel.getMatcher(taskNumber: details.taskNumber, model: model) {
+                            Text("Matched!")
                                 .font(.headline)
                                 .foregroundColor(.green)
                                 .padding()
@@ -54,12 +58,16 @@ struct TaskView: View {
                             .padding()
                         Instruction()
                         Button(
-                            "Answer Questions about Task \(details.taskNumber)"
+                            "Finish \(details.description), and move to the next task."
                         ) {
                             currentPage = currentPage.next()
+                            studyModel.currentTaskGesture = currentPage.taskDetails?.taskGesture ?? .positioning
+                            studyModel.currentTaskMode = currentPage.taskDetails?.taskMode ?? .time
+                            studyModel.currentTaskPage = currentPage
                             isDoingTask = false
                             showTaskContent = false
                             showOrHideGlobe(false)
+                            stopTimer()
                         }
                     }
                 }
@@ -69,6 +77,11 @@ struct TaskView: View {
             }
         }
     }
+    
+//    func checkMatchingStatus(taskNumber: Int, model: ViewModel) async {
+//        isCurrentTaskMatched = studyModel.getMatcher(taskNumber: taskNumber, model: model)
+//    }
+    
     
     func startTimer() {
         elapsedTime = 0
