@@ -9,7 +9,7 @@ import Foundation
 import os
 
 actor Log {
-    static func task(_ task: GestureStudyTasks?) {
+    static func task(_ task: StudyTask?) {
         if let task, let taskDescription = task.taskDescription {
             Task {
                 await shared.append(task)
@@ -33,9 +33,9 @@ actor Log {
     
     private init() {} // hide initializer
     
-    private func append(_ task: GestureStudyTasks) {
+    private func append(_ task: StudyTask) {
         tasks.append(task)
     }
     
-    private var tasks: [GestureStudyTasks] = []
+    private var tasks: [StudyTask] = []
 }

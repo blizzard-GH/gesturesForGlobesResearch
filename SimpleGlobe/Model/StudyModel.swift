@@ -36,7 +36,7 @@ class StudyModel {
     var scaleAccuracyTaskCount = 0
     
 //    Current task
-    var currentTask: GestureStudyTasks?
+    var currentTask: StudyTask?
     var currentTaskPage: Page = .task1a
     var currentTaskGesture: GestureType = .positioning
     var currentTaskMode: TaskMode = .time
@@ -199,18 +199,18 @@ class StudyModel {
 }
 
 // Required protocols
-protocol GestureStudyTasks {
+protocol StudyTask {
     var taskDescription: String? {get}
     func start()
     func end()
 }
 
-protocol TimeTasks: GestureStudyTasks {
+protocol TimeTasks: StudyTask {
 //    Basically timeResult is time needed for users to match the target
     var timeResult: TimeInterval? {get}
 }
 
-protocol AccuracyTasks: GestureStudyTasks {
+protocol AccuracyTasks: StudyTask {
 //    Basically accuracyResult is the trials users did to match the target
     var accuracyResult: Int {get}
 }
