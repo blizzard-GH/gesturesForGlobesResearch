@@ -15,166 +15,111 @@ class StudyModel {
     var rotationMatcher = RotationMatcher()
     var scaleMatcher = ScaleMatcher()
     
-//    Time tasks
-    var positioningTimeTasks : [PositioningTimeTask] = []
-    var rotationTimeTasks : [RotationTimeTask] = []
-    var scaleTimeTasks : [ScaleTimeTask] = []
+    var positioningTasks: [PositioningTask] = []
+    var rotationTasks: [RotationTask] = []
+    var scaleTasks: [ScaleTask] = []
     
-//    Accuracy tasks
-    var positioningAccuracyTasks: PositioningAccuracyTask?
-    var rotationAccuracyTasks: RotationAccuracyTask?
-    var scaleAccuracyTasks: ScaleAccuracyTask?
-    
-//    Time Task Counters
-    var positioningTimeTaskCount = 0
-    var rotationTimeTaskCount = 0
-    var scaleTimeTaskCount = 0
-    
-//    Accuracy Task Counters
-    var positioningAccuracyTaskCount = 0
-    var rotationAccuracyTaskCount = 0
-    var scaleAccuracyTaskCount = 0
-    
+//    Task Counters
+    var positioningTaskCount = 0
+    var rotationTaskCount = 0
+    var scaleTaskCount = 0
+        
 //    Current task
     var currentTask: StudyTask?
     var currentTaskPage: Page = .task1a
     var currentTaskGesture: GestureType = .positioning
-    var currentTaskMode: TaskMode = .time
     
-    
-//    Task mode toggling
-    func toggleTaskMode() {
-        currentTaskMode = (currentTaskMode == .time) ? .accuracy: .time
-    }
-    
-//    Unified task mode switching
-    func startNextTask(taskMode: TaskMode, gestureType: GestureType) {
-        switch taskMode {
-        case .time:
-            currentTask = createTimeTask(for: gestureType)
-        case .accuracy:
-            currentTask = createAccuracyTask(for: gestureType)
-        }
+    /// Task switching
+    func startNextTask(gestureType: GestureType) {
+        currentTask = createTask(for: gestureType)
         currentTask?.start()
     }
     
-//     Time task
-    func createTimeTask(for gestureType: GestureType) -> TimeTasks {
+    func createTask(for gestureType: GestureType) -> StudyTask {
         switch gestureType {
-        case .positioning: return PositioningTimeTask()
-        case .rotation: return RotationTimeTask()
-        case .scale: return ScaleTimeTask()
+        case .positioning: return PositioningTask()
+        case .rotation: return RotationTask()
+        case .scale: return ScaleTask()
         }
     }
     
-    func endTimeTask(taskType: GestureType){
+    func endTask(taskType: GestureType){
         guard let task = currentTask else {return}
         task.end()
         
         switch taskType {
         case .positioning:
-        guard let task = currentTask as? PositioningTimeTask else {return}
-            positioningTimeTasks.append(task)
-            positioningTimeTaskCount += 1
-            // This is the data we can study
+        guard let task = currentTask as? PositioningTask else {return}
+            positioningTasks.append(task)
+            positioningTaskCount += 1
+
             Log.task(task)
-            
-            if positioningTimeTaskCount == 3 {
-                // This is the data we can study
-#warning("Better to pass the task to Log.task() and log all information there")
-                print("\(printAverageTimeTaskDurations(timeTasks: positioningTimeTasks))")
-                positioningTimeTaskCount = 0
-                positioningTimeTasks.removeAll()
+            if positionMatcher.isPositionMatched {
+                print("Position matched.")
+            } else {
+                print("Position is not matched")
             }
-        
-        case .rotation:
-            guard let task = currentTask as? RotationTimeTask else {return}
-            rotationTimeTasks.append(task)
-            rotationTimeTaskCount += 1
-            // This is the data we can study
-            Log.task(task)
-            
-            if rotationTimeTaskCount == 3 {
+
+            if positioningTaskCount == 3 {
                 // This is the data we can study
 #warning("Better to pass the task to Log.task() and log all information there")
-                print("\(printAverageTimeTaskDurations(timeTasks: rotationTimeTasks))")
-                rotationTimeTaskCount = 0
-                rotationTimeTasks.removeAll()
+                print("\(printAverageTimeTaskDurations(timeTasks: positioningTasks))")
+                positioningTaskCount = 0
+                positioningTasks.removeAll()
+            }
+        case .rotation:
+            guard let task = currentTask as? RotationTask else {return}
+            rotationTasks.append(task)
+            rotationTaskCount += 1
+            
+            Log.task(task)
+            if rotationMatcher.isRotationMatched {
+                print("Rotation matched.")
+            } else {
+                print("Rotation is not matched.")
+            }
+            
+            if rotationTaskCount == 3 {
+                // This is the data we can study
+#warning("Better to pass the task to Log.task() and log all information there")
+                print("\(printAverageTimeTaskDurations(timeTasks: rotationTasks))")
+                rotationTaskCount = 0
+                rotationTasks.removeAll()
             }
         case .scale:
-            guard let task = currentTask as? ScaleTimeTask else {return}
-            scaleTimeTasks.append(task)
-            scaleTimeTaskCount += 1
-            // This is the data we can study
-            Log.task(task)
+            guard let task = currentTask as? ScaleTask else {return}
+            scaleTasks.append(task)
+            scaleTaskCount += 1
             
-            if scaleTimeTaskCount == 3 {
+            Log.task(task)
+            if scaleMatcher.isScaleMatched {
+                print("Scale matched.")
+            } else {
+                print("Scale is not matched.")
+            }
+            
+            if scaleTaskCount == 3 {
                 // This is the data we can study
 #warning("Better to pass the task to Log.task() and log all information there")
-                print("\(printAverageTimeTaskDurations(timeTasks: scaleTimeTasks))")
-                scaleTimeTaskCount = 0
-                scaleTimeTasks.removeAll()
+                print("\(printAverageTimeTaskDurations(timeTasks: scaleTasks))")
+                scaleTaskCount = 0
+                scaleTasks.removeAll()
             }
         }
         currentTask = nil
     }
     
     
-    func calculateAverageTimeTask<T: TimeTasks>(for tasks: [T]) -> Double {
+    func calculateAverageTimeTask(for tasks: [StudyTask]) -> Double {
         let durations = tasks.compactMap {$0.timeResult}
         guard !durations.isEmpty else { return 0.0}
         let totalDurations = durations.reduce(0, +)
         return totalDurations/Double(durations.count)
     }
     
-    func printAverageTimeTaskDurations<T: TimeTasks>(timeTasks: [T]) -> String {
+    func printAverageTimeTaskDurations(timeTasks: [StudyTask]) -> String {
         let averageDurations = calculateAverageTimeTask(for: timeTasks)
         return "Average time needed to accomplish time tasks : \(averageDurations) seconds."
-    }
-    
-//    Accuracy task
-    func createAccuracyTask(for gestureType: GestureType) -> AccuracyTasks {
-        switch gestureType {
-        case .positioning: return PositioningAccuracyTask()
-        case .rotation: return RotationAccuracyTask()
-        case .scale: return ScaleAccuracyTask()
-        }
-    }
-    
-    func endAccuracyTask(taskType: GestureType) {
-        guard let task = currentTask else {return}
-        task.end()
-        
-        switch taskType {
-        case .positioning:
-            guard let task = currentTask as? PositioningAccuracyTask else {return}
-            positioningAccuracyTaskCount += 1
-            print(task.taskDescription ?? "None")
-            if positionMatcher.isPositionMatched {
-                print("Position matched.")
-            } else {
-                print("Position is not matched")
-            }
-        case .rotation:
-            guard let task = currentTask as? RotationAccuracyTask else {return}
-            rotationAccuracyTaskCount += 1
-            print(task.taskDescription ?? "None")
-            if rotationMatcher.isRotationMatched {
-                print("Rotation matched.")
-            } else {
-                print("Rotation is not matched.")
-            }
-        case .scale:
-            guard let task = currentTask as? ScaleAccuracyTask else {return}
-            scaleAccuracyTaskCount += 1
-            print(task.taskDescription ?? "None")
-            if scaleMatcher.isScaleMatched {
-                print("Scale matched.")
-            } else {
-                print("Scale is not matched.")
-            }
-        }
-        currentTask = nil
     }
     
     @MainActor
@@ -203,25 +148,22 @@ protocol StudyTask {
     var taskDescription: String? {get}
     func start()
     func end()
-}
-
-protocol TimeTasks: StudyTask {
-//    Basically timeResult is time needed for users to match the target
+    
+    /// Time needed
     var timeResult: TimeInterval? {get}
-}
 
-protocol AccuracyTasks: StudyTask {
-//    Basically accuracyResult is the trials users did to match the target
+    /// Accuracy result
     var accuracyResult: Int {get}
 }
 
 // TimeTasks
-class PositioningTimeTask: TimeTasks {
+class PositioningTask: StudyTask {
     
     var startTime: Date? = nil
     var endTime: Date? = nil
     var timeResult: TimeInterval? = nil
-        
+    var accuracyResult: Int = 0
+    
     func start() {
         startTime = .now
     }
@@ -249,11 +191,12 @@ class PositioningTimeTask: TimeTasks {
     }
 }
 
-class RotationTimeTask: TimeTasks {
+class RotationTask: StudyTask {
     var startTime: Date? = nil
     var endTime: Date? = nil
     var timeResult: TimeInterval? = nil
-        
+    var accuracyResult: Int = 0
+    
     func start(){
         startTime = .now
     }
@@ -282,11 +225,12 @@ class RotationTimeTask: TimeTasks {
     }
 }
 
-class ScaleTimeTask: TimeTasks{
+class ScaleTask: StudyTask {
     var startTime: Date? = nil
     var endTime: Date? = nil
     var timeResult: TimeInterval? = nil
-        
+    var accuracyResult: Int = 0
+    
     func start(){
         startTime = .now
     }
@@ -311,50 +255,5 @@ class ScaleTimeTask: TimeTasks{
             return "Task not completed."
         }
         return "Task duration : \(duration) seconds."
-    }
-}
-
-class PositioningAccuracyTask: AccuracyTasks {
-    var accuracyResult: Int = 0
-    var taskDescription: String? {
-        return "Task trial(s) until succeded: \(accuracyResult) time(s)."
-    }
-    
-    func start() {
-        
-    }
-    
-    func end() {
-        accuracyResult += 1
-    }
-}
-
-class RotationAccuracyTask: AccuracyTasks{
-    var accuracyResult: Int = 0
-    var taskDescription: String? {
-        return "Task trial(s) until succeded: \(accuracyResult) time(s)."
-    }
-    
-    func start(){
-        
-    }
-    
-    func end(){
-        accuracyResult += 1
-    }
-}
-
-class ScaleAccuracyTask: AccuracyTasks {
-    var accuracyResult: Int = 0
-    var taskDescription: String? {
-        return "Task trial(s) until succeded: \(accuracyResult) time(s)."
-    }
-    
-    func start() {
-        
-    }
-    
-    func end() {
-        accuracyResult += 1
     }
 }

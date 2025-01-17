@@ -27,44 +27,37 @@ enum Page: String, CaseIterable {
     var taskDetails: (taskNumber: String,
                       description: String,
                       instructions: String,
-                      taskMode: TaskMode,
                       taskGesture: GestureType)? {
         switch self {
         case .task1a:
             return ("1a",
                     "Positioning the globe",
                     "We are measuring the time required to properly position the globe.",
-                    .time,
                     .positioning)
         case .task1b:
             return ("1b",
                     "Positioning the globe",
                     "We are measuring the attempts required to properly position the globe",
-                    .accuracy,
                     .positioning)
         case .task2a:
             return ("2a",
                     "Rotating the globe",
                     "We are measuring the time required to properly rotate the globe.",
-                    .time,
                     .rotation)
         case .task2b:
             return ("2b",
                     "Rotating the globe",
                     "We are measuring the attempts required to properly rotate the globe.",
-                    .accuracy,
                     .rotation)
         case .task3a:
             return ("3a",
                     "Scaling the globe",
                     "We are measuring the time required to properly scale the globe.",
-                    .time,
                     .scale)
         case .task3b:
             return ("3b",
                     "Scaling the globe",
                     "We are measuring the attempts required to properly scale the globe",
-                    .accuracy,
                     .scale)
         default:
             return nil

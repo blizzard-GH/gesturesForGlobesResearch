@@ -50,7 +50,6 @@
 		97C37A202D12787200E628CB /* GetReady.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C37A1F2D12786F00E628CB /* GetReady.swift */; };
 		97C37A222D12DDCB00E628CB /* PositionMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C37A212D12DDC700E628CB /* PositionMatcher.swift */; };
 		97D85BFD2D09299300C9D1B9 /* StartTaskButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D85BFC2D09298B00C9D1B9 /* StartTaskButton.swift */; };
-		97E8FA832D377B8F007B3201 /* TaskMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E8FA822D377B89007B3201 /* TaskMode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,7 +98,6 @@
 		97C37A1F2D12786F00E628CB /* GetReady.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReady.swift; sourceTree = "<group>"; };
 		97C37A212D12DDC700E628CB /* PositionMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionMatcher.swift; sourceTree = "<group>"; };
 		97D85BFC2D09298B00C9D1B9 /* StartTaskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTaskButton.swift; sourceTree = "<group>"; };
-		97E8FA822D377B89007B3201 /* TaskMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,7 +182,6 @@
 			children = (
 				7D2F438A2D3B194D00928A68 /* Log.swift */,
 				978066422D36AE20007BD05D /* DataAnalysis.swift */,
-				97E8FA822D377B89007B3201 /* TaskMode.swift */,
 				9742BB282D33E1B2001079D4 /* GestureType.swift */,
 				97C37A212D12DDC700E628CB /* PositionMatcher.swift */,
 				97C198AE2D2ED1E100655735 /* RotationMatcher.swift */,
@@ -362,7 +359,6 @@
 				7DD56E772C6CC9EC009AE72C /* GlobeBillboardSystem.swift in Sources */,
 				7DD56E882C6CCFD6009AE72C /* Globe+Preview.swift in Sources */,
 				7DD56E6E2C6CC93D009AE72C /* Globe.swift in Sources */,
-				97E8FA832D377B8F007B3201 /* TaskMode.swift in Sources */,
 				7D2F438B2D3B195100928A68 /* Log.swift in Sources */,
 				7DD56E782C6CC9EC009AE72C /* RotationSystem.swift in Sources */,
 				7DE6A6F72C6E1DCC00E0D956 /* WebViewDecorated.swift in Sources */,

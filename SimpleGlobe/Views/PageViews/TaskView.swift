@@ -62,7 +62,6 @@ struct TaskView: View {
                         ) {
                             currentPage = currentPage.next()
                             studyModel.currentTaskGesture = currentPage.taskDetails?.taskGesture ?? .positioning
-                            studyModel.currentTaskMode = currentPage.taskDetails?.taskMode ?? .time
                             studyModel.currentTaskPage = currentPage
                             isDoingTask = false
                             showTaskContent = false
