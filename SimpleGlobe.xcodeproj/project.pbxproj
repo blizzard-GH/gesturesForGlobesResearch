@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D2F438B2D3B195100928A68 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F438A2D3B194D00928A68 /* Log.swift */; };
 		7D60D9512CF84F2900D7C8AD /* GoogleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D94D2CF84F2900D7C8AD /* GoogleForm.swift */; };
 		7D60D9522CF84F2900D7C8AD /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D94E2CF84F2900D7C8AD /* TaskView.swift */; };
 		7D60D9532CF84F2900D7C8AD /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D94F2CF84F2900D7C8AD /* WelcomeView.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7D2F438A2D3B194D00928A68 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		7D60D94D2CF84F2900D7C8AD /* GoogleForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleForm.swift; sourceTree = "<group>"; };
 		7D60D94E2CF84F2900D7C8AD /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		7D60D94F2CF84F2900D7C8AD /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 		7DD56E6D2C6CC93D009AE72C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7D2F438A2D3B194D00928A68 /* Log.swift */,
 				978066422D36AE20007BD05D /* DataAnalysis.swift */,
 				97E8FA822D377B89007B3201 /* TaskMode.swift */,
 				9742BB282D33E1B2001079D4 /* GestureType.swift */,
@@ -360,6 +363,7 @@
 				7DD56E882C6CCFD6009AE72C /* Globe+Preview.swift in Sources */,
 				7DD56E6E2C6CC93D009AE72C /* Globe.swift in Sources */,
 				97E8FA832D377B8F007B3201 /* TaskMode.swift in Sources */,
+				7D2F438B2D3B195100928A68 /* Log.swift in Sources */,
 				7DD56E782C6CC9EC009AE72C /* RotationSystem.swift in Sources */,
 				7DE6A6F72C6E1DCC00E0D956 /* WebViewDecorated.swift in Sources */,
 				97D85BFD2D09299300C9D1B9 /* StartTaskButton.swift in Sources */,

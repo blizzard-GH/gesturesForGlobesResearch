@@ -77,11 +77,11 @@ class StudyModel {
             positioningTimeTasks.append(task)
             positioningTimeTaskCount += 1
             // This is the data we can study
-            print(task.taskDescription ?? "0.0")
-            
+            Log.task(task)
             
             if positioningTimeTaskCount == 3 {
                 // This is the data we can study
+#warning("Better to pass the task to Log.task() and log all information there")
                 print("\(printAverageTimeTaskDurations(timeTasks: positioningTimeTasks))")
                 positioningTimeTaskCount = 0
                 positioningTimeTasks.removeAll()
@@ -92,10 +92,11 @@ class StudyModel {
             rotationTimeTasks.append(task)
             rotationTimeTaskCount += 1
             // This is the data we can study
-            print(task.taskDescription ?? "0.0")
+            Log.task(task)
             
             if rotationTimeTaskCount == 3 {
                 // This is the data we can study
+#warning("Better to pass the task to Log.task() and log all information there")
                 print("\(printAverageTimeTaskDurations(timeTasks: rotationTimeTasks))")
                 rotationTimeTaskCount = 0
                 rotationTimeTasks.removeAll()
@@ -105,10 +106,11 @@ class StudyModel {
             scaleTimeTasks.append(task)
             scaleTimeTaskCount += 1
             // This is the data we can study
-            print(task.taskDescription ?? "0.0")
+            Log.task(task)
             
             if scaleTimeTaskCount == 3 {
                 // This is the data we can study
+#warning("Better to pass the task to Log.task() and log all information there")
                 print("\(printAverageTimeTaskDurations(timeTasks: scaleTimeTasks))")
                 scaleTimeTaskCount = 0
                 scaleTimeTasks.removeAll()
@@ -231,7 +233,7 @@ class PositioningTimeTask: TimeTasks {
 
     private func calculateDuration() {
         guard let startTime = startTime, let endTime = endTime else {
-            print("Start or end time is missing.")
+            Log.error("Start or end time is missing.")
             return
         }
         let duration = endTime.timeIntervalSince(startTime)
@@ -247,7 +249,7 @@ class PositioningTimeTask: TimeTasks {
     }
 }
 
-class RotationTimeTask: TimeTasks{
+class RotationTimeTask: TimeTasks {
     var startTime: Date? = nil
     var endTime: Date? = nil
     var timeResult: TimeInterval? = nil
@@ -261,9 +263,9 @@ class RotationTimeTask: TimeTasks{
         calculateDuration()
     }
     
-    private func calculateDuration(){
+    private func calculateDuration() {
         guard let startTime = startTime, let endTime = endTime else {
-            print("Start or end time is missing.")
+            Log.error("Start or end time is missing.")
             return
         }
         
