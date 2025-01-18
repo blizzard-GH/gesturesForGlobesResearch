@@ -15,7 +15,7 @@ class StudyModel {
     private let rotationMatcher = RotationMatcher()
     private let scaleMatcher = ScaleMatcher()
     
-    private var positioningTasks: [PositioningTask] = []
+    private var positionTasks: [PositionTask] = []
     private var rotationTasks: [RotationTask] = []
     private var scaleTasks: [ScaleTask] = []
             
@@ -32,7 +32,7 @@ class StudyModel {
     
     func createTask(for gestureType: GestureType) -> StudyTask {
         switch gestureType {
-        case .positioning: return PositioningTask()
+        case .positioning: return PositionTask()
         case .rotation: return RotationTask()
         case .scale: return ScaleTask()
         }
@@ -43,7 +43,7 @@ class StudyModel {
         task.end()
         
         switch task {
-        case let task as PositioningTask:
+        case let task as PositionTask:
             end(task)
         case let task as RotationTask:
             end(task)
@@ -54,8 +54,8 @@ class StudyModel {
         }
         currentTask = nil
         
-        func end(_ task: PositioningTask) {
-            positioningTasks.append(task)
+        func end(_ task: PositionTask) {
+            positionTasks.append(task)
             
             Log.task(task)
             if positionMatcher.isPositionMatched {
@@ -64,11 +64,11 @@ class StudyModel {
                 print("Position is not matched")
             }
             
-            if positioningTasks.count == 3 {
+            if positionTasks.count == 3 {
                 // This is the data we can study
 #warning("Better to pass the task to Log.task() and log all information there")
-                print("\(printAverageTimeTaskDurations(timeTasks: positioningTasks))")
-                positioningTasks.removeAll()
+                print("\(printAverageTimeTaskDurations(timeTasks: positionTasks))")
+                positionTasks.removeAll()
             }
         }
         
@@ -156,7 +156,7 @@ protocol StudyTask {
 }
 
 // TimeTasks
-class PositioningTask: StudyTask {
+class PositionTask: StudyTask {
     
     var startTime: Date? = nil
     var endTime: Date? = nil
