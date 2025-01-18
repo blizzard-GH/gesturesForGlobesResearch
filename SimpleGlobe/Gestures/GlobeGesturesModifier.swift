@@ -230,17 +230,11 @@ private struct GlobeGesturesModifier: ViewModifier {
             .onEnded { value in
                 log("end drag")
                 state.endGesture()
-                if studyModel.currentTask?.isMatching == true {
-//                if studyModel.getMatcher(taskNumber: studyModel.currentTaskPage.taskDetails?.taskNumber ?? "1a", model: model) {
-                    studyModel.currentTask?.end(type: .position, transform: value.entity.transform)
-                    studyModel.storeTask()
-                } else {
-                    studyModel.currentTask?.addAction(StudyAction(type: .position, status: .dragEnd, transform: value.entity.transform))
-                }
+                studyModel.currentTask?.end(type: .position, transform: value.entity.transform)
 
-//                Below might be used in location-based measurements.
-//                print("Drag started at: \(value.startLocation)")
-//                print("Drag ended at: \(value.location)")
+                if studyModel.currentTask?.isMatching == true {
+                    studyModel.storeTask()
+                }                
             }
     }
     

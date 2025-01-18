@@ -33,8 +33,8 @@ extension StudyTask {
     
     var taskDescription: String {
         let actionDescriptions = actions.map { $0.description }.joined(separator: ",\n")
-        let completed = (actions.last?.status == .dragEnd) == true
-        return "Task \(completed ? "completed in \(duration ?? -1) seconds." : "not completed.")\nActions:\n\(actionDescriptions)"
+        let durationInfo = (duration == nil) ? "?" : "\(duration!) seconds"
+        return "Task duration: \(durationInfo)\nActions:\n\(actionDescriptions)"
     }
     
     mutating func start(type: GestureType, transform: Transform) {
