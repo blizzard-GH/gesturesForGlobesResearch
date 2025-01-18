@@ -22,7 +22,6 @@ class StudyModel {
 //    Current task
     private var currentTask: StudyTask?
     var currentTaskPage: Page = .task1a
-    var currentTaskGesture: GestureType = .positioning
     
     /// Task switching
     func startNextTask(gestureType: GestureType) {

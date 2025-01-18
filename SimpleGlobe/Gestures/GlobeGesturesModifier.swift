@@ -191,7 +191,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         state.isDragging = true
                         state.positionAtGestureStart = value.entity.position(relativeTo: nil)
                         state.localRotationAtGestureStart = (value.entity as? GlobeEntity)?.orientation
-                        studyModel.startNextTask(gestureType: studyModel.currentTaskGesture)
+                        studyModel.startNextTask(gestureType: .positioning)
                     }
                     
                     if let positionAtGestureStart = state.positionAtGestureStart,
@@ -225,7 +225,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                 log("end drag")
                 state.endGesture()
                 if studyModel.getMatcher(taskNumber: studyModel.currentTaskPage.taskDetails?.taskNumber ?? "1a", model: model) {
-                    print("\(studyModel.currentTaskGesture)")
+                    print("End Drag")
                     studyModel.endTask()
                 }
 

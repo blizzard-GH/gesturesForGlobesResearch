@@ -61,7 +61,6 @@ struct TaskView: View {
                             "Finish \(details.description), and move to the next task."
                         ) {
                             currentPage = currentPage.next()
-                            studyModel.currentTaskGesture = currentPage.taskDetails?.taskGesture ?? .positioning
                             studyModel.currentTaskPage = currentPage
                             isDoingTask = false
                             showTaskContent = false
