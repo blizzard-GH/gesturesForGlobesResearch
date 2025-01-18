@@ -122,9 +122,9 @@
 		7D2F438C2D3B2D7500928A68 /* Study */ = {
 			isa = PBXGroup;
 			children = (
-				7D2F43932D3B2DD300928A68 /* ScaleTask.swift */,
-				7D2F43912D3B2DC000928A68 /* RotationTask.swift */,
 				7D2F438F2D3B2DAB00928A68 /* PositionTask.swift */,
+				7D2F43912D3B2DC000928A68 /* RotationTask.swift */,
+				7D2F43932D3B2DD300928A68 /* ScaleTask.swift */,
 				7D2F438D2D3B2D7F00928A68 /* StudyTask.swift */,
 				970D87692D0A636300700830 /* StudyModel.swift */,
 			);

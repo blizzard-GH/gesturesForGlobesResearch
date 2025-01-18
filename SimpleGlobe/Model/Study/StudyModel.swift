@@ -40,6 +40,7 @@ class StudyModel {
     func endTask() {
         guard let task = currentTask else {return}
         task.end()
+        Log.task(task)
         
         switch task {
         case let task as PositionTask:
@@ -56,7 +57,6 @@ class StudyModel {
         func end(_ task: PositionTask) {
             positionTasks.append(task)
             
-            Log.task(task)
             if positionMatcher.isPositionMatched {
                 print("Position matched.")
             } else {
@@ -74,7 +74,6 @@ class StudyModel {
         func end(_ task: RotationTask) {
             rotationTasks.append(task)
             
-            Log.task(task)
             if rotationMatcher.isRotationMatched {
                 print("Rotation matched.")
             } else {
@@ -92,7 +91,6 @@ class StudyModel {
         func end(_ task: ScaleTask) {
             scaleTasks.append(task)
             
-            Log.task(task)
             if scaleMatcher.isScaleMatched {
                 print("Scale matched.")
             } else {
@@ -109,7 +107,7 @@ class StudyModel {
     }
     
     func calculateAverageTimeTask(for tasks: [StudyTask]) -> Double {
-        let durations = tasks.compactMap {$0.timeResult}
+        let durations = tasks.compactMap {$0.duration}
         guard !durations.isEmpty else { return 0.0}
         let totalDurations = durations.reduce(0, +)
         return totalDurations/Double(durations.count)

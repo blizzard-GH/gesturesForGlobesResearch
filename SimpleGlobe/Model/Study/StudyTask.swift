@@ -13,7 +13,7 @@ protocol StudyTask {
     func end()
     
     /// Time needed
-    var timeResult: TimeInterval? {get}
+    var duration: TimeInterval? {get}
 
     /// Accuracy result
     var accuracyResult: Int {get}

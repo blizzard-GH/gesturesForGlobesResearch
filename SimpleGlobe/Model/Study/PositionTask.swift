@@ -10,7 +10,7 @@ import Foundation
 class PositionTask: StudyTask {
     var startTime: Date? = nil
     var endTime: Date? = nil
-    var timeResult: TimeInterval? = nil
+    var duration: TimeInterval? = nil
     var accuracyResult: Int = 0
     
     func start() {
@@ -27,13 +27,11 @@ class PositionTask: StudyTask {
             Log.error("Start or end time is missing.")
             return
         }
-        let duration = endTime.timeIntervalSince(startTime)
-        timeResult = duration
+        duration = endTime.timeIntervalSince(startTime)
     }
     
     var taskDescription : String? {
-        guard let duration = timeResult
-        else {
+        guard let duration else {
             return "Task not completed"
         }
         return "Task duration : \(duration) seconds."

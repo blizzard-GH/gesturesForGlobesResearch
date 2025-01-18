@@ -9,17 +9,19 @@ import Foundation
 import os
 
 actor Log {
+    
+    /// Log task information
+    /// - Parameter task: The task
     static func task(_ task: StudyTask?) {
         if let task, let taskDescription = task.taskDescription {
-            Task {
-                await shared.append(task)
-            }
             shared.logger.info("\(taskDescription)")
         } else {
             Log.error("Logging invalid task")
         }
     }
     
+    /// Log an error
+    /// - Parameter message: The error message
     static func error(_ message: String) {
         shared.logger.error("\(message)")
     }
@@ -32,10 +34,4 @@ actor Log {
     }()
     
     private init() {} // hide initializer
-    
-    private func append(_ task: StudyTask) {
-        tasks.append(task)
-    }
-    
-    private var tasks: [StudyTask] = []
 }
