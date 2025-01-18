@@ -11,16 +11,16 @@ import Foundation
 class StudyModel {
 
 //    Matchers
-    var positionMatcher = PositionMatcher()
-    var rotationMatcher = RotationMatcher()
-    var scaleMatcher = ScaleMatcher()
+    private let positionMatcher = PositionMatcher()
+    private let rotationMatcher = RotationMatcher()
+    private let scaleMatcher = ScaleMatcher()
     
-    var positioningTasks: [PositioningTask] = []
-    var rotationTasks: [RotationTask] = []
-    var scaleTasks: [ScaleTask] = []
+    private var positioningTasks: [PositioningTask] = []
+    private var rotationTasks: [RotationTask] = []
+    private var scaleTasks: [ScaleTask] = []
             
 //    Current task
-    var currentTask: StudyTask?
+    private var currentTask: StudyTask?
     var currentTaskPage: Page = .task1a
     var currentTaskGesture: GestureType = .positioning
     
@@ -38,30 +38,41 @@ class StudyModel {
         }
     }
     
-    func endTask(taskType: GestureType){
+    func endTask() {
         guard let task = currentTask else {return}
         task.end()
         
-        switch taskType {
-        case .positioning:
-        guard let task = currentTask as? PositioningTask else {return}
+        switch task {
+        case let task as PositioningTask:
+            end(task)
+        case let task as RotationTask:
+            end(task)
+        case let task as ScaleTask:
+            end(task)
+        default:
+            fatalError("Unknown task type")
+        }
+        currentTask = nil
+        
+        func end(_ task: PositioningTask) {
             positioningTasks.append(task)
-
+            
             Log.task(task)
             if positionMatcher.isPositionMatched {
                 print("Position matched.")
             } else {
                 print("Position is not matched")
             }
-
+            
             if positioningTasks.count == 3 {
                 // This is the data we can study
 #warning("Better to pass the task to Log.task() and log all information there")
                 print("\(printAverageTimeTaskDurations(timeTasks: positioningTasks))")
                 positioningTasks.removeAll()
             }
-        case .rotation:
-            guard let task = currentTask as? RotationTask else {return}
+        }
+        
+        func end(_ task: RotationTask) {
             rotationTasks.append(task)
             
             Log.task(task)
@@ -77,8 +88,9 @@ class StudyModel {
                 print("\(printAverageTimeTaskDurations(timeTasks: rotationTasks))")
                 rotationTasks.removeAll()
             }
-        case .scale:
-            guard let task = currentTask as? ScaleTask else {return}
+        }
+        
+        func end(_ task: ScaleTask) {
             scaleTasks.append(task)
             
             Log.task(task)
@@ -95,9 +107,7 @@ class StudyModel {
                 scaleTasks.removeAll()
             }
         }
-        currentTask = nil
     }
-    
     
     func calculateAverageTimeTask(for tasks: [StudyTask]) -> Double {
         let durations = tasks.compactMap {$0.timeResult}

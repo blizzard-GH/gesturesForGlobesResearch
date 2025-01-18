@@ -226,7 +226,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                 state.endGesture()
                 if studyModel.getMatcher(taskNumber: studyModel.currentTaskPage.taskDetails?.taskNumber ?? "1a", model: model) {
                     print("\(studyModel.currentTaskGesture)")
-                    studyModel.endTask(taskType: studyModel.currentTaskGesture)
+                    studyModel.endTask()
                 }
 
 //                Below might be used in location-based measurements.
