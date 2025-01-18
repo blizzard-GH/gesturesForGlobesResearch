@@ -9,27 +9,19 @@ import Foundation
 import RealityKit
 
 @Observable
-class RotationMatcher {
-    var isRotationMatched: Bool = false
+class RotationMatcher: Matcher {
+    let rotationTarget: simd_quatf
+    let tolerance: Float = 0.5
     
-    @ObservationIgnored private var timer: Timer? = nil
-    
-    @MainActor
-    func checkRotation(model: ViewModel, tolerance: Float = 0.5) -> Bool {
-        guard let first = model.globeEntity?.orientation,
-              let second = model.secondGlobeEntity?.orientation else {
-            isRotationMatched = false
-            return false
-        }
-        let angleDifference = quaternionAngleDifference(q1: first, q2: second)
-        
-        if angleDifference <= tolerance {
-            isRotationMatched = true
-            return true
-        } else{
-            return false
-        }
+    init(rotationTarget: simd_quatf) {
+        self.rotationTarget = rotationTarget
     }
+    
+    func isMatching(_ transform: Transform) -> Bool {
+        let angleDifference = quaternionAngleDifference(q1: transform.rotation, q2: rotationTarget)
+        return angleDifference <= tolerance
+    }
+    
     func quaternionAngleDifference(q1: simd_quatf, q2: simd_quatf) -> Float {
         // Calculate the dot product of the two quaternions and make it absolute
         var dotProduct = simd_dot(q1.vector, q2.vector)

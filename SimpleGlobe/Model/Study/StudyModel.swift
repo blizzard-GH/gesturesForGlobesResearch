@@ -6,135 +6,68 @@
 //
 
 import Foundation
+import RealityKit
 
+@MainActor
 @Observable
 class StudyModel {
-
-//    Matchers
-    private let positionMatcher = PositionMatcher()
-    private let rotationMatcher = RotationMatcher()
-    private let scaleMatcher = ScaleMatcher()
     
+    /// Completed position tasks
     private var positionTasks: [PositionTask] = []
+    
+    /// Completed rotation tasks
     private var rotationTasks: [RotationTask] = []
+    
+    /// Completed scale tasks
     private var scaleTasks: [ScaleTask] = []
             
 //    Current task
-    private var currentTask: StudyTask?
+    var currentTask: StudyTask?
     var currentTaskPage: Page = .task1a
     
-    /// Task switching
-    func startNextTask(gestureType: GestureType) {
-        currentTask = createTask(for: gestureType)
-        currentTask?.start()
-    }
-    
-    func createTask(for gestureType: GestureType) -> StudyTask {
+    /// Create the next task
+    func setupNextTask(gestureType: GestureType, targetTransform: Transform) {
         switch gestureType {
-        case .positioning: return PositionTask()
-        case .rotation: return RotationTask()
-        case .scale: return ScaleTask()
+        case .position:
+            currentTask = PositionTask(targetPosition: targetTransform.translation)
+        case .rotation:
+            currentTask = RotationTask(targetRotation: targetTransform.rotation)
+        case .scale:
+            currentTask = ScaleTask(targetScale: targetTransform.scale.x)
         }
     }
     
-    func endTask() {
-        guard let task = currentTask else {return}
-        task.end()
+    func storeTask() {
+        guard let task = currentTask else { return }
         Log.task(task)
-        
+        print(task.isMatching ? "Position matched." : "Position is not matched.")
         switch task {
         case let task as PositionTask:
-            end(task)
+            positionTasks.append(task)
         case let task as RotationTask:
-            end(task)
+            rotationTasks.append(task)
         case let task as ScaleTask:
-            end(task)
+            scaleTasks.append(task)
         default:
             fatalError("Unknown task type")
         }
         currentTask = nil
-        
-        func end(_ task: PositionTask) {
-            positionTasks.append(task)
-            
-            if positionMatcher.isPositionMatched {
-                print("Position matched.")
-            } else {
-                print("Position is not matched")
-            }
-            
-            if positionTasks.count == 3 {
-                // This is the data we can study
-#warning("Better to pass the task to Log.task() and log all information there")
-                print("\(printAverageTimeTaskDurations(timeTasks: positionTasks))")
-                positionTasks.removeAll()
-            }
-        }
-        
-        func end(_ task: RotationTask) {
-            rotationTasks.append(task)
-            
-            if rotationMatcher.isRotationMatched {
-                print("Rotation matched.")
-            } else {
-                print("Rotation is not matched.")
-            }
-            
-            if rotationTasks.count == 3 {
-                // This is the data we can study
-#warning("Better to pass the task to Log.task() and log all information there")
-                print("\(printAverageTimeTaskDurations(timeTasks: rotationTasks))")
-                rotationTasks.removeAll()
-            }
-        }
-        
-        func end(_ task: ScaleTask) {
-            scaleTasks.append(task)
-            
-            if scaleMatcher.isScaleMatched {
-                print("Scale matched.")
-            } else {
-                print("Scale is not matched.")
-            }
-            
-            if scaleTasks.count == 3 {
-                // This is the data we can study
-#warning("Better to pass the task to Log.task() and log all information there")
-                print("\(printAverageTimeTaskDurations(timeTasks: scaleTasks))")
-                scaleTasks.removeAll()
-            }
-        }
     }
     
-    func calculateAverageTimeTask(for tasks: [StudyTask]) -> Double {
-        let durations = tasks.compactMap {$0.duration}
-        guard !durations.isEmpty else { return 0.0}
-        let totalDurations = durations.reduce(0, +)
-        return totalDurations/Double(durations.count)
-    }
-    
-    func printAverageTimeTaskDurations(timeTasks: [StudyTask]) -> String {
-        let averageDurations = calculateAverageTimeTask(for: timeTasks)
-        return "Average time needed to accomplish time tasks : \(averageDurations) seconds."
-    }
-    
-    @MainActor
-    func getMatcher(taskNumber: String, model: ViewModel) -> Bool {
-        switch taskNumber{
-        case "1a":
-            return positionMatcher.checkPosition(model: model)
-        case "1b":
-            return positionMatcher.checkPosition(model: model)
-        case "2a":
-            return rotationMatcher.checkRotation(model: model)
-        case "2b":
-            return rotationMatcher.checkRotation(model: model)
-        case "3a":
-            return scaleMatcher.checkScale(model: model)
-        case "3b":
-            return scaleMatcher.checkScale(model: model)
-        default:
-            return false
+    func log() {
+        Log.info("\(positionTasks.count) position tasks completed")
+        for task in positionTasks {
+            Log.task(task)
+        }
+        
+        Log.info("\(rotationTasks.count) rotation tasks completed")
+        for task in rotationTasks {
+            Log.task(task)
+        }
+        
+        Log.info("\(scaleTasks.count) scale tasks completed")
+        for task in scaleTasks {
+            Log.task(task)
         }
     }
 }

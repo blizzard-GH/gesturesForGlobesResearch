@@ -33,12 +33,12 @@ enum Page: String, CaseIterable {
             return ("1a",
                     "Positioning the globe",
                     "We are measuring the time required to properly position the globe.",
-                    .positioning)
+                    .position)
         case .task1b:
             return ("1b",
                     "Positioning the globe",
                     "We are measuring the attempts required to properly position the globe",
-                    .positioning)
+                    .position)
         case .task2a:
             return ("2a",
                     "Rotating the globe",

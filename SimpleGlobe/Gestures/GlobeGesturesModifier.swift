@@ -191,7 +191,11 @@ private struct GlobeGesturesModifier: ViewModifier {
                         state.isDragging = true
                         state.positionAtGestureStart = value.entity.position(relativeTo: nil)
                         state.localRotationAtGestureStart = (value.entity as? GlobeEntity)?.orientation
-                        studyModel.startNextTask(gestureType: .positioning)
+                        
+                        if let targetTransform = model.secondGlobeEntity?.transform {
+                            studyModel.setupNextTask(gestureType: .position, targetTransform: targetTransform)
+                            studyModel.currentTask?.start(type: .position, transform: value.entity.transform)
+                        }
                     }
                     
                     if let positionAtGestureStart = state.positionAtGestureStart,
@@ -217,16 +221,21 @@ private struct GlobeGesturesModifier: ViewModifier {
                         let rotation = simd_mul(localRotationSinceStart, localRotationAtGestureStart)
                         
                         // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
-                        globeEntity.animateTransform(orientation: rotation, position: position, duration: animationDuration)
+                        let transform = globeEntity.animateTransform(orientation: rotation, position: position, duration: animationDuration)
+                        
+                        studyModel.currentTask?.addAction(StudyAction(type: .position, status: .drag, transform: transform))
                     }
                 }
             }
             .onEnded { value in
                 log("end drag")
                 state.endGesture()
-                if studyModel.getMatcher(taskNumber: studyModel.currentTaskPage.taskDetails?.taskNumber ?? "1a", model: model) {
-                    print("End Drag")
-                    studyModel.endTask()
+                if studyModel.currentTask?.isMatching == true {
+//                if studyModel.getMatcher(taskNumber: studyModel.currentTaskPage.taskDetails?.taskNumber ?? "1a", model: model) {
+                    studyModel.currentTask?.end(type: .position, transform: value.entity.transform)
+                    studyModel.storeTask()
+                } else {
+                    studyModel.currentTask?.addAction(StudyAction(type: .position, status: .dragEnd, transform: value.entity.transform))
                 }
 
 //                Below might be used in location-based measurements.

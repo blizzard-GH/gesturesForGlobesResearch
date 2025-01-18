@@ -6,7 +6,7 @@
 //
 
 enum GestureType {
-    case positioning
+    case position
     case rotation
     case scale
 }

@@ -83,12 +83,12 @@ class GlobeEntity: Entity {
     ///   - orientation: New orientation. If nil, orientation is not changed.
     ///   - position: New position. If nil, position is not changed.
     ///   - duration: Duration of the animation.
-    func animateTransform(
+    @discardableResult func animateTransform(
         scale: Float? = nil,
         orientation: simd_quatf? = nil,
         position: SIMD3<Float>? = nil,
         duration: Double = 2
-    ) {
+    ) -> Transform {
         if let scale, abs(scale) < 0.000001 {
             Logger().warning("Animating the scale of an entity to 0 will cause a subsequent inverse of the entity's transform to return NaN values.")
         }
@@ -106,6 +106,7 @@ class GlobeEntity: Entity {
             Logger().warning("move(to: relativeTo: duration:) animation not playing for '\(self.name)'.")
             self.transform = transform
         }
+        return transform
     }
     
     /// Returns true if the globe axis is vertically oriented.

@@ -46,7 +46,8 @@ struct TaskView: View {
 //                            }
                         }
                     } else {
-                        if studyModel.getMatcher(taskNumber: details.taskNumber, model: model) {
+                        if studyModel.currentTask?.isMatching == true {
+//                        if studyModel.getMatcher(taskNumber: details.taskNumber, model: model) {
                             Text("Matched!")
                                 .font(.headline)
                                 .foregroundColor(.green)
