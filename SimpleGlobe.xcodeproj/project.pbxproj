@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		7D2F438B2D3B195100928A68 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F438A2D3B194D00928A68 /* Log.swift */; };
+		7D2F438E2D3B2D8200928A68 /* StudyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F438D2D3B2D7F00928A68 /* StudyTask.swift */; };
+		7D2F43902D3B2DAE00928A68 /* PositionTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F438F2D3B2DAB00928A68 /* PositionTask.swift */; };
+		7D2F43922D3B2DC300928A68 /* RotationTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F43912D3B2DC000928A68 /* RotationTask.swift */; };
+		7D2F43942D3B2DD700928A68 /* ScaleTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F43932D3B2DD300928A68 /* ScaleTask.swift */; };
 		7D60D9512CF84F2900D7C8AD /* GoogleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D94D2CF84F2900D7C8AD /* GoogleForm.swift */; };
 		7D60D9522CF84F2900D7C8AD /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D94E2CF84F2900D7C8AD /* TaskView.swift */; };
 		7D60D9532CF84F2900D7C8AD /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D94F2CF84F2900D7C8AD /* WelcomeView.swift */; };
@@ -54,6 +58,10 @@
 
 /* Begin PBXFileReference section */
 		7D2F438A2D3B194D00928A68 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		7D2F438D2D3B2D7F00928A68 /* StudyTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyTask.swift; sourceTree = "<group>"; };
+		7D2F438F2D3B2DAB00928A68 /* PositionTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionTask.swift; sourceTree = "<group>"; };
+		7D2F43912D3B2DC000928A68 /* RotationTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationTask.swift; sourceTree = "<group>"; };
+		7D2F43932D3B2DD300928A68 /* ScaleTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleTask.swift; sourceTree = "<group>"; };
 		7D60D94D2CF84F2900D7C8AD /* GoogleForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleForm.swift; sourceTree = "<group>"; };
 		7D60D94E2CF84F2900D7C8AD /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		7D60D94F2CF84F2900D7C8AD /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -111,6 +119,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7D2F438C2D3B2D7500928A68 /* Study */ = {
+			isa = PBXGroup;
+			children = (
+				7D2F43932D3B2DD300928A68 /* ScaleTask.swift */,
+				7D2F43912D3B2DC000928A68 /* RotationTask.swift */,
+				7D2F438F2D3B2DAB00928A68 /* PositionTask.swift */,
+				7D2F438D2D3B2D7F00928A68 /* StudyTask.swift */,
+				970D87692D0A636300700830 /* StudyModel.swift */,
+			);
+			path = Study;
+			sourceTree = "<group>";
+		};
 		7D60D9502CF84F2900D7C8AD /* PageViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -180,13 +200,13 @@
 		7DD56E6D2C6CC93D009AE72C /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7D2F438C2D3B2D7500928A68 /* Study */,
 				7D2F438A2D3B194D00928A68 /* Log.swift */,
 				978066422D36AE20007BD05D /* DataAnalysis.swift */,
 				9742BB282D33E1B2001079D4 /* GestureType.swift */,
 				97C37A212D12DDC700E628CB /* PositionMatcher.swift */,
 				97C198AE2D2ED1E100655735 /* RotationMatcher.swift */,
 				97C198B02D2ED1FA00655735 /* ScaleMatcher.swift */,
-				970D87692D0A636300700830 /* StudyModel.swift */,
 				7DD56E692C6CC93D009AE72C /* Globe.swift */,
 				7DD56E6A2C6CC93D009AE72C /* GlobeConfiguration.swift */,
 				7DD56E6C2C6CC93D009AE72C /* ViewModel.swift */,
@@ -338,6 +358,7 @@
 				7DD56E842C6CCB13009AE72C /* Error.swift in Sources */,
 				7DD56E902C6CD1F0009AE72C /* ButtonImage.swift in Sources */,
 				7DD56E5B2C6CC830009AE72C /* ContentView.swift in Sources */,
+				7D2F43922D3B2DC300928A68 /* RotationTask.swift in Sources */,
 				7DD56E942C6CD4D7009AE72C /* GlobeToggle.swift in Sources */,
 				7DD56E852C6CCB60009AE72C /* ViewModel.swift in Sources */,
 				978066432D36AE28007BD05D /* DataAnalysis.swift in Sources */,
@@ -346,6 +367,7 @@
 				7D60D9512CF84F2900D7C8AD /* GoogleForm.swift in Sources */,
 				7D60D9522CF84F2900D7C8AD /* TaskView.swift in Sources */,
 				97C37A222D12DDCB00E628CB /* PositionMatcher.swift in Sources */,
+				7D2F438E2D3B2D8200928A68 /* StudyTask.swift in Sources */,
 				9742BB292D33E1B7001079D4 /* GestureType.swift in Sources */,
 				7D60D9532CF84F2900D7C8AD /* WelcomeView.swift in Sources */,
 				7D60D9582CF8550F00D7C8AD /* Page.swift in Sources */,
@@ -362,6 +384,8 @@
 				7D2F438B2D3B195100928A68 /* Log.swift in Sources */,
 				7DD56E782C6CC9EC009AE72C /* RotationSystem.swift in Sources */,
 				7DE6A6F72C6E1DCC00E0D956 /* WebViewDecorated.swift in Sources */,
+				7D2F43902D3B2DAE00928A68 /* PositionTask.swift in Sources */,
+				7D2F43942D3B2DD700928A68 /* ScaleTask.swift in Sources */,
 				97D85BFD2D09299300C9D1B9 /* StartTaskButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
