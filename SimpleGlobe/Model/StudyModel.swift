@@ -18,12 +18,7 @@ class StudyModel {
     var positioningTasks: [PositioningTask] = []
     var rotationTasks: [RotationTask] = []
     var scaleTasks: [ScaleTask] = []
-    
-//    Task Counters
-    var positioningTaskCount = 0
-    var rotationTaskCount = 0
-    var scaleTaskCount = 0
-        
+            
 //    Current task
     var currentTask: StudyTask?
     var currentTaskPage: Page = .task1a
@@ -51,7 +46,6 @@ class StudyModel {
         case .positioning:
         guard let task = currentTask as? PositioningTask else {return}
             positioningTasks.append(task)
-            positioningTaskCount += 1
 
             Log.task(task)
             if positionMatcher.isPositionMatched {
@@ -60,17 +54,15 @@ class StudyModel {
                 print("Position is not matched")
             }
 
-            if positioningTaskCount == 3 {
+            if positioningTasks.count == 3 {
                 // This is the data we can study
 #warning("Better to pass the task to Log.task() and log all information there")
                 print("\(printAverageTimeTaskDurations(timeTasks: positioningTasks))")
-                positioningTaskCount = 0
                 positioningTasks.removeAll()
             }
         case .rotation:
             guard let task = currentTask as? RotationTask else {return}
             rotationTasks.append(task)
-            rotationTaskCount += 1
             
             Log.task(task)
             if rotationMatcher.isRotationMatched {
@@ -79,17 +71,15 @@ class StudyModel {
                 print("Rotation is not matched.")
             }
             
-            if rotationTaskCount == 3 {
+            if rotationTasks.count == 3 {
                 // This is the data we can study
 #warning("Better to pass the task to Log.task() and log all information there")
                 print("\(printAverageTimeTaskDurations(timeTasks: rotationTasks))")
-                rotationTaskCount = 0
                 rotationTasks.removeAll()
             }
         case .scale:
             guard let task = currentTask as? ScaleTask else {return}
             scaleTasks.append(task)
-            scaleTaskCount += 1
             
             Log.task(task)
             if scaleMatcher.isScaleMatched {
@@ -98,11 +88,10 @@ class StudyModel {
                 print("Scale is not matched.")
             }
             
-            if scaleTaskCount == 3 {
+            if scaleTasks.count == 3 {
                 // This is the data we can study
 #warning("Better to pass the task to Log.task() and log all information there")
                 print("\(printAverageTimeTaskDurations(timeTasks: scaleTasks))")
-                scaleTaskCount = 0
                 scaleTasks.removeAll()
             }
         }
