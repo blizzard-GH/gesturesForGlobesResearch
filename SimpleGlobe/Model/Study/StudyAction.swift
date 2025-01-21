@@ -8,14 +8,7 @@
 import Foundation
 import RealityKit
 
-enum GestureStatus {
-    case dragStart
-    case drag
-    case dragEnd
-    case undefined
-}
-
-struct StudyAction: CustomStringConvertible {
+struct StudyAction: CustomStringConvertible, Encodable {
     let date: Date
     let type: GestureType
     let status: GestureStatus
@@ -37,6 +30,21 @@ struct StudyAction: CustomStringConvertible {
         self.type = type
         self.status = status
         self.transform = transform
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(date, forKey: .date)
+        try container.encode(type, forKey: .type)
+        try container.encode(status, forKey: .status)
+        try container.encode(transform, forKey: .transform)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case date
+        case type
+        case status
+        case transform
     }
     
     private let dateFormatter: DateFormatter = {

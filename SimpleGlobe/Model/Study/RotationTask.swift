@@ -16,4 +16,13 @@ class RotationTask: StudyTask {
     init(targetRotation: simd_quatf) {
         matcher = RotationMatcher(rotationTarget: targetRotation)
     }
+    
+    func toCodable() -> RotationTaskCodable {
+        return RotationTaskCodable(actions: self.actions, accuracyResult: self.accuracyResult)
+    }
+    
+    func saveToFile() {
+        let codableTask = toCodable()
+        TaskStorageManager.shared.saveTask(codableTask, type: .position)
+    }
 }

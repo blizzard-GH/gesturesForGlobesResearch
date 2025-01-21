@@ -49,13 +49,17 @@
 		7DE6A6F72C6E1DCC00E0D956 /* WebViewDecorated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */; };
 		970D876A2D0A636A00700830 /* StudyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970D87692D0A636300700830 /* StudyModel.swift */; };
 		9742BB292D33E1B7001079D4 /* GestureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9742BB282D33E1B2001079D4 /* GestureType.swift */; };
-		978066432D36AE28007BD05D /* DataAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978066422D36AE20007BD05D /* DataAnalysis.swift */; };
 		9798B5372D11C7F400D0319C /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9798B5362D11C7EF00D0319C /* Instruction.swift */; };
 		97C198AF2D2ED1F100655735 /* RotationMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C198AE2D2ED1E100655735 /* RotationMatcher.swift */; };
 		97C198B12D2ED20100655735 /* ScaleMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C198B02D2ED1FA00655735 /* ScaleMatcher.swift */; };
 		97C37A202D12787200E628CB /* GetReady.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C37A1F2D12786F00E628CB /* GetReady.swift */; };
 		97C37A222D12DDCB00E628CB /* PositionMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C37A212D12DDC700E628CB /* PositionMatcher.swift */; };
 		97D85BFD2D09299300C9D1B9 /* StartTaskButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D85BFC2D09298B00C9D1B9 /* StartTaskButton.swift */; };
+		97D8C1382D3FF3070079F1C1 /* GestureStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D8C1372D3FF3020079F1C1 /* GestureStatus.swift */; };
+		97D8C13A2D3FF4A50079F1C1 /* TaskStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D8C1392D3FF4A10079F1C1 /* TaskStorageManager.swift */; };
+		97D8C13C2D3FFA4A0079F1C1 /* RotationTaskCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D8C13B2D3FFA3E0079F1C1 /* RotationTaskCodable.swift */; };
+		97D8C13E2D3FFA600079F1C1 /* ScaleTaskCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D8C13D2D3FFA590079F1C1 /* ScaleTaskCodable.swift */; };
+		97E6E8F42D3F9EDF00892FCD /* PositionTaskCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E6E8F32D3F9ED900892FCD /* PositionTaskCodable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -103,13 +107,17 @@
 		7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewDecorated.swift; sourceTree = "<group>"; };
 		970D87692D0A636300700830 /* StudyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyModel.swift; sourceTree = "<group>"; };
 		9742BB282D33E1B2001079D4 /* GestureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureType.swift; sourceTree = "<group>"; };
-		978066422D36AE20007BD05D /* DataAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAnalysis.swift; sourceTree = "<group>"; };
 		9798B5362D11C7EF00D0319C /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
 		97C198AE2D2ED1E100655735 /* RotationMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationMatcher.swift; sourceTree = "<group>"; };
 		97C198B02D2ED1FA00655735 /* ScaleMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleMatcher.swift; sourceTree = "<group>"; };
 		97C37A1F2D12786F00E628CB /* GetReady.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReady.swift; sourceTree = "<group>"; };
 		97C37A212D12DDC700E628CB /* PositionMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionMatcher.swift; sourceTree = "<group>"; };
 		97D85BFC2D09298B00C9D1B9 /* StartTaskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTaskButton.swift; sourceTree = "<group>"; };
+		97D8C1372D3FF3020079F1C1 /* GestureStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureStatus.swift; sourceTree = "<group>"; };
+		97D8C1392D3FF4A10079F1C1 /* TaskStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStorageManager.swift; sourceTree = "<group>"; };
+		97D8C13B2D3FFA3E0079F1C1 /* RotationTaskCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationTaskCodable.swift; sourceTree = "<group>"; };
+		97D8C13D2D3FFA590079F1C1 /* ScaleTaskCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleTaskCodable.swift; sourceTree = "<group>"; };
+		97E6E8F32D3F9ED900892FCD /* PositionTaskCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionTaskCodable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,8 +134,13 @@
 		7D2F438C2D3B2D7500928A68 /* Study */ = {
 			isa = PBXGroup;
 			children = (
+				97D8C1392D3FF4A10079F1C1 /* TaskStorageManager.swift */,
+				97D8C1372D3FF3020079F1C1 /* GestureStatus.swift */,
+				97E6E8F32D3F9ED900892FCD /* PositionTaskCodable.swift */,
 				7D2F43972D3B4FAF00928A68 /* PositionTask.swift */,
+				97D8C13B2D3FFA3E0079F1C1 /* RotationTaskCodable.swift */,
 				7D2F43982D3B4FAF00928A68 /* RotationTask.swift */,
+				97D8C13D2D3FFA590079F1C1 /* ScaleTaskCodable.swift */,
 				7D2F43992D3B4FAF00928A68 /* ScaleTask.swift */,
 				7D2F43952D3B399500928A68 /* StudyAction.swift */,
 				7D2F438D2D3B2D7F00928A68 /* StudyTask.swift */,
@@ -219,7 +232,6 @@
 				7D2F439D2D3B508400928A68 /* Matcher */,
 				7D2F438C2D3B2D7500928A68 /* Study */,
 				7D2F438A2D3B194D00928A68 /* Log.swift */,
-				978066422D36AE20007BD05D /* DataAnalysis.swift */,
 				9742BB282D33E1B2001079D4 /* GestureType.swift */,
 				7DD56E692C6CC93D009AE72C /* Globe.swift */,
 				7DD56E6A2C6CC93D009AE72C /* GlobeConfiguration.swift */,
@@ -331,6 +343,7 @@
 			);
 			mainGroup = 7DD56E482C6CC830009AE72C;
 			packageReferences = (
+				97E3F7812D3F9090000121DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 7DD56E522C6CC830009AE72C /* Products */;
 			projectDirPath = "";
@@ -366,6 +379,7 @@
 				7DD56E8E2C6CD19A009AE72C /* GaugeProgressStyle.swift in Sources */,
 				7DE6A6F62C6E1DCC00E0D956 /* WebView.swift in Sources */,
 				97C198AF2D2ED1F100655735 /* RotationMatcher.swift in Sources */,
+				97D8C13A2D3FF4A50079F1C1 /* TaskStorageManager.swift in Sources */,
 				970D876A2D0A636A00700830 /* StudyModel.swift in Sources */,
 				7DD56E992C6DB033009AE72C /* GlobeGesturesModifier.swift in Sources */,
 				7DD56E7E2C6CCA71009AE72C /* GlobeEntity.swift in Sources */,
@@ -376,9 +390,10 @@
 				7DD56E5B2C6CC830009AE72C /* ContentView.swift in Sources */,
 				7DD56E942C6CD4D7009AE72C /* GlobeToggle.swift in Sources */,
 				7DD56E852C6CCB60009AE72C /* ViewModel.swift in Sources */,
-				978066432D36AE28007BD05D /* DataAnalysis.swift in Sources */,
+				97E6E8F42D3F9EDF00892FCD /* PositionTaskCodable.swift in Sources */,
 				7DD56E6F2C6CC93D009AE72C /* GlobeConfiguration.swift in Sources */,
 				7DD56E592C6CC830009AE72C /* SimpleGlobeApp.swift in Sources */,
+				97D8C1382D3FF3070079F1C1 /* GestureStatus.swift in Sources */,
 				7D60D9512CF84F2900D7C8AD /* GoogleForm.swift in Sources */,
 				7D60D9522CF84F2900D7C8AD /* TaskView.swift in Sources */,
 				97C37A222D12DDCB00E628CB /* PositionMatcher.swift in Sources */,
@@ -391,6 +406,7 @@
 				7D60D9582CF8550F00D7C8AD /* Page.swift in Sources */,
 				7DD56E5D2C6CC830009AE72C /* ImmersiveView.swift in Sources */,
 				97C37A202D12787200E628CB /* GetReady.swift in Sources */,
+				97D8C13E2D3FFA600079F1C1 /* ScaleTaskCodable.swift in Sources */,
 				97C198B12D2ED20100655735 /* ScaleMatcher.swift in Sources */,
 				7DD56E762C6CC9EC009AE72C /* CameraTracker.swift in Sources */,
 				7DD56E892C6CCFD6009AE72C /* ViewModel+Preview.swift in Sources */,
@@ -404,6 +420,7 @@
 				7DD56E782C6CC9EC009AE72C /* RotationSystem.swift in Sources */,
 				7DE6A6F72C6E1DCC00E0D956 /* WebViewDecorated.swift in Sources */,
 				7D2F439F2D3B50A300928A68 /* Matcher.swift in Sources */,
+				97D8C13C2D3FFA4A0079F1C1 /* RotationTaskCodable.swift in Sources */,
 				97D85BFD2D09299300C9D1B9 /* StartTaskButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -604,6 +621,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		97E3F7812D3F9090000121DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = 7DD56E492C6CC830009AE72C /* Project object */;
 }

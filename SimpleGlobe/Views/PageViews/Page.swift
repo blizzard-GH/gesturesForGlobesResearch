@@ -11,14 +11,11 @@ import Foundation
 enum Page: String, CaseIterable {
     case welcome
     case introForm
-    case task1a // Positioning; time task //Should be named 'measure'
-    case task1b // Positioning; accuracy task
+    case task1
     case task1Form
-    case task2a // Rotation; time task
-    case task2b // Rotation; accuracy task
+    case task2
     case task2Form
-    case task3a // scale; time task
-    case task3b // scale; accuracy task
+    case task3
     case task3Form
     case outroForm
     case thankYou
@@ -29,36 +26,24 @@ enum Page: String, CaseIterable {
                       instructions: String,
                       taskGesture: GestureType)? {
         switch self {
-        case .task1a:
+        case .task1:
             return ("1a",
                     "Positioning the globe",
                     "We are measuring the time required to properly position the globe.",
                     .position)
-        case .task1b:
-            return ("1b",
-                    "Positioning the globe",
-                    "We are measuring the attempts required to properly position the globe",
-                    .position)
-        case .task2a:
+
+        case .task2:
             return ("2a",
                     "Rotating the globe",
                     "We are measuring the time required to properly rotate the globe.",
                     .rotation)
-        case .task2b:
-            return ("2b",
-                    "Rotating the globe",
-                    "We are measuring the attempts required to properly rotate the globe.",
-                    .rotation)
-        case .task3a:
+
+        case .task3:
             return ("3a",
                     "Scaling the globe",
                     "We are measuring the time required to properly scale the globe.",
                     .scale)
-        case .task3b:
-            return ("3b",
-                    "Scaling the globe",
-                    "We are measuring the attempts required to properly scale the globe",
-                    .scale)
+
         default:
             return nil
         }

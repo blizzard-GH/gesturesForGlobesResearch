@@ -12,7 +12,7 @@ struct ContentView: View {
     @Environment(ViewModel.self) var model
     
     /// The currently displayed  page
-    @State private var currentPage = Page.task1a
+    @State private var currentPage = Page.task1
     
     /// Track web page loading errors and completion of Google Forms
     @State private var webViewStatus = WebViewStatus.loading
