@@ -22,7 +22,7 @@ protocol StudyTask: CustomStringConvertible {
 }
 
 extension StudyTask {
-    static var throttleInterval: TimeInterval { 1 }
+    static var throttleInterval: TimeInterval { 0.2 }
 }
 
 extension StudyTask {
