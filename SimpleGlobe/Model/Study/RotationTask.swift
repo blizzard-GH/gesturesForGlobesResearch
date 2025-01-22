@@ -23,6 +23,6 @@ class RotationTask: StudyTask {
     
     func saveToFile() {
         let codableTask = toCodable()
-        TaskStorageManager.shared.saveTask(codableTask, type: .position)
+        TaskStorageManager.shared.saveTask(codableTask, type: .rotation)
     }
 }
