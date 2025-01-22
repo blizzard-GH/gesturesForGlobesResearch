@@ -15,6 +15,8 @@ protocol StudyTask: CustomStringConvertible {
     
     /// Accuracy result
     var accuracyResult: Int {get}
+    
+    func saveToFile()
 }
 
 extension StudyTask {

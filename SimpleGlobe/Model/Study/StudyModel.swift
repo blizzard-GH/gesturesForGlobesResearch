@@ -41,9 +41,10 @@ class StudyModel {
         guard let task = currentTask else { return }
 //        Log.task(task)
         print(task.isMatching ? "Position matched." : "Position is not matched.")
+        task.saveToFile()
+        
         switch task {
         case let task as PositionTask:
-            task.saveToFile()
             positionTasks.append(task)
         case let task as RotationTask:
             rotationTasks.append(task)
