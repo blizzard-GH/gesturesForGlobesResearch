@@ -76,6 +76,7 @@
 		7D60D9542CF84F2C00D7C8AD /* CaseIterable+Next.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CaseIterable+Next.swift"; sourceTree = "<group>"; };
 		7D60D9572CF8550F00D7C8AD /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		7D60D9592CF85E9300D7C8AD /* ThankYouView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYouView.swift; sourceTree = "<group>"; };
+		7D8399B02D40759F00F08DC3 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		7DC8613D2CA43ED600D2F90F /* Georeferencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Georeferencer.swift; sourceTree = "<group>"; };
 		7DC861412CA448F700D2F90F /* AttributeTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeTable.swift; sourceTree = "<group>"; };
 		7DC861432CA44E0D00D2F90F /* geo.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = geo.csv; sourceTree = "<group>"; };
@@ -183,6 +184,7 @@
 		7DD56E482C6CC830009AE72C = {
 			isa = PBXGroup;
 			children = (
+				7D8399B02D40759F00F08DC3 /* .gitignore */,
 				7DD56E532C6CC830009AE72C /* SimpleGlobe */,
 				7DD56E522C6CC830009AE72C /* Products */,
 			);
@@ -343,7 +345,6 @@
 			);
 			mainGroup = 7DD56E482C6CC830009AE72C;
 			packageReferences = (
-				97E3F7812D3F9090000121DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 7DD56E522C6CC830009AE72C /* Products */;
 			projectDirPath = "";
@@ -570,6 +571,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Debug;
 		};
@@ -596,6 +598,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Release;
 		};
@@ -621,17 +624,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		97E3F7812D3F9090000121DE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 11.7.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = 7DD56E492C6CC830009AE72C /* Project object */;
 }
