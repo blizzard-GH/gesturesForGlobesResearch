@@ -22,4 +22,9 @@ class PositionMatcher: Matcher {
         let distance = simd_distance(transform.translation, targetPosition)
         return distance <= tolerance
     }
+    
+    func getAccuracy(_ transform: Transform) -> Float {
+        let distance = simd_distance(transform.translation, targetPosition)
+        return distance
+    }
 }

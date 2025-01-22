@@ -21,4 +21,9 @@ class ScaleMatcher: Matcher {
         let scaleDifference = simd_distance(transform.scale, targetScale)
         return scaleDifference <= tolerance
     }
+    
+    func getAccuracy(_ transform: Transform) -> Float {
+        let scaleDifference = simd_distance(transform.scale, targetScale)
+        return scaleDifference
+    }
 }

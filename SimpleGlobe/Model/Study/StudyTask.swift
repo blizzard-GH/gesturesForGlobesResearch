@@ -14,9 +14,11 @@ protocol StudyTask: CustomStringConvertible {
     var matcher: Matcher { get }
     
     /// Accuracy result
-    var accuracyResult: Int {get}
+    var accuracyResult: Float {get}
     
     func saveToFile()
+    
+    func updateAccuracyResult()
     
     static var throttleInterval: TimeInterval { get }
 }
@@ -65,6 +67,7 @@ extension StudyTask {
         guard let lastTransform = actions.last?.transform else { return false }
         return matcher.isMatching(lastTransform)
     }
+    
 }
 
 extension StudyTask {

@@ -9,7 +9,7 @@ import RealityKit
 
 class RotationTask: StudyTask {
     var actions = ThrottledArray<StudyAction>(throttleInterval: RotationTask.throttleInterval)
-    var accuracyResult: Int = 0
+    var accuracyResult: Float = 0.0
     
     var matcher: any Matcher
     
@@ -24,5 +24,15 @@ class RotationTask: StudyTask {
     func saveToFile() {
         let codableTask = toCodable()
         TaskStorageManager.shared.saveTask(codableTask, type: .rotation)
+    }
+    
+    func updateAccuracyResult() {
+        guard let lastTransform = actions.last?.transform else {
+            Log.error("No last transform recorded.")
+            return
+        }
+        let accuracy = matcher.getAccuracy(lastTransform)
+        accuracyResult = accuracy
+        Log.info("Updated accuracy result: \(accuracyResult)")
     }
 }

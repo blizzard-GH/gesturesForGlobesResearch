@@ -233,8 +233,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                 studyModel.currentTask?.end(type: .position, transform: value.entity.transform)
 
                 if studyModel.currentTask?.isMatching == true {
+                    studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
-                }                
+                }
             }
     }
     

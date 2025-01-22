@@ -38,4 +38,9 @@ class RotationMatcher: Matcher {
         
         return angle
     }
+    
+    func getAccuracy(_ transform: Transform) -> Float {
+        let angleDifference = quaternionAngleDifference(q1: transform.rotation, q2: rotationTarget)
+        return angleDifference
+    }
 }

@@ -39,7 +39,7 @@ class StudyModel {
     
     func storeTask() {
         guard let task = currentTask else { return }
-//        Log.task(task)
+        Log.task(task)
         print(task.isMatching ? "Position matched." : "Position is not matched.")
         task.saveToFile()
         

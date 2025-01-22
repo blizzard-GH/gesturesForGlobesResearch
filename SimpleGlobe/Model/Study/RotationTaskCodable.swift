@@ -7,9 +7,9 @@
 
 struct RotationTaskCodable: Encodable {
     var actions: [StudyAction]
-    var accuracyResult: Int
+    var accuracyResult: Float
     
-    init(actions: [StudyAction], accuracyResult: Int) {
+    init(actions: [StudyAction], accuracyResult: Float) {
         self.actions = actions
         self.accuracyResult = accuracyResult
     }
