@@ -7,7 +7,7 @@
 import Foundation
 
 class ScaleTask: StudyTask {
-    var actions: [StudyAction] = []
+    var actions = ThrottledArray<StudyAction>(throttleInterval: ScaleTask.throttleInterval)
     var accuracyResult: Int = 0
     
     var matcher: any Matcher
@@ -17,7 +17,7 @@ class ScaleTask: StudyTask {
     }
     
     func toCodable() -> ScaleTaskCodable {
-        return ScaleTaskCodable(actions: self.actions, accuracyResult: self.accuracyResult)
+        return ScaleTaskCodable(actions: actions.elements, accuracyResult: accuracyResult)
     }
     
     func saveToFile() {

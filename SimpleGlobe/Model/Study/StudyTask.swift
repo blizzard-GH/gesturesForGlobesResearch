@@ -10,13 +10,19 @@ import RealityKit
 
 @MainActor
 protocol StudyTask: CustomStringConvertible {
-    var actions: [StudyAction] { get set }
+    var actions: ThrottledArray<StudyAction> { get }
     var matcher: Matcher { get }
     
     /// Accuracy result
     var accuracyResult: Int {get}
     
     func saveToFile()
+    
+    static var throttleInterval: TimeInterval { get }
+}
+
+extension StudyTask {
+    static var throttleInterval: TimeInterval { 1 }
 }
 
 extension StudyTask {
@@ -34,23 +40,25 @@ extension StudyTask {
     }
     
     var taskDescription: String {
-        let actionDescriptions = actions.map { $0.description }.joined(separator: ",\n")
+        let actionDescriptions = actions.elements.map { $0.description }.joined(separator: ",\n")
         let durationInfo = (duration == nil) ? "?" : "\(duration!) seconds"
         return "Task duration: \(durationInfo)\nActions:\n\(actionDescriptions)"
     }
     
     mutating func start(type: GestureType, transform: Transform) {
         Log.info("Start gesture \(type)")
-        addAction(StudyAction(type: type, status: .dragStart, transform: transform))
+        let action = StudyAction(type: type, status: .dragStart, transform: transform)
+        actions.append(action)
     }
     
     mutating func end(type: GestureType, transform: Transform) {
         Log.info("End gesture \(type)")
-        addAction(StudyAction(type: type, status: .dragEnd, transform: transform))
+        let action = StudyAction(type: type, status: .dragEnd, transform: transform)
+        actions.append(action)
     }
     
     mutating func addAction(_ action: StudyAction) {
-        actions.append(action)
+        actions.appendThrottled(action)
     }
     
     var isMatching: Bool {

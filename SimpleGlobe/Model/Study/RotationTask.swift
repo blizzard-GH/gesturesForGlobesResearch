@@ -8,7 +8,7 @@ import Foundation
 import RealityKit
 
 class RotationTask: StudyTask {
-    var actions: [StudyAction] = []
+    var actions = ThrottledArray<StudyAction>(throttleInterval: RotationTask.throttleInterval)
     var accuracyResult: Int = 0
     
     var matcher: any Matcher
@@ -18,7 +18,7 @@ class RotationTask: StudyTask {
     }
     
     func toCodable() -> RotationTaskCodable {
-        return RotationTaskCodable(actions: self.actions, accuracyResult: self.accuracyResult)
+        return RotationTaskCodable(actions: actions.elements, accuracyResult: accuracyResult)
     }
     
     func saveToFile() {

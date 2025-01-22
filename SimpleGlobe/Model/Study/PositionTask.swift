@@ -8,7 +8,7 @@ import Foundation
 
 @MainActor
 class PositionTask: StudyTask {
-    var actions: [StudyAction] = []
+    var actions = ThrottledArray<StudyAction>(throttleInterval: PositionTask.throttleInterval)
     var accuracyResult: Int = 0
     
     var matcher: any Matcher
@@ -18,7 +18,7 @@ class PositionTask: StudyTask {
     }
     
     func toCodable() -> PositionTaskCodable {
-        return PositionTaskCodable(actions: self.actions, accuracyResult: self.accuracyResult)
+        return PositionTaskCodable(actions: actions.elements, accuracyResult: accuracyResult)
     }
     
     func saveToFile() {
