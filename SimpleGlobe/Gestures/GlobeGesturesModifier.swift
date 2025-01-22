@@ -210,15 +210,20 @@ private struct GlobeGesturesModifier: ViewModifier {
                         
                         // rotate the globe around a vertical axis (which is different to the globe's axis if it is not north-oriented)
                         // such that the same location is facing the camera as the globe is dragged horizontally around the camera
-                        var v1 = cameraPosition - positionAtGestureStart
-                        var v2 = cameraPosition - position
-                        v1.y = 0
-                        v2.y = 0
-                        v1 = normalize(v1)
-                        v2 = normalize(v2)
-                        let rotationSinceStart = simd_quatf(from: v1, to: v2)
-                        let localRotationSinceStart = simd_quatf(value.convert(rotation: rotationSinceStart, from: .scene, to: .local))
-                        let rotation = simd_mul(localRotationSinceStart, localRotationAtGestureStart)
+                        let rotation: simd_quatf?
+                        if model.rotateGlobeWhileDragging {
+                            var v1 = cameraPosition - positionAtGestureStart
+                            var v2 = cameraPosition - position
+                            v1.y = 0
+                            v2.y = 0
+                            v1 = normalize(v1)
+                            v2 = normalize(v2)
+                            let rotationSinceStart = simd_quatf(from: v1, to: v2)
+                            let localRotationSinceStart = simd_quatf(value.convert(rotation: rotationSinceStart, from: .scene, to: .local))
+                            rotation = simd_mul(localRotationSinceStart, localRotationAtGestureStart)
+                        } else {
+                            rotation = nil
+                        }
                         
                         // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
                         let transform = globeEntity.animateTransform(orientation: rotation, position: position, duration: animationDuration)

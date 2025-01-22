@@ -53,6 +53,12 @@ import SwiftUI
         texture: "Bellerby65cmSchminkeGagarin"
     )
     
+    // MARK: - Gestures Configuration
+    
+    /// Rotate the globe while it is being dragged such that the same geographic location is continuously facing the camera
+    @MainActor
+    var rotateGlobeWhileDragging = true
+    
     // MARK: - Visible Globes
     
     @MainActor
