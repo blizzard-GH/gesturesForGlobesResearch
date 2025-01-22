@@ -9,9 +9,9 @@ import RealityKit
 
 class RotationTask: StudyTask {
     var actions: [StudyAction] = []
-    var matcher: any Matcher
-
     var accuracyResult: Int = 0
+    
+    var matcher: any Matcher
     
     init(targetRotation: simd_quatf) {
         matcher = RotationMatcher(rotationTarget: targetRotation)
