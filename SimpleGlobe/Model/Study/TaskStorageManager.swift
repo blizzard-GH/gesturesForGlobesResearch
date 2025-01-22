@@ -26,10 +26,9 @@ class TaskStorageManager {
     
     private init() {}
     
-    func saveTask<T: Encodable>(_ task: T, type: TaskType) {
-//         let codableTask = toCodable()
-         
+    func saveTask<T: Encodable>(_ task: T, type: TaskType) {         
          let encoder = JSONEncoder()
+         encoder.outputFormatting = [.prettyPrinted]
          do {
              let directoryURL = getDocumentsDirectory().appendingPathComponent("studyTasks")
              
@@ -55,7 +54,7 @@ class TaskStorageManager {
         
 //        return customDirectory
 
-        return URL(fileURLWithPath: "/Users/faisalabdillah/Desktop") // Hardcoded for testing purpose only
+        return URL(fileURLWithPath: "/Users/bjen0001/Desktop") // Hardcoded for testing purpose only
     }
     
     
