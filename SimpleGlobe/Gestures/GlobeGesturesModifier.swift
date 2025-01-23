@@ -96,8 +96,8 @@ private struct GlobeGesturesModifier: ViewModifier {
             .simultaneousGesture(doubleTapGesture)
             .simultaneousGesture(dragGesture)
             .simultaneousGesture(magnifyGesture)
-            .simultaneousGesture(rotateGesture)
-            .simultaneousGesture(rotateGlobeAxisGesture)
+//            .simultaneousGesture(rotateGesture)
+//            .simultaneousGesture(rotateGlobeAxisGesture)
     }
     
     /// Convert a position on the globe in Cartesian coordinates to spherical coordinates.
@@ -228,14 +228,18 @@ private struct GlobeGesturesModifier: ViewModifier {
                        let cameraPositionAtGestureStart = state.cameraPositionAtGestureStart {
                         log("update magnify")
                         let scale = max(model.configuration.minScale, min(model.configuration.maxScale, Float(value.magnification) * globeScaleAtGestureStart))
-                        globeEntity.scaleAndAdjustDistanceToCamera(
-                            newScale: scale,
-                            oldScale: globeScaleAtGestureStart,
-                            oldPosition: globePositionAtGestureStart,
-                            cameraPosition: cameraPositionAtGestureStart,
-                            radius: model.globe.radius,
-                            duration: animationDuration // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
-                        )
+                        if model.moveGlobeWhileScaling {
+                            globeEntity.scaleAndAdjustDistanceToCamera(
+                                newScale: scale,
+                                oldScale: globeScaleAtGestureStart,
+                                oldPosition: globePositionAtGestureStart,
+                                cameraPosition: cameraPositionAtGestureStart,
+                                radius: model.globe.radius,
+                                duration: animationDuration // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
+                            )
+                        } else {
+                            globeEntity.scale = [scale, scale, scale]
+                        }
                     }
                 }
             }

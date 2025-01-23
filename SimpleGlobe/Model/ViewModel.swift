@@ -72,7 +72,7 @@ import SwiftUI
     
     /// Show an attachment view with options for positioning or scaling globes
     @MainActor
-    var attachmentView: AttachementView? = .position
+    var attachmentView: AttachementView? = .scale
 
     // MARK: - Visible Globes
     
