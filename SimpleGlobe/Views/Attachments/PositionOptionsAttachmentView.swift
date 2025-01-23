@@ -11,12 +11,15 @@ struct PositionOptionsAttachmentView: View {
     @Environment(ViewModel.self) var model
     
     var body: some View {
-        Picker("Placement", selection: Bindable(model).rotateGlobeWhileDragging) {
-            Text("Rotating Globe").tag(true)
-            Text("Static Globe").tag(false)
+        VStack {
+            Text("Globe Orientation While Positioning")
+            Picker("Globe Rotation", selection: Bindable(model).rotateGlobeWhileDragging) {
+                Text("Adapting Orientation").tag(true)
+                Text("Static Orientation").tag(false)
+            }
+            .pickerStyle(.segmented)
+            .fixedSize()
         }
-        .pickerStyle(.segmented)
-        .fixedSize()
         .padding()
         .glassBackgroundEffect()
     }

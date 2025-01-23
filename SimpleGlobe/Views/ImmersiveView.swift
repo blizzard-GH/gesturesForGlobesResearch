@@ -29,8 +29,11 @@ struct ImmersiveView: View {
         } update: { content, attachments in // synchronous on MainActor
             updateGlobeEntity(to: content, attachments: attachments)
         } attachments: { // synchronous on MainActor
-            Attachment(id: "positionOptions") {
+            Attachment(id: ViewModel.AttachementView.position.rawValue) {
                 PositionOptionsAttachmentView()
+            }
+            Attachment(id: ViewModel.AttachementView.scale.rawValue) {
+                ScaleOptionsAttachmentView()
             }
         }
         .globeGestures(model: model, studyModel: studyModel)
@@ -91,12 +94,14 @@ struct ImmersiveView: View {
     @MainActor
     private func addAttachments(_ attachments: RealityViewAttachments) {
         guard let globeEntity = model.globeEntity else { return }
-        if model.showPositionOptionsAttachmentView,
-           let attachmentEntity = attachments.entity(for: "positionOptions") {
-            attachmentEntity.position = [0, model.globe.radius * 1.2, 0]
-            attachmentEntity.components.set(BillboardComponent())
-            globeEntity.addChild(attachmentEntity)
-        } else {
+        switch model.attachmentView {
+        case .position, .scale:
+            if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
+                attachmentEntity.position = [0, model.globe.radius * 1.2, 0]
+                attachmentEntity.components.set(BillboardComponent())
+                globeEntity.addChild(attachmentEntity)
+            }
+        case .none:
             for viewAttachmentEntity in globeEntity.children where viewAttachmentEntity is ViewAttachmentEntity {
                 globeEntity.removeChild(viewAttachmentEntity)
             }

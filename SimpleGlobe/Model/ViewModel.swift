@@ -59,11 +59,21 @@ import SwiftUI
     @MainActor
     var rotateGlobeWhileDragging = true
     
-    // MARK: - Attachment Views
+    /// Move the scale towards or away from the camera while it is scaled.
     @MainActor
-    var showPositionOptionsAttachmentView: Bool = true
+    var moveGlobeWhileScaling = true
     
+    // MARK: - Attachment Views
     
+    enum AttachementView: String {
+        case position
+        case scale
+    }
+    
+    /// Show an attachment view with options for positioning or scaling globes
+    @MainActor
+    var attachmentView: AttachementView? = .position
+
     // MARK: - Visible Globes
     
     @MainActor
