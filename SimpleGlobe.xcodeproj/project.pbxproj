@@ -42,10 +42,6 @@
 		7DD56E852C6CCB60009AE72C /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E6C2C6CC93D009AE72C /* ViewModel.swift */; };
 		7DD56E882C6CCFD6009AE72C /* Globe+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E872C6CCFD6009AE72C /* Globe+Preview.swift */; };
 		7DD56E892C6CCFD6009AE72C /* ViewModel+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E862C6CCFD6009AE72C /* ViewModel+Preview.swift */; };
-		7DD56E8B2C6CD134009AE72C /* GlobeAttachmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E8A2C6CD134009AE72C /* GlobeAttachmentView.swift */; };
-		7DD56E8E2C6CD19A009AE72C /* GaugeProgressStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E8D2C6CD19A009AE72C /* GaugeProgressStyle.swift */; };
-		7DD56E902C6CD1F0009AE72C /* ButtonImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E8F2C6CD1F0009AE72C /* ButtonImage.swift */; };
-		7DD56E942C6CD4D7009AE72C /* GlobeToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E932C6CD4D7009AE72C /* GlobeToggle.swift */; };
 		7DD56E992C6DB033009AE72C /* GlobeGesturesModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E982C6DB000009AE72C /* GlobeGesturesModifier.swift */; };
 		7DE6A6F62C6E1DCC00E0D956 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */; };
 		7DE6A6F72C6E1DCC00E0D956 /* WebViewDecorated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */; };
@@ -103,10 +99,6 @@
 		7DD56E832C6CCB13009AE72C /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		7DD56E862C6CCFD6009AE72C /* ViewModel+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewModel+Preview.swift"; sourceTree = "<group>"; };
 		7DD56E872C6CCFD6009AE72C /* Globe+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Globe+Preview.swift"; sourceTree = "<group>"; };
-		7DD56E8A2C6CD134009AE72C /* GlobeAttachmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeAttachmentView.swift; sourceTree = "<group>"; };
-		7DD56E8D2C6CD19A009AE72C /* GaugeProgressStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeProgressStyle.swift; sourceTree = "<group>"; };
-		7DD56E8F2C6CD1F0009AE72C /* ButtonImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonImage.swift; sourceTree = "<group>"; };
-		7DD56E932C6CD4D7009AE72C /* GlobeToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeToggle.swift; sourceTree = "<group>"; };
 		7DD56E982C6DB000009AE72C /* GlobeGesturesModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeGesturesModifier.swift; sourceTree = "<group>"; };
 		7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewDecorated.swift; sourceTree = "<group>"; };
@@ -183,6 +175,14 @@
 				7D60D9542CF84F2C00D7C8AD /* CaseIterable+Next.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		7D839A142D41D4CA00F08DC3 /* Attachments */ = {
+			isa = PBXGroup;
+			children = (
+				7D839A122D41D3A800F08DC3 /* PositionOptionsAttachmentView.swift */,
+			);
+			path = Attachments;
 			sourceTree = "<group>";
 		};
 		7DD56E482C6CC830009AE72C = {
@@ -279,15 +279,12 @@
 		7DD56E8C2C6CD171009AE72C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7D839A142D41D4CA00F08DC3 /* Attachments */,
 				97C37A1F2D12786F00E628CB /* GetReady.swift */,
 				9798B5362D11C7EF00D0319C /* Instruction.swift */,
 				7DD56E5A2C6CC830009AE72C /* ContentView.swift */,
 				7D60D9502CF84F2900D7C8AD /* PageViews */,
-				7DD56E8F2C6CD1F0009AE72C /* ButtonImage.swift */,
-				7DD56E8D2C6CD19A009AE72C /* GaugeProgressStyle.swift */,
-				7DD56E8A2C6CD134009AE72C /* GlobeAttachmentView.swift */,
 				97D85BFC2D09298B00C9D1B9 /* StartTaskButton.swift */,
-				7DD56E932C6CD4D7009AE72C /* GlobeToggle.swift */,
 				7DD56E5C2C6CC830009AE72C /* ImmersiveView.swift */,
 				7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */,
 				7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */,
@@ -382,19 +379,15 @@
 				7DC8613E2CA43EDB00D2F90F /* Georeferencer.swift in Sources */,
 				7D60D9562CF84F2C00D7C8AD /* CaseIterable+Next.swift in Sources */,
 				9798B5372D11C7F400D0319C /* Instruction.swift in Sources */,
-				7DD56E8E2C6CD19A009AE72C /* GaugeProgressStyle.swift in Sources */,
 				7DE6A6F62C6E1DCC00E0D956 /* WebView.swift in Sources */,
 				97C198AF2D2ED1F100655735 /* RotationMatcher.swift in Sources */,
 				97D8C13A2D3FF4A50079F1C1 /* TaskStorageManager.swift in Sources */,
 				970D876A2D0A636A00700830 /* StudyModel.swift in Sources */,
 				7DD56E992C6DB033009AE72C /* GlobeGesturesModifier.swift in Sources */,
 				7DD56E7E2C6CCA71009AE72C /* GlobeEntity.swift in Sources */,
-				7DD56E8B2C6CD134009AE72C /* GlobeAttachmentView.swift in Sources */,
 				7DD56E802C6CCA71009AE72C /* ResourceLoader.swift in Sources */,
 				7DD56E842C6CCB13009AE72C /* Error.swift in Sources */,
-				7DD56E902C6CD1F0009AE72C /* ButtonImage.swift in Sources */,
 				7DD56E5B2C6CC830009AE72C /* ContentView.swift in Sources */,
-				7DD56E942C6CD4D7009AE72C /* GlobeToggle.swift in Sources */,
 				7DD56E852C6CCB60009AE72C /* ViewModel.swift in Sources */,
 				97E6E8F42D3F9EDF00892FCD /* PositionTaskCodable.swift in Sources */,
 				7DD56E6F2C6CC93D009AE72C /* GlobeConfiguration.swift in Sources */,
@@ -413,6 +406,7 @@
 				7DD56E5D2C6CC830009AE72C /* ImmersiveView.swift in Sources */,
 				97C37A202D12787200E628CB /* GetReady.swift in Sources */,
 				97D8C13E2D3FFA600079F1C1 /* ScaleTaskCodable.swift in Sources */,
+				7D839A132D41D3A800F08DC3 /* PositionOptionsAttachmentView.swift in Sources */,
 				97C198B12D2ED20100655735 /* ScaleMatcher.swift in Sources */,
 				7DD56E762C6CC9EC009AE72C /* CameraTracker.swift in Sources */,
 				7DD56E892C6CCFD6009AE72C /* ViewModel+Preview.swift in Sources */,
