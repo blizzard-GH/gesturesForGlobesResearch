@@ -94,7 +94,6 @@ private struct GlobeGesturesModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .simultaneousGesture(doubleTapGesture)
-            .simultaneousGesture(singleTapGesture)
             .simultaneousGesture(dragGesture)
             .simultaneousGesture(magnifyGesture)
             .simultaneousGesture(rotateGesture)
@@ -114,45 +113,6 @@ private struct GlobeGesturesModifier: ViewModifier {
         let lon = atan2(y, x) + .pi / 2
         
         return (Angle(radians: lat), Angle(radians: lon))
-    }
-    
-    private var singleTapGesture: some Gesture {
-        SpatialTapGesture()
-            .targetedToAnyEntity()
-            .onEnded { event in
-                model.configuration.showAttachment.toggle()
-                
-                // if the attachment view is newly shown and the globe is too far from the camera, move it closer to the camera.
-                if model.configuration.showAttachment,
-                    let globeEntity = model.globeEntity {
-                    let scaledRadius = model.globe.radius * globeEntity.meanScale
-                    if let distance = try? globeEntity.distanceToCamera(radius: scaledRadius),
-                       distance > maxDistanceToCameraWhenTapped {
-                        globeEntity.moveTowardCamera(distance: maxDistanceToCameraWhenTapped, radius: scaledRadius, duration: 1)
-                    }
-                }
-                
-                // Work in progress: convert to lat/lon and look-up geocoded value.
-                if let entity = model.globeEntity {
-                    let xyz = event.convert(event.location3D, from: .local, to: entity)
-                    let (lat, lon) = Self.xyzToLatLon(xyz: xyz)
-                    guard let geocode = model.georeferencer?.geocode(lat: lat, lon: lon) else {
-                        print("Undefined")
-                        return
-                    }
-                    if geocode == -1 {
-                        print("Ocean")
-                        return
-                    }
-                    guard geocode > 0 else {
-                        print("Undefined")
-                        return
-                    }
-                    if let name = model.attributeTable?.value(forKey: geocode) {
-                        print(lat.degrees, lon.degrees, geocode, name)
-                    }
-                }
-            }
     }
     
     /// Double pinch gesture for starting and stoping globe rotation.

@@ -82,19 +82,6 @@ import SwiftUI
             speed: GlobeConfiguration.defaultRotationSpeed,
             isRotationPaused: true
         )
-        
-        do {
-            // Load grid with ISO 3166-1 numeric-3 country codes from Natural Earth 1:110 million.
-            // https://en.wikipedia.org/wiki/ISO_3166-1_numeric
-            self.georeferencer = try Georeferencer(fileName: "ISO 3166-1 numeric-3", columns: 2048, rows: 1024)
-            
-            // Attribute table with ISO 3166-1 numeric-3 key and string attribute.
-            self.attributeTable = try AttributeTable(fileName: "geo")
-        } catch {
-            errorToShowInAlert = error
-            self.georeferencer = nil
-            self.attributeTable = nil
-        }
     }
     
     @MainActor
@@ -252,14 +239,6 @@ import SwiftUI
             }
         }
     }
-    
-    // MARK: - Location to Attribute
-    
-    @MainActor
-    var georeferencer: Georeferencer?
-    
-    @MainActor
-    var attributeTable: AttributeTable?
     
     // MARK: - Debug Description
     
