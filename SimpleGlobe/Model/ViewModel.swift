@@ -59,6 +59,11 @@ import SwiftUI
     @MainActor
     var rotateGlobeWhileDragging = true
     
+    // MARK: - Attachment Views
+    @MainActor
+    var showPositionOptionsAttachmentView: Bool = true
+    
+    
     // MARK: - Visible Globes
     
     @MainActor

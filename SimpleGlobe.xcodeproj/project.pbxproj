@@ -21,6 +21,7 @@
 		7D60D9582CF8550F00D7C8AD /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D9572CF8550F00D7C8AD /* Page.swift */; };
 		7D60D95A2CF85E9300D7C8AD /* ThankYouView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D9592CF85E9300D7C8AD /* ThankYouView.swift */; };
 		7D8399B42D4095DD00F08DC3 /* ThrottledArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8399B32D4095D800F08DC3 /* ThrottledArray.swift */; };
+		7D839A132D41D3A800F08DC3 /* PositionOptionsAttachmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D839A122D41D3A800F08DC3 /* PositionOptionsAttachmentView.swift */; };
 		7DC8613E2CA43EDB00D2F90F /* Georeferencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC8613D2CA43ED600D2F90F /* Georeferencer.swift */; };
 		7DC861422CA448F700D2F90F /* AttributeTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC861412CA448F700D2F90F /* AttributeTable.swift */; };
 		7DC861442CA44E0D00D2F90F /* geo.csv in Resources */ = {isa = PBXBuildFile; fileRef = 7DC861432CA44E0D00D2F90F /* geo.csv */; };
@@ -79,6 +80,7 @@
 		7D60D9592CF85E9300D7C8AD /* ThankYouView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThankYouView.swift; sourceTree = "<group>"; };
 		7D8399B02D40759F00F08DC3 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		7D8399B32D4095D800F08DC3 /* ThrottledArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrottledArray.swift; sourceTree = "<group>"; };
+		7D839A122D41D3A800F08DC3 /* PositionOptionsAttachmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionOptionsAttachmentView.swift; sourceTree = "<group>"; };
 		7DC8613D2CA43ED600D2F90F /* Georeferencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Georeferencer.swift; sourceTree = "<group>"; };
 		7DC861412CA448F700D2F90F /* AttributeTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeTable.swift; sourceTree = "<group>"; };
 		7DC861432CA44E0D00D2F90F /* geo.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = geo.csv; sourceTree = "<group>"; };
