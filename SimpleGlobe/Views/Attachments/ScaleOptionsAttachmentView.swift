@@ -12,10 +12,10 @@ struct ScaleOptionsAttachmentView: View {
     
     var body: some View {
         VStack {
-            Text("Globe Position While Scaling")
+            Text("Scaling Behaviour")
             Picker("Globe Position", selection: Bindable(model).moveGlobeWhileScaling) {
-                Text("Equal Distance").tag(true)
-                Text("Static Globe Center").tag(false)
+                Text("Maintain Distance to Globe").tag(true)
+                Text("Maintain Globe Position").tag(false)
             }
             .pickerStyle(.segmented)
             .fixedSize()

@@ -12,9 +12,9 @@ struct PositionOptionsAttachmentView: View {
     
     var body: some View {
         VStack {
-            Text("Globe Orientation While Positioning")
+            Text("Positioning Behaviour")
             Picker("Globe Rotation", selection: Bindable(model).rotateGlobeWhileDragging) {
-                Text("Adapting Orientation").tag(true)
+                Text("Adaptive Orientation").tag(true)
                 Text("Static Orientation").tag(false)
             }
             .pickerStyle(.segmented)
