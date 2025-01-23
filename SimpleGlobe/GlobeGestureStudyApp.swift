@@ -1,5 +1,5 @@
 //
-//  SimpleGlobeApp.swift
+//  GlobeGestureStudyApp.swift
 //  SimpleGlobe
 //
 //  Created by Bernhard Jenny on 14/8/2024.
@@ -23,7 +23,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 @main
-struct SimpleGlobeApp: App {
+struct GlobeGestureStudyApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @Environment(\.openURL) private var openURL
     

@@ -26,7 +26,7 @@
 		7DC861422CA448F700D2F90F /* AttributeTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC861412CA448F700D2F90F /* AttributeTable.swift */; };
 		7DC861442CA44E0D00D2F90F /* geo.csv in Resources */ = {isa = PBXBuildFile; fileRef = 7DC861432CA44E0D00D2F90F /* geo.csv */; };
 		7DC861462CA537A900D2F90F /* ISO 3166-1 numeric-3.asc in Resources */ = {isa = PBXBuildFile; fileRef = 7DC861452CA537A900D2F90F /* ISO 3166-1 numeric-3.asc */; };
-		7DD56E592C6CC830009AE72C /* SimpleGlobeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E582C6CC830009AE72C /* SimpleGlobeApp.swift */; };
+		7DD56E592C6CC830009AE72C /* GlobeGestureStudyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E582C6CC830009AE72C /* GlobeGestureStudyApp.swift */; };
 		7DD56E5B2C6CC830009AE72C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E5A2C6CC830009AE72C /* ContentView.swift */; };
 		7DD56E5D2C6CC830009AE72C /* ImmersiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E5C2C6CC830009AE72C /* ImmersiveView.swift */; };
 		7DD56E5F2C6CC831009AE72C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DD56E5E2C6CC831009AE72C /* Assets.xcassets */; };
@@ -81,7 +81,7 @@
 		7DC861432CA44E0D00D2F90F /* geo.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = geo.csv; sourceTree = "<group>"; };
 		7DC861452CA537A900D2F90F /* ISO 3166-1 numeric-3.asc */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ISO 3166-1 numeric-3.asc"; sourceTree = "<group>"; };
 		7DD56E512C6CC830009AE72C /* SimpleGlobe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleGlobe.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7DD56E582C6CC830009AE72C /* SimpleGlobeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleGlobeApp.swift; sourceTree = "<group>"; };
+		7DD56E582C6CC830009AE72C /* GlobeGestureStudyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeGestureStudyApp.swift; sourceTree = "<group>"; };
 		7DD56E5A2C6CC830009AE72C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7DD56E5C2C6CC830009AE72C /* ImmersiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveView.swift; sourceTree = "<group>"; };
 		7DD56E5E2C6CC831009AE72C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -203,7 +203,7 @@
 		7DD56E532C6CC830009AE72C /* SimpleGlobe */ = {
 			isa = PBXGroup;
 			children = (
-				7DD56E582C6CC830009AE72C /* SimpleGlobeApp.swift */,
+				7DD56E582C6CC830009AE72C /* GlobeGestureStudyApp.swift */,
 				7DD56E6D2C6CC93D009AE72C /* Model */,
 				7DD56E7D2C6CCA71009AE72C /* Entities */,
 				7DD56E752C6CC9EB009AE72C /* Systems & Components */,
@@ -388,7 +388,7 @@
 				7DD56E852C6CCB60009AE72C /* ViewModel.swift in Sources */,
 				97E6E8F42D3F9EDF00892FCD /* PositionTaskCodable.swift in Sources */,
 				7DD56E6F2C6CC93D009AE72C /* GlobeConfiguration.swift in Sources */,
-				7DD56E592C6CC830009AE72C /* SimpleGlobeApp.swift in Sources */,
+				7DD56E592C6CC830009AE72C /* GlobeGestureStudyApp.swift in Sources */,
 				97D8C1382D3FF3070079F1C1 /* GestureStatus.swift in Sources */,
 				7D60D9512CF84F2900D7C8AD /* GoogleForm.swift in Sources */,
 				7D60D9522CF84F2900D7C8AD /* TaskView.swift in Sources */,
