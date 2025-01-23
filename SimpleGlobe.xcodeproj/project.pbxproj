@@ -34,7 +34,6 @@
 		7DD56E6E2C6CC93D009AE72C /* Globe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E692C6CC93D009AE72C /* Globe.swift */; };
 		7DD56E6F2C6CC93D009AE72C /* GlobeConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E6A2C6CC93D009AE72C /* GlobeConfiguration.swift */; };
 		7DD56E762C6CC9EC009AE72C /* CameraTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E722C6CC9EB009AE72C /* CameraTracker.swift */; };
-		7DD56E772C6CC9EC009AE72C /* GlobeBillboardSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E732C6CC9EB009AE72C /* GlobeBillboardSystem.swift */; };
 		7DD56E782C6CC9EC009AE72C /* RotationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E742C6CC9EB009AE72C /* RotationSystem.swift */; };
 		7DD56E7E2C6CCA71009AE72C /* GlobeEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E792C6CCA71009AE72C /* GlobeEntity.swift */; };
 		7DD56E802C6CCA71009AE72C /* ResourceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E7B2C6CCA71009AE72C /* ResourceLoader.swift */; };
@@ -92,7 +91,6 @@
 		7DD56E6A2C6CC93D009AE72C /* GlobeConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobeConfiguration.swift; sourceTree = "<group>"; };
 		7DD56E6C2C6CC93D009AE72C /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		7DD56E722C6CC9EB009AE72C /* CameraTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraTracker.swift; sourceTree = "<group>"; };
-		7DD56E732C6CC9EB009AE72C /* GlobeBillboardSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobeBillboardSystem.swift; sourceTree = "<group>"; };
 		7DD56E742C6CC9EB009AE72C /* RotationSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotationSystem.swift; sourceTree = "<group>"; };
 		7DD56E792C6CCA71009AE72C /* GlobeEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobeEntity.swift; sourceTree = "<group>"; };
 		7DD56E7B2C6CCA71009AE72C /* ResourceLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceLoader.swift; sourceTree = "<group>"; };
@@ -252,7 +250,6 @@
 			isa = PBXGroup;
 			children = (
 				7DD56E722C6CC9EB009AE72C /* CameraTracker.swift */,
-				7DD56E732C6CC9EB009AE72C /* GlobeBillboardSystem.swift */,
 				7DD56E742C6CC9EB009AE72C /* RotationSystem.swift */,
 			);
 			path = "Systems & Components";
@@ -412,7 +409,6 @@
 				7DD56E892C6CCFD6009AE72C /* ViewModel+Preview.swift in Sources */,
 				7D60D95A2CF85E9300D7C8AD /* ThankYouView.swift in Sources */,
 				7DC861422CA448F700D2F90F /* AttributeTable.swift in Sources */,
-				7DD56E772C6CC9EC009AE72C /* GlobeBillboardSystem.swift in Sources */,
 				7D8399B42D4095DD00F08DC3 /* ThrottledArray.swift in Sources */,
 				7D2F43962D3B399800928A68 /* StudyAction.swift in Sources */,
 				7DD56E882C6CCFD6009AE72C /* Globe+Preview.swift in Sources */,

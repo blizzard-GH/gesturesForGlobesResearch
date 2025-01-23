@@ -14,8 +14,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // register custom components and systems
         RotationComponent.registerComponent()
         RotationSystem.registerSystem()
-        GlobeBillboardComponent.registerComponent()
-        GlobeBillboardSystem.registerSystem()
         
         // start camera tracking
         CameraTracker.start()
