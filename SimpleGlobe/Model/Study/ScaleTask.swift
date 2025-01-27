@@ -16,13 +16,8 @@ class ScaleTask: StudyTask {
         matcher = ScaleMatcher(targetScale: SIMD3<Float>(repeating: targetScale))
     }
     
-    func toCodable() -> ScaleTaskCodable {
-        return ScaleTaskCodable(actions: actions.elements, accuracyResult: accuracyResult)
-    }
-    
     func saveToFile() {
-        let codableTask = toCodable()
-        TaskStorageManager.shared.saveTask(codableTask, type: .scale)
+        TaskStorageManager.shared.saveTask(self, type: .scale)
     }
     
     func updateAccuracyResult() {

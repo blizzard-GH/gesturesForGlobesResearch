@@ -17,13 +17,9 @@ class RotationTask: StudyTask {
         matcher = RotationMatcher(rotationTarget: targetRotation)
     }
     
-    func toCodable() -> RotationTaskCodable {
-        return RotationTaskCodable(actions: actions.elements, accuracyResult: accuracyResult)
-    }
     
     func saveToFile() {
-        let codableTask = toCodable()
-        TaskStorageManager.shared.saveTask(codableTask, type: .rotation)
+        TaskStorageManager.shared.saveTask(self, type: .rotation)
     }
     
     func updateAccuracyResult() {

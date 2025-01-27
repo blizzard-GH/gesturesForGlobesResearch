@@ -17,13 +17,8 @@ class PositionTask: StudyTask {
         self.matcher = PositionMatcher(targetPosition: targetPosition)
     }
     
-    func toCodable() -> PositionTaskCodable {
-        return PositionTaskCodable(actions: actions.elements, accuracyResult: accuracyResult)
-    }
-    
     func saveToFile() {
-        let codableTask = toCodable()
-        TaskStorageManager.shared.saveTask(codableTask, type: .position)
+        TaskStorageManager.shared.saveTask(self, type: .position)
     }
     
     func updateAccuracyResult() {
