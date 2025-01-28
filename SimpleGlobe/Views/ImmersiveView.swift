@@ -109,7 +109,7 @@ struct ImmersiveView: View {
     }
 }
 
-#Preview(immersionStyle: .mixed) {
-    ImmersiveView()
-        .environment(ViewModel.preview)
-}
+//#Preview(immersionStyle: .mixed) {
+//    ImmersiveView()
+//        .environment(ViewModel.preview)
+//}

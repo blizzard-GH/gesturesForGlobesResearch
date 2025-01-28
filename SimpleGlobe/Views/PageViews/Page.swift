@@ -27,19 +27,19 @@ enum Page: String, CaseIterable {
                       taskGesture: GestureType)? {
         switch self {
         case .task1:
-            return ("1a",
+            return ("1",
                     "Positioning the globe",
                     "We are measuring the time required to properly position the globe.",
                     .position)
 
         case .task2:
-            return ("2a",
+            return ("2",
                     "Rotating the globe",
                     "We are measuring the time required to properly rotate the globe.",
                     .rotation)
 
         case .task3:
-            return ("3a",
+            return ("3",
                     "Scaling the globe",
                     "We are measuring the time required to properly scale the globe.",
                     .scale)

@@ -25,7 +25,7 @@ struct GetReady: View {
                 .padding(.top, 20)
             
             Text("""
-            After \(remainingTime) seconds, the timer will begin to count your elapsed time to complete the task.
+            Please move the main globe to the target globe.
             """)
                 .font(.body)
                 .italic()
@@ -37,16 +37,16 @@ struct GetReady: View {
                 .bold()
                 .foregroundColor(remainingTime > 0 ? .red : .green)
                 .padding()
-            Text("""
-            If you have done the task you will get a notification.
-            Please press the button below to progress to the questionnaire.
-            """)
-                .font(.subheadline)
-                .bold()
-                .foregroundColor(.primary)
-                .multilineTextAlignment(.center)
-                .padding()
-            
+//            Text("""
+//            If you have done the task you will get a notification.
+//            Please press the button below to progress to the questionnaire.
+//            """)
+//                .font(.subheadline)
+//                .bold()
+//                .foregroundColor(.primary)
+//                .multilineTextAlignment(.center)
+//                .padding()
+//            
         }
         .background(Color(.systemBackground).opacity(0.95)) // Subtle background color
         .cornerRadius(20)

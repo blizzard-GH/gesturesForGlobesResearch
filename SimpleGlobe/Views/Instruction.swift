@@ -34,7 +34,7 @@ struct Instruction: View {
     var body: some View {
         VStack {
             // Title Section
-            Text(" Match the Globe 🌍 Positions!")
+            Text(" Match the globe position!")
                 .font(.title2)
                 .fontWeight(.bold)
                 .foregroundColor(.primary)
@@ -42,24 +42,14 @@ struct Instruction: View {
             
             // Instruction Text Section
             Text("""
-            Please move the globe on the left to match the position of the globe on the right.
-            We will measure your average time taken to mateh it.
+            Please move the main globe to match the position of the transparent globe.
+            We will collect your data to mateh it.
             """)
                 .font(.body)
-                .italic()
+                .bold()
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding()
-            Text("""
-            If you have done it you will get a notification.
-            Please press the button below to progress to the questionnaire.
-            """)
-                .font(.subheadline)
-                .bold()
-                .foregroundColor(.primary)
-                .multilineTextAlignment(.center)
-                .padding()
-            
         }
         .background(Color(.systemBackground).opacity(0.95)) // Subtle background color
         .cornerRadius(20)
@@ -68,7 +58,7 @@ struct Instruction: View {
     }
 }
 
-#Preview(windowStyle: .automatic) {
-    Instruction()
-        .environment(ViewModel.preview)
-}
+//#Preview(windowStyle: .automatic) {
+//    Instruction()
+//        .environment(ViewModel.preview)
+//}
