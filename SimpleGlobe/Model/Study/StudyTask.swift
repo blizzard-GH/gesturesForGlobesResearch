@@ -10,6 +10,7 @@ import RealityKit
 
 @MainActor
 protocol StudyTask: CustomStringConvertible {
+    var taskID: UUID { get }
     var actions: ThrottledArray<StudyAction> { get }
     var matcher: Matcher { get }
     
@@ -49,13 +50,13 @@ extension StudyTask {
     
     mutating func start(type: GestureType, transform: Transform) {
         Log.info("Start gesture \(type)")
-        let action = StudyAction(type: type, status: .dragStart, transform: transform)
+        let action = StudyAction(taskID: taskID, type: type, status: .dragStart, transform: transform)
         actions.append(action)
     }
     
     mutating func end(type: GestureType, transform: Transform) {
         Log.info("End gesture \(type)")
-        let action = StudyAction(type: type, status: .dragEnd, transform: transform)
+        let action = StudyAction(taskID: taskID, type: type, status: .dragEnd, transform: transform)
         actions.append(action)
     }
     

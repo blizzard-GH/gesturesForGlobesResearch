@@ -188,7 +188,15 @@ private struct GlobeGesturesModifier: ViewModifier {
                         // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
                         let transform = globeEntity.animateTransform(orientation: rotation, position: position, duration: animationDuration)
                         
-                        studyModel.currentTask?.addAction(StudyAction(type: .position, status: .drag, transform: transform))
+                        guard var currentTask = studyModel.currentTask else {
+                            log("Error: currentTask is nil. Cannot add action")
+                            return
+                        }
+                        currentTask.addAction(StudyAction(
+                            taskID: currentTask.taskID,
+                            type: .position,
+                            status: .drag,
+                            transform: transform))
                     }
                 }
             }

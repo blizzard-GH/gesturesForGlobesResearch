@@ -7,6 +7,7 @@
 import Foundation
 
 class ScaleTask: StudyTask {
+    let taskID = UUID()
     var actions = ThrottledArray<StudyAction>(throttleInterval: ScaleTask.throttleInterval)
     var accuracyResult: Float = 0.0
     

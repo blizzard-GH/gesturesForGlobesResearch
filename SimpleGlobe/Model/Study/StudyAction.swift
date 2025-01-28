@@ -9,6 +9,7 @@ import Foundation
 import RealityKit
 
 struct StudyAction: CustomStringConvertible, Encodable {
+    let taskID: UUID
     let date: Date
     let type: GestureType
     let status: GestureStatus
@@ -25,7 +26,8 @@ struct StudyAction: CustomStringConvertible, Encodable {
         return "\(date), \(type), \(status), scale: \(scale), xyz: \(translation), rotation: \(rotation)"
     }
     
-    init(type: GestureType, status: GestureStatus, transform: Transform) {
+    init(taskID: UUID, type: GestureType, status: GestureStatus, transform: Transform) {
+        self.taskID = taskID
         self.date = .now
         self.type = type
         self.status = status
@@ -34,6 +36,7 @@ struct StudyAction: CustomStringConvertible, Encodable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(taskID, forKey: .taskID)
         try container.encode(date, forKey: .date)
         try container.encode(type, forKey: .type)
         try container.encode(status, forKey: .status)
@@ -41,6 +44,7 @@ struct StudyAction: CustomStringConvertible, Encodable {
     }
     
     enum CodingKeys: String, CodingKey {
+        case taskID
         case date
         case type
         case status

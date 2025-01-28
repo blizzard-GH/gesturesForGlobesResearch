@@ -36,7 +36,7 @@ class TaskStorageManager {
         
         
         if !fileExists {
-            csvString += "date,type,status,translation_x,translation_y,translation_z,rotation_x,rotation_y,rotation_z,rotation_w,scale_x,scale_y,scale_z,accuracy_result\n"
+            csvString += "TaskID, date,type,status,translation_x,translation_y,translation_z,rotation_x,rotation_y,rotation_z,rotation_w,scale_x,scale_y,scale_z,accuracy_result\n"
         }
         
         // Convert each action to a CSV row
@@ -48,14 +48,14 @@ class TaskStorageManager {
             let scale = "\(action.transform.scale.x),\(action.transform.scale.y),\(action.transform.scale.z)"
             let typeString = type.fileName
             
-            return "\(date),\(typeString),\(action.status),\(translation),\(rotation),\(scale),\(task.accuracyResult)"
+            return "\(action.taskID.uuidString),\(date),\(typeString),\(action.status),\(translation),\(rotation),\(scale),\(task.accuracyResult)"
         }
         
         csvString += rows.joined(separator: "\n") + "\n"
         
         do {
             if fileExists {
-                // Append to existing file
+
                 let fileHandle = try FileHandle(forWritingTo: fileURL)
                 fileHandle.seekToEndOfFile()
                 if let data = csvString.data(using: .utf8) {
@@ -63,7 +63,7 @@ class TaskStorageManager {
                 }
                 fileHandle.closeFile()
             } else {
-                // Create new file and write content
+
                 try csvString.write(to: fileURL, atomically: true, encoding: .utf8)
             }
             print("Data saved to \(fileURL.path)")
