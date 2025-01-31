@@ -34,6 +34,20 @@ struct ContentView: View {
                     }
                 }
             }
+            .overlay(alignment: .bottomLeading) {
+                Menu(content: {
+                    ForEach(Page.allCases, id: \.rawValue) { page in
+                        Button("\(page.rawValue)") {
+                            currentPage = page
+                        }
+                    }
+                }, label: {
+                    Label("Page", systemImage: "ellipsis")
+                        .labelStyle(.iconOnly)
+                })
+                .padding(24)
+                .foregroundStyle(.secondary)
+            }
     }
     
     /// A SwiftUI view for the current page.
