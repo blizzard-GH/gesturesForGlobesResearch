@@ -72,7 +72,7 @@ extension StudyTask {
     }
     
     var isMatching: Bool {
-        guard let lastTransform = actions.last?.targetTransform else { return false }
+        guard let lastTransform = actions.last?.originalTransform else { return false }
         return matcher.isMatching(lastTransform)
     }
     

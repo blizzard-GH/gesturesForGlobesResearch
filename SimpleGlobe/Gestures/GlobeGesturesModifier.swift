@@ -153,10 +153,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                         state.localRotationAtGestureStart = (value.entity as? GlobeEntity)?.orientation
                         
                         if let originalTransform = model.globeEntity?.transform,
-                           let targetTransform = model.secondGlobeEntity?.transform {
+                        let targetTransform = model.secondGlobeEntity?.transform {
                             studyModel.setupNextTask(gestureType: .position, originalTransform: originalTransform, targetTransform: targetTransform)
                             studyModel.currentTask?.start(type: .position,
-                                                          originalTransform: value.entity.transform,
+                                                          originalTransform: originalTransform,
                                                           targetTransform: targetTransform)
                         }
                     }
@@ -190,16 +190,16 @@ private struct GlobeGesturesModifier: ViewModifier {
                         
                         // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
                         let originalTransform = globeEntity.animateTransform(orientation: rotation, position: position, duration: animationDuration)
-                        guard let secondGlobe = model.secondGlobeEntity else {
-                            log("Error: secondGlobeEntity is nil")
-                            return
-                        }
+//                        guard let secondGlobe = model.secondGlobeEntity else {
+//                            log("Error: secondGlobeEntity is nil")
+//                            return
+//                        }
 
                         guard var currentTask = studyModel.currentTask else {
                             log("Error: currentTask is nil. Cannot add action")
                             return
                         }
-                        if let targetTransform = model.secondGlobeEntity?.animateTransform(orientation: rotation, position: position, duration: animationDuration){
+                        if let targetTransform = model.secondGlobeEntity?.transform {
                             currentTask.addAction(StudyAction(
                                 taskID: currentTask.taskID,
                                 type: .position,
@@ -207,22 +207,25 @@ private struct GlobeGesturesModifier: ViewModifier {
                                 originalTransform: originalTransform,
                                 targetTransform: targetTransform))
                         }
+//                        if let targetTransform = model.secondGlobeEntity?.transform {
+//                            studyModel.setupNextTask(gestureType: .position, targetTransform: targetTransform)
+//                            studyModel.currentTask?.start(type: .position, transform: value.entity.transform)
+//                        }
                     }
                 }
             }
             .onEnded { value in
                 log("end drag")
                 state.endGesture()
-                let originalTransform = value.entity.transform
-                if let targetTransform = model.secondGlobeEntity?.transform {
+                if let originalTransform = model.globeEntity?.transform,
+                let targetTransform = model.secondGlobeEntity?.transform {
                     studyModel.currentTask?.end(type: .position,
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
-                    
-                    if studyModel.currentTask?.isMatching == true {
-                        studyModel.currentTask?.updateAccuracyResult()
-                        studyModel.storeTask()
-                    }
+                }
+                if studyModel.currentTask?.isMatching == true {
+                    studyModel.currentTask?.updateAccuracyResult()
+                    studyModel.storeTask()
                 }
             }
     }
