@@ -11,12 +11,12 @@ import Foundation
 enum Page: String, CaseIterable {
     case welcome
     case introForm
-    case task1
-    case task1Form
-    case task2
-    case task2Form
-    case task3
-    case task3Form
+    case positionExperiment
+    case positionExperimentForm
+    case rotationExperiment
+    case rotationExperimentForm
+    case scaleExperiment
+    case scaleExperimentForm
     case outroForm
     case thankYou
     
@@ -26,19 +26,19 @@ enum Page: String, CaseIterable {
                       instructions: String,
                       taskGesture: GestureType)? {
         switch self {
-        case .task1:
+        case .positionExperiment:
             return ("1",
                     "Positioning the globe",
                     "We are measuring the time required to properly position the globe.",
                     .position)
 
-        case .task2:
+        case .rotationExperiment:
             return ("2",
                     "Rotating the globe",
                     "We are measuring the time required to properly rotate the globe.",
                     .rotation)
 
-        case .task3:
+        case .scaleExperiment:
             return ("3",
                     "Scaling the globe",
                     "We are measuring the time required to properly scale the globe.",
@@ -57,17 +57,17 @@ enum Page: String, CaseIterable {
                 "https://forms.gle/z718jhTKjftCDQ7v9",
                 confirmationMessage: "Your response has been recorded. (1)" // important: the confirmation message must be unique
             )
-        case .task1Form:
+        case .positionExperimentForm:
             try? GoogleForm(
                 "https://forms.gle/gnqP7Pkzx7f6bPoS6",
                 confirmationMessage: "Your response has been recorded. (2)" // important: the confirmation message must be unique
             )
-        case .task2Form:
+        case .rotationExperimentForm:
             try? GoogleForm(
                 "https://forms.gle/eJcuBqsG3VyULZkt7",
                 confirmationMessage: "Your response has been recorded. (3)" // important: the confirmation message must be unique
             )
-        case .task3Form:
+        case .scaleExperimentForm:
             try? GoogleForm(
                 "https://forms.gle/eLq5Dcz5FzJ26rrv9",
                 confirmationMessage: "Your response has been recorded. (4)" // important: the confirmation message must be unique

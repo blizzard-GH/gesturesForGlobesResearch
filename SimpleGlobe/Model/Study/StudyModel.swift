@@ -23,7 +23,7 @@ class StudyModel {
             
 //    Current task
     var currentTask: StudyTask?
-    var currentTaskPage: Page = .task1
+    var currentTaskPage: Page = .welcome
     
     /// Create the next task
     func setupNextTask(gestureType: GestureType, originalTransform: Transform, targetTransform: Transform) {
