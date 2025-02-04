@@ -23,7 +23,7 @@ class PositionTask: StudyTask {
     }
     
     func updateAccuracyResult() {
-        guard let lastTransform = actions.last?.targetTransform else {
+        guard let lastTransform = actions.last?.originalTransform else {
             Log.error("No last transform recorded.")
             return
         }
