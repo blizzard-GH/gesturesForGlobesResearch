@@ -36,7 +36,7 @@ struct ContentView: View {
             }
             .overlay(alignment: .bottomLeading) {
                 Menu(content: {
-                    ForEach(Page.allCases, id: \.rawValue) { page in
+                    ForEach(Page.allCases.reversed(), id: \.rawValue) { page in
                         Button("\(page.rawValue)") {
                             currentPage = page
                         }
