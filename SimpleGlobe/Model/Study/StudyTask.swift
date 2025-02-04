@@ -48,15 +48,22 @@ extension StudyTask {
         return "Task duration: \(durationInfo)\nActions:\n\(actionDescriptions)"
     }
     
-    mutating func start(type: GestureType, transform: Transform) {
+    mutating func start(type: GestureType, originalTransform: Transform, targetTransform: Transform) {
         Log.info("Start gesture \(type)")
-        let action = StudyAction(taskID: taskID, type: type, status: .dragStart, transform: transform)
+        let action = StudyAction(taskID: taskID,
+                                 type: type,
+                                 status: .dragStart,
+                                 originalTransform: originalTransform,
+                                 targetTransform: targetTransform)
         actions.append(action)
     }
     
-    mutating func end(type: GestureType, transform: Transform) {
+    mutating func end(type: GestureType, originalTransform: Transform, targetTransform: Transform) {
         Log.info("End gesture \(type)")
-        let action = StudyAction(taskID: taskID, type: type, status: .dragEnd, transform: transform)
+        let action = StudyAction(taskID: taskID,
+                                 type: type, status: .dragEnd,
+                                 originalTransform: originalTransform,
+                                 targetTransform: targetTransform)
         actions.append(action)
     }
     
@@ -65,7 +72,7 @@ extension StudyTask {
     }
     
     var isMatching: Bool {
-        guard let lastTransform = actions.last?.transform else { return false }
+        guard let lastTransform = actions.last?.targetTransform else { return false }
         return matcher.isMatching(lastTransform)
     }
     

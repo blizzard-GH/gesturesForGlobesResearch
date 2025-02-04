@@ -14,7 +14,7 @@ class PositionTask: StudyTask {
     
     var matcher: any Matcher
     
-    init(targetPosition: SIMD3<Float>) {
+    init(originalPosition: SIMD3<Float>, targetPosition: SIMD3<Float>) {
         self.matcher = PositionMatcher(targetPosition: targetPosition)
     }
     
@@ -23,7 +23,7 @@ class PositionTask: StudyTask {
     }
     
     func updateAccuracyResult() {
-        guard let lastTransform = actions.last?.transform else {
+        guard let lastTransform = actions.last?.targetTransform else {
             Log.error("No last transform recorded.")
             return
         }

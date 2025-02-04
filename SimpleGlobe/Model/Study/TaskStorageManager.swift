@@ -36,19 +36,23 @@ class TaskStorageManager {
         
         
         if !fileExists {
-            csvString += "TaskID, date,type,status,translation_x,translation_y,translation_z,rotation_x,rotation_y,rotation_z,rotation_w,scale_x,scale_y,scale_z,accuracy_result\n"
+            csvString += "TaskID, date,type,status,original_translation_x,original_translation_y,original_translation_z,original_rotation_x,original_rotation_y,original_rotation_z,original_rotation_w,original_scale_x,original_scale_y,original_scale_z,target_translation_x,target_translation_y,target_translation_z,target_rotation_x,target_rotation_y,target_rotation_z,target_rotation_w,target_scale_x,target_scale_y,target_scale_z,accuracy_result\n"
         }
         
         // Convert each action to a CSV row
         let rows = task.actions.elements.map { action in
             let date = ISO8601DateFormatter().string(from: action.date)
-            let translation = "\(action.transform.translation.x),\(action.transform.translation.y),\(action.transform.translation.z)"
-            let rotationVector = action.transform.rotation.vector
-            let rotation = "\(rotationVector.x),\(rotationVector.y),\(rotationVector.z),\(rotationVector.w)"
-            let scale = "\(action.transform.scale.x),\(action.transform.scale.y),\(action.transform.scale.z)"
+            let targetTranslation = "\(action.targetTransform.translation.x),\(action.targetTransform.translation.y),\(action.targetTransform.translation.z)"
+            let targetRotationVector = action.targetTransform.rotation.vector
+            let targetRotation = "\(targetRotationVector.x),\(targetRotationVector.y),\(targetRotationVector.z),\(targetRotationVector.w)"
+            let targetScale = "\(action.targetTransform.scale.x),\(action.targetTransform.scale.y),\(action.targetTransform.scale.z)"
+            let originalTranslation = "\(action.originalTransform.translation.x),\(action.originalTransform.translation.y),\(action.originalTransform.translation.z)"
+            let originalRotationVector = action.originalTransform.rotation.vector
+            let originalRotation = "\(originalRotationVector.x),\(originalRotationVector.y),\(originalRotationVector.z),\(originalRotationVector.w)"
+            let originalScale = "\(action.originalTransform.scale.x),\(action.originalTransform.scale.y),\(action.originalTransform.scale.z)"
             let typeString = type.fileName
             
-            return "\(action.taskID.uuidString),\(date),\(typeString),\(action.status),\(translation),\(rotation),\(scale),\(task.accuracyResult)"
+            return "\(action.taskID.uuidString),\(date),\(typeString),\(action.status),\(originalTranslation),\(originalRotation),\(originalScale),\(targetTranslation),\(targetRotation),\(targetScale),\(task.accuracyResult)"
         }
         
         csvString += rows.joined(separator: "\n") + "\n"

@@ -26,14 +26,17 @@ class StudyModel {
     var currentTaskPage: Page = .task1
     
     /// Create the next task
-    func setupNextTask(gestureType: GestureType, targetTransform: Transform) {
+    func setupNextTask(gestureType: GestureType, originalTransform: Transform, targetTransform: Transform) {
         switch gestureType {
         case .position:
-            currentTask = PositionTask(targetPosition: targetTransform.translation)
+            currentTask = PositionTask(originalPosition: originalTransform.translation,
+                                       targetPosition: targetTransform.translation)
         case .rotation:
-            currentTask = RotationTask(targetRotation: targetTransform.rotation)
+            currentTask = RotationTask(originalRotation: originalTransform.rotation,
+                                       targetRotation: targetTransform.rotation)
         case .scale:
-            currentTask = ScaleTask(targetScale: targetTransform.scale.x)
+            currentTask = ScaleTask(originalScale: originalTransform.scale.x,
+                                    targetScale: targetTransform.scale.x)
         }
     }
     

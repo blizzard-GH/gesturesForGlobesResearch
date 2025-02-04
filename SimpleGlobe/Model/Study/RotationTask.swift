@@ -14,7 +14,7 @@ class RotationTask: StudyTask {
     
     var matcher: any Matcher
     
-    init(targetRotation: simd_quatf) {
+    init(originalRotation: simd_quatf, targetRotation: simd_quatf) {
         matcher = RotationMatcher(rotationTarget: targetRotation)
     }
     
@@ -24,7 +24,7 @@ class RotationTask: StudyTask {
     }
     
     func updateAccuracyResult() {
-        guard let lastTransform = actions.last?.transform else {
+        guard let lastTransform = actions.last?.targetTransform else {
             Log.error("No last transform recorded.")
             return
         }

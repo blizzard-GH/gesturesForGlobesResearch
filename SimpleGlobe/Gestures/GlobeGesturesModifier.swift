@@ -152,9 +152,12 @@ private struct GlobeGesturesModifier: ViewModifier {
                         state.positionAtGestureStart = value.entity.position(relativeTo: nil)
                         state.localRotationAtGestureStart = (value.entity as? GlobeEntity)?.orientation
                         
-                        if let targetTransform = model.secondGlobeEntity?.transform {
-                            studyModel.setupNextTask(gestureType: .position, targetTransform: targetTransform)
-                            studyModel.currentTask?.start(type: .position, transform: value.entity.transform)
+                        if let originalTransform = model.globeEntity?.transform,
+                           let targetTransform = model.secondGlobeEntity?.transform {
+                            studyModel.setupNextTask(gestureType: .position, originalTransform: originalTransform, targetTransform: targetTransform)
+                            studyModel.currentTask?.start(type: .position,
+                                                          originalTransform: value.entity.transform,
+                                                          targetTransform: targetTransform)
                         }
                     }
                     
@@ -186,28 +189,40 @@ private struct GlobeGesturesModifier: ViewModifier {
                         }
                         
                         // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
-                        let transform = globeEntity.animateTransform(orientation: rotation, position: position, duration: animationDuration)
-                        
+                        let originalTransform = globeEntity.animateTransform(orientation: rotation, position: position, duration: animationDuration)
+                        guard let secondGlobe = model.secondGlobeEntity else {
+                            log("Error: secondGlobeEntity is nil")
+                            return
+                        }
+
                         guard var currentTask = studyModel.currentTask else {
                             log("Error: currentTask is nil. Cannot add action")
                             return
                         }
-                        currentTask.addAction(StudyAction(
-                            taskID: currentTask.taskID,
-                            type: .position,
-                            status: .drag,
-                            transform: transform))
+                        if let targetTransform = model.secondGlobeEntity?.animateTransform(orientation: rotation, position: position, duration: animationDuration){
+                            currentTask.addAction(StudyAction(
+                                taskID: currentTask.taskID,
+                                type: .position,
+                                status: .drag,
+                                originalTransform: originalTransform,
+                                targetTransform: targetTransform))
+                        }
                     }
                 }
             }
             .onEnded { value in
                 log("end drag")
                 state.endGesture()
-                studyModel.currentTask?.end(type: .position, transform: value.entity.transform)
-
-                if studyModel.currentTask?.isMatching == true {
-                    studyModel.currentTask?.updateAccuracyResult()
-                    studyModel.storeTask()
+                let originalTransform = value.entity.transform
+                if let targetTransform = model.secondGlobeEntity?.transform {
+                    studyModel.currentTask?.end(type: .position,
+                                                originalTransform: originalTransform,
+                                                targetTransform: targetTransform)
+                    
+                    if studyModel.currentTask?.isMatching == true {
+                        studyModel.currentTask?.updateAccuracyResult()
+                        studyModel.storeTask()
+                    }
                 }
             }
     }

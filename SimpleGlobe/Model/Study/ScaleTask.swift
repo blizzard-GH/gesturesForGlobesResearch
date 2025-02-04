@@ -13,7 +13,7 @@ class ScaleTask: StudyTask {
     
     var matcher: any Matcher
     
-    init(targetScale: Float) {
+    init(originalScale: Float, targetScale: Float) {
         matcher = ScaleMatcher(targetScale: SIMD3<Float>(repeating: targetScale))
     }
     
@@ -22,7 +22,7 @@ class ScaleTask: StudyTask {
     }
     
     func updateAccuracyResult() {
-        guard let lastTransform = actions.last?.transform else {
+        guard let lastTransform = actions.last?.targetTransform else {
             Log.error("No last transform recorded.")
             return
         }
