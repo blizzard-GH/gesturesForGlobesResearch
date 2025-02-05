@@ -27,16 +27,16 @@ import SwiftUI
     
     @MainActor
     let globe = Globe(
-        name: "Bellerby World Globe",
-        shortName: "World Globe",
+        name: "Main Globe",
+        shortName: "Main Globe",
         nameTranslated: nil,
-        authorSurname: "Peter",
-        authorFirstName: "Bellerby",
-        date: "2023",
-        description: "Peter Bellerby makes modern globes with old world craftsmanship. Many consider him the finest living globe maker.",
-        infoURL: URL(string: "https://www.davidrumsey.com/luna/servlet/s/cd8p41"),
+        authorSurname: "None",
+        authorFirstName: "None",
+        date: "2025",
+        description: "This is the main globe used for gestures research.",
+        infoURL: URL(string: "https://www.solarsystemscope.com/textures/"),
         radius: 0.325,
-        texture: "Bellerby65cmSchminkeGagarin"
+        texture: "earth_daymap"
     )
     
     @MainActor
@@ -46,11 +46,11 @@ import SwiftUI
         nameTranslated: nil,
         authorSurname: "None",
         authorFirstName: "None",
-        date: "None",
+        date: "2024",
         description: "This is a target globe.",
         infoURL: URL(string: "https://www.solarsystemscope.com/textures/"),
         radius: 0.325,
-        texture: "Bellerby65cmSchminkeGagarin"
+        texture: "earth_daymap"
     )
     
     // MARK: - Gestures Configuration
@@ -65,14 +65,14 @@ import SwiftUI
     
     // MARK: - Attachment Views
     
-    enum AttachementView: String {
+    enum AttachmentView: String {
         case position
         case scale
     }
     
     /// Show an attachment view with options for positioning or scaling globes
     @MainActor
-    var attachmentView: AttachementView? = .scale
+    var attachmentView: AttachmentView? = .position
 
     // MARK: - Visible Globes
     
@@ -82,7 +82,7 @@ import SwiftUI
    
     @MainActor
     /// After a globe is loaded, a `GlobeEntity` is initialized. SwiftUI observes this object and synchronises the content of the `ImmersiveView` (a `RealityView`)`.
-    var globeEntity: GlobeEntity?
+    var firstGlobeEntity: GlobeEntity?
     var secondGlobeEntity: GlobeEntity?        
     
     @MainActor
@@ -160,7 +160,7 @@ import SwiftUI
             secondEntity.components.set(OpacityComponent(opacity: 0.5))
         }
         
-        globeEntity = firstEntity
+        firstGlobeEntity = firstEntity
         secondGlobeEntity = secondEntity
         configuration.isLoading = false
         configuration.isVisible = true
@@ -198,7 +198,7 @@ import SwiftUI
         let duration = 0.666
         
         // shrink the globe
-        globeEntity?.scaleAndAdjustDistanceToCamera(
+        firstGlobeEntity?.scaleAndAdjustDistanceToCamera(
                 newScale: 0.001, // scaling to 0 spins the globe, so scale to a value slightly greater than 0
                 radius: globe.radius,
                 duration: duration
@@ -273,9 +273,9 @@ import SwiftUI
         
         // globes
         description += "Globe configuration: \(globe.name), rotating: \(!configuration.isRotationPaused)\n"
-        if let globeEntity {
-            description += ", pos=\(globeEntity.position.x),\(globeEntity.position.y),\(globeEntity.position.z)"
-            description += ", scale=\(globeEntity.scale.x),\(globeEntity.scale.y),\(globeEntity.scale.z)"
+        if let firstGlobeEntity {
+            description += ", pos=\(firstGlobeEntity.position.x),\(firstGlobeEntity.position.y),\(firstGlobeEntity.position.z)"
+            description += ", scale=\(firstGlobeEntity.scale.x),\(firstGlobeEntity.scale.y),\(firstGlobeEntity.scale.z)"
         }
         description += "\n"
         

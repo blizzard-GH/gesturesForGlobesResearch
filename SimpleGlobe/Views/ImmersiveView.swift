@@ -29,10 +29,10 @@ struct ImmersiveView: View {
         } update: { content, attachments in // synchronous on MainActor
             updateGlobeEntity(to: content, attachments: attachments)
         } attachments: { // synchronous on MainActor
-            Attachment(id: ViewModel.AttachementView.position.rawValue) {
+            Attachment(id: ViewModel.AttachmentView.position.rawValue) {
                 PositionOptionsAttachmentView()
             }
-            Attachment(id: ViewModel.AttachementView.scale.rawValue) {
+            Attachment(id: ViewModel.AttachmentView.scale.rawValue) {
                 ScaleOptionsAttachmentView()
             }
         }
@@ -73,10 +73,10 @@ struct ImmersiveView: View {
         guard let root = content.entities.first?.findEntity(named: "Globes") else { return }
         let addedGlobeEntity = root.children.first(where: { ($0 is GlobeEntity) })
         
-        if let addedGlobeEntity, model.globeEntity == nil{
+        if let addedGlobeEntity, model.firstGlobeEntity == nil{
             root.removeChild(addedGlobeEntity)
         } else {
-            if let globeEntity = model.globeEntity {
+            if let globeEntity = model.firstGlobeEntity {
                 root.addChild(globeEntity)
             }
             if let secondGlobeEntity = model.secondGlobeEntity {
@@ -88,12 +88,12 @@ struct ImmersiveView: View {
         addAttachments(attachments)
         
         // update globe rotation
-        model.globeEntity?.updateRotation(configuration: model.configuration)
+        model.firstGlobeEntity?.updateRotation(configuration: model.configuration)
     }
     
     @MainActor
     private func addAttachments(_ attachments: RealityViewAttachments) {
-        guard let globeEntity = model.globeEntity else { return }
+        guard let globeEntity = model.firstGlobeEntity else { return }
         switch model.attachmentView {
         case .position, .scale:
             if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {

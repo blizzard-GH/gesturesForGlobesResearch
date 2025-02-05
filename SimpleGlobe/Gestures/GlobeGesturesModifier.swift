@@ -152,7 +152,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         state.positionAtGestureStart = value.entity.position(relativeTo: nil)
                         state.localRotationAtGestureStart = (value.entity as? GlobeEntity)?.orientation
                         
-                        if let originalTransform = model.globeEntity?.transform,
+                        if let originalTransform = model.firstGlobeEntity?.transform,
                         let targetTransform = model.secondGlobeEntity?.transform {
                             studyModel.setupNextTask(gestureType: .position, originalTransform: originalTransform, targetTransform: targetTransform)
                             studyModel.currentTask?.start(type: .position,
@@ -217,7 +217,7 @@ private struct GlobeGesturesModifier: ViewModifier {
             .onEnded { value in
                 log("end drag")
                 state.endGesture()
-                if let originalTransform = model.globeEntity?.transform,
+                if let originalTransform = model.firstGlobeEntity?.transform,
                 let targetTransform = model.secondGlobeEntity?.transform {
                     studyModel.currentTask?.end(type: .position,
                                                 originalTransform: originalTransform,
@@ -248,7 +248,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         // Querying the position on each update would result in an unstable globe position if the camera is moved.
                         state.cameraPositionAtGestureStart = CameraTracker.shared.position
                         
-                        if let originalTransform = model.globeEntity?.transform,
+                        if let originalTransform = model.firstGlobeEntity?.transform,
                         let targetTransform = model.secondGlobeEntity?.transform {
                             studyModel.setupNextTask(gestureType: .scale, originalTransform: originalTransform, targetTransform: targetTransform)
                             studyModel.currentTask?.start(type: .scale,
@@ -280,7 +280,7 @@ private struct GlobeGesturesModifier: ViewModifier {
             .onEnded { _ in
                 state.endGesture()
                 log("end magnify")
-                if let originalTransform = model.globeEntity?.transform,
+                if let originalTransform = model.firstGlobeEntity?.transform,
                 let targetTransform = model.secondGlobeEntity?.transform {
                     studyModel.currentTask?.end(type: .scale,
                                                 originalTransform: originalTransform,
@@ -308,7 +308,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         state.orientationAtGestureStart = .init(value.entity.orientation(relativeTo: nil))
                         Task { @MainActor in
                             pauseRotationAndStoreRotationState()
-                            if let originalTransform = model.globeEntity?.transform,
+                            if let originalTransform = model.firstGlobeEntity?.transform,
                             let targetTransform = model.secondGlobeEntity?.transform {
                                 studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform, targetTransform: targetTransform)
                                 studyModel.currentTask?.start(type: .rotation,
@@ -350,7 +350,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                 }
                 
                 state.endGesture()
-                if let originalTransform = model.globeEntity?.transform,
+                if let originalTransform = model.firstGlobeEntity?.transform,
                 let targetTransform = model.secondGlobeEntity?.transform {
                     studyModel.currentTask?.end(type: .rotation,
                                                 originalTransform: originalTransform,

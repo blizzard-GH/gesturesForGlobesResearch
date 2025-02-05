@@ -19,6 +19,17 @@ struct TaskView: View {
     @State private var startTime: Date? = nil
     @State private var showTaskContent: Bool = false
 //    @State private var isCurrentTaskMatched: Bool = false
+    private func updateAttachmentView() {
+            switch currentPage {
+            case .positionExperiment:
+                model.attachmentView = .position
+            case .scaleExperiment:
+                model.attachmentView = .scale
+            default:
+                model.attachmentView = .position
+            }
+        }
+    
     
     var body: some View {
         VStack {
@@ -77,6 +88,7 @@ struct TaskView: View {
         }
         .onAppear{
             showOrHideGlobe(false)
+            updateAttachmentView()
         }
         .onDisappear{
             showOrHideGlobe(false)
