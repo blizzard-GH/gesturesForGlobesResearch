@@ -107,23 +107,16 @@ struct TaskView: View {
     @MainActor
     private func showOrHideGlobe(_ show: Bool) {
         Task { @MainActor in
-            if show == false {
-                if model.configuration.isVisible {
-                    model.hideGlobe()
-                } else {
-                    return
-                }
-            } else if show == true {
-                if model.configuration.isVisible {
-                    return
-                } else {
-                    model
-                        .load(
-                            firstGlobe: model.globe,
-                            secondGlobe: model.secondGlobe,
-                            openImmersiveSpaceAction: openImmersiveSpaceAction
-                        )
-                }
+            if show {
+                guard !model.configuration.isVisible else { return }
+                model.load(
+                        firstGlobe: model.globe,
+                        secondGlobe: model.secondGlobe,
+                        openImmersiveSpaceAction: openImmersiveSpaceAction
+                    )
+            } else {
+                guard model.configuration.isVisible else { return }
+                model.hideGlobe()
             }
         }
     }
