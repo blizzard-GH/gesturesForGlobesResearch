@@ -96,7 +96,7 @@ private struct GlobeGesturesModifier: ViewModifier {
             .simultaneousGesture(doubleTapGesture)
             .simultaneousGesture(dragGesture)
             .simultaneousGesture(magnifyGesture)
-            .simultaneousGesture(rotateGesture)
+//            .simultaneousGesture(rotateGesture)
             .simultaneousGesture(rotateGlobeAxisGesture)
     }
     
@@ -378,6 +378,13 @@ private struct GlobeGesturesModifier: ViewModifier {
                 case .second(true, let drag):
                     Task { @MainActor in
                         pauseRotationAndStoreRotationState()
+                        if let originalTransform = model.firstGlobeEntity?.transform,
+                        let targetTransform = model.secondGlobeEntity?.transform {
+                            studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform, targetTransform: targetTransform)
+                            studyModel.currentTask?.start(type: .rotation,
+                                                          originalTransform: originalTransform,
+                                                          targetTransform: targetTransform)
+                        }
                     }
                     
                     guard let drag = drag else { return }
@@ -432,6 +439,16 @@ private struct GlobeGesturesModifier: ViewModifier {
                     }
                     
                     state.endGesture()
+                    if let originalTransform = model.firstGlobeEntity?.transform,
+                    let targetTransform = model.secondGlobeEntity?.transform {
+                        studyModel.currentTask?.end(type: .rotation,
+                                                    originalTransform: originalTransform,
+                                                    targetTransform: targetTransform)
+                    }
+                    if studyModel.currentTask?.isMatching == true {
+                        studyModel.currentTask?.updateAccuracyResult()
+                        studyModel.storeTask()
+                    }
                 default:
                     break
                 }
