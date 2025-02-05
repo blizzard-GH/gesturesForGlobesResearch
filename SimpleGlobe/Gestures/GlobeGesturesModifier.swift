@@ -226,6 +226,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                 if studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
+                    if studyModel.isTaskRepeated(gestureType: .position) {
+                        model.secondGlobeEntity?.repositionGlobe()
+                    }
                 }
             }
     }
@@ -289,6 +292,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                 if studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
+                    if studyModel.isTaskRepeated(gestureType: .scale) {
+                        model.secondGlobeEntity?.rescaleGlobe()
+                    }
                 }
             }
     }
@@ -359,6 +365,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                 if studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
+                    if studyModel.isTaskRepeated(gestureType: .rotation) {
+                        model.secondGlobeEntity?.rerotateGlobe()
+                    }
                 }
             }
     }
@@ -448,6 +457,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                     if studyModel.currentTask?.isMatching == true {
                         studyModel.currentTask?.updateAccuracyResult()
                         studyModel.storeTask()
+                        if studyModel.isTaskRepeated(gestureType: .rotation) {
+                            model.secondGlobeEntity?.rerotateGlobe()
+                        }
                     }
                 default:
                     break

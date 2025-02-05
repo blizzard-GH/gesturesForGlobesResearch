@@ -294,7 +294,7 @@ class GlobeEntity: Entity {
         animateTransform(position: newGlobeCenter, duration: duration)
     }
     
-    func respawnGlobe() {
+    func repositionGlobe() {
         guard let cameraPosition = CameraTracker.shared.position else {
             print("Camera position is unknown.")
             return
@@ -305,11 +305,30 @@ class GlobeEntity: Entity {
         let randomZ = Float.random(in: 0...0.5)
         
         var randomDirection = SIMD3<Float>(randomX, randomY, randomZ)
-        // Making sure its a vector
         randomDirection = normalize(randomDirection)
         
         let newPosition = cameraPosition + randomDirection
         animateTransform(position: newPosition, duration: 0)
+    }
+    
+    func rerotateGlobe() {
+        guard let cameraPosition = CameraTracker.shared.position else {
+            print("Camera position is unknown.")
+            return
+        }
+        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
+        
+        let rotationQuaternion = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+        
+        animateTransform(orientation: rotationQuaternion, duration: 0)
+    }
+    
+    func rescaleGlobe() {
+        let randomScaleFactor = Float.random(in: 0.8...1.2)
+        
+        let randomScale = Float.random(in: 0.5...1.5)
+        
+        animateTransform(scale: randomScale, duration: 0)
     }
     
     /// The  mean scale factor of this entity relative to the world space.

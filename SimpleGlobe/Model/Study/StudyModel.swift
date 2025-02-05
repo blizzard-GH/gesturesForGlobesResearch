@@ -20,6 +20,12 @@ class StudyModel {
     
     /// Completed scale tasks
     private var scaleTasks: [ScaleTask] = []
+    
+    private var positionTaskRepetitionCount: Int = 0
+    
+    private var rotationTaskRepetitionCount: Int = 0
+    
+    private var scaleTaskRepetitionCount: Int = 0
             
 //    Current task
     var currentTask: StudyTask?
@@ -40,11 +46,40 @@ class StudyModel {
         }
     }
     
+    func isTaskRepeated(gestureType: GestureType) -> Bool {
+        switch gestureType {
+        case .position:
+            positionTaskRepetitionCount += 1
+            if positionTaskRepetitionCount < gestureType.maxRepetition {
+                return true
+            } else {
+                positionTaskRepetitionCount = 0
+                return false
+            }
+        case .rotation:
+            rotationTaskRepetitionCount += 1
+            if rotationTaskRepetitionCount < gestureType.maxRepetition {
+                return true
+            } else {
+                rotationTaskRepetitionCount = 0
+                return false
+            }
+        case .scale:
+            scaleTaskRepetitionCount += 1
+            if scaleTaskRepetitionCount < gestureType.maxRepetition {
+                return true
+            } else {
+                scaleTaskRepetitionCount = 0
+                return false
+            }
+        }
+    }
+    
     func storeTask() {
         guard let task = currentTask else { return }
         Log.task(task)
-        print(task.isMatching ? "Position matched." : "Position is not matched.")
-        task.saveToFile()
+        print(task.isMatching ? "Globes matched." : "Globes are not matched.")
+//        task.saveToFile()
         
         switch task {
         case let task as PositionTask:
