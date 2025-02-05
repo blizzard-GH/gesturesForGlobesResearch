@@ -75,6 +75,9 @@ struct TaskView: View {
                     .foregroundColor(.red)
             }
         }
+        .onDisappear{
+            showOrHideGlobe(false)
+        }
     }
     
 //    func checkMatchingStatus(taskNumber: Int, model: ViewModel) async {
