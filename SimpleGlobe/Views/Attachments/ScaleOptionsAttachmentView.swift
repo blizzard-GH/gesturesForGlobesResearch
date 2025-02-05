@@ -24,7 +24,7 @@ struct ScaleOptionsAttachmentView: View {
         .glassBackgroundEffect()
     }
 }
-
-#Preview {
-    ScaleOptionsAttachmentView()
-}
+//
+//#Preview {
+//    ScaleOptionsAttachmentView()
+//}

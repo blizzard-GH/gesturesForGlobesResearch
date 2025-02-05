@@ -96,8 +96,8 @@ private struct GlobeGesturesModifier: ViewModifier {
             .simultaneousGesture(doubleTapGesture)
             .simultaneousGesture(dragGesture)
             .simultaneousGesture(magnifyGesture)
-//            .simultaneousGesture(rotateGesture)
-//            .simultaneousGesture(rotateGlobeAxisGesture)
+            .simultaneousGesture(rotateGesture)
+            .simultaneousGesture(rotateGlobeAxisGesture)
     }
     
     /// Convert a position on the globe in Cartesian coordinates to spherical coordinates.

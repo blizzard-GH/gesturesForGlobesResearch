@@ -75,6 +75,9 @@ struct TaskView: View {
                     .foregroundColor(.red)
             }
         }
+        .onAppear{
+            showOrHideGlobe(false)
+        }
         .onDisappear{
             showOrHideGlobe(false)
         }
@@ -103,17 +106,24 @@ struct TaskView: View {
     
     @MainActor
     private func showOrHideGlobe(_ show: Bool) {
-#warning("the `show` parameter is not used")
         Task { @MainActor in
-            if model.configuration.isVisible {
-                model.hideGlobe()
-            } else {
-                model
-                    .load(
-                        firstGlobe: model.globe,
-                        secondGlobe: model.secondGlobe,
-                        openImmersiveSpaceAction: openImmersiveSpaceAction
-                    )
+            if show == false {
+                if model.configuration.isVisible {
+                    model.hideGlobe()
+                } else {
+                    return
+                }
+            } else if show == true {
+                if model.configuration.isVisible {
+                    return
+                } else {
+                    model
+                        .load(
+                            firstGlobe: model.globe,
+                            secondGlobe: model.secondGlobe,
+                            openImmersiveSpaceAction: openImmersiveSpaceAction
+                        )
+                }
             }
         }
     }
