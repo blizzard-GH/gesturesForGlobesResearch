@@ -49,6 +49,32 @@ enum Page: String, CaseIterable {
         }
     }
     
+    /// Name for display in UI
+    var name: String {
+        switch self {
+        case .welcome:
+            "Welcome"
+        case .introForm:
+            "Introduction"
+        case .positionExperiment:
+            "Experiment 1: Position"
+        case .positionExperimentForm:
+            "Experiment 1 Form"
+        case .rotationExperiment:
+            "Experiment 2: Rotation"
+        case .rotationExperimentForm:
+            "Experiment 2: Form"
+        case .scaleExperiment:
+            "Experiment 3: Scale"
+        case .scaleExperimentForm:
+            "Experiment 3: Form"
+        case .outroForm:
+            "End Form"
+        case .thankYou:
+            "Thank You Form"
+        }
+    }
+    
     /// A `GoogleForm` or nil if the page does not display a form.
     var googleForm: GoogleForm? {
         switch self {
