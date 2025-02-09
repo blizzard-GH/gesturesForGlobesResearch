@@ -1,0 +1,5 @@
+Status,c1,c2,c3,c4
+Active,A,B,D,C
+Inactive,B,C,A,D
+Inactive,C,D,B,A
+Inactive,D,A,C,B

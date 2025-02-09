@@ -53,7 +53,7 @@ enum Page: String, CaseIterable {
     var name: String {
         switch self {
         case .welcome:
-            "Welcome"
+            "Welcome display"
         case .introForm:
             "Introduction"
         case .positionExperiment:
@@ -71,7 +71,7 @@ enum Page: String, CaseIterable {
         case .outroForm:
             "End Form"
         case .thankYou:
-            "Thank You Form"
+            "Thank You display"
         }
     }
     

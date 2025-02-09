@@ -1,0 +1,9 @@
+Status,c1,c2,c3,c4,c5,c6,c7,c8
+Active,A,B,D,F,H,G,E,C
+Inactive,B,F,A,G,D,C,H,E
+Inactive,F,G,B,C,A,E,D,H
+Inactive,G,C,F,E,B,H,A,D
+Inactive,C,E,G,H,F,D,B,A
+Inactive,E,H,C,D,G,A,F,B
+Inactive,H,D,E,A,C,B,G,F
+Inactive,D,A,H,B,E,F,C,G
