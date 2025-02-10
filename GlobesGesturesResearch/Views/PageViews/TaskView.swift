@@ -21,9 +21,9 @@ struct TaskView: View {
 //    @State private var isCurrentTaskMatched: Bool = false
     private func updateAttachmentView() {
             switch currentPage {
-            case .positionExperiment:
+            case .positionExperimentForm:
                 model.attachmentView = .position
-            case .scaleExperiment:
+            case .scaleExperimentForm:
                 model.attachmentView = .scale
             default:
                 model.attachmentView = .none

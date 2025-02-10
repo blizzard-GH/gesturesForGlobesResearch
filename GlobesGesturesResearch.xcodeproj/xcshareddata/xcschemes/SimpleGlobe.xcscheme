@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7DD56E502C6CC830009AE72C"
-               BuildableName = "SimpleGlobe.app"
-               BlueprintName = "SimpleGlobe"
+               BuildableName = "GlobesGesturesResearch.app"
+               BlueprintName = "GlobesGesturesResearch"
                ReferencedContainer = "container:GlobesGesturesResearch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7DD56E502C6CC830009AE72C"
-            BuildableName = "SimpleGlobe.app"
-            BlueprintName = "SimpleGlobe"
+            BuildableName = "GlobesGesturesResearch.app"
+            BlueprintName = "GlobesGesturesResearch"
             ReferencedContainer = "container:GlobesGesturesResearch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7DD56E502C6CC830009AE72C"
-            BuildableName = "SimpleGlobe.app"
-            BlueprintName = "SimpleGlobe"
+            BuildableName = "GlobesGesturesResearch.app"
+            BlueprintName = "GlobesGesturesResearch"
             ReferencedContainer = "container:GlobesGesturesResearch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

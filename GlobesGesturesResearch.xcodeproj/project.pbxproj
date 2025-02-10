@@ -81,7 +81,7 @@
 		7D839A152D41DF4300F08DC3 /* ScaleOptionsAttachmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleOptionsAttachmentView.swift; sourceTree = "<group>"; };
 		7DC861432CA44E0D00D2F90F /* geo.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = geo.csv; sourceTree = "<group>"; };
 		7DC861452CA537A900D2F90F /* ISO 3166-1 numeric-3.asc */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ISO 3166-1 numeric-3.asc"; sourceTree = "<group>"; };
-		7DD56E512C6CC830009AE72C /* SimpleGlobe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleGlobe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DD56E512C6CC830009AE72C /* GlobesGesturesResearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GlobesGesturesResearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DD56E582C6CC830009AE72C /* GlobeGestureStudyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeGestureStudyApp.swift; sourceTree = "<group>"; };
 		7DD56E5A2C6CC830009AE72C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7DD56E5C2C6CC830009AE72C /* ImmersiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveView.swift; sourceTree = "<group>"; };
@@ -197,7 +197,7 @@
 		7DD56E522C6CC830009AE72C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7DD56E512C6CC830009AE72C /* SimpleGlobe.app */,
+				7DD56E512C6CC830009AE72C /* GlobesGesturesResearch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -306,9 +306,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7DD56E502C6CC830009AE72C /* SimpleGlobe */ = {
+		7DD56E502C6CC830009AE72C /* GlobesGesturesResearch */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7DD56E662C6CC831009AE72C /* Build configuration list for PBXNativeTarget "SimpleGlobe" */;
+			buildConfigurationList = 7DD56E662C6CC831009AE72C /* Build configuration list for PBXNativeTarget "GlobesGesturesResearch" */;
 			buildPhases = (
 				7DD56E4D2C6CC830009AE72C /* Sources */,
 				7DD56E4E2C6CC830009AE72C /* Frameworks */,
@@ -318,11 +318,11 @@
 			);
 			dependencies = (
 			);
-			name = SimpleGlobe;
+			name = GlobesGesturesResearch;
 			packageProductDependencies = (
 			);
 			productName = SimpleGlobe;
-			productReference = 7DD56E512C6CC830009AE72C /* SimpleGlobe.app */;
+			productReference = 7DD56E512C6CC830009AE72C /* GlobesGesturesResearch.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -355,7 +355,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7DD56E502C6CC830009AE72C /* SimpleGlobe */,
+				7DD56E502C6CC830009AE72C /* GlobesGesturesResearch */,
 			);
 		};
 /* End PBXProject section */
@@ -559,7 +559,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"SimpleGlobe/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"GlobesGesturesResearch/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -586,7 +586,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"SimpleGlobe/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"GlobesGesturesResearch/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -618,7 +618,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7DD56E662C6CC831009AE72C /* Build configuration list for PBXNativeTarget "SimpleGlobe" */ = {
+		7DD56E662C6CC831009AE72C /* Build configuration list for PBXNativeTarget "GlobesGesturesResearch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7DD56E672C6CC831009AE72C /* Debug */,

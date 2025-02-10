@@ -207,6 +207,8 @@ import SwiftUI
         
         configuration.isVisible = false
         configuration.showAttachment = false
+        
+        forceCloseImmersiveSpace()
     }
     
     // MARK: - Immersive Space
@@ -214,6 +216,14 @@ import SwiftUI
     @MainActor
     var immersiveSpaceIsShown = false
 
+    @MainActor
+    private func forceCloseImmersiveSpace() {
+        guard immersiveSpaceIsShown else { return }
+        Task {
+            immersiveSpaceIsShown = false
+        }
+    }
+    
     @MainActor
     private func openImmersiveGlobeSpace(_ action: OpenImmersiveSpaceAction) {
         guard !immersiveSpaceIsShown else { return }
