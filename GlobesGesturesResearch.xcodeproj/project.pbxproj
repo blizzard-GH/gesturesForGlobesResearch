@@ -189,7 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				7D8399B02D40759F00F08DC3 /* .gitignore */,
-				7DD56E532C6CC830009AE72C /* SimpleGlobe */,
+				7DD56E532C6CC830009AE72C /* GlobesGesturesResearch */,
 				7DD56E522C6CC830009AE72C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -202,7 +202,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7DD56E532C6CC830009AE72C /* SimpleGlobe */ = {
+		7DD56E532C6CC830009AE72C /* GlobesGesturesResearch */ = {
 			isa = PBXGroup;
 			children = (
 				7DD56E582C6CC830009AE72C /* GlobeGestureStudyApp.swift */,
@@ -219,7 +219,7 @@
 				7DD56E632C6CC831009AE72C /* Info.plist */,
 				7DD56E602C6CC831009AE72C /* Preview Content */,
 			);
-			path = SimpleGlobe;
+			path = GlobesGesturesResearch;
 			sourceTree = "<group>";
 		};
 		7DD56E602C6CC831009AE72C /* Preview Content */ = {
@@ -340,7 +340,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7DD56E4C2C6CC830009AE72C /* Build configuration list for PBXProject "SimpleGlobe" */;
+			buildConfigurationList = 7DD56E4C2C6CC830009AE72C /* Build configuration list for PBXProject "GlobesGesturesResearch" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -609,7 +609,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7DD56E4C2C6CC830009AE72C /* Build configuration list for PBXProject "SimpleGlobe" */ = {
+		7DD56E4C2C6CC830009AE72C /* Build configuration list for PBXProject "GlobesGesturesResearch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7DD56E642C6CC831009AE72C /* Debug */,
