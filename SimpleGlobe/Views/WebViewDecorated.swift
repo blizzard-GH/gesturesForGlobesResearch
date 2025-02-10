@@ -9,6 +9,11 @@ import SwiftUI
 
 /// A `WebView` for displaying a webpage .
 struct WebViewDecorated: View {
+    
+    @Environment(ViewModel.self) var model
+    @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
+    
+    @Binding var currentPage: Page
     let url: URL
     var googleFormsConfirmationMessage: String? = nil
     
@@ -38,12 +43,47 @@ struct WebViewDecorated: View {
                 .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 20))
             }
         }
+        .onAppear{
+            updateAttachmentView()
+            showOrHideGlobe(true)
+        }
+        .onDisappear{
+            showOrHideGlobe(false)
+        }
     }
+    
+    @MainActor
+    private func showOrHideGlobe(_ show: Bool) {
+        Task { @MainActor in
+            if show {
+                guard !model.configuration.isVisible else { return }
+                model.load(
+                        firstGlobe: model.globe,
+                        secondGlobe: model.secondGlobe,
+                        openImmersiveSpaceAction: openImmersiveSpaceAction
+                    )
+            } else {
+                guard model.configuration.isVisible else { return }
+                model.hideGlobe()
+            }
+        }
+    }
+    
+    private func updateAttachmentView() {
+            switch currentPage {
+            case .positionExperiment:
+                model.attachmentView = .position
+            case .scaleExperiment:
+                model.attachmentView = .scale
+            default:
+                model.attachmentView = .none
+            }
+        }
 }
 
-#if DEBUG
-#Preview(windowStyle: .automatic) {
-    WebViewDecorated(url: URL(string: "https://apple.com")!, webViewStatus: .constant(.loading))
-        .environment(ViewModel.preview)
-}
-#endif
+//#if DEBUG
+//#Preview(windowStyle: .automatic) {
+//    WebViewDecorated(url: URL(string: "https://apple.com")!, webViewStatus: .constant(.loading))
+//        .environment(ViewModel.preview)
+//}
+//#endif

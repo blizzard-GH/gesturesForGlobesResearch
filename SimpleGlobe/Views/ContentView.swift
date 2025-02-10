@@ -12,7 +12,7 @@ struct ContentView: View {
     @Environment(ViewModel.self) var model
     
     /// The currently displayed  page
-    @State private var currentPage = Page.welcome
+    @Binding var currentPage: Page
     
     /// Track web page loading errors and completion of Google Forms
     @State private var webViewStatus = WebViewStatus.loading
@@ -65,6 +65,7 @@ struct ContentView: View {
             } else if let googleForm = currentPage.googleForm {
                 // show a Google Forms view
                 WebViewDecorated(
+                    currentPage: $currentPage,
                     url: googleForm.url,
                     googleFormsConfirmationMessage: googleForm.confirmationMessage,
                     webViewStatus: $webViewStatus

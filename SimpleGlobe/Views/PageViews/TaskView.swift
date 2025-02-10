@@ -26,7 +26,7 @@ struct TaskView: View {
             case .scaleExperiment:
                 model.attachmentView = .scale
             default:
-                model.attachmentView = .position
+                model.attachmentView = .none
             }
         }
     
@@ -87,8 +87,8 @@ struct TaskView: View {
             }
         }
         .onAppear{
-            showOrHideGlobe(false)
             updateAttachmentView()
+            showOrHideGlobe(false)
         }
         .onDisappear{
             showOrHideGlobe(false)

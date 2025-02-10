@@ -34,9 +34,11 @@ struct GlobeGestureStudyApp: App {
     
     @State private var studyModel = StudyModel()
     
+    @State private var currentPage: Page = .welcome
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(currentPage: $currentPage)
                 .environment(model)
                 .environment(studyModel)
         }
@@ -46,7 +48,7 @@ struct GlobeGestureStudyApp: App {
         
         WindowGroup(id: "info", for: UUID.self) { $globeId in
             if let infoURL = model.globe.infoURL {
-                WebViewDecorated(url: infoURL, webViewStatus: $webViewStatus)
+                WebViewDecorated(currentPage: $currentPage, url: infoURL, webViewStatus: $webViewStatus)
                     .ornament(attachmentAnchor: .scene(.bottom)) {
                         Button("Open in Safari") { openURL(infoURL) }
                             .padding()
