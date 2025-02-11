@@ -11,6 +11,7 @@ import Foundation
 enum Page: String, CaseIterable {
     case welcome
     case introForm
+    case training
     case positionExperiment
     case positionExperimentForm
     case rotationExperiment
@@ -49,6 +50,7 @@ enum Page: String, CaseIterable {
         }
     }
     
+    
     /// Name for display in UI
     var name: String {
         switch self {
@@ -56,6 +58,8 @@ enum Page: String, CaseIterable {
             "Welcome display"
         case .introForm:
             "Introduction"
+        case .training:
+            "Training"
         case .positionExperiment:
             "Experiment 1: Position"
         case .positionExperimentForm:
