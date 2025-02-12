@@ -223,7 +223,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
                 }
-                if studyModel.currentTask?.isMatching == true {
+                if studyModel.currentTaskPage != .training, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .position) {
@@ -289,7 +289,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
                 }
-                if studyModel.currentTask?.isMatching == true {
+                if studyModel.currentTaskPage != .training, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .scale) {
@@ -362,7 +362,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
                 }
-                if studyModel.currentTask?.isMatching == true {
+                if studyModel.currentTaskPage != .training, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .rotation) {
@@ -454,7 +454,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                     originalTransform: originalTransform,
                                                     targetTransform: targetTransform)
                     }
-                    if studyModel.currentTask?.isMatching == true {
+                    if studyModel.currentTaskPage != .training, studyModel.currentTask?.isMatching == true {
                         studyModel.currentTask?.updateAccuracyResult()
                         studyModel.storeTask()
                         if studyModel.isTaskRepeated(gestureType: .rotation) {
