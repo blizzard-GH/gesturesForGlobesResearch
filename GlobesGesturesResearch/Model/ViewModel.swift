@@ -19,7 +19,8 @@ import SwiftUI
 ///
 ///
 /// For the new Observable framework: https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro
-@Observable class ViewModel: CustomDebugStringConvertible {
+@Observable
+class ViewModel: CustomDebugStringConvertible {
     
     /// Shared singleton that can be accessed by the AppDelegate.
     @MainActor

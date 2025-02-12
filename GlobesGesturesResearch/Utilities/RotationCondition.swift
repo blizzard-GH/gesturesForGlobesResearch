@@ -15,6 +15,18 @@ struct RotationCondition {
     let condition3: String
     let condition4: String
     
+    static var lastUsedRotationConditionIndex: Int = -1
+    
+    enum Complexity {
+        case simple
+        case complex
+    }
+    
+    enum Modality {
+        case oneHanded
+        case twoHanded
+    }
+    
     /// Load `Landmark`s from CSV file in the app bundle.
     /// - Returns: Loaded landmarks.
     static func loadRotationConditions() throws -> [RotationCondition] {
@@ -80,15 +92,15 @@ struct RotationCondition {
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
     }
     
-    static func rotationConditionMapper(for rotationConditions: [RotationCondition]) -> (twoHandedRotation: Bool, simpleRotation: Bool) {
+    static func rotationConditionMapper(for rotationConditions: [RotationCondition], lastUsedIndex: inout Int) -> (modalitiy: Modality, complexity: Complexity) {
 //        var activeSubject: ScalingCondition?
-        var twoHandedRotation: Bool = false
-        var simpleRotation: Bool = false
+        var modality: Modality = .oneHanded
+        var complexity: Complexity = .simple
         
         
         guard let activeSubject = rotationConditions.first(where: { $0.status == "Active"}) else {
             print("No active subject exists.")
-            return (false, false)
+            return (.oneHanded, .simple)
         }
         
 //        for subject in scalingConditions {
@@ -107,25 +119,33 @@ struct RotationCondition {
                            activeSubject.condition3,
                            activeSubject.condition4]
         
-//        for condition in conditionValues {
-        conditionValues.forEach { condition in
-            switch condition {
-            case "A":
-                twoHandedRotation = false
-                simpleRotation = false
-            case "B" :
-                twoHandedRotation = false
-                simpleRotation = true
-            case "C" :
-                twoHandedRotation = true
-                simpleRotation = false
-            case "D" :
-                twoHandedRotation = true
-                simpleRotation = true
-            default:
-                break
-            }
+        if conditionValues.isEmpty {
+            print("No conditions available.")
+            return (.oneHanded, .simple)
         }
-        return (twoHandedRotation, simpleRotation)
+        
+        lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count
+        let selectedCondition = conditionValues[lastUsedIndex]
+        
+//        for condition in conditionValues {
+//        conditionValues.forEach { condition in
+        switch selectedCondition {
+        case "A":
+            modality = .oneHanded
+            complexity = .simple
+        case "B" :
+            modality = .oneHanded
+            complexity = .complex
+        case "C" :
+            modality = .twoHanded
+            complexity = .simple
+        case "D" :
+            modality = .twoHanded
+            complexity = .complex
+        default:
+            break
+        }
+//        }
+        return (modality, complexity)
     }
 }

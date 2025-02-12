@@ -8,16 +8,28 @@
 import Foundation
 
 
-struct ScalingCondition {
+struct ScaleCondition {
     let status: String
     let condition1: String
     let condition2: String
     let condition3: String
     let condition4: String
     
+    static var lastUsedScaleConditionIndex: Int = -1
+    
+    enum MovingGlobe {
+        case notMoving
+        case moving
+    }
+    
+    enum ZoomDirection {
+        case smallToLarge
+        case largeToSmall
+    }
+    
     /// Load `Landmark`s from CSV file in the app bundle.
     /// - Returns: Loaded landmarks.
-    static func loadScalingConditions() throws -> [ScalingCondition] {
+    static func loadScalingConditions() throws -> [ScaleCondition] {
 //        guard let url = Bundle.main.url(forResource: "Scaling", withExtension: "csv") else {
 //            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Scaling.csv' not found in the directory."])
 //        }
@@ -26,7 +38,7 @@ struct ScalingCondition {
         let csvFileURL = currentDirectoryURL.appendingPathComponent("Scaling.csv")
         
         let data = try String(contentsOf: csvFileURL, encoding: .utf8)
-        var scalingConditions: [ScalingCondition] = []
+        var scalingConditions: [ScaleCondition] = []
         let rows = data.split(whereSeparator: \.isNewline).dropFirst().filter { !$0.isEmpty }
         //let rows = data.split(separator: "\n").dropFirst() // Skip header row
         for row in rows {
@@ -35,7 +47,7 @@ struct ScalingCondition {
             else {
                 throw NSError(domain: "CSVLoader", code: 2, userInfo: [NSLocalizedDescriptionKey: "Invalid row format in CSV: \(row)"])
             }
-            let scalingCondition = ScalingCondition(status: columns[0],
+            let scalingCondition = ScaleCondition(status: columns[0],
                                                     condition1: columns[1],
                                                     condition2: columns[2],
                                                     condition3: columns[3],
@@ -45,7 +57,7 @@ struct ScalingCondition {
         return scalingConditions
     }
     
-    static func saveScalingConditions(scalingConditions: [ScalingCondition]) throws {
+    static func saveScalingConditions(scalingConditions: [ScaleCondition]) throws {
 //        guard let url = Bundle.main.url(forResource: "Scaling", withExtension: "csv") else {
 //            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Scaling.csv' not found in the app bundle."])
 //        }
@@ -59,7 +71,7 @@ struct ScalingCondition {
 
         var updatedConditions = scalingConditions
 
-        updatedConditions[activeIndex] = ScalingCondition(status: "Inactive",
+        updatedConditions[activeIndex] = ScaleCondition(status: "Inactive",
                                                           condition1: scalingConditions[activeIndex].condition1,
                                                           condition2: scalingConditions[activeIndex].condition2,
                                                           condition3: scalingConditions[activeIndex].condition3,
@@ -67,7 +79,7 @@ struct ScalingCondition {
 
         let nextIndex = (activeIndex + 1) % scalingConditions.count
 
-        updatedConditions[nextIndex] = ScalingCondition(status: "Active",
+        updatedConditions[nextIndex] = ScaleCondition(status: "Active",
                                                         condition1: scalingConditions[nextIndex].condition1,
                                                         condition2: scalingConditions[nextIndex].condition2,
                                                         condition3: scalingConditions[nextIndex].condition3,
@@ -80,15 +92,15 @@ struct ScalingCondition {
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
     }
     
-    static func scalingConditionMapper(for scalingConditions: [ScalingCondition]) -> (globeMoving: Bool, smallToLarge: Bool) {
+    static func scalingConditionMapper(for scalingConditions: [ScaleCondition], lastUsedIndex: inout Int) -> (movingGlobe: MovingGlobe, zoomDirection: ZoomDirection) {
 //        var activeSubject: ScalingCondition?
-        var globeMoving: Bool = false
-        var smallToLarge: Bool = false
+        var movingGlobe: MovingGlobe = .notMoving
+        var zoomDirection: ZoomDirection = .smallToLarge
         
         
         guard let activeSubject = scalingConditions.first(where: { $0.status == "Active"}) else {
             print("No active subject exists.")
-            return (false, false)
+            return (.notMoving, .smallToLarge)
         }
         
 //        for subject in scalingConditions {
@@ -107,25 +119,34 @@ struct ScalingCondition {
                            activeSubject.condition3,
                            activeSubject.condition4]
         
-//        for condition in conditionValues {
-        conditionValues.forEach { condition in
-            switch condition {
-            case "A":
-                globeMoving = false
-                smallToLarge = false
-            case "B" :
-                globeMoving = false
-                smallToLarge = true
-            case "C" :
-                globeMoving = true
-                smallToLarge = false
-            case "D" :
-                globeMoving = true
-                smallToLarge = true
-            default:
-                break
-            }
+        if conditionValues.isEmpty {
+            print("No conditions available.")
+            return (.notMoving, .smallToLarge)
         }
-        return (globeMoving, smallToLarge)
+        
+        lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count
+        let selectedCondition = conditionValues[lastUsedIndex]
+        
+//        for condition in conditionValues {
+//        conditionValues.forEach { condition in
+        
+        switch selectedCondition {
+        case "A":
+            movingGlobe = .notMoving
+            zoomDirection = .smallToLarge
+        case "B" :
+            movingGlobe = .notMoving
+            zoomDirection = .largeToSmall
+        case "C" :
+            movingGlobe = .moving
+            zoomDirection = .smallToLarge
+        case "D" :
+            movingGlobe = .moving
+            zoomDirection = .largeToSmall
+        default:
+            break
+        }
+//    }
+        return (movingGlobe, zoomDirection)
     }
 }

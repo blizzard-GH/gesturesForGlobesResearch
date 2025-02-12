@@ -294,41 +294,151 @@ class GlobeEntity: Entity {
         animateTransform(position: newGlobeCenter, duration: duration)
     }
     
+//    enum RepositionOrientations {
+//        case rotating
+//        case notRotating
+//    }
+//    
+//    enum RepositionDirections {
+//        case vertical
+//        case horizontal
+//        case diagonalUp
+//        case diagonalDown
+//    }
+//    
+//    enum RepositionDistance {
+//        case near
+//        case far
+//    }
+//    
+//    enum RerotationComplexity {
+//        case simple
+//        case complex
+//    }
+//    
+//    enum RerotationModalities {
+//        case oneHanded
+//        case twoHanded
+//    }
+//    
+//    enum RescaleSize {
+//        case smallToLarge
+//        case largeToSmall
+//    }
+//    
+//    enum RescaleOrientation {
+//        case moving
+//        case notMoving
+//    }
+    
     func repositionGlobe() {
         guard let cameraPosition = CameraTracker.shared.position else {
             print("Camera position is unknown.")
             return
         }
         
-        let randomX = Float.random(in: -0.5...0.5)
-        let randomY = Float.random(in: -0.5...0.5)
-        let randomZ = Float.random(in: 0...0.5)
+        var positionConditions: [PositionCondition] = []
         
-        var randomDirection = SIMD3<Float>(randomX, randomY, randomZ)
-        randomDirection = normalize(randomDirection)
+        do {
+            positionConditions = try PositionCondition.loadPositionConditions()
+        } catch {
+            print("Failed to load position conditions: \(error.localizedDescription).")
+        }
         
-        let newPosition = cameraPosition + randomDirection
-        animateTransform(position: newPosition, duration: 0)
+        let (distance, direction) = PositionCondition.positionConditionMapper(for: positionConditions,
+                                                                             lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
+        
+        let distanceMultiplier: Float = (distance == .near) ? 0.5 : 1.0
+        
+        let offset: SIMD3<Float>
+        
+        switch direction {
+        case .vertical:
+            offset = SIMD3<Float>(0, 0.5, 0) * distanceMultiplier
+        case .horizontal:
+            offset = SIMD3<Float>(0.5, 0, 0) * distanceMultiplier
+        case .diagonalUp:
+            offset = SIMD3<Float>(0.5, 0.5, 0) * distanceMultiplier
+        case .diagonalDown:
+            offset = SIMD3<Float>(-0.5, -0.5, 0) * distanceMultiplier
+        case .none:
+            offset = SIMD3<Float>(0, 0, 0) * distanceMultiplier
+        }
+        
+        let newPosition = cameraPosition + offset
+        animateTransform(position: newPosition, duration: 0.8)
+        
+//        Randomiser:
+//        let randomX = Float.random(in: -0.5...0.5)
+//        let randomY = Float.random(in: -0.5...0.5)
+//        let randomZ = Float.random(in: 0...0.5)
+//        
+//        var randomDirection = SIMD3<Float>(randomX, randomY, randomZ)
+//        randomDirection = normalize(randomDirection)
+//        
+//        let newPosition = cameraPosition + randomDirection
+//        animateTransform(position: newPosition, duration: 0)
     }
     
     func rerotateGlobe() {
-        guard let cameraPosition = CameraTracker.shared.position else {
-            print("Camera position is unknown.")
-            return
+        
+        var rotationConditions: [RotationCondition] = []
+        
+        do {
+            rotationConditions = try RotationCondition.loadRotationConditions()
+        } catch {
+            print("Failed to load rotation conditions: \(error.localizedDescription).")
         }
-        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
         
-        let rotationQuaternion = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+        let (modality, complexity) = RotationCondition.rotationConditionMapper(for: rotationConditions, lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
         
-        animateTransform(orientation: rotationQuaternion, duration: 0)
+        let intensity: Float = (complexity == .simple) ? 0.5 : 1.0
+        let multiHandMultiplier : Float = (modality == .oneHanded) ? 1.5 : 1.0
+        
+        let finalMultiplier = intensity * multiHandMultiplier
+        
+        let randomRotationY = Float.random(in: -Float.pi...Float.pi) * finalMultiplier
+        
+        let rotationQuarternion = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+        
+        animateTransform(orientation: rotationQuarternion, duration: 0.8)
+        
+//    Randomiser:
+//        guard let cameraPosition = CameraTracker.shared.position else {
+//            print("Camera position is unknown.")
+//            return
+//        }
+//        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
+//        
+//        let rotationQuaternion = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+//        
+//        animateTransform(orientation: rotationQuaternion, duration: 0)
     }
     
     func rescaleGlobe() {
-        let randomScaleFactor = Float.random(in: 0.8...1.2)
+        var scalingConditions : [ScaleCondition] = []
         
-        let randomScale = Float.random(in: 0.5...1.5)
+        do {
+            scalingConditions = try ScaleCondition.loadScalingConditions()
+        } catch {
+            print("Failed to load scaling condition: \(error.localizedDescription)")
+        }
         
-        animateTransform(scale: randomScale, duration: 0)
+        let (movingGlobe, zoomDirection) = ScaleCondition.scalingConditionMapper(for: scalingConditions, lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
+        
+        let movingGlobeScale: Float = (movingGlobe == .notMoving) ? 1.2 : 0.8
+        let zoomDirectionScale: Float = (zoomDirection == .smallToLarge) ? 1.1 : 1.0
+        
+        let finalScale = movingGlobeScale * zoomDirectionScale
+        
+        animateTransform(scale: finalScale, duration: 0.8)
+        
+//    Randomiser:
+//        let randomScaleFactor = Float.random(in: 0.8...1.2)
+//        
+//        let randomScale = Float.random(in: 0.5...1.5)
+//        
+//        animateTransform(scale: randomScale, duration: 0)
     }
     
     /// The  mean scale factor of this entity relative to the world space.

@@ -19,12 +19,14 @@ struct PositionCondition {
     let condition7: String
     let condition8: String
     
+    static var lastUsedPositionConditionIndex: Int = -1
+    
     enum Distance {
         case near
         case far
     }
     
-    enum Movement {
+    enum Direction {
         case horizontal
         case vertical
         case diagonalUp
@@ -113,10 +115,10 @@ struct PositionCondition {
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
     }
     
-    static func positionConditionMapper(for positionConditions: [PositionCondition]) -> (distance: Distance, movement: Movement){
+    static func positionConditionMapper(for positionConditions: [PositionCondition], lastUsedIndex: inout Int) -> (distance: Distance, direction: Direction){
 //        var activeSubject: ScalingCondition?
-        var distance: Distance = .near // Default value
-        var movement: Movement = .none // Default value
+        var distance: Distance = .near
+        var direction: Direction = .none
         
         guard let activeSubject = positionConditions.first(where: { $0.status == "Active"}) else {
             print("No active subject exists.")
@@ -143,21 +145,27 @@ struct PositionCondition {
                                activeSubject.condition7,
                                activeSubject.condition8]
         
-//        for condition in conditionValues {
-        conditionValues.forEach { condition in
-            switch condition {
-            case "A": distance = .near; movement = .horizontal
-            case "B": distance = .near; movement = .vertical
-            case "C": distance = .near; movement = .diagonalUp
-            case "D": distance = .near; movement = .diagonalDown
-            case "E": distance = .far; movement = .horizontal
-            case "F": distance = .far; movement = .vertical
-            case "G": distance = .far; movement = .diagonalUp
-            case "H": distance = .far; movement = .diagonalDown
-            default:
-                break
-            }
+        if conditionValues.isEmpty {
+            print("No conditions available.")
+            return (.near, .none)
         }
-        return (distance, movement)
+        
+        lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count
+        let selectedCondition = conditionValues[lastUsedIndex]
+        
+//        for condition in conditionValues {
+        switch selectedCondition {
+        case "A": distance = .near; direction = .horizontal
+        case "B": distance = .near; direction = .vertical
+        case "C": distance = .near; direction = .diagonalUp
+        case "D": distance = .near; direction = .diagonalDown
+        case "E": distance = .far; direction = .horizontal
+        case "F": distance = .far; direction = .vertical
+        case "G": distance = .far; direction = .diagonalUp
+        case "H": distance = .far; direction = .diagonalDown
+        default:
+            break
+        }
+        return (distance, direction)
     }
 }
