@@ -30,9 +30,9 @@ enum GestureType: Encodable {
     
     var maxRepetition: Int {
         switch self {
-        case .position : return 8
-        case .rotation : return 3
-        case .scale : return 4
+        case .position : return 2
+        case .rotation : return 2
+        case .scale : return 2
         }
     }
 }

@@ -10,6 +10,7 @@ import RealityKit
 
 struct ContentView: View {
     @Environment(ViewModel.self) var model
+    @Environment(StudyModel.self) var studyModel
     
     /// The currently displayed  page
     @Binding var currentPage: Page

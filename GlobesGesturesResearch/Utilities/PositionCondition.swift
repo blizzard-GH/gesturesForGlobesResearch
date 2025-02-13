@@ -21,6 +21,8 @@ struct PositionCondition {
     
     static var lastUsedPositionConditionIndex: Int = -1
     
+    static var positionConditionsCompleted: Bool = false
+    
     enum Distance {
         case near
         case far
@@ -148,6 +150,10 @@ struct PositionCondition {
         if conditionValues.isEmpty {
             print("No conditions available.")
             return (.near, .none)
+        }
+        
+        if (lastUsedIndex + 1) == conditionValues.count {
+            positionConditionsCompleted = true
         }
         
         lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count

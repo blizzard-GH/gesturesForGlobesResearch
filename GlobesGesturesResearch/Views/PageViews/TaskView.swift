@@ -69,15 +69,18 @@ struct TaskView: View {
                             .monospacedDigit()
                             .padding()
                         Instruction()
-                        Button(
-                            "Finish \(details.description), and move to the next task."
-                        ) {
-                            currentPage = currentPage.next()
-                            studyModel.currentTaskPage = currentPage
-                            isDoingTask = false
-                            showTaskContent = false
-                            showOrHideGlobe(false)
-                            stopTimer()
+                        if studyModel.proceedToNextExperiment {
+                            Button(
+                                "Finish \(details.description), and move to the next task."
+                            ) {
+                                currentPage = currentPage.next()
+                                studyModel.proceedToNextExperiment = false
+                                //                            studyModel.currentTaskPage = currentPage
+                                isDoingTask = false
+                                showTaskContent = false
+                                showOrHideGlobe(false)
+                                stopTimer()
+                            }
                         }
                     }
                 }

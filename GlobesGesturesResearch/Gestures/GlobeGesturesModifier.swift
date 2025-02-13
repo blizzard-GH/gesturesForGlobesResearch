@@ -223,11 +223,19 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
                 }
-                if studyModel.currentTaskPage != .training, studyModel.currentTask?.isMatching == true {
+                if studyModel.currentPage != .training, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .position) {
-                        model.secondGlobeEntity?.repositionGlobe()
+                        model.firstGlobeEntity?.respawnGlobeToLeft()
+                        model.secondGlobeEntity?.respawnGlobeToRight()
+                    } else {
+                        model.firstGlobeEntity?.repositionGlobe()
+                        model.secondGlobeEntity?.respawnGlobeToCenter()
+                        if PositionCondition.positionConditionsCompleted == true {
+                            studyModel.proceedToNextExperiment = true
+                            PositionCondition.positionConditionsCompleted = false
+                        }
                     }
                 }
             }
@@ -289,11 +297,19 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
                 }
-                if studyModel.currentTaskPage != .training, studyModel.currentTask?.isMatching == true {
+                if studyModel.currentPage != .training, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
-                    if studyModel.isTaskRepeated(gestureType: .scale) {
-                        model.secondGlobeEntity?.rescaleGlobe()
+                    if studyModel.isTaskRepeated(gestureType: .position) {
+                        model.firstGlobeEntity?.respawnGlobeToLeft()
+                        model.secondGlobeEntity?.respawnGlobeToRight()
+                    } else {
+                        model.firstGlobeEntity?.rescaleGlobe()
+                        model.secondGlobeEntity?.respawnGlobeToCenter()
+                        if ScaleCondition.scaleConditionsCompleted == true {
+                            studyModel.proceedToNextExperiment = true
+                            ScaleCondition.scaleConditionsCompleted = false
+                        }
                     }
                 }
             }
@@ -362,11 +378,19 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
                 }
-                if studyModel.currentTaskPage != .training, studyModel.currentTask?.isMatching == true {
+                if studyModel.currentPage != .training, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
-                    if studyModel.isTaskRepeated(gestureType: .rotation) {
-                        model.secondGlobeEntity?.rerotateGlobe()
+                    if studyModel.isTaskRepeated(gestureType: .position) {
+                        model.firstGlobeEntity?.respawnGlobeToLeft()
+                        model.secondGlobeEntity?.respawnGlobeToRight()
+                    } else {
+                        model.firstGlobeEntity?.rerotateGlobe()
+                        model.secondGlobeEntity?.respawnGlobeToCenter()
+                        if RotationCondition.rotationConditionsCompleted == true {
+                            studyModel.proceedToNextExperiment = true
+                            RotationCondition.rotationConditionsCompleted = false
+                        }
                     }
                 }
             }
@@ -454,11 +478,19 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                     originalTransform: originalTransform,
                                                     targetTransform: targetTransform)
                     }
-                    if studyModel.currentTaskPage != .training, studyModel.currentTask?.isMatching == true {
+                    if studyModel.currentPage != .training, studyModel.currentTask?.isMatching == true {
                         studyModel.currentTask?.updateAccuracyResult()
                         studyModel.storeTask()
-                        if studyModel.isTaskRepeated(gestureType: .rotation) {
-                            model.secondGlobeEntity?.rerotateGlobe()
+                        if studyModel.isTaskRepeated(gestureType: .position) {
+                            model.firstGlobeEntity?.respawnGlobeToLeft()
+                            model.secondGlobeEntity?.respawnGlobeToRight()
+                        } else {
+                            model.firstGlobeEntity?.rerotateGlobe()
+                            model.secondGlobeEntity?.respawnGlobeToCenter()
+                            if RotationCondition.rotationConditionsCompleted == true {
+                                studyModel.proceedToNextExperiment = true
+                                RotationCondition.rotationConditionsCompleted = false
+                            }
                         }
                     }
                 default:

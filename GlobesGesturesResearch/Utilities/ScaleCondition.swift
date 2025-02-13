@@ -17,6 +17,8 @@ struct ScaleCondition {
     
     static var lastUsedScaleConditionIndex: Int = -1
     
+    static var scaleConditionsCompleted: Bool = false
+    
     enum MovingGlobe {
         case notMoving
         case moving
@@ -122,6 +124,10 @@ struct ScaleCondition {
         if conditionValues.isEmpty {
             print("No conditions available.")
             return (.notMoving, .smallToLarge)
+        }
+        
+        if (lastUsedIndex + 1) == conditionValues.count {
+            scaleConditionsCompleted = true
         }
         
         lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count

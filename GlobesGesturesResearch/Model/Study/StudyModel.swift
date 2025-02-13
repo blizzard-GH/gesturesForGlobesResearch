@@ -7,6 +7,7 @@
 
 import Foundation
 import RealityKit
+import Observation
 
 @MainActor
 @Observable
@@ -26,10 +27,13 @@ class StudyModel {
     private var rotationTaskRepetitionCount: Int = 0
     
     private var scaleTaskRepetitionCount: Int = 0
+    
+    var proceedToNextExperiment: Bool = false
             
 //    Current task
     var currentTask: StudyTask?
-    var currentTaskPage: Page = .welcome
+    var currentPage: Page = .welcome
+//    var currentTaskPage: Page = .welcome
     
     /// Create the next task
     func setupNextTask(gestureType: GestureType, originalTransform: Transform, targetTransform: Transform) {

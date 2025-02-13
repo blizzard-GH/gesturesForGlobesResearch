@@ -331,6 +331,57 @@ class GlobeEntity: Entity {
 //        case notMoving
 //    }
     
+    func respawnGlobeToCenter() {
+        guard let cameraPosition = CameraTracker.shared.position else {
+            print("Camera position is unknown.")
+            return
+        }
+        
+        let newPosition = SIMD3<Float>(0, 0, 1)
+        
+        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
+        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+        
+
+        
+        animateTransform(orientation: newOrientation, position: newPosition, duration: 0)
+        
+    }
+    
+    func respawnGlobeToLeft() {
+        guard let cameraPosition = CameraTracker.shared.position else {
+            print("Camera position is unknown.")
+            return
+        }
+        
+        let newPosition = SIMD3<Float>(-1, 0, 1)
+        
+        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
+        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+        
+
+        
+        animateTransform(orientation: newOrientation, position: newPosition, duration: 0)
+        
+    }
+    
+    func respawnGlobeToRight() {
+        guard let cameraPosition = CameraTracker.shared.position else {
+            print("Camera position is unknown.")
+            return
+        }
+        
+        let newPosition = SIMD3<Float>(1, 0, 1)
+        
+        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
+        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+        
+
+        
+        animateTransform(orientation: newOrientation, position: newPosition, duration: 0)
+        
+    }
+    
     func repositionGlobe() {
         guard let cameraPosition = CameraTracker.shared.position else {
             print("Camera position is unknown.")

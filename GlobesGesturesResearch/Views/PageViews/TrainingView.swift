@@ -49,7 +49,7 @@ struct TrainingView: View {
                 "Finish training, and move to the next task."
             ) {
                 currentPage = currentPage.next()
-                studyModel.currentTaskPage = currentPage
+//                studyModel.currentTaskPage = currentPage
             }
             
         }

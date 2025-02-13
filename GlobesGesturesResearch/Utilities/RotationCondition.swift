@@ -17,6 +17,8 @@ struct RotationCondition {
     
     static var lastUsedRotationConditionIndex: Int = -1
     
+    static var rotationConditionsCompleted: Bool = false
+    
     enum Complexity {
         case simple
         case complex
@@ -122,6 +124,10 @@ struct RotationCondition {
         if conditionValues.isEmpty {
             print("No conditions available.")
             return (.oneHanded, .simple)
+        }
+        
+        if (lastUsedIndex + 1) == conditionValues.count {
+            rotationConditionsCompleted = true
         }
         
         lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count
