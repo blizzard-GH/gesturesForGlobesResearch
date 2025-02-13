@@ -223,7 +223,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
                 }
-                if studyModel.currentPage != .training, studyModel.currentTask?.isMatching == true {
+                if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .position) {
@@ -297,7 +297,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
                 }
-                if studyModel.currentPage != .training, studyModel.currentTask?.isMatching == true {
+                if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .position) {
@@ -378,7 +378,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
                 }
-                if studyModel.currentPage != .training, studyModel.currentTask?.isMatching == true {
+                if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .position) {
@@ -478,7 +478,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                     originalTransform: originalTransform,
                                                     targetTransform: targetTransform)
                     }
-                    if studyModel.currentPage != .training, studyModel.currentTask?.isMatching == true {
+                    if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
                         studyModel.currentTask?.updateAccuracyResult()
                         studyModel.storeTask()
                         if studyModel.isTaskRepeated(gestureType: .position) {

@@ -50,6 +50,14 @@ enum Page: String, CaseIterable {
         }
     }
     
+    var isStoringRecordNeeded: Bool {
+        switch self {
+        case .positionExperiment, .rotationExperiment, .scaleExperiment:
+            return true
+        default:
+            return false
+        }
+    }
     
     /// Name for display in UI
     var name: String {
