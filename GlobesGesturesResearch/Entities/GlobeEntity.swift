@@ -332,53 +332,44 @@ class GlobeEntity: Entity {
 //    }
     
     func respawnGlobeToCenter() {
-        guard let cameraPosition = CameraTracker.shared.position else {
-            print("Camera position is unknown.")
-            return
-        }
         
-        let newPosition = SIMD3<Float>(0, 0, 1)
+        let newPosition = SIMD3<Float>(0, 1.6, 1)
         
         let randomRotationY = Float.random(in: -Float.pi...Float.pi)
         let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
         
-
-        
-        animateTransform(orientation: newOrientation, position: newPosition, duration: 0)
+        animateTransform(
+            orientation: newOrientation,
+            position: newPosition,
+            duration: 2)
         
     }
     
     func respawnGlobeToLeft() {
-        guard let cameraPosition = CameraTracker.shared.position else {
-            print("Camera position is unknown.")
-            return
-        }
         
-        let newPosition = SIMD3<Float>(-1, 0, 1)
+        let newPosition = SIMD3<Float>(-0.5, 1.6, -0.5)
         
         let randomRotationY = Float.random(in: -Float.pi...Float.pi)
         let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
-        
-
-        
-        animateTransform(orientation: newOrientation, position: newPosition, duration: 0)
+    
+        animateTransform(
+            orientation: newOrientation,
+            position: newPosition,
+            duration: 2)
         
     }
     
     func respawnGlobeToRight() {
-        guard let cameraPosition = CameraTracker.shared.position else {
-            print("Camera position is unknown.")
-            return
-        }
         
-        let newPosition = SIMD3<Float>(1, 0, 1)
+        let newPosition = SIMD3<Float>(0.5, 1.6, -0.5)
         
         let randomRotationY = Float.random(in: -Float.pi...Float.pi)
         let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
         
-
-        
-        animateTransform(orientation: newOrientation, position: newPosition, duration: 0)
+        animateTransform(
+            orientation: newOrientation,
+            position: newPosition,
+            duration: 2)
         
     }
     
@@ -405,19 +396,19 @@ class GlobeEntity: Entity {
         
         switch direction {
         case .vertical:
-            offset = SIMD3<Float>(0, 0.5, 0) * distanceMultiplier
+            offset = SIMD3<Float>(0, 0.5, -0.5) * distanceMultiplier
         case .horizontal:
-            offset = SIMD3<Float>(0.5, 0, 0) * distanceMultiplier
+            offset = SIMD3<Float>(0.5, 0, -0.5) * distanceMultiplier
         case .diagonalUp:
-            offset = SIMD3<Float>(0.5, 0.5, 0) * distanceMultiplier
+            offset = SIMD3<Float>(0.5, 0.5, -0.5) * distanceMultiplier
         case .diagonalDown:
-            offset = SIMD3<Float>(-0.5, -0.5, 0) * distanceMultiplier
+            offset = SIMD3<Float>(-0.5, -0.5, -0.5) * distanceMultiplier
         case .none:
-            offset = SIMD3<Float>(0, 0, 0) * distanceMultiplier
+            offset = SIMD3<Float>(0, 0, -0.5) * distanceMultiplier
         }
         
         let newPosition = cameraPosition + offset
-        animateTransform(position: newPosition, duration: 0.8)
+        animateTransform(position: newPosition, duration: 3)
         
 //        Randomiser:
 //        let randomX = Float.random(in: -0.5...0.5)
@@ -452,7 +443,7 @@ class GlobeEntity: Entity {
         
         let rotationQuarternion = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
         
-        animateTransform(orientation: rotationQuarternion, duration: 0.8)
+        animateTransform(orientation: rotationQuarternion, duration: 3)
         
 //    Randomiser:
 //        guard let cameraPosition = CameraTracker.shared.position else {
@@ -482,7 +473,7 @@ class GlobeEntity: Entity {
         
         let finalScale = movingGlobeScale * zoomDirectionScale
         
-        animateTransform(scale: finalScale, duration: 0.8)
+        animateTransform(scale: finalScale, duration: 3)
         
 //    Randomiser:
 //        let randomScaleFactor = Float.random(in: 0.8...1.2)

@@ -68,6 +68,12 @@ struct TaskView: View {
                             .font(.title)
                             .monospacedDigit()
                             .padding()
+                        //Below is for debugging only
+                        Text("currentPge: \(currentPage)")
+                        Text("Is storing needed \(currentPage.isStoringRecordNeeded)")
+                        Text("current task: \(studyModel.currentTask?.accuracyResult ?? 0.0)")
+                        Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
+                        
                         Instruction()
                         if studyModel.proceedToNextExperiment {
                             Button(

@@ -224,6 +224,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 targetTransform: targetTransform)
                 }
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
+                    print("Success")
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .position) {
@@ -232,6 +233,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                     } else {
                         model.firstGlobeEntity?.repositionGlobe()
                         model.secondGlobeEntity?.respawnGlobeToCenter()
+                        print("\(PositionCondition.lastUsedPositionConditionIndex)")
                         if PositionCondition.positionConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
                             PositionCondition.positionConditionsCompleted = false
@@ -300,7 +302,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
-                    if studyModel.isTaskRepeated(gestureType: .position) {
+                    if studyModel.isTaskRepeated(gestureType: .scale) {
                         model.firstGlobeEntity?.respawnGlobeToLeft()
                         model.secondGlobeEntity?.respawnGlobeToRight()
                     } else {
@@ -381,7 +383,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
-                    if studyModel.isTaskRepeated(gestureType: .position) {
+                    if studyModel.isTaskRepeated(gestureType: .rotation) {
                         model.firstGlobeEntity?.respawnGlobeToLeft()
                         model.secondGlobeEntity?.respawnGlobeToRight()
                     } else {
@@ -481,7 +483,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                     if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
                         studyModel.currentTask?.updateAccuracyResult()
                         studyModel.storeTask()
-                        if studyModel.isTaskRepeated(gestureType: .position) {
+                        if studyModel.isTaskRepeated(gestureType: .rotation) {
                             model.firstGlobeEntity?.respawnGlobeToLeft()
                             model.secondGlobeEntity?.respawnGlobeToRight()
                         } else {
