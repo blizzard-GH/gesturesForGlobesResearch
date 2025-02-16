@@ -83,7 +83,7 @@ class StudyModel {
         guard let task = currentTask else { return }
         Log.task(task)
         print(task.isMatching ? "Globes matched." : "Globes are not matched.")
-//        task.saveToFile()
+        task.saveToFile()
         
         switch task {
         case let task as PositionTask:
