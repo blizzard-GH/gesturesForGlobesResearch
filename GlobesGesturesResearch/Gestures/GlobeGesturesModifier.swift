@@ -262,11 +262,11 @@ private struct GlobeGesturesModifier: ViewModifier {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .position) {
-                        model.firstGlobeEntity?.respawnGlobeToLeft()
-                        model.secondGlobeEntity?.respawnGlobeToRight()
+                        model.firstGlobeEntity?.respawnGlobe("Left")
+                        model.secondGlobeEntity?.respawnGlobe("Right")
                     } else {
-                        model.firstGlobeEntity?.repositionGlobe()
-                        model.secondGlobeEntity?.respawnGlobeToCenter()
+                        let counterPosition = model.firstGlobeEntity?.repositionGlobe()
+                        model.secondGlobeEntity?.respawnGlobe(counterPosition ?? "")
                         print("\(PositionCondition.lastUsedPositionConditionIndex)")
                         if PositionCondition.positionConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
@@ -337,11 +337,11 @@ private struct GlobeGesturesModifier: ViewModifier {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .scale) {
-                        model.firstGlobeEntity?.respawnGlobeToLeft()
-                        model.secondGlobeEntity?.respawnGlobeToRight()
+                        model.firstGlobeEntity?.respawnGlobe("Left")
+                        model.secondGlobeEntity?.respawnGlobe("Right")
                     } else {
-                        model.firstGlobeEntity?.rescaleGlobe()
-                        model.secondGlobeEntity?.respawnGlobeToCenter()
+//                        model.firstGlobeEntity?.rescaleGlobe()
+//                        model.secondGlobeEntity?.respawnGlobeToCenter()
                         if ScaleCondition.scaleConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
                             ScaleCondition.scaleConditionsCompleted = false
@@ -418,11 +418,11 @@ private struct GlobeGesturesModifier: ViewModifier {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .rotation) {
-                        model.firstGlobeEntity?.respawnGlobeToLeft()
-                        model.secondGlobeEntity?.respawnGlobeToRight()
+                        model.firstGlobeEntity?.respawnGlobe("Left")
+                        model.secondGlobeEntity?.respawnGlobe("Right")
                     } else {
-                        model.firstGlobeEntity?.rerotateGlobe()
-                        model.secondGlobeEntity?.respawnGlobeToCenter()
+//                        model.firstGlobeEntity?.rerotateGlobe()
+//                        model.secondGlobeEntity?.respawnGlobeToCenter()
                         if RotationCondition.rotationConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
                             RotationCondition.rotationConditionsCompleted = false
@@ -518,11 +518,11 @@ private struct GlobeGesturesModifier: ViewModifier {
                         studyModel.currentTask?.updateAccuracyResult()
                         studyModel.storeTask()
                         if studyModel.isTaskRepeated(gestureType: .rotation) {
-                            model.firstGlobeEntity?.respawnGlobeToLeft()
-                            model.secondGlobeEntity?.respawnGlobeToRight()
+                            model.firstGlobeEntity?.respawnGlobe("Left")
+                            model.secondGlobeEntity?.respawnGlobe("Right")
                         } else {
-                            model.firstGlobeEntity?.rerotateGlobe()
-                            model.secondGlobeEntity?.respawnGlobeToCenter()
+//                            model.firstGlobeEntity?.rerotateGlobe()
+//                            model.secondGlobeEntity?.respawnGlobeToCenter()
                             if RotationCondition.rotationConditionsCompleted == true {
                                 studyModel.proceedToNextExperiment = true
                                 RotationCondition.rotationConditionsCompleted = false

@@ -331,9 +331,43 @@ class GlobeEntity: Entity {
 //        case notMoving
 //    }
     
-    func respawnGlobeToCenter() {
-        
-        let newPosition = SIMD3<Float>(0, 1.6, 1)
+    func respawnGlobe(_ newPlace: String) {
+//        let newPosition: SIMD3<Float>
+//        switch newPlace {
+//        case "Center" :
+//            newPosition = SIMD3<Float>(0, 1.6, -0.5)
+//        case "Left":
+//            newPosition = SIMD3<Float>(-0.5, 1.6, -0.5)
+//        case "Right" :
+//            newPosition = SIMD3<Float>(0.5, 1.6, -0.5)
+//        case "CenterUp" :
+//            newPosition = SIMD3<Float>(0, 2.5, -0.5)
+//        case "LeftUp":
+//            newPosition = SIMD3<Float>(-0.5, 2.5, -0.5)
+//        case "RightUp" :
+//            newPosition = SIMD3<Float>(0.5, 2.5, -0.5)
+//        case "CenterDown" :
+//            newPosition = SIMD3<Float>(0, 0.5, -0.5)
+//        case "LeftDown":
+//            newPosition = SIMD3<Float>(-0.5, 0.5, -0.5)
+//        case "RightDown" :
+//            newPosition = SIMD3<Float>(0.5, 0.5, -0.5)
+//        default:
+//            newPosition = SIMD3<Float>(0, 1.6, -0.5)
+//        }
+        let positionMapping: [String: SIMD3<Float>] = [
+            "Center": SIMD3(0, 1.6, -0.5),
+            "Left": SIMD3(-0.5, 1.6, -0.5),
+            "Right": SIMD3(0.5, 1.6, -0.5),
+            "CenterUp": SIMD3(0, 2.5, -0.5),
+            "LeftUp": SIMD3(-0.5, 2.5, -0.5),
+            "RightUp": SIMD3(0.5, 2.5, -0.5),
+            "CenterDown": SIMD3(0, 0.5, -0.5),
+            "LeftDown": SIMD3(-0.5, 0.5, -0.5),
+            "RightDown": SIMD3(0.5, 0.5, -0.5)
+        ]
+
+        let newPosition = positionMapping[newPlace, default: SIMD3(0, 1.6, -0.5)]
         
         let randomRotationY = Float.random(in: -Float.pi...Float.pi)
         let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
@@ -342,44 +376,59 @@ class GlobeEntity: Entity {
             orientation: newOrientation,
             position: newPosition,
             duration: 2)
-        
     }
     
-    func respawnGlobeToLeft() {
-        
-        let newPosition = SIMD3<Float>(-0.5, 1.6, -0.5)
-        
-        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
-        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+//    func respawnGlobeToCenter() {
+//        
+//        let newPosition = SIMD3<Float>(0, 1.6, -0.5)
+//        
+//        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
+//        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+//        
+//        animateTransform(
+//            orientation: newOrientation,
+//            position: newPosition,
+//            duration: 2)
+//        
+//    }
+//    
+//    func respawnGlobeToLeft() {
+//        
+//        let newPosition = SIMD3<Float>(-0.5, 1.6, -0.5)
+//        
+//        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
+//        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+//    
+//        animateTransform(
+//            orientation: newOrientation,
+//            position: newPosition,
+//            duration: 2)
+//        
+//    }
+//    
+//    func respawnGlobeToRight() {
+//        
+//        let newPosition = SIMD3<Float>(0.5, 1.6, -0.5)
+//        
+//        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
+//        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+//        
+//        animateTransform(
+//            orientation: newOrientation,
+//            position: newPosition,
+//            duration: 2)
+//        
+//    }
     
-        animateTransform(
-            orientation: newOrientation,
-            position: newPosition,
-            duration: 2)
-        
-    }
-    
-    func respawnGlobeToRight() {
-        
-        let newPosition = SIMD3<Float>(0.5, 1.6, -0.5)
-        
-        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
-        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
-        
-        animateTransform(
-            orientation: newOrientation,
-            position: newPosition,
-            duration: 2)
-        
-    }
-    
-    func repositionGlobe() {
+    func repositionGlobe() -> String {
         guard let cameraPosition = CameraTracker.shared.position else {
             print("Camera position is unknown.")
-            return
+            return ""
         }
         
         var positionConditions: [PositionCondition] = []
+        
+        var counterPosition: String = ""
         
         do {
             positionConditions = try PositionCondition.loadPositionConditions()
@@ -394,17 +443,31 @@ class GlobeEntity: Entity {
         
         let offset: SIMD3<Float>
         
+        let randomiseHorizontal = Float.random(in: -0.5...0.5)
+        let randomiseVertical = Float.random(in: 0...2.5)
+        let randomiseHorizontalLeft = Float.random(in: -0.5...0)
+        let randomiseVerticalUp = Float.random(in: 1.7...2.5)
+        let randomiseVerticalDown = Float.random(in: 0...1.7)
+
+        
         switch direction {
         case .vertical:
-            offset = SIMD3<Float>(0, 0.5, -0.5) * distanceMultiplier
+            offset = SIMD3<Float>(0, randomiseVertical, -0.5) * distanceMultiplier
+            counterPosition = ["Center", "CenterUp", "CenterDown"].randomElement()!
         case .horizontal:
-            offset = SIMD3<Float>(0.5, 0, -0.5) * distanceMultiplier
+            offset = SIMD3<Float>(randomiseHorizontal, 0, -0.5) * distanceMultiplier
+            counterPosition = ["Center", "Left", "Right"].randomElement()!
         case .diagonalUp:
-            offset = SIMD3<Float>(0.5, 0.5, -0.5) * distanceMultiplier
+            offset = SIMD3<Float>(randomiseHorizontalLeft, randomiseVerticalUp, -0.5) * distanceMultiplier
+            counterPosition = ["Center", "CenterUp", "RightUp", "Right"].randomElement()!
         case .diagonalDown:
-            offset = SIMD3<Float>(-0.5, -0.5, -0.5) * distanceMultiplier
+            offset = SIMD3<Float>(randomiseHorizontalLeft, randomiseVerticalDown, -0.5) * distanceMultiplier
+            counterPosition = ["Center", "CenterDown", "RightDown", "Right"].randomElement()!
         case .none:
             offset = SIMD3<Float>(0, 0, -0.5) * distanceMultiplier
+            counterPosition = ["Center", "CenterUp", "CenterDown",
+                               "Left", "LeftUp", "LeftDown" ,
+                               "Right", "RightUp", "RightDown"].randomElement()!
         }
         
         let newPosition = cameraPosition + offset
@@ -420,6 +483,8 @@ class GlobeEntity: Entity {
 //        
 //        let newPosition = cameraPosition + randomDirection
 //        animateTransform(position: newPosition, duration: 0)
+        
+        return counterPosition
     }
     
     func rerotateGlobe() {

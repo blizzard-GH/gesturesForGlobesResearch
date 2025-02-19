@@ -69,10 +69,13 @@ struct TaskView: View {
                             .monospacedDigit()
                             .padding()
                         //Below is for debugging only
-                        Text("currentPge: \(currentPage)")
-                        Text("Is storing needed \(currentPage.isStoringRecordNeeded)")
-                        Text("current task: \(studyModel.currentTask?.accuracyResult ?? 0.0)")
-                        Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
+//                        Text("currentPge: \(currentPage)")
+//                        Text("Is storing needed \(currentPage.isStoringRecordNeeded)")
+//                        Text("current task: \(studyModel.currentTask?.accuracyResult ?? 0.0)")
+//                        Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
+//                        Text("Last used index: \(PositionCondition.lastUsedPositionConditionIndex)")
+//                        Text("Is conditions looping complete: \(PositionCondition.positionConditionsCompleted)")
+
                         
                         Instruction()
                         if studyModel.proceedToNextExperiment {
