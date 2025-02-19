@@ -13,6 +13,18 @@ extension View {
     }
 }
 
+// This helper function could be used to apply conditionals to modifiers.
+//extension View {
+//    @ViewBuilder
+//    func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+//        if condition {
+//            transform(self)
+//        } else {
+//            self
+//        }
+//    }
+//}
+
 /// A modifier that adds gestures for moving, scaling and rotating a globe.
 @MainActor
 private struct GlobeGesturesModifier: ViewModifier {
@@ -91,13 +103,35 @@ private struct GlobeGesturesModifier: ViewModifier {
     /// If the globes is farther away than this distance and it is tapped to show an attachment view.
     private let maxDistanceToCameraWhenTapped: Float = 1.5
     
+    @ViewBuilder
     func body(content: Content) -> some View {
-        content
-            .simultaneousGesture(doubleTapGesture)
-            .simultaneousGesture(dragGesture)
-            .simultaneousGesture(magnifyGesture)
+        switch studyModel.currentPage {
+        case .positionTraining, .positionExperiment, .positionExperimentForm:
+            content
+                .simultaneousGesture(doubleTapGesture)
+                .simultaneousGesture(dragGesture)
+        case .rotationTraining, .rotationExperiment, .rotationExperimentForm:
+            content
+                .simultaneousGesture(doubleTapGesture)
+                .simultaneousGesture(rotateGlobeAxisGesture)
+        case .scaleTraining, .scaleExperiment, .scaleExperimentForm:
+            content
+                .simultaneousGesture(doubleTapGesture)
+                .simultaneousGesture(magnifyGesture)
+        default :
+            content
+                .simultaneousGesture(doubleTapGesture)
+                .simultaneousGesture(dragGesture)
+                .simultaneousGesture(magnifyGesture)
+//                .simultaneousGesture(rotateGesture)
+                .simultaneousGesture(rotateGlobeAxisGesture)
+        }
+//        content
+//            .simultaneousGesture(doubleTapGesture)
+//            .simultaneousGesture(dragGesture)
+//            .simultaneousGesture(magnifyGesture)
 //            .simultaneousGesture(rotateGesture)
-            .simultaneousGesture(rotateGlobeAxisGesture)
+//            .simultaneousGesture(rotateGlobeAxisGesture)
     }
     
     /// Convert a position on the globe in Cartesian coordinates to spherical coordinates.

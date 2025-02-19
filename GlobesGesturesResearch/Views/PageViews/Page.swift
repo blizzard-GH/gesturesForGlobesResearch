@@ -11,11 +11,13 @@ import Foundation
 enum Page: String, CaseIterable {
     case welcome
     case introForm
-    case training
+    case positionTraining
     case positionExperiment
     case positionExperimentForm
+    case rotationTraining
     case rotationExperiment
     case rotationExperimentForm
+    case scaleTraining
     case scaleExperiment
     case scaleExperimentForm
     case outroForm
@@ -59,6 +61,31 @@ enum Page: String, CaseIterable {
         }
     }
     
+    var trainingDetails: (trainingType: String,
+                          gestureMethod: String,
+                          trainingDescription: String) {
+        switch self {
+        case .positionTraining:
+            return ("position gesture",
+                    "drag gesture",
+                    "Look at the globes, pinch your finger, and hold it while dragging your pinching fingers anywhere")
+            
+        case .rotationTraining:
+            return ("rotation gesture",
+                    "rotate gesture",
+                    "Look at the globe, make a rotation gesture")
+            
+        case .scaleTraining:
+            return ("scale gesture",
+                    "magnify gesture",
+                    "Look at the globes, make a magnify gesture by using thumb and index finger")
+        default:
+            return ("None",
+                    "None",
+                    "None")
+        }
+    }
+    
     /// Name for display in UI
     var name: String {
         switch self {
@@ -66,16 +93,20 @@ enum Page: String, CaseIterable {
             "Welcome display"
         case .introForm:
             "Introduction"
-        case .training:
-            "Training"
+        case .positionTraining:
+            "Position Training"
         case .positionExperiment:
             "Experiment 1: Position"
         case .positionExperimentForm:
             "Experiment 1 Form"
+        case .rotationTraining:
+            "Rotation Training"
         case .rotationExperiment:
             "Experiment 2: Rotation"
         case .rotationExperimentForm:
             "Experiment 2: Form"
+        case .scaleTraining:
+            "Scale Training"
         case .scaleExperiment:
             "Experiment 3: Scale"
         case .scaleExperimentForm:

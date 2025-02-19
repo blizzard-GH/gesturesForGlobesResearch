@@ -28,29 +28,28 @@ struct TrainingView: View {
     
     var body: some View {
         VStack {
-            Text("""
-            This is the training session.
-            """)
-            .font(.title)
-            .multilineTextAlignment(.center)
-            .padding()
-            Text("""
-                Before we begin the study, please make yourself familiar with the gestures for globes. 
-                Two globes will appear, and they are fully interactible.
-                Please feel free to move the main globe around while practising the gesture.
-                You can also try to move the globe to match the target globe (the one with less opacity)
+            let details = currentPage.trainingDetails
+            Text(" This is the training session for \(details.trainingType).")
+                .font(.title)
+                .multilineTextAlignment(.center)
+                .padding()
+                Text("""
+                In this section we are making sure you are familiar with \(details.gestureMethod). 
+
+                \(details.trainingDescription).
+                
                 If you have done, click the button to continue to the study.
                 """)
-            .font(.headline)
-            .multilineTextAlignment(.center)
-            .padding()
-            
-            Button(
-                "Finish training, and move to the next task."
-            ) {
-                currentPage = currentPage.next()
-//                studyModel.currentTaskPage = currentPage
-            }
+                .font(.headline)
+                .multilineTextAlignment(.center)
+                .padding()
+                
+                Button(
+                    "Finish training, and move to the next task."
+                ) {
+                    currentPage = currentPage.next()
+                    //                studyModel.currentTaskPage = currentPage
+                }
             
         }
         .onAppear{
