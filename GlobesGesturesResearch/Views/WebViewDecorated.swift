@@ -12,6 +12,8 @@ struct WebViewDecorated: View {
     
     @Environment(ViewModel.self) var model
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
+    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
+
     
     @Binding var currentPage: Page
     let url: URL
@@ -70,7 +72,7 @@ struct WebViewDecorated: View {
                     )
                 } else {
                     guard model.configuration.isVisible else { return }
-                    model.hideGlobe()
+                    model.hideGlobe(dismissImmersiveSpaceAction:dismissImmersiveSpaceAction)
                 }
             }
         }

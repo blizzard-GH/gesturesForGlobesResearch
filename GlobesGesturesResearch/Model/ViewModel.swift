@@ -106,6 +106,8 @@ class ViewModel: CustomDebugStringConvertible {
         secondGlobe: Globe,
         openImmersiveSpaceAction: OpenImmersiveSpaceAction
     ) {
+        guard !immersiveSpaceIsShown else { return }
+        
         configuration.isLoading = true
         configuration.isVisible = false
         configuration.showAttachment = false
@@ -195,7 +197,7 @@ class ViewModel: CustomDebugStringConvertible {
     @MainActor
     /// Hide a globe. The globe shrinks down.
     /// - Parameter id: Globe ID
-    func hideGlobe() {
+    func hideGlobe(dismissImmersiveSpaceAction: DismissImmersiveSpaceAction) {
         let duration = 0.666
         
         // shrink the globe
@@ -209,7 +211,7 @@ class ViewModel: CustomDebugStringConvertible {
         configuration.isVisible = false
         configuration.showAttachment = false
         
-        forceCloseImmersiveSpace()
+        forceCloseImmersiveSpace(dismissImmersiveSpaceAction)
     }
     
     // MARK: - Immersive Space
@@ -218,10 +220,11 @@ class ViewModel: CustomDebugStringConvertible {
     var immersiveSpaceIsShown = false
 
     @MainActor
-    private func forceCloseImmersiveSpace() {
+    private func forceCloseImmersiveSpace(_ action: DismissImmersiveSpaceAction) {
         guard immersiveSpaceIsShown else { return }
         Task {
             immersiveSpaceIsShown = false
+            await action()
         }
     }
     

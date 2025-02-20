@@ -11,6 +11,7 @@ struct GetReady: View {
     @Environment(ViewModel.self) private var model
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     
+    @Binding var currentPage: Page
     @State private var remainingTime: Int = 2
     @State private var timer: Timer? = nil
     
@@ -18,35 +19,37 @@ struct GetReady: View {
     
     var body: some View {
         VStack {
-            Text(" Get ready! ")
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.primary)
-                .padding(.top, 20)
-            
-            Text("""
-            Please move the main globe to the target globe.
+            if let details = currentPage.taskDetails {
+                Text(" Get ready! ")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary)
+                    .padding(.top, 20)
+                
+                Text("""
+            Please \(details.mainVerb) the main globe to match the \(details.mainFeature) of the target globe.
             """)
                 .font(.body)
                 .italic()
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding()
-            Text(remainingTime > 0 ? "Starting in: \(remainingTime) seconds" : "Go!")
-                .font(.largeTitle)
-                .bold()
-                .foregroundColor(remainingTime > 0 ? .red : .green)
-                .padding()
-//            Text("""
-//            If you have done the task you will get a notification.
-//            Please press the button below to progress to the questionnaire.
-//            """)
-//                .font(.subheadline)
-//                .bold()
-//                .foregroundColor(.primary)
-//                .multilineTextAlignment(.center)
-//                .padding()
-//            
+                Text(remainingTime > 0 ? "Starting in: \(remainingTime) seconds" : "Go!")
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundColor(remainingTime > 0 ? .red : .green)
+                    .padding()
+                //            Text("""
+                //            If you have done the task you will get a notification.
+                //            Please press the button below to progress to the questionnaire.
+                //            """)
+                //                .font(.subheadline)
+                //                .bold()
+                //                .foregroundColor(.primary)
+                //                .multilineTextAlignment(.center)
+                //                .padding()
+                //
+            }
         }
         .background(Color(.systemBackground).opacity(0.95)) // Subtle background color
         .cornerRadius(20)

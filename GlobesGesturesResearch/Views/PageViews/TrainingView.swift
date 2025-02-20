@@ -11,6 +11,8 @@ struct TrainingView: View {
     @Environment(ViewModel.self) var model
     @Environment(StudyModel.self) var studyModel
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
+    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
+
     
     @Binding var currentPage: Page
 
@@ -74,7 +76,7 @@ struct TrainingView: View {
                     )
             } else {
                 guard model.configuration.isVisible else { return }
-                model.hideGlobe()
+                model.hideGlobe(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
             }
         }
     }

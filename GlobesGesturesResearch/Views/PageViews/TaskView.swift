@@ -11,6 +11,7 @@ struct TaskView: View {
     @Environment(ViewModel.self) var model
     @Environment(StudyModel.self) var studyModel
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
+    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
     
     @Binding var currentPage: Page
     @State private var isDoingTask: Bool = false
@@ -48,7 +49,7 @@ struct TaskView: View {
                 }
                 else {
                     if !showTaskContent {
-                        GetReady{
+                        GetReady(currentPage: $currentPage){
                             showTaskContent = true
                             showOrHideGlobe(true)
                             startTimer()
@@ -57,17 +58,17 @@ struct TaskView: View {
 //                            }
                         }
                     } else {
-                        if studyModel.currentTask?.isMatching == true {
+                        if let currentTask = studyModel.currentTask, currentTask.isMatching{
 //                        if studyModel.getMatcher(taskNumber: details.taskNumber, model: model) {
                             Text("Matched!")
                                 .font(.headline)
                                 .foregroundColor(.green)
                                 .padding()
                         }
-                        Text("Time elapsed: \(String(format: "%.2f", elapsedTime)) seconds")
-                            .font(.title)
-                            .monospacedDigit()
-                            .padding()
+//                        Text("Time elapsed: \(String(format: "%.2f", elapsedTime)) seconds")
+//                            .font(.title)
+//                            .monospacedDigit()
+//                            .padding()
                         //Below is for debugging only
 //                        Text("currentPge: \(currentPage)")
 //                        Text("Is storing needed \(currentPage.isStoringRecordNeeded)")
@@ -77,7 +78,7 @@ struct TaskView: View {
 //                        Text("Is conditions looping complete: \(PositionCondition.positionConditionsCompleted)")
 
                         
-                        Instruction()
+                        Instruction(currentPage: $currentPage)
                         if studyModel.proceedToNextExperiment {
                             Button(
                                 "Finish \(details.description), and move to the next task."
@@ -104,6 +105,7 @@ struct TaskView: View {
         }
         .onDisappear{
             showOrHideGlobe(false)
+
         }
     }
     
@@ -126,6 +128,7 @@ struct TaskView: View {
     func stopTimer() {
         timer?.invalidate()
         timer = nil
+        elapsedTime = 0
     }
     
     @MainActor
@@ -140,7 +143,7 @@ struct TaskView: View {
                     )
             } else {
                 guard model.configuration.isVisible else { return }
-                model.hideGlobe()
+                model.hideGlobe(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
             }
         }
     }

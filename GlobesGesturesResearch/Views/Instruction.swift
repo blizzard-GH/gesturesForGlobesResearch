@@ -31,25 +31,29 @@ struct Instruction: View {
     @Environment(ViewModel.self) private var model
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     
+    @Binding var currentPage: Page
+    
     var body: some View {
         VStack {
-            // Title Section
-            Text(" Match the globe position!")
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.primary)
-                .padding(.top, 20)
-            
-            // Instruction Text Section
-            Text("""
-            Please move the main globe to match the position of the transparent globe.
-            We will collect your data to mateh it.
+            if let details = currentPage.taskDetails {
+                // Title Section
+                Text(" Match the globe \(details.mainFeature)!")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.primary)
+                    .padding(.top, 20)
+                
+                // Instruction Text Section
+                Text("""
+            Please \(details.mainVerb) the main globe to match the \(details.mainFeature) of the transparent globe.
+            We will collect your data of matching it.
             """)
                 .font(.body)
                 .bold()
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding()
+            }
         }
         .background(Color(.systemBackground).opacity(0.95)) // Subtle background color
         .cornerRadius(20)

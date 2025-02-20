@@ -443,6 +443,7 @@ class GlobeEntity: Entity {
         
         let offset: SIMD3<Float>
         
+        // We could the predefined number here, but these number is in queue, so it takes turn, try array
         let randomiseHorizontal = Float.random(in: -0.5...0.5)
         let randomiseVertical = Float.random(in: 0...2.5)
         let randomiseHorizontalLeft = Float.random(in: -0.5...0)

@@ -25,24 +25,32 @@ enum Page: String, CaseIterable {
     
     /// A task number or nil if the page does not start a set of tasks.
     var taskDetails: (taskNumber: String,
+                      mainFeature: String,
+                      mainVerb: String,
                       description: String,
                       instructions: String,
                       taskGesture: GestureType)? {
         switch self {
         case .positionExperiment:
             return ("1",
+                    "position",
+                    "move",
                     "Positioning the globe",
                     "We are measuring the time required to properly position the globe.",
                     .position)
 
         case .rotationExperiment:
             return ("2",
+                    "orientation",
+                    "rotate",
                     "Rotating the globe",
                     "We are measuring the time required to properly rotate the globe.",
                     .rotation)
 
         case .scaleExperiment:
             return ("3",
+                    "size",
+                    "scale",
                     "Scaling the globe",
                     "We are measuring the time required to properly scale the globe.",
                     .scale)
