@@ -9,6 +9,7 @@ import Foundation
 
 
 struct PositionCondition {
+    
     let status: String
     let condition1: String
     let condition2: String
@@ -23,6 +24,11 @@ struct PositionCondition {
     
     static var positionConditionsCompleted: Bool = false
     
+    enum RotatingGlobe {
+        case rotating
+        case notRotating
+    }
+    
     enum Distance {
         case near
         case far
@@ -31,8 +37,6 @@ struct PositionCondition {
     enum Direction {
         case horizontal
         case vertical
-        case diagonalUp
-        case diagonalDown
         case none
     }
     
@@ -117,14 +121,15 @@ struct PositionCondition {
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
     }
     
-    static func positionConditionMapper(for positionConditions: [PositionCondition], lastUsedIndex: inout Int) -> (distance: Distance, direction: Direction){
+    static func positionConditionsGetter(for positionConditions: [PositionCondition], lastUsedIndex: Int) -> (rotatingGlobe: RotatingGlobe, distance: Distance, direction: Direction){
 //        var activeSubject: ScalingCondition?
+        var rotatingGlobe: RotatingGlobe = .rotating
         var distance: Distance = .near
         var direction: Direction = .none
         
         guard let activeSubject = positionConditions.first(where: { $0.status == "Active"}) else {
             print("No active subject exists.")
-            return (.near, .none)
+            return (.rotating, .near, .none)
         }
         
 //        for subject in scalingConditions {
@@ -149,7 +154,44 @@ struct PositionCondition {
         
         if conditionValues.isEmpty {
             print("No conditions available.")
-            return (.near, .none)
+            return (.rotating, .near, .none)
+        }
+        
+        let selectedCondition = conditionValues[lastUsedIndex]
+        
+//        for condition in conditionValues {
+        switch selectedCondition {
+        case "A": rotatingGlobe = .rotating; distance = .near; direction = .horizontal
+        case "B": rotatingGlobe = .rotating; distance = .near; direction = .vertical
+        case "C": rotatingGlobe = .rotating; distance = .far; direction = .horizontal
+        case "D": rotatingGlobe = .rotating; distance = .far; direction = .vertical
+        case "E": rotatingGlobe = .notRotating; distance = .near; direction = .horizontal
+        case "F": rotatingGlobe = .notRotating; distance = .near; direction = .vertical
+        case "G": rotatingGlobe = .notRotating; distance = .far; direction = .horizontal
+        case "H": rotatingGlobe = .notRotating; distance = .far; direction = .vertical
+        default:
+            break
+        }
+        return (rotatingGlobe, distance, direction)
+    }
+    
+    static func positionConditionsSetter(for positionConditions: [PositionCondition], lastUsedIndex: inout Int) {
+        guard let activeSubject = positionConditions.first(where: { $0.status == "Active"}) else {
+            print("No active subject exists.")
+            return
+        }
+        
+        let conditionValues = [activeSubject.condition1,
+                               activeSubject.condition2,
+                               activeSubject.condition3,
+                               activeSubject.condition4,
+                               activeSubject.condition5,
+                               activeSubject.condition6,
+                               activeSubject.condition7,
+                               activeSubject.condition8]
+        
+        if conditionValues.isEmpty {
+            print("No conditions available.")
         }
         
         if (lastUsedIndex + 1) == conditionValues.count {
@@ -157,21 +199,6 @@ struct PositionCondition {
         }
         
         lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count
-        let selectedCondition = conditionValues[lastUsedIndex]
         
-//        for condition in conditionValues {
-        switch selectedCondition {
-        case "A": distance = .near; direction = .horizontal
-        case "B": distance = .near; direction = .vertical
-        case "C": distance = .near; direction = .diagonalUp
-        case "D": distance = .near; direction = .diagonalDown
-        case "E": distance = .far; direction = .horizontal
-        case "F": distance = .far; direction = .vertical
-        case "G": distance = .far; direction = .diagonalUp
-        case "H": distance = .far; direction = .diagonalDown
-        default:
-            break
-        }
-        return (distance, direction)
     }
 }

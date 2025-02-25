@@ -94,7 +94,7 @@ struct RotationCondition {
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
     }
     
-    static func rotationConditionMapper(for rotationConditions: [RotationCondition], lastUsedIndex: inout Int) -> (modalitiy: Modality, complexity: Complexity) {
+    static func rotationConditionsGetter(for rotationConditions: [RotationCondition], lastUsedIndex: Int) -> (modalitiy: Modality, complexity: Complexity) {
 //        var activeSubject: ScalingCondition?
         var modality: Modality = .oneHanded
         var complexity: Complexity = .simple
@@ -126,15 +126,10 @@ struct RotationCondition {
             return (.oneHanded, .simple)
         }
         
-        if (lastUsedIndex + 1) == conditionValues.count {
-            rotationConditionsCompleted = true
-        }
-        
-        lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count
-        let selectedCondition = conditionValues[lastUsedIndex]
-        
 //        for condition in conditionValues {
 //        conditionValues.forEach { condition in
+        let selectedCondition = conditionValues[lastUsedIndex]
+
         switch selectedCondition {
         case "A":
             modality = .oneHanded
@@ -153,5 +148,29 @@ struct RotationCondition {
         }
 //        }
         return (modality, complexity)
+    }
+    
+    static func rotationConditionsSetter(for rotationConditions: [RotationCondition], lastUsedIndex: inout Int) {
+        guard let activeSubject = rotationConditions.first(where: { $0.status == "Active"}) else {
+            print("No active subject exists.")
+            return
+        }
+        
+        let conditionValues = [activeSubject.condition1,
+                           activeSubject.condition2,
+                           activeSubject.condition3,
+                           activeSubject.condition4]
+        
+        if conditionValues.isEmpty {
+            print("No conditions available.")
+            return
+        }
+        
+        if (lastUsedIndex + 1) == conditionValues.count {
+            rotationConditionsCompleted = true
+        }
+        
+        lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count
+        
     }
 }

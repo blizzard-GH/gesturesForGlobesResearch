@@ -28,6 +28,17 @@ class GlobeEntity: Entity {
     /// Controller for stopping animated transformations.
     var animationPlaybackController: AnimationPlaybackController? = nil
     
+    var positionConditions: [PositionCondition] {
+        return ViewModel.shared.positionConditions
+    }
+    
+    var rotationConditions: [RotationCondition] {
+        return ViewModel.shared.rotationConditions
+    }
+    
+    var scaleConditions: [ScaleCondition] {
+        return ViewModel.shared.scaleConditions
+    }
     
     @MainActor required init() {
         super.init()
@@ -426,18 +437,15 @@ class GlobeEntity: Entity {
             return ""
         }
         
-        var positionConditions: [PositionCondition] = []
-        
         var counterPosition: String = ""
         
-        do {
-            positionConditions = try PositionCondition.loadPositionConditions()
-        } catch {
-            print("Failed to load position conditions: \(error.localizedDescription).")
-        }
+        let (globeRotates, distance, direction) = PositionCondition.positionConditionsGetter(for: positionConditions,
+                                                                             lastUsedIndex: PositionCondition.lastUsedPositionConditionIndex)
         
-        let (distance, direction) = PositionCondition.positionConditionMapper(for: positionConditions,
-                                                                             lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
+        PositionCondition.positionConditionsSetter(for: positionConditions,
+                                                   lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
+        
+        let rotatingGlobe: Bool = (globeRotates == .rotating) ? true : false
         
         let distanceMultiplier: Float = (distance == .near) ? 0.5 : 1.0
         
@@ -445,10 +453,10 @@ class GlobeEntity: Entity {
         
         // We could the predefined number here, but these number is in queue, so it takes turn, try array
         let randomiseHorizontal = Float.random(in: -0.5...0.5)
-        let randomiseVertical = Float.random(in: 0...2.5)
-        let randomiseHorizontalLeft = Float.random(in: -0.5...0)
-        let randomiseVerticalUp = Float.random(in: 1.7...2.5)
-        let randomiseVerticalDown = Float.random(in: 0...1.7)
+        let randomiseVertical = Float.random(in: 0...1.8)
+//        let randomiseHorizontalLeft = Float.random(in: -0.5...0)
+//        let randomiseVerticalUp = Float.random(in: 1.7...2.5)
+//        let randomiseVerticalDown = Float.random(in: 0...1.7)
 
         
         switch direction {
@@ -458,12 +466,12 @@ class GlobeEntity: Entity {
         case .horizontal:
             offset = SIMD3<Float>(randomiseHorizontal, 0, -0.5) * distanceMultiplier
             counterPosition = ["Center", "Left", "Right"].randomElement()!
-        case .diagonalUp:
-            offset = SIMD3<Float>(randomiseHorizontalLeft, randomiseVerticalUp, -0.5) * distanceMultiplier
-            counterPosition = ["Center", "CenterUp", "RightUp", "Right"].randomElement()!
-        case .diagonalDown:
-            offset = SIMD3<Float>(randomiseHorizontalLeft, randomiseVerticalDown, -0.5) * distanceMultiplier
-            counterPosition = ["Center", "CenterDown", "RightDown", "Right"].randomElement()!
+//        case .diagonalUp:
+//            offset = SIMD3<Float>(randomiseHorizontalLeft, randomiseVerticalUp, -0.5) * distanceMultiplier
+//            counterPosition = ["Center", "CenterUp", "RightUp", "Right"].randomElement()!
+//        case .diagonalDown:
+//            offset = SIMD3<Float>(randomiseHorizontalLeft, randomiseVerticalDown, -0.5) * distanceMultiplier
+//            counterPosition = ["Center", "CenterDown", "RightDown", "Right"].randomElement()!
         case .none:
             offset = SIMD3<Float>(0, 0, -0.5) * distanceMultiplier
             counterPosition = ["Center", "CenterUp", "CenterDown",
@@ -490,15 +498,10 @@ class GlobeEntity: Entity {
     
     func rerotateGlobe() {
         
-        var rotationConditions: [RotationCondition] = []
+        RotationCondition.rotationConditionsSetter(for: rotationConditions,
+                                                   lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
         
-        do {
-            rotationConditions = try RotationCondition.loadRotationConditions()
-        } catch {
-            print("Failed to load rotation conditions: \(error.localizedDescription).")
-        }
-        
-        let (modality, complexity) = RotationCondition.rotationConditionMapper(for: rotationConditions, lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
+        let (modality, complexity) = RotationCondition.rotationConditionsGetter(for: rotationConditions, lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex)
         
         let intensity: Float = (complexity == .simple) ? 0.5 : 1.0
         let multiHandMultiplier : Float = (modality == .oneHanded) ? 1.5 : 1.0
@@ -524,15 +527,11 @@ class GlobeEntity: Entity {
     }
     
     func rescaleGlobe() {
-        var scalingConditions : [ScaleCondition] = []
         
-        do {
-            scalingConditions = try ScaleCondition.loadScalingConditions()
-        } catch {
-            print("Failed to load scaling condition: \(error.localizedDescription)")
-        }
+        ScaleCondition.scaleConditionsSetter(for: scaleConditions,
+                                                   lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
         
-        let (movingGlobe, zoomDirection) = ScaleCondition.scalingConditionMapper(for: scalingConditions, lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
+        let (movingGlobe, zoomDirection) = ScaleCondition.scaleConditionsGetter(for: scaleConditions, lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex)
         
         let movingGlobeScale: Float = (movingGlobe == .notMoving) ? 1.2 : 0.8
         let zoomDirectionScale: Float = (zoomDirection == .smallToLarge) ? 1.1 : 1.0

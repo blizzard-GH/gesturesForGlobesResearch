@@ -31,7 +31,7 @@ struct ScaleCondition {
     
     /// Load `Landmark`s from CSV file in the app bundle.
     /// - Returns: Loaded landmarks.
-    static func loadScalingConditions() throws -> [ScaleCondition] {
+    static func loadScaleConditions() throws -> [ScaleCondition] {
 //        guard let url = Bundle.main.url(forResource: "Scaling", withExtension: "csv") else {
 //            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Scaling.csv' not found in the directory."])
 //        }
@@ -59,7 +59,7 @@ struct ScaleCondition {
         return scalingConditions
     }
     
-    static func saveScalingConditions(scalingConditions: [ScaleCondition]) throws {
+    static func saveScaleConditions(scalingConditions: [ScaleCondition]) throws {
 //        guard let url = Bundle.main.url(forResource: "Scaling", withExtension: "csv") else {
 //            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Scaling.csv' not found in the app bundle."])
 //        }
@@ -94,7 +94,7 @@ struct ScaleCondition {
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
     }
     
-    static func scalingConditionMapper(for scalingConditions: [ScaleCondition], lastUsedIndex: inout Int) -> (movingGlobe: MovingGlobe, zoomDirection: ZoomDirection) {
+    static func scaleConditionsGetter(for scalingConditions: [ScaleCondition], lastUsedIndex: Int) -> (movingGlobe: MovingGlobe, zoomDirection: ZoomDirection) {
 //        var activeSubject: ScalingCondition?
         var movingGlobe: MovingGlobe = .notMoving
         var zoomDirection: ZoomDirection = .smallToLarge
@@ -126,16 +126,9 @@ struct ScaleCondition {
             return (.notMoving, .smallToLarge)
         }
         
-        if (lastUsedIndex + 1) == conditionValues.count {
-            scaleConditionsCompleted = true
-        }
-        
-        lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count
-        let selectedCondition = conditionValues[lastUsedIndex]
-        
 //        for condition in conditionValues {
 //        conditionValues.forEach { condition in
-        
+        let selectedCondition = conditionValues[lastUsedIndex]
         switch selectedCondition {
         case "A":
             movingGlobe = .notMoving
@@ -154,5 +147,29 @@ struct ScaleCondition {
         }
 //    }
         return (movingGlobe, zoomDirection)
+    }
+    
+    static func scaleConditionsSetter(for scaleConditions: [ScaleCondition], lastUsedIndex: inout Int) {
+        guard let activeSubject = scaleConditions.first(where: { $0.status == "Active"}) else {
+            print("No active subject exists.")
+            return
+        }
+        
+        let conditionValues = [activeSubject.condition1,
+                           activeSubject.condition2,
+                           activeSubject.condition3,
+                           activeSubject.condition4]
+        
+        if conditionValues.isEmpty {
+            print("No conditions available.")
+            return
+        }
+        
+        if (lastUsedIndex + 1) == conditionValues.count {
+            scaleConditionsCompleted = true
+        }
+        
+        lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count
+        
     }
 }

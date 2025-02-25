@@ -54,11 +54,19 @@ class ViewModel: CustomDebugStringConvertible {
         texture: "earth_daymap"
     )
     
+    var positionConditions: [PositionCondition] = []
+    var rotationConditions: [RotationCondition] = []
+    var scaleConditions : [ScaleCondition] = []
+    
     // MARK: - Gestures Configuration
     
     /// Rotate the globe while it is being dragged such that the same geographic location is continuously facing the camera
     @MainActor
     var rotateGlobeWhileDragging = true
+    
+    /// Using one-handed or two-handed to rotate the globes
+    @MainActor
+    var oneHandedRotation = true
     
     /// Move the scale towards or away from the camera while it is scaled.
     @MainActor
@@ -74,17 +82,17 @@ class ViewModel: CustomDebugStringConvertible {
     /// Show an attachment view with options for positioning or scaling globes
     @MainActor
     var attachmentView: AttachmentView? = .position
-
+    
     // MARK: - Visible Globes
     
     @MainActor
     /// A `Configuration` stores dynamic properties of a globe, such as the rotation, the loading status, whether an attachment is visible, etc.
     var configuration: GlobeConfiguration
-   
+    
     @MainActor
     /// After a globe is loaded, a `GlobeEntity` is initialized. SwiftUI observes this object and synchronises the content of the `ImmersiveView` (a `RealityView`)`.
     var firstGlobeEntity: GlobeEntity?
-    var secondGlobeEntity: GlobeEntity?        
+    var secondGlobeEntity: GlobeEntity?
     
     @MainActor
     init() {
@@ -93,6 +101,7 @@ class ViewModel: CustomDebugStringConvertible {
             speed: GlobeConfiguration.defaultRotationSpeed,
             isRotationPaused: true
         )
+        loadGestureConditions()
     }
     
     @MainActor
@@ -112,49 +121,49 @@ class ViewModel: CustomDebugStringConvertible {
         configuration.isVisible = false
         configuration.showAttachment = false
         
-//        Task {
-//            openImmersiveGlobeSpace(openImmersiveSpaceAction)            
-//            let globeEntity = try await GlobeEntity(globe: globe)
-//            Task { @MainActor in
-////                ViewModel.shared.storeGlobeEntity(globeEntity)
-//                self.storeGlobeEntity(globeEntity, globe: globe)
-//            }
-//        }
+        //        Task {
+        //            openImmersiveGlobeSpace(openImmersiveSpaceAction)
+        //            let globeEntity = try await GlobeEntity(globe: globe)
+        //            Task { @MainActor in
+        ////                ViewModel.shared.storeGlobeEntity(globeEntity)
+        //                self.storeGlobeEntity(globeEntity, globe: globe)
+        //            }
+        //        }
         Task {
-                openImmersiveGlobeSpace(openImmersiveSpaceAction)
-                
-                async let firstGlobeEntity = GlobeEntity(globe: firstGlobe)
-                async let secondGlobeEntity = GlobeEntity(globe: secondGlobe)
-                
-                do {
-                    let entities = try await (firstGlobeEntity, secondGlobeEntity)
-                    Task { @MainActor in
-                        storeGlobeEntity(entities.0, entities.1)
-                    }
-                } catch {
-                    Task { @MainActor in
-                        loadingGlobeFailed(id: nil)
-                    }
+            openImmersiveGlobeSpace(openImmersiveSpaceAction)
+            
+            async let firstGlobeEntity = GlobeEntity(globe: firstGlobe)
+            async let secondGlobeEntity = GlobeEntity(globe: secondGlobe)
+            
+            do {
+                let entities = try await (firstGlobeEntity, secondGlobeEntity)
+                Task { @MainActor in
+                    storeGlobeEntity(entities.0, entities.1)
+                }
+            } catch {
+                Task { @MainActor in
+                    loadingGlobeFailed(id: nil)
                 }
             }
+        }
     }
     
     @MainActor
     /// Called after a  globe entity has been loaded.
     /// - Parameter globeEntity: The globe entity to add.
-//    func storeGlobeEntity(_ globeEntity: GlobeEntity, globe: Globe) {
+    //    func storeGlobeEntity(_ globeEntity: GlobeEntity, globe: Globe) {
     func storeGlobeEntity(_ firstEntity: GlobeEntity, _ secondEntity: GlobeEntity) {
-//        if globe == self.globe {
-//            self.globeEntity = globeEntity
-//        } else {
-//            self.secondGlobeEntity = globeEntity
-//        }
+        //        if globe == self.globe {
+        //            self.globeEntity = globeEntity
+        //        } else {
+        //            self.secondGlobeEntity = globeEntity
+        //        }
         // Configure and position first globe
-//        firstEntity.scale = [0.01, 0.01, 0.01]
+        //        firstEntity.scale = [0.01, 0.01, 0.01]
         firstEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
         
         // Configure and position second globe
-//        secondEntity.scale = [0.01, 0.01, 0.01]
+        //        secondEntity.scale = [0.01, 0.01, 0.01]
         secondEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: 0.5)
         
         if secondEntity.components.has(OpacityComponent.self) {
@@ -170,19 +179,19 @@ class ViewModel: CustomDebugStringConvertible {
         
         // Set the initial scale and position for a move-in animation.
         // The animation is started by a DidAddEntity event when the immersive space has been created and the globe has been added to the scene.
-//        globeEntity.scale = [0.01, 0.01, 0.01]
-//        globeEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 2)
+        //        globeEntity.scale = [0.01, 0.01, 0.01]
+        //        globeEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 2)
         
         // Rotate the central meridian to the camera, to avoid showing the empty hemisphere on the backside of some globes.
         // The central meridian is at [-1, 0, 0], because the texture u-coordinate with lon = -180° starts at the x-axis.
-//        if let viewDirection = CameraTracker.shared.viewDirection {
-//            var orientation = simd_quatf(from: [-1, 0, 0], to: -viewDirection)
-//            orientation = GlobeEntity.orientToNorth(orientation: globeEntity.orientation)
-//            globeEntity.orientation = orientation
-//        }
+        //        if let viewDirection = CameraTracker.shared.viewDirection {
+        //            var orientation = simd_quatf(from: [-1, 0, 0], to: -viewDirection)
+        //            orientation = GlobeEntity.orientToNorth(orientation: globeEntity.orientation)
+        //            globeEntity.orientation = orientation
+        //        }
         
         // store the globe entity
-//        self.globeEntity = globeEntity
+        //        self.globeEntity = globeEntity
     }
     
     @MainActor
@@ -202,10 +211,10 @@ class ViewModel: CustomDebugStringConvertible {
         
         // shrink the globe
         firstGlobeEntity?.scaleAndAdjustDistanceToCamera(
-                newScale: 0.001, // scaling to 0 spins the globe, so scale to a value slightly greater than 0
-                radius: globe.radius,
-                duration: duration
-            )
+            newScale: 0.001, // scaling to 0 spins the globe, so scale to a value slightly greater than 0
+            radius: globe.radius,
+            duration: duration
+        )
         secondGlobeEntity?.scaleAndAdjustDistanceToCamera(newScale: 0.001, radius: secondGlobe.radius, duration: duration)
         
         configuration.isVisible = false
@@ -218,7 +227,7 @@ class ViewModel: CustomDebugStringConvertible {
     
     @MainActor
     var immersiveSpaceIsShown = false
-
+    
     @MainActor
     private func forceCloseImmersiveSpace(_ action: DismissImmersiveSpaceAction) {
         guard immersiveSpaceIsShown else { return }
@@ -234,7 +243,7 @@ class ViewModel: CustomDebugStringConvertible {
         Task {
             let result = await action(id: "ImmersiveGlobeSpace")
             switch result {
-            case .opened:                
+            case .opened:
                 Task { @MainActor in
                     immersiveSpaceIsShown = true
                 }
@@ -299,5 +308,49 @@ class ViewModel: CustomDebugStringConvertible {
         }
         
         return description
+    }
+    
+    func loadGestureConditions() {
+        do {
+            positionConditions = try PositionCondition.loadPositionConditions()
+            rotationConditions = try RotationCondition.loadRotationConditions()
+            scaleConditions = try ScaleCondition.loadScaleConditions()
+        } catch {
+            print("Failed to load gesture conditions: \(error.localizedDescription).")
+        }
+    }
+    
+    @MainActor
+    func updateConditions() {
+        let rotatingGlobe: PositionCondition.RotatingGlobe
+        rotatingGlobe = PositionCondition.positionConditionsGetter(for: positionConditions,
+                                                                   lastUsedIndex: PositionCondition.lastUsedPositionConditionIndex).0
+        switch rotatingGlobe{
+        case .rotating:
+            rotateGlobeWhileDragging = true
+        case .notRotating:
+            rotateGlobeWhileDragging = false
+        }
+        
+        let modality: RotationCondition.Modality
+        modality = RotationCondition.rotationConditionsGetter(for: rotationConditions,
+                                                                   lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex).0
+        switch modality {
+        case .oneHanded:
+#warning ("Havent Implemented Properly")
+            oneHandedRotation = true
+        case .twoHanded:
+            oneHandedRotation = false
+        }
+        
+        let movingGlobe: ScaleCondition.MovingGlobe
+        movingGlobe = ScaleCondition.scaleConditionsGetter(for: scaleConditions,
+                                                                   lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex).0
+        switch movingGlobe{
+        case .moving:
+            moveGlobeWhileScaling = true
+        case .notMoving:
+            moveGlobeWhileScaling = false
+        }
     }
 }

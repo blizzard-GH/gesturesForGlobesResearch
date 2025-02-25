@@ -195,6 +195,8 @@ private struct GlobeGesturesModifier: ViewModifier {
                         }
                     }
                     
+                    model.updateConditions()
+                    
                     if let positionAtGestureStart = state.positionAtGestureStart,
                        let localRotationAtGestureStart = state.localRotationAtGestureStart,
                        let globeEntity = value.entity as? GlobeEntity,
@@ -304,6 +306,8 @@ private struct GlobeGesturesModifier: ViewModifier {
                         }
                     }
                     
+                    model.updateConditions()
+                    
                     if let globeScaleAtGestureStart = state.scaleAtGestureStart,
                        let globePositionAtGestureStart = state.positionAtGestureStart,
                        let cameraPositionAtGestureStart = state.cameraPositionAtGestureStart {
@@ -375,6 +379,8 @@ private struct GlobeGesturesModifier: ViewModifier {
                             }
                         }
                     }
+                    
+                    model.updateConditions()
                     
                     if let globeEntity = value.entity as? GlobeEntity,
                        let orientationAtGestureStart = state.orientationAtGestureStart {
@@ -455,6 +461,8 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                           targetTransform: targetTransform)
                         }
                     }
+                    
+                    model.updateConditions()
                     
                     guard let drag = drag else { return }
                     
