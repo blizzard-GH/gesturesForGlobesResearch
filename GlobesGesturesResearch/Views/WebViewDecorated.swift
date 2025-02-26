@@ -14,6 +14,7 @@ struct WebViewDecorated: View {
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
 
+    @State var loadingInformation: Bool = false
     
     @Binding var currentPage: Page
     let url: URL
@@ -23,36 +24,48 @@ struct WebViewDecorated: View {
     
     var body: some View {
         ZStack {
-            WebView(
-                url: url,
-                googleFormsConfirmationMessage: googleFormsConfirmationMessage,
-                status: $webViewStatus
-            )
-            
-            switch webViewStatus {
-            case .loading:
-                ProgressView("Loading Page")
+            if loadingInformation {
+                ProgressView("Loading...") // Show loading indicator
+                    .font(.headline)
+                    .padding()
+            } else {
+                WebView(
+                    url: url,
+                    googleFormsConfirmationMessage: googleFormsConfirmationMessage,
+                    status: $webViewStatus
+                )
+                
+                switch webViewStatus {
+                case .loading:
+                    ProgressView("Loading Page")
+                        .padding()
+                        .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 20))
+                case .finishedLoading, .googleFormsSubmitted:
+                    EmptyView()
+                case .failed(let error):
+                    VStack {
+                        Text("The page could not be loaded.")
+                        Text(error.localizedDescription)
+                    }
                     .padding()
                     .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 20))
-            case .finishedLoading, .googleFormsSubmitted:
-                EmptyView()
-            case .failed(let error):
-                VStack {
-                    Text("The page could not be loaded.")
-                    Text(error.localizedDescription)
                 }
-                .padding()
-                .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 20))
             }
         }
         .id(url)
         .onAppear{
-            webViewStatus = .loading
-            updateAttachmentView()
-            showOrHideGlobe(true)
+            loadingInformation = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                webViewStatus = .loading
+                updateAttachmentView()
+                showOrHideGlobe(true)
+                loadingInformation = false
+            }
         }
         .onDisappear{
             showOrHideGlobe(false)
+//            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
+
         }
     }
     

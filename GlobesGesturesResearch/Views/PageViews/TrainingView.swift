@@ -13,6 +13,7 @@ struct TrainingView: View {
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
 
+    @State var loadingInformation: Bool = false
     
     @Binding var currentPage: Page
 
@@ -30,14 +31,19 @@ struct TrainingView: View {
     
     var body: some View {
         VStack {
-            let details = currentPage.trainingDetails
-            Text(" This is the training session for \(details.trainingType).")
-                .font(.title)
-                .multilineTextAlignment(.center)
-                .padding()
+            if loadingInformation {
+                ProgressView("Loading...") // Show loading indicator
+                    .font(.headline)
+                    .padding()
+            } else {
+                let details = currentPage.trainingDetails
+                Text(" This is the training session for \(details.trainingType).")
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                    .padding()
                 Text("""
                 In this section we are making sure you are familiar with \(details.gestureMethod). 
-
+                
                 \(details.trainingDescription).
                 
                 If you have done, click the button to continue to the study.
@@ -52,14 +58,22 @@ struct TrainingView: View {
                     currentPage = currentPage.next()
                     //                studyModel.currentTaskPage = currentPage
                 }
-            
+                Text("immersiveSpaceIsShown : \(model.immersiveSpaceIsShown)")
+                Text("model.config.isVisible : \(model.configuration.isVisible)")
+            }
         }
         .onAppear{
-            updateAttachmentView()
-            showOrHideGlobe(true)
+            loadingInformation = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                updateAttachmentView()
+                showOrHideGlobe(true)
+                //            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
+                loadingInformation = false
+            }
         }
         .onDisappear{
             showOrHideGlobe(false)
+//            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
         }
     }
     

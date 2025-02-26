@@ -113,6 +113,7 @@ struct TaskView: View {
                                 default:
                                     break
                                 }
+                                model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
                                 currentPage = currentPage.next()
                             }
                         }
@@ -126,9 +127,11 @@ struct TaskView: View {
         .onAppear{
             updateAttachmentView()
             showOrHideGlobe(false)
+//            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
         }
         .onDisappear{
             showOrHideGlobe(false)
+//            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
 
         }
     }

@@ -220,7 +220,7 @@ class ViewModel: CustomDebugStringConvertible {
         configuration.isVisible = false
         configuration.showAttachment = false
         
-        forceCloseImmersiveSpace(dismissImmersiveSpaceAction)
+        closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
     }
     
     // MARK: - Immersive Space
@@ -259,6 +259,19 @@ class ViewModel: CustomDebugStringConvertible {
                     immersiveSpaceIsShown = false
                 }
             }
+        }
+    }
+    
+    @MainActor
+    func closeImmersiveGlobeSpace(_ action: DismissImmersiveSpaceAction) {
+        guard immersiveSpaceIsShown else { return }
+        Task {
+            await action()
+            immersiveSpaceIsShown = false
+            configuration.isVisible = false
+            firstGlobeEntity = nil
+            secondGlobeEntity = nil
+            print("Immersive space closed")
         }
     }
     
