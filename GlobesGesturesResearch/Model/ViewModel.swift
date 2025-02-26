@@ -66,7 +66,7 @@ class ViewModel: CustomDebugStringConvertible {
     
     /// Using one-handed or two-handed to rotate the globes
     @MainActor
-    var oneHandedRotation = true
+    var oneHandedRotationGesture = true
     
     /// Move the scale towards or away from the camera while it is scaled.
     @MainActor
@@ -337,10 +337,9 @@ class ViewModel: CustomDebugStringConvertible {
                                                                    lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex).0
         switch modality {
         case .oneHanded:
-#warning ("Havent Implemented Properly")
-            oneHandedRotation = true
+            oneHandedRotationGesture = true
         case .twoHanded:
-            oneHandedRotation = false
+            oneHandedRotationGesture = false
         }
         
         let movingGlobe: ScaleCondition.MovingGlobe

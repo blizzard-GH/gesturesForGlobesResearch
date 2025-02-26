@@ -103,6 +103,9 @@ private struct GlobeGesturesModifier: ViewModifier {
     /// If the globes is farther away than this distance and it is tapped to show an attachment view.
     private let maxDistanceToCameraWhenTapped: Float = 1.5
     
+    var oneHandedRotationGesture: Bool { model.oneHandedRotationGesture }
+    
+    
     @ViewBuilder
     func body(content: Content) -> some View {
         switch studyModel.currentPage {
@@ -111,9 +114,15 @@ private struct GlobeGesturesModifier: ViewModifier {
                 .simultaneousGesture(doubleTapGesture)
                 .simultaneousGesture(dragGesture)
         case .rotationTraining, .rotationExperiment, .rotationExperimentForm:
-            content
-                .simultaneousGesture(doubleTapGesture)
-                .simultaneousGesture(rotateGlobeAxisGesture)
+            if oneHandedRotationGesture {
+                content
+                    .simultaneousGesture(doubleTapGesture)
+                    .simultaneousGesture(rotateGlobeAxisGesture)
+            } else {
+                content
+                    .simultaneousGesture(doubleTapGesture)
+                    .simultaneousGesture(rotateGesture)
+            }
         case .scaleTraining, .scaleExperiment, .scaleExperimentForm:
             content
                 .simultaneousGesture(doubleTapGesture)
@@ -123,7 +132,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                 .simultaneousGesture(doubleTapGesture)
                 .simultaneousGesture(dragGesture)
                 .simultaneousGesture(magnifyGesture)
-//                .simultaneousGesture(rotateGesture)
+                .simultaneousGesture(rotateGesture)
                 .simultaneousGesture(rotateGlobeAxisGesture)
         }
 //        content
