@@ -59,7 +59,7 @@ struct ScaleCondition {
         return scalingConditions
     }
     
-    static func saveScaleConditions(scalingConditions: [ScaleCondition]) throws {
+    static func saveScaleConditions(scaleConditions: [ScaleCondition]) throws {
 //        guard let url = Bundle.main.url(forResource: "Scaling", withExtension: "csv") else {
 //            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Scaling.csv' not found in the app bundle."])
 //        }
@@ -67,25 +67,25 @@ struct ScaleCondition {
         let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
         let csvFileURL = currentDirectoryURL.appendingPathComponent("Scaling.csv")
 
-        guard let activeIndex = scalingConditions.firstIndex(where: { $0.status == "Active" }) else {
+        guard let activeIndex = scaleConditions.firstIndex(where: { $0.status == "Active" }) else {
             throw NSError(domain: "CSVLoader", code: 3, userInfo: [NSLocalizedDescriptionKey: "No active condition found"])
         }
 
-        var updatedConditions = scalingConditions
+        var updatedConditions = scaleConditions
 
         updatedConditions[activeIndex] = ScaleCondition(status: "Inactive",
-                                                          condition1: scalingConditions[activeIndex].condition1,
-                                                          condition2: scalingConditions[activeIndex].condition2,
-                                                          condition3: scalingConditions[activeIndex].condition3,
-                                                          condition4: scalingConditions[activeIndex].condition4)
+                                                          condition1: scaleConditions[activeIndex].condition1,
+                                                          condition2: scaleConditions[activeIndex].condition2,
+                                                          condition3: scaleConditions[activeIndex].condition3,
+                                                          condition4: scaleConditions[activeIndex].condition4)
 
-        let nextIndex = (activeIndex + 1) % scalingConditions.count
+        let nextIndex = (activeIndex + 1) % scaleConditions.count
 
         updatedConditions[nextIndex] = ScaleCondition(status: "Active",
-                                                        condition1: scalingConditions[nextIndex].condition1,
-                                                        condition2: scalingConditions[nextIndex].condition2,
-                                                        condition3: scalingConditions[nextIndex].condition3,
-                                                        condition4: scalingConditions[nextIndex].condition4)
+                                                        condition1: scaleConditions[nextIndex].condition1,
+                                                        condition2: scaleConditions[nextIndex].condition2,
+                                                        condition3: scaleConditions[nextIndex].condition3,
+                                                        condition4: scaleConditions[nextIndex].condition4)
 
         let csvHeader = "status,condition1,condition2,condition3,condition4\n"
         let csvRows = updatedConditions.map { "\($0.status),\($0.condition1),\($0.condition2),\($0.condition3),\($0.condition4)" }

@@ -1,4 +1,4 @@
-Status,c1,c2,c3,c4,c5,c6,c7,c8
+status,condition1,condition2,condition3,condition4,condition5,condition6,condition7,condition8
 Active,A,B,D,F,H,G,E,C
 Inactive,B,F,A,G,D,C,H,E
 Inactive,F,G,B,C,A,E,D,H

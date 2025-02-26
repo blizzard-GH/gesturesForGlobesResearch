@@ -20,7 +20,7 @@ struct PositionCondition {
     let condition7: String
     let condition8: String
     
-    static var lastUsedPositionConditionIndex: Int = -1
+    static var lastUsedPositionConditionIndex: Int = 7
     
     static var positionConditionsCompleted: Bool = false
     

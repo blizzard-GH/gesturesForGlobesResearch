@@ -72,6 +72,7 @@ struct TaskView: View {
                         //Below is for debugging only
                         Text("currentPge: \(currentPage)")
                         Text("Is storing needed \(currentPage.isStoringRecordNeeded)")
+                        Text("Current page: \(currentPage)")
 //                        Text("current task accuracy: \(studyModel.currentTask? ?? 0.0)")
                         Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
                         Text("Last used index: \(PositionCondition.lastUsedPositionConditionIndex)")
@@ -83,13 +84,36 @@ struct TaskView: View {
                             Button(
                                 "Finish \(details.description), and move to the next task."
                             ) {
-                                currentPage = currentPage.next()
                                 studyModel.proceedToNextExperiment = false
                                 //                            studyModel.currentTaskPage = currentPage
                                 isDoingTask = false
                                 showTaskContent = false
                                 showOrHideGlobe(false)
                                 stopTimer()
+                                switch currentPage {
+                                case .positionExperiment:
+                                    print("Entered positionExperiment case")
+                                    do {
+                                        try PositionCondition.savePositionConditions(positionConditions: model.positionConditions)
+                                    } catch {
+                                        print("Failed to save position conditions: \(error.localizedDescription)")
+                                    }
+                                case .rotationExperiment:
+                                    do {
+                                        try RotationCondition.saveRotationConditions(rotationConditions: model.rotationConditions)
+                                    } catch {
+                                        print("Failed to save rotation conditions: \(error.localizedDescription)")
+                                    }
+                                case .scaleExperiment:
+                                    do {
+                                        try ScaleCondition.saveScaleConditions(scaleConditions: model.scaleConditions)
+                                    } catch {
+                                        print("Failed to save position conditions: \(error.localizedDescription)")
+                                    }
+                                default:
+                                    break
+                                }
+                                currentPage = currentPage.next()
                             }
                         }
                     }
