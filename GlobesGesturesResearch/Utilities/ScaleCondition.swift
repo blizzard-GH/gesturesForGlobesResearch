@@ -94,13 +94,13 @@ struct ScaleCondition {
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
     }
     
-    static func scaleConditionsGetter(for scalingConditions: [ScaleCondition], lastUsedIndex: Int) -> (movingGlobe: MovingGlobe, zoomDirection: ZoomDirection) {
+    static func scaleConditionsGetter(for scaleConditions: [ScaleCondition], lastUsedIndex: Int) -> (movingGlobe: MovingGlobe, zoomDirection: ZoomDirection) {
 //        var activeSubject: ScalingCondition?
         var movingGlobe: MovingGlobe = .notMoving
         var zoomDirection: ZoomDirection = .smallToLarge
         
         
-        guard let activeSubject = scalingConditions.first(where: { $0.status == "Active"}) else {
+        guard let activeSubject = scaleConditions.first(where: { $0.status == "Active"}) else {
             print("No active subject exists.")
             return (.notMoving, .smallToLarge)
         }
@@ -128,7 +128,11 @@ struct ScaleCondition {
         
 //        for condition in conditionValues {
 //        conditionValues.forEach { condition in
-        let selectedCondition = conditionValues[lastUsedIndex]
+        
+        let safeIndex = min(max(lastUsedIndex, 0), conditionValues.count - 1)
+
+        
+        let selectedCondition = conditionValues[safeIndex]
         switch selectedCondition {
         case "A":
             movingGlobe = .notMoving
@@ -167,9 +171,9 @@ struct ScaleCondition {
         
         if (lastUsedIndex + 1) == conditionValues.count {
             scaleConditionsCompleted = true
+            lastUsedIndex = -1
+        } else {
+            lastUsedIndex += 1
         }
-        
-        lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count
-        
     }
 }

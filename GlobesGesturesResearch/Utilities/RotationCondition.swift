@@ -128,7 +128,11 @@ struct RotationCondition {
         
 //        for condition in conditionValues {
 //        conditionValues.forEach { condition in
-        let selectedCondition = conditionValues[lastUsedIndex]
+        
+//        rotationConditionsSetter(for: rotationConditions, lastUsedIndex: &lastUsedIndex)
+        let safeIndex = min(max(lastUsedIndex, 0), conditionValues.count - 1)
+        
+        let selectedCondition = conditionValues[safeIndex]
 
         switch selectedCondition {
         case "A":
@@ -168,9 +172,9 @@ struct RotationCondition {
         
         if (lastUsedIndex + 1) == conditionValues.count {
             rotationConditionsCompleted = true
-        }
-        
-        lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count
-        
+            lastUsedIndex = -1
+        } else {
+            lastUsedIndex += 1
+        }        
     }
 }

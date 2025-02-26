@@ -157,7 +157,10 @@ struct PositionCondition {
             return (.rotating, .near, .none)
         }
         
-        let selectedCondition = conditionValues[lastUsedIndex]
+        // safeguard the index
+        let safeIndex = min(max(lastUsedIndex, 0), conditionValues.count - 1)
+        
+        let selectedCondition = conditionValues[safeIndex]
         
 //        for condition in conditionValues {
         switch selectedCondition {
@@ -196,9 +199,10 @@ struct PositionCondition {
         
         if (lastUsedIndex + 1) == conditionValues.count {
             positionConditionsCompleted = true
+            lastUsedIndex = -1
+        } else {
+            lastUsedIndex += 1
         }
-        
-        lastUsedIndex = (lastUsedIndex + 1) % conditionValues.count
         
     }
 }
