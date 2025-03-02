@@ -12,14 +12,23 @@ enum Page: String, CaseIterable {
     case welcome
     case introForm
     case positionTraining
-    case positionExperiment
-    case positionExperimentForm
+    case positionExperiment1
+    case positionExperimentForm1
+    case positionExperiment2
+    case positionExperimentForm2
+    case positionComparison
     case rotationTraining
-    case rotationExperiment
-    case rotationExperimentForm
+    case rotationExperiment1
+    case rotationExperimentForm1
+    case rotationExperiment2
+    case rotationExperimentForm2
+    case rotationComparison
     case scaleTraining
-    case scaleExperiment
-    case scaleExperimentForm
+    case scaleExperiment1
+    case scaleExperimentForm1
+    case scaleExperiment2
+    case scaleExperimentForm2
+    case scaleComparison
     case outroForm
     case thankYou
     
@@ -31,24 +40,45 @@ enum Page: String, CaseIterable {
                       instructions: String,
                       taskGesture: GestureType)? {
         switch self {
-        case .positionExperiment:
+        case .positionExperiment1:
             return ("1",
                     "position",
                     "move",
                     "Positioning the globe",
                     "We are measuring the time required to properly position the globe.",
                     .position)
-
-        case .rotationExperiment:
+        case .positionExperiment2:
             return ("2",
+                    "position",
+                    "move",
+                    "Positioning the globe",
+                    "We are measuring the time required to properly position the globe.",
+                    .position)
+
+        case .rotationExperiment1:
+            return ("3",
+                    "orientation",
+                    "rotate",
+                    "Rotating the globe",
+                    "We are measuring the time required to properly rotate the globe.",
+                    .rotation)
+        case .rotationExperiment2:
+            return ("4",
                     "orientation",
                     "rotate",
                     "Rotating the globe",
                     "We are measuring the time required to properly rotate the globe.",
                     .rotation)
 
-        case .scaleExperiment:
-            return ("3",
+        case .scaleExperiment1:
+            return ("5",
+                    "size",
+                    "scale",
+                    "Scaling the globe",
+                    "We are measuring the time required to properly scale the globe.",
+                    .scale)
+        case .scaleExperiment2:
+            return ("6",
                     "size",
                     "scale",
                     "Scaling the globe",
@@ -62,7 +92,9 @@ enum Page: String, CaseIterable {
     
     var isStoringRecordNeeded: Bool {
         switch self {
-        case .positionExperiment, .rotationExperiment, .scaleExperiment:
+        case .positionExperiment1, .positionExperiment2,
+                .rotationExperiment1, .rotationExperiment2,
+                .scaleExperiment1, .scaleExperiment2 :
             return true
         default:
             return false
@@ -103,22 +135,40 @@ enum Page: String, CaseIterable {
             "Introduction"
         case .positionTraining:
             "Position Training"
-        case .positionExperiment:
-            "Experiment 1: Position"
-        case .positionExperimentForm:
-            "Experiment 1 Form"
+        case .positionExperiment1:
+            "Experiment 1 Position: Rotating"
+        case .positionExperimentForm1:
+            "Experiment 1 Form: Rotating"
+        case .positionExperiment2:
+            "Experiment 1 Position: Non-rotating"
+        case .positionExperimentForm2:
+            "Experiment 1 Form: Non-rotating"
+        case .positionComparison:
+            "Position Comparison"
         case .rotationTraining:
             "Rotation Training"
-        case .rotationExperiment:
-            "Experiment 2: Rotation"
-        case .rotationExperimentForm:
-            "Experiment 2: Form"
+        case .rotationExperiment1:
+            "Experiment 2 Rotation: One-handed"
+        case .rotationExperimentForm1:
+            "Experiment 2 Form: One-handed"
+        case .rotationExperiment2:
+            "Experiment 2 Rotation: Two-handed"
+        case .rotationExperimentForm2:
+            "Experiment 2 Form: Two-handed"
+        case .rotationComparison:
+            "Rotation Comparison"
         case .scaleTraining:
             "Scale Training"
-        case .scaleExperiment:
-            "Experiment 3: Scale"
-        case .scaleExperimentForm:
-            "Experiment 3: Form"
+        case .scaleExperiment1:
+            "Experiment 3 Scale: Moving"
+        case .scaleExperimentForm1:
+            "Experiment 3 Form: Moving"
+        case .scaleExperiment2:
+            "Experiment 3 Scale: Non-Moving"
+        case .scaleExperimentForm2:
+            "Experiment 3 Form: Non-Moving"
+        case .scaleComparison:
+            "Scale Comparison"
         case .outroForm:
             "End Form"
         case .thankYou:
@@ -134,25 +184,55 @@ enum Page: String, CaseIterable {
                 "https://forms.gle/z718jhTKjftCDQ7v9",
                 confirmationMessage: "Your response has been recorded. (1)" // important: the confirmation message must be unique
             )
-        case .positionExperimentForm:
+        case .positionExperimentForm1:
             try? GoogleForm(
-                "https://forms.gle/gnqP7Pkzx7f6bPoS6",
+                "https://forms.gle/f6wVEBfPmUzZtGLY7",
                 confirmationMessage: "Your response has been recorded. (2)" // important: the confirmation message must be unique
             )
-        case .rotationExperimentForm:
+        case .positionExperimentForm2:
             try? GoogleForm(
-                "https://forms.gle/eJcuBqsG3VyULZkt7",
+                "https://forms.gle/x5jzzRanhgqu3FfZ6",
                 confirmationMessage: "Your response has been recorded. (3)" // important: the confirmation message must be unique
             )
-        case .scaleExperimentForm:
+        case .positionComparison:
             try? GoogleForm(
-                "https://forms.gle/eLq5Dcz5FzJ26rrv9",
+                "https://forms.gle/akjY7mPzdw15MvcV8",
                 confirmationMessage: "Your response has been recorded. (4)" // important: the confirmation message must be unique
+            )
+        case .rotationExperimentForm1:
+            try? GoogleForm(
+                "https://forms.gle/zGw8rLuUwo4FNL2r6",
+                confirmationMessage: "Your response has been recorded. (5)" // important: the confirmation message must be unique
+            )
+        case .rotationExperimentForm2:
+            try? GoogleForm(
+                "https://forms.gle/6KNqBaQ7ugi1e1YU6",
+                confirmationMessage: "Your response has been recorded. (6)" // important: the confirmation message must be unique
+            )
+        case .rotationComparison:
+            try? GoogleForm(
+                "https://forms.gle/crHUbMtTyk2AzzfPA",
+                confirmationMessage: "Your response has been recorded. (7)" // important: the confirmation message must be unique
+            )
+        case .scaleExperimentForm1:
+            try? GoogleForm(
+                "https://forms.gle/FBh3LzqFHeuTixwx6",
+                confirmationMessage: "Your response has been recorded. (8)" // important: the confirmation message must be unique
+            )
+        case .scaleExperimentForm2:
+            try? GoogleForm(
+                "https://forms.gle/pUa2FmzB3KeLuW6s8",
+                confirmationMessage: "Your response has been recorded. (9)" // important: the confirmation message must be unique
+            )
+        case .scaleComparison:
+            try? GoogleForm(
+                "https://forms.gle/daodYCmqQKJxQBB27",
+                confirmationMessage: "Your response has been recorded. (10)" // important: the confirmation message must be unique
             )
         case .outroForm:
             try? GoogleForm(
-                "https://forms.gle/faVXY4bCZ1x6hQVE7",
-                confirmationMessage: "Your response has been recorded. (5)" // important: the confirmation message must be unique
+                "https://forms.gle/qSEh1NreHtEFgytz5",
+                confirmationMessage: "Your response has been recorded. (11)" // important: the confirmation message must be unique
             )
         default:
             nil

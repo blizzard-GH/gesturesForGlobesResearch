@@ -445,7 +445,7 @@ class GlobeEntity: Entity {
         PositionCondition.positionConditionsSetter(for: positionConditions,
                                                    lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
         
-        let rotatingGlobe: Bool = (globeRotates == .rotating) ? true : false
+        let _: Bool = (globeRotates == .rotating) ? true : false
         
         let distanceMultiplier: Float = (distance == .near) ? 0.5 : 1.0
         
@@ -458,6 +458,28 @@ class GlobeEntity: Entity {
 //        let randomiseVerticalUp = Float.random(in: 1.7...2.5)
 //        let randomiseVerticalDown = Float.random(in: 0...1.7)
 
+//        struct Randomiser {
+//            private var randomisers: [() -> Float]
+//            private var currentIndex = -1
+//            
+//            init() {
+//                randomisers = [
+//                    { Float.random(in: -0.5...0.5) },  // randomiseHorizontal
+//                    { Float.random(in: 0...1.8) },     // randomiseVertical
+//                    { Float.random(in: -0.5...0) },    // randomiseHorizontalLeft
+//                    { Float.random(in: 1.7...2.5) },   // randomiseVerticalUp
+//                    { Float.random(in: 0...1.7) }      // randomiseVerticalDown
+//                ]
+//                HorizontalValueRandomiser = [-0.5,-0.3,-0.1,0.1,0.3,0.5]
+//                VerticalValueRandomiser = [-0.5,-0.3,-0.1,0.1,0.3,0.5]
+//            }
+//            
+//            mutating func next() -> Float {
+//                currentIndex = (currentIndex + 1) % randomizers.count
+//                return randomizers[currentIndex]()
+//            }
+//        }
+//
         
         switch direction {
         case .vertical:
@@ -466,6 +488,9 @@ class GlobeEntity: Entity {
         case .horizontal:
             offset = SIMD3<Float>(randomiseHorizontal, 0, -0.5) * distanceMultiplier
             counterPosition = ["Center", "Left", "Right"].randomElement()!
+        case .diagonal:
+            offset = SIMD3<Float>(-0.5, randomiseVertical, -0.5) * distanceMultiplier
+            counterPosition = ["CenterUp", "Center", "CenterDown", "RightUp", "Right", "RightDown"].randomElement()!
 //        case .diagonalUp:
 //            offset = SIMD3<Float>(randomiseHorizontalLeft, randomiseVerticalUp, -0.5) * distanceMultiplier
 //            counterPosition = ["Center", "CenterUp", "RightUp", "Right"].randomElement()!

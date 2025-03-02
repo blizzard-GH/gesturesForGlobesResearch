@@ -12,9 +12,9 @@ struct ScaleCondition {
     let status: String
     let condition1: String
     let condition2: String
-    let condition3: String
-    let condition4: String
     
+    static var gestureFeatureCompleted: Bool = false
+
     static var lastUsedScaleConditionIndex: Int = -1
     
     static var scaleConditionsCompleted: Bool = false
@@ -51,9 +51,7 @@ struct ScaleCondition {
             }
             let scalingCondition = ScaleCondition(status: columns[0],
                                                     condition1: columns[1],
-                                                    condition2: columns[2],
-                                                    condition3: columns[3],
-                                                    condition4: columns[4])
+                                                    condition2: columns[2])
             scalingConditions.append(scalingCondition)
         }
         return scalingConditions
@@ -75,20 +73,16 @@ struct ScaleCondition {
 
         updatedConditions[activeIndex] = ScaleCondition(status: "Inactive",
                                                           condition1: scaleConditions[activeIndex].condition1,
-                                                          condition2: scaleConditions[activeIndex].condition2,
-                                                          condition3: scaleConditions[activeIndex].condition3,
-                                                          condition4: scaleConditions[activeIndex].condition4)
+                                                          condition2: scaleConditions[activeIndex].condition2)
 
         let nextIndex = (activeIndex + 1) % scaleConditions.count
 
         updatedConditions[nextIndex] = ScaleCondition(status: "Active",
                                                         condition1: scaleConditions[nextIndex].condition1,
-                                                        condition2: scaleConditions[nextIndex].condition2,
-                                                        condition3: scaleConditions[nextIndex].condition3,
-                                                        condition4: scaleConditions[nextIndex].condition4)
+                                                        condition2: scaleConditions[nextIndex].condition2)
 
         let csvHeader = "status,condition1,condition2,condition3,condition4\n"
-        let csvRows = updatedConditions.map { "\($0.status),\($0.condition1),\($0.condition2),\($0.condition3),\($0.condition4)" }
+        let csvRows = updatedConditions.map { "\($0.status),\($0.condition1),\($0.condition2)" }
         let csvString = csvHeader + csvRows.joined(separator: "\n")
 
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
@@ -96,7 +90,7 @@ struct ScaleCondition {
     
     static func scaleConditionsGetter(for scaleConditions: [ScaleCondition], lastUsedIndex: Int) -> (movingGlobe: MovingGlobe, zoomDirection: ZoomDirection) {
 //        var activeSubject: ScalingCondition?
-        var movingGlobe: MovingGlobe = .notMoving
+        var movingGlobe: MovingGlobe = gestureFeatureCompleted ? .moving : .notMoving
         var zoomDirection: ZoomDirection = .smallToLarge
         
         
@@ -117,9 +111,7 @@ struct ScaleCondition {
 //        }
         
         let conditionValues = [activeSubject.condition1,
-                           activeSubject.condition2,
-                           activeSubject.condition3,
-                           activeSubject.condition4]
+                           activeSubject.condition2]
         
         if conditionValues.isEmpty {
             print("No conditions available.")
@@ -135,16 +127,8 @@ struct ScaleCondition {
         let selectedCondition = conditionValues[safeIndex]
         switch selectedCondition {
         case "A":
-            movingGlobe = .notMoving
             zoomDirection = .smallToLarge
         case "B" :
-            movingGlobe = .notMoving
-            zoomDirection = .largeToSmall
-        case "C" :
-            movingGlobe = .moving
-            zoomDirection = .smallToLarge
-        case "D" :
-            movingGlobe = .moving
             zoomDirection = .largeToSmall
         default:
             break
@@ -160,9 +144,7 @@ struct ScaleCondition {
         }
         
         let conditionValues = [activeSubject.condition1,
-                           activeSubject.condition2,
-                           activeSubject.condition3,
-                           activeSubject.condition4]
+                           activeSubject.condition2]
         
         if conditionValues.isEmpty {
             print("No conditions available.")
@@ -170,6 +152,7 @@ struct ScaleCondition {
         }
         
         if (lastUsedIndex + 1) == conditionValues.count {
+            gestureFeatureCompleted.toggle()
             scaleConditionsCompleted = true
             lastUsedIndex = -1
         } else {

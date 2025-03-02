@@ -109,11 +109,15 @@ private struct GlobeGesturesModifier: ViewModifier {
     @ViewBuilder
     func body(content: Content) -> some View {
         switch studyModel.currentPage {
-        case .positionTraining, .positionExperiment, .positionExperimentForm:
+        case .positionTraining,
+                .positionExperiment1, .positionExperimentForm1,
+                .positionExperiment2, .positionExperimentForm2, .positionComparison:
             content
                 .simultaneousGesture(doubleTapGesture)
                 .simultaneousGesture(dragGesture)
-        case .rotationTraining, .rotationExperiment, .rotationExperimentForm:
+        case .rotationTraining,
+                .rotationExperiment1, .rotationExperimentForm1,
+                .rotationExperiment2, .rotationExperimentForm2, .rotationComparison:
             if oneHandedRotationGesture {
                 content
                     .simultaneousGesture(doubleTapGesture)
@@ -123,7 +127,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                     .simultaneousGesture(doubleTapGesture)
                     .simultaneousGesture(rotateGesture)
             }
-        case .scaleTraining, .scaleExperiment, .scaleExperimentForm:
+        case .scaleTraining,
+                .scaleExperiment1, .scaleExperimentForm1,
+                .scaleExperiment2, .scaleExperimentForm2, .scaleComparison:
             content
                 .simultaneousGesture(doubleTapGesture)
                 .simultaneousGesture(magnifyGesture)

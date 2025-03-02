@@ -1,9 +1,7 @@
-status,condition1,condition2,condition3,condition4,condition5,condition6,condition7,condition8
-Inactive,A,B,D,F,H,G,E,C
-Inactive,B,F,A,G,D,C,H,E
-Inactive,F,G,B,C,A,E,D,H
-Inactive,G,C,F,E,B,H,A,D
-Active,C,E,G,H,F,D,B,A
-Inactive,E,H,C,D,G,A,F,B
-Inactive,H,D,E,A,C,B,G,F
-Inactive,D,A,H,B,E,F,C,G
+status,condition1,condition2,condition3,condition4,condition5,condition6
+Active,A,B,F,C,E,D
+Inactive,B,C,A,D,F,E
+Inactive,C,D,B,E,A,F
+Inactive,D,E,C,F,B,A
+Inactive,E,F,D,A,C,B
+Inactive,F,A,E,B,D,C

@@ -1,5 +1,3 @@
-status,condition1,condition2,condition3,condition4
-Active,A,B,D,C
-Inactive,B,C,A,D
-Inactive,C,D,B,A
-Inactive,D,A,C,B
+status,condition1,condition2
+Active,A,B
+Inactive,B,A

@@ -12,8 +12,8 @@ struct RotationCondition {
     let status: String
     let condition1: String
     let condition2: String
-    let condition3: String
-    let condition4: String
+    
+    static var gestureFeatureCompleted: Bool = false
     
     static var lastUsedRotationConditionIndex: Int = -1
     
@@ -51,9 +51,7 @@ struct RotationCondition {
             }
             let rotationCondition = RotationCondition(status: columns[0],
                                                       condition1: columns[1],
-                                                      condition2: columns[2],
-                                                      condition3: columns[3],
-                                                      condition4: columns[4])
+                                                      condition2: columns[2])
             rotationConditions.append(rotationCondition)
         }
         return rotationConditions
@@ -75,20 +73,16 @@ struct RotationCondition {
 
         updatedConditions[activeIndex] = RotationCondition(status: "Inactive",
                                                           condition1: rotationConditions[activeIndex].condition1,
-                                                          condition2: rotationConditions[activeIndex].condition2,
-                                                          condition3: rotationConditions[activeIndex].condition3,
-                                                          condition4: rotationConditions[activeIndex].condition4)
+                                                          condition2: rotationConditions[activeIndex].condition2)
 
         let nextIndex = (activeIndex + 1) % rotationConditions.count
 
         updatedConditions[nextIndex] = RotationCondition(status: "Active",
                                                         condition1: rotationConditions[nextIndex].condition1,
-                                                        condition2: rotationConditions[nextIndex].condition2,
-                                                        condition3: rotationConditions[nextIndex].condition3,
-                                                        condition4: rotationConditions[nextIndex].condition4)
+                                                        condition2: rotationConditions[nextIndex].condition2)
 
         let csvHeader = "status,condition1,condition2,condition3,condition4\n"
-        let csvRows = updatedConditions.map { "\($0.status),\($0.condition1),\($0.condition2),\($0.condition3),\($0.condition4)" }
+        let csvRows = updatedConditions.map { "\($0.status),\($0.condition1),\($0.condition2)" }
         let csvString = csvHeader + csvRows.joined(separator: "\n")
 
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
@@ -96,7 +90,7 @@ struct RotationCondition {
     
     static func rotationConditionsGetter(for rotationConditions: [RotationCondition], lastUsedIndex: Int) -> (modalitiy: Modality, complexity: Complexity) {
 //        var activeSubject: ScalingCondition?
-        var modality: Modality = .oneHanded
+        var modality: Modality = gestureFeatureCompleted ? .oneHanded : .twoHanded
         var complexity: Complexity = .simple
         
         
@@ -117,9 +111,7 @@ struct RotationCondition {
 //        }
         
         let conditionValues = [activeSubject.condition1,
-                           activeSubject.condition2,
-                           activeSubject.condition3,
-                           activeSubject.condition4]
+                           activeSubject.condition2]
         
         if conditionValues.isEmpty {
             print("No conditions available.")
@@ -136,16 +128,8 @@ struct RotationCondition {
 
         switch selectedCondition {
         case "A":
-            modality = .oneHanded
             complexity = .simple
         case "B" :
-            modality = .oneHanded
-            complexity = .complex
-        case "C" :
-            modality = .twoHanded
-            complexity = .simple
-        case "D" :
-            modality = .twoHanded
             complexity = .complex
         default:
             break
@@ -161,9 +145,7 @@ struct RotationCondition {
         }
         
         let conditionValues = [activeSubject.condition1,
-                           activeSubject.condition2,
-                           activeSubject.condition3,
-                           activeSubject.condition4]
+                           activeSubject.condition2]
         
         if conditionValues.isEmpty {
             print("No conditions available.")
@@ -171,6 +153,7 @@ struct RotationCondition {
         }
         
         if (lastUsedIndex + 1) == conditionValues.count {
+            gestureFeatureCompleted.toggle()
             rotationConditionsCompleted = true
             lastUsedIndex = -1
         } else {

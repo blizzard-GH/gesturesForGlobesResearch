@@ -17,8 +17,8 @@ struct PositionCondition {
     let condition4: String
     let condition5: String
     let condition6: String
-    let condition7: String
-    let condition8: String
+    
+    static var gestureFeatureCompleted: Bool = false
     
     static var lastUsedPositionConditionIndex: Int = -1
     
@@ -37,6 +37,7 @@ struct PositionCondition {
     enum Direction {
         case horizontal
         case vertical
+        case diagonal
         case none
     }
     
@@ -68,9 +69,7 @@ struct PositionCondition {
                                                       condition3: columns[3],
                                                       condition4: columns[4],
                                                       condition5: columns[5],
-                                                      condition6: columns[6],
-                                                      condition7: columns[7],
-                                                      condition8: columns[8]
+                                                      condition6: columns[6]
             )
             positionConditions.append(positionCondition)
         }
@@ -98,9 +97,7 @@ struct PositionCondition {
                                                            condition3: positionConditions[activeIndex].condition3,
                                                            condition4: positionConditions[activeIndex].condition4,
                                                            condition5: positionConditions[activeIndex].condition5,
-                                                           condition6: positionConditions[activeIndex].condition6,
-                                                           condition7: positionConditions[activeIndex].condition7,
-                                                           condition8: positionConditions[activeIndex].condition8)
+                                                           condition6: positionConditions[activeIndex].condition6)
 
         let nextIndex = (activeIndex + 1) % positionConditions.count
 
@@ -110,12 +107,10 @@ struct PositionCondition {
                                                          condition3: positionConditions[nextIndex].condition3,
                                                          condition4: positionConditions[nextIndex].condition4,
                                                          condition5: positionConditions[nextIndex].condition5,
-                                                         condition6: positionConditions[nextIndex].condition6,
-                                                         condition7: positionConditions[nextIndex].condition7,
-                                                         condition8: positionConditions[nextIndex].condition8)
+                                                         condition6: positionConditions[nextIndex].condition6)
         
         let csvHeader = "status,condition1,condition2,condition3,condition4,condition5,condition6,condition7,condition8\n"
-        let csvRows = updatedConditions.map { "\($0.status),\($0.condition1),\($0.condition2),\($0.condition3),\($0.condition4),\($0.condition5),\($0.condition6),\($0.condition7),\($0.condition8)" }
+        let csvRows = updatedConditions.map { "\($0.status),\($0.condition1),\($0.condition2),\($0.condition3),\($0.condition4),\($0.condition5),\($0.condition6)" }
         let csvString = csvHeader + csvRows.joined(separator: "\n")
 
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
@@ -123,7 +118,7 @@ struct PositionCondition {
     
     static func positionConditionsGetter(for positionConditions: [PositionCondition], lastUsedIndex: Int) -> (rotatingGlobe: RotatingGlobe, distance: Distance, direction: Direction){
 //        var activeSubject: ScalingCondition?
-        var rotatingGlobe: RotatingGlobe = .rotating
+        var rotatingGlobe: RotatingGlobe = gestureFeatureCompleted ? .rotating : .notRotating
         var distance: Distance = .near
         var direction: Direction = .none
         
@@ -148,9 +143,7 @@ struct PositionCondition {
                                activeSubject.condition3,
                                activeSubject.condition4,
                                activeSubject.condition5,
-                               activeSubject.condition6,
-                               activeSubject.condition7,
-                               activeSubject.condition8]
+                               activeSubject.condition6]
         
         if conditionValues.isEmpty {
             print("No conditions available.")
@@ -164,14 +157,18 @@ struct PositionCondition {
         
 //        for condition in conditionValues {
         switch selectedCondition {
-        case "A": rotatingGlobe = .rotating; distance = .near; direction = .horizontal
-        case "B": rotatingGlobe = .rotating; distance = .near; direction = .vertical
-        case "C": rotatingGlobe = .rotating; distance = .far; direction = .horizontal
-        case "D": rotatingGlobe = .rotating; distance = .far; direction = .vertical
-        case "E": rotatingGlobe = .notRotating; distance = .near; direction = .horizontal
-        case "F": rotatingGlobe = .notRotating; distance = .near; direction = .vertical
-        case "G": rotatingGlobe = .notRotating; distance = .far; direction = .horizontal
-        case "H": rotatingGlobe = .notRotating; distance = .far; direction = .vertical
+        case "A":
+            distance = .near; direction = .horizontal
+        case "B":
+            distance = .near; direction = .vertical
+        case "C":
+            distance = .near; direction = .diagonal
+        case "D":
+            distance = .far; direction = .horizontal
+        case "E":
+            distance = .far; direction = .vertical
+        case "F":
+            distance = .far; direction = .diagonal
         default:
             break
         }
@@ -189,15 +186,14 @@ struct PositionCondition {
                                activeSubject.condition3,
                                activeSubject.condition4,
                                activeSubject.condition5,
-                               activeSubject.condition6,
-                               activeSubject.condition7,
-                               activeSubject.condition8]
+                               activeSubject.condition6]
         
         if conditionValues.isEmpty {
             print("No conditions available.")
         }
         
         if (lastUsedIndex + 1) == conditionValues.count {
+            gestureFeatureCompleted.toggle()
             positionConditionsCompleted = true
             lastUsedIndex = -1
         } else {

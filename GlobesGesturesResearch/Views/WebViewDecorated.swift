@@ -25,7 +25,7 @@ struct WebViewDecorated: View {
     var body: some View {
         ZStack {
             if loadingInformation {
-                ProgressView("Loading...") // Show loading indicator
+                ProgressView("Loading...") 
                     .font(.headline)
                     .padding()
             } else {
@@ -93,9 +93,9 @@ struct WebViewDecorated: View {
     
     private func updateAttachmentView() {
             switch currentPage {
-            case .positionExperimentForm:
+            case .positionComparison:
                 model.attachmentView = .position
-            case .scaleExperimentForm:
+            case .scaleComparison:
                 model.attachmentView = .scale
             default:
                 model.attachmentView = .none

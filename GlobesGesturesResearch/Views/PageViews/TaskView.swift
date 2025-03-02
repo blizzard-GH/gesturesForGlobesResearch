@@ -22,9 +22,9 @@ struct TaskView: View {
 //    @State private var isCurrentTaskMatched: Bool = false
     private func updateAttachmentView() {
             switch currentPage {
-            case .positionExperimentForm:
+            case .positionComparison:
                 model.attachmentView = .position
-            case .scaleExperimentForm:
+            case .scaleComparison:
                 model.attachmentView = .scale
             default:
                 model.attachmentView = .none
@@ -91,20 +91,20 @@ struct TaskView: View {
                                 showOrHideGlobe(false)
                                 stopTimer()
                                 switch currentPage {
-                                case .positionExperiment:
+                                case .positionExperiment1, .positionExperiment2:
                                     print("Entered positionExperiment case")
                                     do {
                                         try PositionCondition.savePositionConditions(positionConditions: model.positionConditions)
                                     } catch {
                                         print("Failed to save position conditions: \(error.localizedDescription)")
                                     }
-                                case .rotationExperiment:
+                                case .rotationExperiment1, .rotationExperiment2:
                                     do {
                                         try RotationCondition.saveRotationConditions(rotationConditions: model.rotationConditions)
                                     } catch {
                                         print("Failed to save rotation conditions: \(error.localizedDescription)")
                                     }
-                                case .scaleExperiment:
+                                case .scaleExperiment1, .scaleExperiment2:
                                     do {
                                         try ScaleCondition.saveScaleConditions(scaleConditions: model.scaleConditions)
                                     } catch {
