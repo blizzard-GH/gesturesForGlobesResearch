@@ -136,11 +136,11 @@ enum Page: String, CaseIterable {
         case .positionTraining:
             "Position Training"
         case .positionExperiment1:
-            "Experiment 1 Position: Rotating"
+            "Experiment 1 Position: Rotating globe"
         case .positionExperimentForm1:
             "Experiment 1 Form: Rotating"
         case .positionExperiment2:
-            "Experiment 1 Position: Non-rotating"
+            "Experiment 1 Position: Non-rotating globe"
         case .positionExperimentForm2:
             "Experiment 1 Form: Non-rotating"
         case .positionComparison:

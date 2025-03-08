@@ -37,7 +37,7 @@ struct GetReady: View {
                 Text(remainingTime > 0 ? "Starting in: \(remainingTime) seconds" : "Go!")
                     .font(.largeTitle)
                     .bold()
-                    .foregroundColor(remainingTime > 0 ? .red : .green)
+                    .foregroundColor(remainingTime > 0 ? .teal : .cyan)
                     .padding()
                 //            Text("""
                 //            If you have done the task you will get a notification.

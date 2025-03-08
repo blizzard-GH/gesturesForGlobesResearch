@@ -44,13 +44,22 @@ struct PositionCondition {
     /// Load `Landmark`s from CSV file in the app bundle.
     /// - Returns: Loaded landmarks.
     static func loadPositionConditions() throws -> [PositionCondition] {
+//        Works for read-only:
 //        guard let url = Bundle.main.url(forResource: "Positioning", withExtension: "csv") else {
 //            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Positioning.csv' not found in the app bundle."])
 //        }
         
-        let currentFileURL = URL(fileURLWithPath: #file)
-        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
-        let csvFileURL = currentDirectoryURL.appendingPathComponent("Positioning.csv")
+//        Works for simulator only:
+//        let currentFileURL = URL(fileURLWithPath: #file)
+//        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
+//        let csvFileURL = currentDirectoryURL.appendingPathComponent("Positioning.csv")
+//        let csvFileURL = documentsDir.appendingPathComponent("Positioning.csv")
+        
+//        Below works for the headset itself:
+        let fileName = "Positioning.csv"
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let csvFileURL = documentDirectory.appending(path: fileName, directoryHint: .notDirectory)
+
         
         let data = try String(contentsOf: csvFileURL, encoding: .utf8)
         var positionConditions: [PositionCondition] = []
@@ -58,7 +67,7 @@ struct PositionCondition {
         //let rows = data.split(separator: "\n").dropFirst() // Skip header row
         for row in rows {
             let columns = row.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
-            guard columns.count == 9
+            guard columns.count == 7
             else {
                 throw NSError(domain: "CSVLoader", code: 2, userInfo: [NSLocalizedDescriptionKey: "Invalid row format in CSV: \(row)"])
             }

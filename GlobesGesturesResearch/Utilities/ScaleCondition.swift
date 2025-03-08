@@ -35,9 +35,15 @@ struct ScaleCondition {
 //        guard let url = Bundle.main.url(forResource: "Scaling", withExtension: "csv") else {
 //            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Scaling.csv' not found in the directory."])
 //        }
-        let currentFileURL = URL(fileURLWithPath: #file)
-        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
-        let csvFileURL = currentDirectoryURL.appendingPathComponent("Scaling.csv")
+//        Works for simulator only:
+//        let currentFileURL = URL(fileURLWithPath: #file)
+//        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
+//        let csvFileURL = currentDirectoryURL.appendingPathComponent("Scaling.csv")
+        
+//        Below works for the headset itself:
+        let fileName = "Scaling.csv"
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let csvFileURL = documentDirectory.appending(path: fileName, directoryHint: .notDirectory)
         
         let data = try String(contentsOf: csvFileURL, encoding: .utf8)
         var scalingConditions: [ScaleCondition] = []
@@ -45,7 +51,7 @@ struct ScaleCondition {
         //let rows = data.split(separator: "\n").dropFirst() // Skip header row
         for row in rows {
             let columns = row.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
-            guard columns.count == 5
+            guard columns.count == 3
             else {
                 throw NSError(domain: "CSVLoader", code: 2, userInfo: [NSLocalizedDescriptionKey: "Invalid row format in CSV: \(row)"])
             }

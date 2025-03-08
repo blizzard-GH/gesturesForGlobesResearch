@@ -26,32 +26,88 @@ import SwiftUI
 
 struct WelcomeView: View {
     @Binding var currentPage: Page
+    @Environment(ViewModel.self) var model
     
     var body: some View {
-        VStack {
-            Text("Welcome to the Gestures for Globes User Study")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .multilineTextAlignment(.center)
-            
-            Text("""
+        ZStack {
+            VStack {
+                Spacer()
+                VStack{
+                    Text("Welcome to the Gestures for Globes User Study")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.center)
+                    
+                    Text("""
 This study explores the most effective and intuitive gestures to interact with virtual globes. Your participation will help us better understand intuitive gestures for positioning, scaling, and rotating in 3D environments.
             
 Please follow the instructions on the next screens carefully. Thank you for contributing to this research!
 """)
-            .font(.body)
-            .multilineTextAlignment(.center)
-            .padding()
-            
-            Button(action: {
-                currentPage = currentPage.next()}){
-                    Text("Let's begin")
-                        .font(.headline)
-                        .padding()
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                    
+                    Button(action: {
+                        currentPage = currentPage.next()
+                    }){
+                        Text("Let's begin")
+                            .font(.headline)
+                            .padding()
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding(.top)
                 }
-                .padding(.horizontal)
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray2)).shadow(radius: 5))
+                .padding(.horizontal, 40)
+                Spacer()
+            }
+            
+            VStack {
+                Spacer()
+                VStack(alignment: .trailing){
+                    Spacer()
+                    HStack{
+                        Spacer()
+                    }
+                    if TaskStorageManager.storageFileRead {
+                        HStack {
+                            Text("Storage file is properly loaded")
+                                .foregroundColor(.cyan)
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.green)
+                        }
+                    } else {
+                        HStack {
+                            Text("Storage file is properly loaded")
+                                .foregroundColor(.yellow)
+                            Image(systemName: "exclamationmark.circle.fill")
+                                .foregroundColor(.yellow)
+                        }
+                    }
+                }
+                
+                HStack{
+                    Spacer()
+                    if !model.positionConditions.isEmpty {
+                        HStack {
+                            Text("Study conditions are properly loaded")
+                                .foregroundColor(.cyan)
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.green)
+                        }
+                    } else {
+                        HStack {
+                            Text("Study conditions are not properly loaded")
+                                .foregroundColor(.yellow)
+                            Image(systemName: "exclamationmark.circle.fill")
+                                .foregroundColor(.yellow)
+                        }
+                    }
+                }
+            }
+            .padding(40)
         }
     }
 }
