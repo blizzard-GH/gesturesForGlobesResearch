@@ -32,7 +32,7 @@ struct TrainingView: View {
     var body: some View {
         VStack {
             if loadingInformation {
-                ProgressView("Loading...") // Show loading indicator
+                ProgressView("Loading...")
                     .font(.headline)
                     .padding()
             } else {
@@ -58,10 +58,12 @@ struct TrainingView: View {
                     currentPage = currentPage.next()
                     //                studyModel.currentTaskPage = currentPage
                 }
-                Text("immersiveSpaceIsShown : \(model.immersiveSpaceIsShown)")
-                Text("model.config.isVisible : \(model.configuration.isVisible)")
+//            Debugging:
+//                Text("immersiveSpaceIsShown : \(model.immersiveSpaceIsShown)")
+//                Text("model.config.isVisible : \(model.configuration.isVisible)")
             }
         }
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray2)).shadow(radius: 5))
         .onAppear{
             loadingInformation = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {

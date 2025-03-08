@@ -33,7 +33,7 @@ struct WelcomeView: View {
             VStack {
                 Spacer()
                 VStack{
-                    Text("Welcome to the Gestures for Globes User Study")
+                    Text("Welcome to the User Study")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .multilineTextAlignment(.center)
@@ -41,7 +41,7 @@ struct WelcomeView: View {
                     Text("""
 This study explores the most effective and intuitive gestures to interact with virtual globes. Your participation will help us better understand intuitive gestures for positioning, scaling, and rotating in 3D environments.
             
-Please follow the instructions on the next screens carefully. Thank you for contributing to this research!
+Please follow the instructions on the next screens. Thank you for contributing to this research!
 """)
                     .font(.body)
                     .multilineTextAlignment(.center)
@@ -73,14 +73,14 @@ Please follow the instructions on the next screens carefully. Thank you for cont
                     }
                     if TaskStorageManager.storageFileRead {
                         HStack {
-                            Text("Storage file is properly loaded")
+                            Text("Storage file is properly loaded and ready")
                                 .foregroundColor(.cyan)
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.green)
                         }
                     } else {
                         HStack {
-                            Text("Storage file is properly loaded")
+                            Text("Storage file is not properly loaded")
                                 .foregroundColor(.yellow)
                             Image(systemName: "exclamationmark.circle.fill")
                                 .foregroundColor(.yellow)
@@ -90,9 +90,9 @@ Please follow the instructions on the next screens carefully. Thank you for cont
                 
                 HStack{
                     Spacer()
-                    if !model.positionConditions.isEmpty {
+                    if !model.positionConditions.isEmpty && !model.rotationConditions.isEmpty && !model.scaleConditions.isEmpty {
                         HStack {
-                            Text("Study conditions are properly loaded")
+                            Text("Study conditions are properly loaded and ready")
                                 .foregroundColor(.cyan)
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.green)

@@ -90,9 +90,14 @@ struct PositionCondition {
 //            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Positioning.csv' not found in the directory."])
 //        }
         
-        let currentFileURL = URL(fileURLWithPath: #file)
-        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
-        let csvFileURL = currentDirectoryURL.appendingPathComponent("Positioning.csv")
+//        Below works for the headset itself:
+        let fileName = "Positioning.csv"
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let csvFileURL = documentDirectory.appending(path: fileName, directoryHint: .notDirectory)
+//        Below works for simulator only:
+//        let currentFileURL = URL(fileURLWithPath: #file)
+//        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
+//        let csvFileURL = currentDirectoryURL.appendingPathComponent("Positioning.csv")
 
         guard let activeIndex = positionConditions.firstIndex(where: { $0.status == "Active" }) else {
             throw NSError(domain: "CSVLoader", code: 3, userInfo: [NSLocalizedDescriptionKey: "No active condition found"])

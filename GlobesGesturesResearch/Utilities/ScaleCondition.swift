@@ -67,9 +67,15 @@ struct ScaleCondition {
 //        guard let url = Bundle.main.url(forResource: "Scaling", withExtension: "csv") else {
 //            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Scaling.csv' not found in the app bundle."])
 //        }
-        let currentFileURL = URL(fileURLWithPath: #file)
-        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
-        let csvFileURL = currentDirectoryURL.appendingPathComponent("Scaling.csv")
+//        Below works for simulators only:
+//        let currentFileURL = URL(fileURLWithPath: #file)
+//        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
+//        let csvFileURL = currentDirectoryURL.appendingPathComponent("Scaling.csv")
+        
+//        Below works for the headset itself:
+        let fileName = "Scaling.csv"
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let csvFileURL = documentDirectory.appending(path: fileName, directoryHint: .notDirectory)
 
         guard let activeIndex = scaleConditions.firstIndex(where: { $0.status == "Active" }) else {
             throw NSError(domain: "CSVLoader", code: 3, userInfo: [NSLocalizedDescriptionKey: "No active condition found"])

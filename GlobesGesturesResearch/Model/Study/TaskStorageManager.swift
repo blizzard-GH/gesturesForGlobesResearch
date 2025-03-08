@@ -34,6 +34,10 @@ class TaskStorageManager {
         return FileManager.default.fileExists(atPath: fileURL.path)
     }
     
+    static var directoryPath: String {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.path ?? "Nothing"
+    }
+    
     @MainActor
     func saveTask<T: StudyTask>(_ task: T, type: TaskType) {
         let fileName = "study_tasks.csv"

@@ -124,6 +124,7 @@ struct TaskView: View {
                     .foregroundColor(.red)
             }
         }
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray2)).shadow(radius: 5))
         .onAppear{
             updateAttachmentView()
             showOrHideGlobe(false)

@@ -16,6 +16,7 @@ struct ThankYouView: View {
             Text("Thank you for participating in this study.")
                 .font(.largeTitle)
         }
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray2)).shadow(radius: 5))
     }
 }
 
