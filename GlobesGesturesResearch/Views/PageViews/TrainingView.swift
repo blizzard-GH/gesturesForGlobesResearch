@@ -14,6 +14,8 @@ struct TrainingView: View {
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
 
     @State var loadingInformation: Bool = false
+    @State private var isButtonPressed: Bool = false
+
     
     @Binding var currentPage: Page
 
@@ -52,12 +54,31 @@ struct TrainingView: View {
                 .multilineTextAlignment(.center)
                 .padding()
                 
-                Button(
-                    "Finish training, and move to the next task."
-                ) {
-                    currentPage = currentPage.next()
-                    //                studyModel.currentTaskPage = currentPage
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        currentPage = currentPage.next() //
+                                        isButtonPressed.toggle()
+                                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            isButtonPressed = false
+                        }
+                    }
+                }){
+                    Text("Finish training, and move to the next task.")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .cornerRadius(15)
+                        .shadow(color: .black, radius: 1)
                 }
+//                .padding(40)
+                .background(Color.blue)
+                .cornerRadius(20)
+                .scaleEffect(isButtonPressed ? 1.1 : 1.0)
+                .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
+                
+                Spacer().frame(height: 50)
+                
 //            Debugging:
 //                Text("immersiveSpaceIsShown : \(model.immersiveSpaceIsShown)")
 //                Text("model.config.isVisible : \(model.configuration.isVisible)")
@@ -77,6 +98,8 @@ struct TrainingView: View {
             showOrHideGlobe(false)
 //            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
         }
+        .frame(minWidth: 800)
+        .padding()
     }
     
     
@@ -96,4 +119,11 @@ struct TrainingView: View {
             }
         }
     }
+}
+
+
+#Preview {
+    TrainingView(currentPage: .constant(.positionTraining))
+        .environment(ViewModel())
+        .environment(StudyModel())
 }

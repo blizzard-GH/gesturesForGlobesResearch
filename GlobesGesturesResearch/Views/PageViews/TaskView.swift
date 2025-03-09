@@ -37,15 +37,15 @@ struct TaskView: View {
             if let details = currentPage.taskDetails {
                 if !isDoingTask {
                     Text("""
-                We are about to start task \(details.taskNumber)
-                It will measure time immediately after you click the button below.
-                Whenever you are ready, click the button below and do as instructed.
+                We are about to start \(details.mainFeature) experiment \(details.taskNumber)
+                The measurement will begin immediately after you click the button below.
+                Whenever you are ready, click the button 'Start Task' below and do as instructed.
                 
                 \(details.instructions)
                 """)
                     .multilineTextAlignment(.center)
+                    .padding()
                     StartTaskButton(isDoingTask: $isDoingTask)
-                        .padding()
                 }
                 else {
                     if !showTaskContent {
@@ -70,13 +70,17 @@ struct TaskView: View {
 //                            .monospacedDigit()
 //                            .padding()
                         //Below is for debugging only
-                        Text("currentPge: \(currentPage)")
-                        Text("Is storing needed \(currentPage.isStoringRecordNeeded)")
-                        Text("Current page: \(currentPage)")
-//                        Text("current task accuracy: \(studyModel.currentTask? ?? 0.0)")
-                        Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
-                        Text("Last used index: \(PositionCondition.lastUsedPositionConditionIndex)")
-                        Text("Is conditions looping complete: \(PositionCondition.positionConditionsCompleted)")
+                        VStack{
+                            Text("Debugging:")
+                            Text("currentPge: \(currentPage)")
+                            Text("Is storing needed \(currentPage.isStoringRecordNeeded)")
+                            Text("Current page: \(currentPage)")
+                            //                        Text("current task accuracy: \(studyModel.currentTask? ?? 0.0)")
+                            Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
+                            Text("Last used index: \(PositionCondition.lastUsedPositionConditionIndex)")
+                            Text("Is conditions looping complete: \(PositionCondition.positionConditionsCompleted)")
+                        }
+                        .padding()
 
                         
                         Instruction(currentPage: $currentPage)
@@ -122,9 +126,11 @@ struct TaskView: View {
             } else {
                 Text("Invalid Task")
                     .foregroundColor(.red)
+                    .padding()
             }
         }
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray2)).shadow(radius: 5))
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray2)).shadow(radius: 5)).padding(40)
         .onAppear{
             updateAttachmentView()
             showOrHideGlobe(false)
@@ -135,6 +141,10 @@ struct TaskView: View {
 //            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
 
         }
+        .background(RoundedRectangle(cornerRadius: 15)
+        .fill(Color(.systemGray4))
+        .shadow(radius: 5))
+        .padding(40)
     }
     
 //    func checkMatchingStatus(taskNumber: Int, model: ViewModel) async {
@@ -177,3 +187,8 @@ struct TaskView: View {
     }
 }
 
+#Preview {
+    TaskView(currentPage: .constant(.positionExperiment2))
+        .environment(ViewModel())
+        .environment(StudyModel())
+}

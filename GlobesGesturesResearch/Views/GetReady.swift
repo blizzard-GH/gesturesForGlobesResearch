@@ -53,7 +53,7 @@ struct GetReady: View {
         }
         .background(Color(.systemBackground).opacity(0.95)) // Subtle background color
         .cornerRadius(20)
-        .padding()
+        .padding(40)
         .shadow(radius: 20)
         .onAppear(perform: startCountdown)
     }
@@ -73,3 +73,8 @@ struct GetReady: View {
     }
 }
 
+#Preview {
+    GetReady(currentPage: .constant(.positionExperiment1)){
+        print("Countdown finishes.")
+    }
+}

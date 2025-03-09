@@ -45,14 +45,14 @@ enum Page: String, CaseIterable {
                     "position",
                     "move",
                     "Positioning the globe",
-                    "We are measuring the time required to properly position the globe.",
+                    "We are measuring the accuracy and time to properly position the globe.",
                     .position)
         case .positionExperiment2:
             return ("2",
                     "position",
                     "move",
                     "Positioning the globe",
-                    "We are measuring the time required to properly position the globe.",
+                    "We are measuring the accuracy and time to properly position the globe.",
                     .position)
 
         case .rotationExperiment1:
@@ -60,14 +60,14 @@ enum Page: String, CaseIterable {
                     "orientation",
                     "rotate",
                     "Rotating the globe",
-                    "We are measuring the time required to properly rotate the globe.",
+                    "We are measuring the accuracy and time to properly rotate the globe.",
                     .rotation)
         case .rotationExperiment2:
             return ("4",
                     "orientation",
                     "rotate",
                     "Rotating the globe",
-                    "We are measuring the time required to properly rotate the globe.",
+                    "We are measuring the accuracy and time to properly rotate the globe.",
                     .rotation)
 
         case .scaleExperiment1:
@@ -75,14 +75,14 @@ enum Page: String, CaseIterable {
                     "size",
                     "scale",
                     "Scaling the globe",
-                    "We are measuring the time required to properly scale the globe.",
+                    "We are measuring the accuracy and time to properly scale the globe.",
                     .scale)
         case .scaleExperiment2:
             return ("6",
                     "size",
                     "scale",
                     "Scaling the globe",
-                    "We are measuring the time required to properly scale the globe.",
+                    "We are measuring the accuracy and time to properly scale the globe.",
                     .scale)
 
         default:
