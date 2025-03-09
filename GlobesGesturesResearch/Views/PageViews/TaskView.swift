@@ -56,6 +56,8 @@ struct TaskView: View {
 //                            Task{
 //                                await checkMatchingStatus(taskNumber : details.taskNumber, model: model)
 //                            }
+                            model.firstGlobeEntity?.respawnGlobe("Left")
+                            model.secondGlobeEntity?.respawnGlobe("Right")
                         }
                     } else {
                         if let currentTask = studyModel.currentTask, currentTask.isMatching{
@@ -187,8 +189,8 @@ struct TaskView: View {
     }
 }
 
-#Preview {
-    TaskView(currentPage: .constant(.positionExperiment2))
-        .environment(ViewModel())
-        .environment(StudyModel())
-}
+//#Preview {
+//    TaskView(currentPage: .constant(.positionExperiment2))
+//        .environment(ViewModel())
+//        .environment(StudyModel())
+//}

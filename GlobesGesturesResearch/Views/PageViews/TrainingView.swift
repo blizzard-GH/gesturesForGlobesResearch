@@ -93,6 +93,10 @@ struct TrainingView: View {
                 //            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
                 loadingInformation = false
             }
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//                model.firstGlobeEntity?.respawnGlobe("Left")
+//                model.secondGlobeEntity?.respawnGlobe("Right")
+//            }
         }
         .onDisappear{
             showOrHideGlobe(false)
@@ -122,8 +126,8 @@ struct TrainingView: View {
 }
 
 
-#Preview {
-    TrainingView(currentPage: .constant(.positionTraining))
-        .environment(ViewModel())
-        .environment(StudyModel())
-}
+//#Preview {
+//    TrainingView(currentPage: .constant(.positionTraining))
+//        .environment(ViewModel())
+//        .environment(StudyModel())
+//}

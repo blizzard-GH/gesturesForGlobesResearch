@@ -130,8 +130,8 @@ Please follow the instructions on the next screens. Thank you in advance for con
 }
     
 
-#Preview {
-    WelcomeView(currentPage: .constant(.welcome))
-        .environment(ViewModel())
-        .environment(StudyModel())
-}
+//#Preview {
+//    WelcomeView(currentPage: .constant(.welcome))
+//        .environment(ViewModel())
+//        .environment(StudyModel())
+//}

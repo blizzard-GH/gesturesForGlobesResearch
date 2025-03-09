@@ -73,8 +73,8 @@ struct GetReady: View {
     }
 }
 
-#Preview {
-    GetReady(currentPage: .constant(.positionExperiment1)){
-        print("Countdown finishes.")
-    }
-}
+//#Preview {
+//    GetReady(currentPage: .constant(.positionExperiment1)){
+//        print("Countdown finishes.")
+//    }
+//}

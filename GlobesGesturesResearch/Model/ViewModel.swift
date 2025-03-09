@@ -139,6 +139,9 @@ class ViewModel: CustomDebugStringConvertible {
                 let entities = try await (firstGlobeEntity, secondGlobeEntity)
                 Task { @MainActor in
                     storeGlobeEntity(entities.0, entities.1)
+                    
+                    entities.0.respawnGlobe("Left")  
+                    entities.1.respawnGlobe("Right")
                 }
             } catch {
                 Task { @MainActor in
@@ -146,6 +149,9 @@ class ViewModel: CustomDebugStringConvertible {
                 }
             }
         }
+        
+//        firstGlobeEntity?.respawnGlobe("Left")
+//        secondGlobeEntity?.respawnGlobe("Right")
     }
     
     @MainActor
