@@ -28,6 +28,22 @@ enum GestureType: Encodable {
         }
     }
     
+    var startStatus: GestureStatus {
+        switch self {
+        case .position: return .dragStart
+        case .rotation: return .rotateStart
+        case .scale: return .magnifyStart
+        }
+    }
+    
+    var endStatus: GestureStatus {
+        switch self {
+        case .position: return .dragEnd
+        case .rotation: return .rotateEnd
+        case .scale: return .magnifyEnd
+        }
+    }
+    
     var maxRepetition: Int {
         switch self {
         case .position : return 2

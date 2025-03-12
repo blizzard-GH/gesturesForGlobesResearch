@@ -13,7 +13,7 @@ protocol StudyTask: CustomStringConvertible {
     var taskID: UUID { get }
     var actions: ThrottledArray<StudyAction> { get }
     var matcher: Matcher { get }
-    
+        
     /// Accuracy result
     var accuracyResult: Float {get}
     
@@ -30,8 +30,11 @@ extension StudyTask {
 
 extension StudyTask {
     
+    
+    
     var startTime: Date? { actions.first?.date }
     var endTime: Date? { actions.last?.date }
+    
     
     /// Duration of task between start and end times.
     var duration: TimeInterval? {
@@ -52,7 +55,7 @@ extension StudyTask {
         Log.info("Start gesture \(type)")
         let action = StudyAction(taskID: taskID,
                                  type: type,
-                                 status: .dragStart,
+                                 status: type.startStatus,
                                  originalTransform: originalTransform,
                                  targetTransform: targetTransform)
         actions.append(action)
@@ -61,7 +64,8 @@ extension StudyTask {
     mutating func end(type: GestureType, originalTransform: Transform, targetTransform: Transform) {
         Log.info("End gesture \(type)")
         let action = StudyAction(taskID: taskID,
-                                 type: type, status: .dragEnd,
+                                 type: type,
+                                 status: type.endStatus,
                                  originalTransform: originalTransform,
                                  targetTransform: targetTransform)
         actions.append(action)

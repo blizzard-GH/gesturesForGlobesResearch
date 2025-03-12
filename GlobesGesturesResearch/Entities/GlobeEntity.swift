@@ -369,7 +369,9 @@ class GlobeEntity: Entity {
         let positionMapping: [String: SIMD3<Float>] = [
             "Center": SIMD3(0, 1.6, -0.5),
             "Left": SIMD3(-0.5, 1.6, -0.5),
+            "Left close": SIMD3(-0.4, 1.6, -0.5),
             "Right": SIMD3(0.5, 1.6, -0.5),
+            "Right close": SIMD3(0.4, 1.6, -0.5),
             "CenterUp": SIMD3(0, 2.5, -0.5),
             "LeftUp": SIMD3(-0.5, 2.5, -0.5),
             "RightUp": SIMD3(0.5, 2.5, -0.5),

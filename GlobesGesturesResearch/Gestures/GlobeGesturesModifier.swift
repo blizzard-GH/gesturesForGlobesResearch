@@ -115,8 +115,7 @@ private struct GlobeGesturesModifier: ViewModifier {
             content
                 .simultaneousGesture(doubleTapGesture)
                 .simultaneousGesture(dragGesture)
-        case .rotationTraining,
-                .rotationExperiment1, .rotationExperimentForm1,
+        case    .rotationExperiment1, .rotationExperimentForm1,
                 .rotationExperiment2, .rotationExperimentForm2, .rotationComparison:
             if oneHandedRotationGesture {
                 content
@@ -127,6 +126,11 @@ private struct GlobeGesturesModifier: ViewModifier {
                     .simultaneousGesture(doubleTapGesture)
                     .simultaneousGesture(rotateGesture)
             }
+        case .rotationTraining:
+            content
+                .simultaneousGesture(doubleTapGesture)
+                .simultaneousGesture(rotateGlobeAxisGesture)
+                .simultaneousGesture(rotateGesture)
         case .scaleTraining,
                 .scaleExperiment1, .scaleExperimentForm1,
                 .scaleExperiment2, .scaleExperimentForm2, .scaleComparison:
@@ -287,7 +291,6 @@ private struct GlobeGesturesModifier: ViewModifier {
                         print("\(PositionCondition.lastUsedPositionConditionIndex)")
                         if PositionCondition.positionConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
-                            PositionCondition.positionConditionsCompleted = false
                         }
                     }
                 }
@@ -359,11 +362,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                         model.firstGlobeEntity?.respawnGlobe("Left")
                         model.secondGlobeEntity?.respawnGlobe("Right")
                     } else {
-//                        model.firstGlobeEntity?.rescaleGlobe()
-//                        model.secondGlobeEntity?.respawnGlobeToCenter()
+                        model.firstGlobeEntity?.rescaleGlobe()
+                        model.secondGlobeEntity?.respawnGlobe("Center")
                         if ScaleCondition.scaleConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
-                            ScaleCondition.scaleConditionsCompleted = false
                         }
                     }
                 }
@@ -442,11 +444,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                         model.firstGlobeEntity?.respawnGlobe("Left")
                         model.secondGlobeEntity?.respawnGlobe("Right")
                     } else {
-//                        model.firstGlobeEntity?.rerotateGlobe()
-//                        model.secondGlobeEntity?.respawnGlobeToCenter()
+                        model.firstGlobeEntity?.rerotateGlobe()
+                        model.secondGlobeEntity?.respawnGlobe("Right")
                         if RotationCondition.rotationConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
-                            RotationCondition.rotationConditionsCompleted = false
                         }
                     }
                 }
@@ -544,11 +545,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                             model.firstGlobeEntity?.respawnGlobe("Left")
                             model.secondGlobeEntity?.respawnGlobe("Right")
                         } else {
-//                            model.firstGlobeEntity?.rerotateGlobe()
-//                            model.secondGlobeEntity?.respawnGlobeToCenter()
+                            model.firstGlobeEntity?.rerotateGlobe()
+                            model.secondGlobeEntity?.respawnGlobe("Center")
                             if RotationCondition.rotationConditionsCompleted == true {
                                 studyModel.proceedToNextExperiment = true
-                                RotationCondition.rotationConditionsCompleted = false
                             }
                         }
                     }

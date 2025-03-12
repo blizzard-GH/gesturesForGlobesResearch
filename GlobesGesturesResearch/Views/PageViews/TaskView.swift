@@ -56,8 +56,8 @@ struct TaskView: View {
 //                            Task{
 //                                await checkMatchingStatus(taskNumber : details.taskNumber, model: model)
 //                            }
-                            model.firstGlobeEntity?.respawnGlobe("Left")
-                            model.secondGlobeEntity?.respawnGlobe("Right")
+//                            model.firstGlobeEntity?.respawnGlobe("Left")
+//                            model.secondGlobeEntity?.respawnGlobe("Right")
                         }
                     } else {
                         if let currentTask = studyModel.currentTask, currentTask.isMatching{
@@ -79,8 +79,8 @@ struct TaskView: View {
                             Text("Current page: \(currentPage)")
                             //                        Text("current task accuracy: \(studyModel.currentTask? ?? 0.0)")
                             Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
-                            Text("Last used index: \(PositionCondition.lastUsedPositionConditionIndex)")
-                            Text("Is conditions looping complete: \(PositionCondition.positionConditionsCompleted)")
+                            Text("Last used index: \(ScaleCondition.lastUsedScaleConditionIndex)")
+                            Text("Is conditions looping complete: \(ScaleCondition.scaleConditionsCompleted)")
                         }
                         .padding()
 
@@ -91,6 +91,9 @@ struct TaskView: View {
                                 "Finish \(details.description), and move to the next task."
                             ) {
                                 studyModel.proceedToNextExperiment = false
+                                PositionCondition.positionConditionsCompleted = false
+                                ScaleCondition.scaleConditionsCompleted = false
+                                RotationCondition.rotationConditionsCompleted = false
                                 //                            studyModel.currentTaskPage = currentPage
                                 isDoingTask = false
                                 showTaskContent = false
@@ -122,6 +125,13 @@ struct TaskView: View {
                                 model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
                                 currentPage = currentPage.next()
                             }
+                            .onAppear{
+                                showOrHideGlobe(false)
+                            }
+                            .padding()
+                            .background(Color.cyan)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
                         }
                     }
                 }
