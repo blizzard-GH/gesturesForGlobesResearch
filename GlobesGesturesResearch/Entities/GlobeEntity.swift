@@ -42,23 +42,25 @@ class GlobeEntity: Entity {
     
     var lastGlobeReposition: SIMD3<Float>?
     
+    var lastGlobeCounterReposition: GlobePosition = .center
+    
     enum GlobePosition: CaseIterable {
         case center, left, leftClose, right, rightClose
         case centerUp, leftUp, rightUp, centerDown, leftDown, rightDown
 
         var position: SIMD3<Float> {
             switch self {
-            case .center: return SIMD3(0, 0.9, -0.5)
-            case .left: return SIMD3(-0.5, 0.9, -0.5)
-            case .leftClose: return SIMD3(-0.4, 0.9, -0.5)
-            case .right: return SIMD3(0.5, 0.9, -0.5)
-            case .rightClose: return SIMD3(0.4, 0.9, -0.5)
-            case .centerUp: return SIMD3(0, 1.6, -0.5)
-            case .leftUp: return SIMD3(-0.5, 1.6, -0.5)
-            case .rightUp: return SIMD3(0.5, 1.6, -0.5)
-            case .centerDown: return SIMD3(0, 0.4, -0.5)
-            case .leftDown: return SIMD3(-0.5, 0.4, -0.5)
-            case .rightDown: return SIMD3(0.5, 0.4, -0.5)
+            case .center: return SIMD3(0, 0.9, -1.5)
+            case .left: return SIMD3(-0.5, 0.9, -1.5)
+            case .leftClose: return SIMD3(-0.4, 0.9, -1.5)
+            case .right: return SIMD3(0.5, 0.9, -1.5)
+            case .rightClose: return SIMD3(0.4, 0.9, -1.5)
+            case .centerUp: return SIMD3(0, 1.6, -1.5)
+            case .leftUp: return SIMD3(-0.5, 1.6, -1.5)
+            case .rightUp: return SIMD3(0.5, 1.6, -1.5)
+            case .centerDown: return SIMD3(0, 0.4, -1.5)
+            case .leftDown: return SIMD3(-0.5, 0.4, -1.5)
+            case .rightDown: return SIMD3(0.5, 0.4, -1.5)
             }
         }
     }
@@ -342,6 +344,17 @@ class GlobeEntity: Entity {
             duration: 2)
     }
     
+    func respawnGlobe(_ newCoordinate: SIMD3<Float>) {
+        
+        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
+        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+        
+        animateTransform(
+            orientation: newOrientation,
+            position: newCoordinate,
+            duration: 2)
+    }
+    
     
     func repositionGlobe() -> GlobePosition {
         guard let cameraPosition = CameraTracker.shared.position else {
@@ -364,27 +377,19 @@ class GlobeEntity: Entity {
         
         let offset: SIMD3<Float>
         
-        // We could the predefined number here, but these number is in queue, so it takes turn, try array
-        // Predefined cycling values
-        let horizontalValues: [Float] = [-0.6, 0, 0.6]
-        let verticalValues: [Float] = [0.4, 0.9, 1.4]
-        
         
         let randomiseHorizontal = Float.random(in: -0.5...0.5)
         let randomiseVertical = Float.random(in: 0...1.8)
-//        let randomiseHorizontalLeft = Float.random(in: -0.5...0)
-//        let randomiseVerticalUp = Float.random(in: 1.7...2.5)
-//        let randomiseVerticalDown = Float.random(in: 0...1.7)
         
         switch direction {
         case .vertical:
-            offset = SIMD3<Float>(0, randomiseHorizontal, -0.5) * distanceMultiplier
+            offset = SIMD3<Float>(0, randomiseHorizontal, -1.5) * distanceMultiplier
             counterPosition = [.center, .centerUp, .centerDown].randomElement()!
         case .horizontal:
-            offset = SIMD3<Float>(randomiseVertical, 0, -0.5) * distanceMultiplier
+            offset = SIMD3<Float>(randomiseVertical, 0, -1.5) * distanceMultiplier
             counterPosition = [.center, .left, .right].randomElement()!
         case .diagonal:
-            offset = SIMD3<Float>(-0.5, randomiseVertical, -0.5) * distanceMultiplier
+            offset = SIMD3<Float>(-0.5, randomiseVertical, -1.5) * distanceMultiplier
             counterPosition = [.centerUp, .center, .centerDown, .rightUp, .right, .rightDown].randomElement()!
 //        case .diagonalUp:
 //            offset = SIMD3<Float>(randomiseHorizontalLeft, randomiseVerticalUp, -0.5) * distanceMultiplier
@@ -393,7 +398,7 @@ class GlobeEntity: Entity {
 //            offset = SIMD3<Float>(randomiseHorizontalLeft, randomiseVerticalDown, -0.5) * distanceMultiplier
 //            counterPosition = ["Center", "CenterDown", "RightDown", "Right"].randomElement()!
         case .none:
-            offset = SIMD3<Float>(0, 0, -0.5) * distanceMultiplier
+            offset = SIMD3<Float>(0, 0, -1.5) * distanceMultiplier
             counterPosition = [.center, .centerUp, .centerDown,
                                .left, .leftUp, .leftDown,
                                .right, .rightUp, .rightDown].randomElement()!
@@ -402,16 +407,9 @@ class GlobeEntity: Entity {
         let newPosition = cameraPosition + offset
         animateTransform(position: newPosition, duration: 3)
         
-//        Randomiser:
-//        let randomX = Float.random(in: -0.5...0.5)
-//        let randomY = Float.random(in: -0.5...0.5)
-//        let randomZ = Float.random(in: 0...0.5)
-//        
-//        var randomDirection = SIMD3<Float>(randomX, randomY, randomZ)
-//        randomDirection = normalize(randomDirection)
-//        
-//        let newPosition = cameraPosition + randomDirection
-//        animateTransform(position: newPosition, duration: 0)
+        lastGlobeReposition = newPosition
+        
+        lastGlobeCounterReposition = counterPosition
         
         return counterPosition
     }

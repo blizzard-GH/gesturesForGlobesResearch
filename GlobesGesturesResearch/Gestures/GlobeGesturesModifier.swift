@@ -284,8 +284,8 @@ private struct GlobeGesturesModifier: ViewModifier {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .position) {
-                        model.firstGlobeEntity?.respawnGlobe(.left)
-                        model.secondGlobeEntity?.respawnGlobe(.right)
+                        model.firstGlobeEntity?.respawnGlobe(model.firstGlobeEntity?.lastGlobeReposition ?? SIMD3<Float>(0,0.9,-0.5))
+                        model.secondGlobeEntity?.respawnGlobe(model.firstGlobeEntity?.lastGlobeCounterReposition ?? .center)
                     } else {
                         let counterPosition = model.firstGlobeEntity?.repositionGlobe()
                         model.secondGlobeEntity?.respawnGlobe(counterPosition ?? .center)

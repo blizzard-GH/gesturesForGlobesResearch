@@ -53,7 +53,13 @@ struct TaskView: View {
                             showTaskContent = true
                             showOrHideGlobe(true)
                             startTimer()
-//                            Task{
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                if currentPage == .positionExperiment1 || currentPage == .positionExperiment2 {
+                                    let counterPosition = model.firstGlobeEntity?.repositionGlobe()
+                                    model.secondGlobeEntity?.respawnGlobe(counterPosition ?? .center)
+                                }
+                            }
+                            // Task{
 //                                await checkMatchingStatus(taskNumber : details.taskNumber, model: model)
 //                            }
 //                            model.firstGlobeEntity?.respawnGlobe("Left")
