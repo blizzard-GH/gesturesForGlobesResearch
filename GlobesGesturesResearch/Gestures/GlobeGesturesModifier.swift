@@ -362,11 +362,11 @@ private struct GlobeGesturesModifier: ViewModifier {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .scale) {
-                        model.firstGlobeEntity?.respawnGlobe("Left")
-                        model.secondGlobeEntity?.respawnGlobe("Right")
+                        model.firstGlobeEntity?.respawnGlobe(.left)
+                        model.secondGlobeEntity?.respawnGlobe(.right)
                     } else {
                         model.firstGlobeEntity?.rescaleGlobe()
-                        model.secondGlobeEntity?.respawnGlobe("Center")
+                        model.secondGlobeEntity?.respawnGlobe(.center)
                         if ScaleCondition.scaleConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
                         }
@@ -446,11 +446,11 @@ private struct GlobeGesturesModifier: ViewModifier {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .rotation) {
-                        model.firstGlobeEntity?.respawnGlobe("Left")
-                        model.secondGlobeEntity?.respawnGlobe("Right")
+                        model.firstGlobeEntity?.respawnGlobe(.left)
+                        model.secondGlobeEntity?.respawnGlobe(.right)
                     } else {
                         model.firstGlobeEntity?.rerotateGlobe()
-                        model.secondGlobeEntity?.respawnGlobe("Right")
+                        model.secondGlobeEntity?.respawnGlobe(.right)
                         if RotationCondition.rotationConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
                         }
@@ -549,11 +549,11 @@ private struct GlobeGesturesModifier: ViewModifier {
                         studyModel.currentTask?.updateAccuracyResult()
                         studyModel.storeTask()
                         if studyModel.isTaskRepeated(gestureType: .rotation) {
-                            model.firstGlobeEntity?.respawnGlobe("Left")
-                            model.secondGlobeEntity?.respawnGlobe("Right")
+                            model.firstGlobeEntity?.respawnGlobe(.left)
+                            model.secondGlobeEntity?.respawnGlobe(.right)
                         } else {
                             model.firstGlobeEntity?.rerotateGlobe()
-                            model.secondGlobeEntity?.respawnGlobe("Center")
+                            model.secondGlobeEntity?.respawnGlobe(.center)
                             if RotationCondition.rotationConditionsCompleted == true {
                                 studyModel.proceedToNextExperiment = true
                             }
