@@ -340,7 +340,7 @@ class ViewModel: CustomDebugStringConvertible {
     }
     
     @MainActor
-    func updateConditions() {
+    func updatePositionConditions() {
         let rotatingGlobe: PositionCondition.RotatingGlobe
         rotatingGlobe = PositionCondition.positionConditionsGetter(for: positionConditions,
                                                                    lastUsedIndex: PositionCondition.lastUsedPositionConditionIndex).0
@@ -359,10 +359,13 @@ class ViewModel: CustomDebugStringConvertible {
                 rotateGlobeWhileDragging = false
             }
         }
-        
+    }
+    
+    @MainActor
+    func updateRotationConditions() {
         let modality: RotationCondition.Modality
         modality = RotationCondition.rotationConditionsGetter(for: rotationConditions,
-                                                                   lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex).0
+                                                              lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex).0
         if RotationCondition.rotationSwapTechnique {
             switch modality {
             case .oneHanded:
@@ -378,7 +381,10 @@ class ViewModel: CustomDebugStringConvertible {
                 oneHandedRotationGesture = false
             }
         }
-        
+    }
+    
+    @MainActor
+    func updateScaleConditions() {
         let movingGlobe: ScaleCondition.MovingGlobe
         movingGlobe = ScaleCondition.scaleConditionsGetter(for: scaleConditions,
                                                                    lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex).0

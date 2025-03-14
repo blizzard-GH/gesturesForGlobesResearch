@@ -57,7 +57,7 @@ struct TaskView: View {
                                 if currentPage == .positionExperiment1 || currentPage == .positionExperiment2 {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                         let counterPosition = model.firstGlobeEntity?.repositionGlobe()
-                                        model.secondGlobeEntity?.respawnGlobe(counterPosition ?? .center)
+                                        model.secondGlobeEntity?.respawnGlobe(counterPosition ?? SIMD3<Float>(0,0.9,-0.5))
                                     }
                                 }
                                 if currentPage == .rotationExperiment1 || currentPage == .rotationExperiment2 {
