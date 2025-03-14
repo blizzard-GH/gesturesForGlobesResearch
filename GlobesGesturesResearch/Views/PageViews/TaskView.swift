@@ -79,8 +79,8 @@ struct TaskView: View {
                             Text("Current page: \(currentPage)")
                             //                        Text("current task accuracy: \(studyModel.currentTask? ?? 0.0)")
                             Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
-                            Text("Last used index: \(ScaleCondition.lastUsedScaleConditionIndex)")
-                            Text("Is conditions looping complete: \(ScaleCondition.scaleConditionsCompleted)")
+                            Text("Last used index: \(PositionCondition.lastUsedPositionConditionIndex)")
+                            Text("Is conditions looping complete: \(PositionCondition.positionConditionsCompleted)")
                         }
                         .padding()
 

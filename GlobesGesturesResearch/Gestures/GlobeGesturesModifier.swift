@@ -213,8 +213,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                           targetTransform: targetTransform)
                         }
                     }
-                    
-                    model.updateConditions()
+                    if model.attachmentView == .none {
+                        model.updateConditions()
+                    }
                     
                     if let positionAtGestureStart = state.positionAtGestureStart,
                        let localRotationAtGestureStart = state.localRotationAtGestureStart,
@@ -283,11 +284,11 @@ private struct GlobeGesturesModifier: ViewModifier {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.isTaskRepeated(gestureType: .position) {
-                        model.firstGlobeEntity?.respawnGlobe("Left")
-                        model.secondGlobeEntity?.respawnGlobe("Right")
+                        model.firstGlobeEntity?.respawnGlobe(.left)
+                        model.secondGlobeEntity?.respawnGlobe(.right)
                     } else {
                         let counterPosition = model.firstGlobeEntity?.repositionGlobe()
-                        model.secondGlobeEntity?.respawnGlobe(counterPosition ?? "")
+                        model.secondGlobeEntity?.respawnGlobe(counterPosition ?? .center)
                         print("\(PositionCondition.lastUsedPositionConditionIndex)")
                         if PositionCondition.positionConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
@@ -324,7 +325,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                         }
                     }
                     
-                    model.updateConditions()
+                    if model.attachmentView == .none {
+                        model.updateConditions()
+                    }
                     
                     if let globeScaleAtGestureStart = state.scaleAtGestureStart,
                        let globePositionAtGestureStart = state.positionAtGestureStart,
@@ -397,7 +400,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                         }
                     }
                     
-                    model.updateConditions()
+                    if model.attachmentView == .none {
+                        model.updateConditions()
+                    }
                     
                     if let globeEntity = value.entity as? GlobeEntity,
                        let orientationAtGestureStart = state.orientationAtGestureStart {
@@ -478,7 +483,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                         }
                     }
                     
-                    model.updateConditions()
+                    if model.attachmentView == .none {
+                        model.updateConditions()
+                    }
                     
                     guard let drag = drag else { return }
                     

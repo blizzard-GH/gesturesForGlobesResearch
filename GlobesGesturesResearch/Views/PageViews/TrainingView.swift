@@ -21,9 +21,9 @@ struct TrainingView: View {
 
     private func updateAttachmentView() {
             switch currentPage {
-            case .positionExperimentForm1, .positionExperimentForm2, .positionComparison:
+            case .positionComparison:
                 model.attachmentView = .position
-            case .scaleExperimentForm1, .scaleExperimentForm2, .scaleComparison:
+            case .scaleComparison:
                 model.attachmentView = .scale
             default:
                 model.attachmentView = .none

@@ -81,7 +81,7 @@ class ViewModel: CustomDebugStringConvertible {
     
     /// Show an attachment view with options for positioning or scaling globes
     @MainActor
-    var attachmentView: AttachmentView? = .position
+    var attachmentView: AttachmentView? = .none
     
     // MARK: - Visible Globes
     
@@ -140,8 +140,8 @@ class ViewModel: CustomDebugStringConvertible {
                 Task { @MainActor in
                     storeGlobeEntity(entities.0, entities.1)
                     
-                    entities.0.respawnGlobe("Left")  
-                    entities.1.respawnGlobe("Right")
+                    entities.0.respawnGlobe(.left)
+                    entities.1.respawnGlobe(.right)
                 }
             } catch {
                 Task { @MainActor in
@@ -344,31 +344,58 @@ class ViewModel: CustomDebugStringConvertible {
         let rotatingGlobe: PositionCondition.RotatingGlobe
         rotatingGlobe = PositionCondition.positionConditionsGetter(for: positionConditions,
                                                                    lastUsedIndex: PositionCondition.lastUsedPositionConditionIndex).0
-        switch rotatingGlobe{
-        case .rotating:
-            rotateGlobeWhileDragging = true
-        case .notRotating:
-            rotateGlobeWhileDragging = false
+        if PositionCondition.positionSwapTechnique {
+            switch rotatingGlobe {
+            case .rotating:
+                rotateGlobeWhileDragging = false  // Flipped to conform balanced latin square for technique variable
+            case .notRotating:
+                rotateGlobeWhileDragging = true
+            }
+        } else {
+            switch rotatingGlobe {
+            case .rotating:
+                rotateGlobeWhileDragging = true
+            case .notRotating:
+                rotateGlobeWhileDragging = false
+            }
         }
         
         let modality: RotationCondition.Modality
         modality = RotationCondition.rotationConditionsGetter(for: rotationConditions,
                                                                    lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex).0
-        switch modality {
-        case .oneHanded:
-            oneHandedRotationGesture = true
-        case .twoHanded:
-            oneHandedRotationGesture = false
+        if RotationCondition.rotationSwapTechnique {
+            switch modality {
+            case .oneHanded:
+                oneHandedRotationGesture = false
+            case .twoHanded:
+                oneHandedRotationGesture = true
+            }
+        } else {
+            switch modality {
+            case .oneHanded:
+                oneHandedRotationGesture = true
+            case .twoHanded:
+                oneHandedRotationGesture = false
+            }
         }
         
         let movingGlobe: ScaleCondition.MovingGlobe
         movingGlobe = ScaleCondition.scaleConditionsGetter(for: scaleConditions,
                                                                    lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex).0
-        switch movingGlobe{
-        case .moving:
-            moveGlobeWhileScaling = true
-        case .notMoving:
-            moveGlobeWhileScaling = false
+        if ScaleCondition.scaleSwapTechnique {
+            switch movingGlobe {
+            case .moving:
+                moveGlobeWhileScaling = false
+            case .notMoving:
+                moveGlobeWhileScaling = true
+            }
+        } else {
+            switch movingGlobe {
+            case .moving:
+                moveGlobeWhileScaling = true
+            case .notMoving:
+                moveGlobeWhileScaling = false
+            }
         }
     }
 }

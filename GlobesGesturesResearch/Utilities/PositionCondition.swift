@@ -24,6 +24,8 @@ struct PositionCondition {
     
     static var positionConditionsCompleted: Bool = false
     
+    static var positionSwapTechnique: Bool = false // This var will swap technique, so that technique is implemented to Balanced Latin Square by half order
+    
     enum RotatingGlobe {
         case rotating
         case notRotating
@@ -65,7 +67,7 @@ struct PositionCondition {
         var positionConditions: [PositionCondition] = []
         let rows = data.split(whereSeparator: \.isNewline).dropFirst().filter { !$0.isEmpty }
         //let rows = data.split(separator: "\n").dropFirst() // Skip header row
-        for row in rows {
+        for (index, row) in rows.enumerated() {
             let columns = row.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
             guard columns.count == 7
             else {
@@ -81,6 +83,10 @@ struct PositionCondition {
                                                       condition6: columns[6]
             )
             positionConditions.append(positionCondition)
+            
+            if index.isMultiple(of: 2) && columns[0] == "Active" {
+                positionSwapTechnique = true
+            }
         }
         return positionConditions
     }

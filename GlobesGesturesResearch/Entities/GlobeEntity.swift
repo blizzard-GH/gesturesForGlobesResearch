@@ -40,6 +40,29 @@ class GlobeEntity: Entity {
         return ViewModel.shared.scaleConditions
     }
     
+    var lastGlobeReposition: SIMD3<Float>?
+    
+    enum GlobePosition: CaseIterable {
+        case center, left, leftClose, right, rightClose
+        case centerUp, leftUp, rightUp, centerDown, leftDown, rightDown
+
+        var position: SIMD3<Float> {
+            switch self {
+            case .center: return SIMD3(0, 0.9, -0.5)
+            case .left: return SIMD3(-0.5, 0.9, -0.5)
+            case .leftClose: return SIMD3(-0.4, 0.9, -0.5)
+            case .right: return SIMD3(0.5, 0.9, -0.5)
+            case .rightClose: return SIMD3(0.4, 0.9, -0.5)
+            case .centerUp: return SIMD3(0, 1.6, -0.5)
+            case .leftUp: return SIMD3(-0.5, 1.6, -0.5)
+            case .rightUp: return SIMD3(0.5, 1.6, -0.5)
+            case .centerDown: return SIMD3(0, 0.4, -0.5)
+            case .leftDown: return SIMD3(-0.5, 0.4, -0.5)
+            case .rightDown: return SIMD3(0.5, 0.4, -0.5)
+            }
+        }
+    }
+    
     @MainActor required init() {
         super.init()
     }
@@ -305,82 +328,10 @@ class GlobeEntity: Entity {
         animateTransform(position: newGlobeCenter, duration: duration)
     }
     
-//    enum RepositionOrientations {
-//        case rotating
-//        case notRotating
-//    }
-//    
-//    enum RepositionDirections {
-//        case vertical
-//        case horizontal
-//        case diagonalUp
-//        case diagonalDown
-//    }
-//    
-//    enum RepositionDistance {
-//        case near
-//        case far
-//    }
-//    
-//    enum RerotationComplexity {
-//        case simple
-//        case complex
-//    }
-//    
-//    enum RerotationModalities {
-//        case oneHanded
-//        case twoHanded
-//    }
-//    
-//    enum RescaleSize {
-//        case smallToLarge
-//        case largeToSmall
-//    }
-//    
-//    enum RescaleOrientation {
-//        case moving
-//        case notMoving
-//    }
     
-    func respawnGlobe(_ newPlace: String) {
-//        let newPosition: SIMD3<Float>
-//        switch newPlace {
-//        case "Center" :
-//            newPosition = SIMD3<Float>(0, 1.6, -0.5)
-//        case "Left":
-//            newPosition = SIMD3<Float>(-0.5, 1.6, -0.5)
-//        case "Right" :
-//            newPosition = SIMD3<Float>(0.5, 1.6, -0.5)
-//        case "CenterUp" :
-//            newPosition = SIMD3<Float>(0, 2.5, -0.5)
-//        case "LeftUp":
-//            newPosition = SIMD3<Float>(-0.5, 2.5, -0.5)
-//        case "RightUp" :
-//            newPosition = SIMD3<Float>(0.5, 2.5, -0.5)
-//        case "CenterDown" :
-//            newPosition = SIMD3<Float>(0, 0.5, -0.5)
-//        case "LeftDown":
-//            newPosition = SIMD3<Float>(-0.5, 0.5, -0.5)
-//        case "RightDown" :
-//            newPosition = SIMD3<Float>(0.5, 0.5, -0.5)
-//        default:
-//            newPosition = SIMD3<Float>(0, 1.6, -0.5)
-//        }
-        let positionMapping: [String: SIMD3<Float>] = [
-            "Center": SIMD3(0, 1.6, -0.5),
-            "Left": SIMD3(-0.5, 1.6, -0.5),
-            "Left close": SIMD3(-0.4, 1.6, -0.5),
-            "Right": SIMD3(0.5, 1.6, -0.5),
-            "Right close": SIMD3(0.4, 1.6, -0.5),
-            "CenterUp": SIMD3(0, 2.5, -0.5),
-            "LeftUp": SIMD3(-0.5, 2.5, -0.5),
-            "RightUp": SIMD3(0.5, 2.5, -0.5),
-            "CenterDown": SIMD3(0, 0.5, -0.5),
-            "LeftDown": SIMD3(-0.5, 0.5, -0.5),
-            "RightDown": SIMD3(0.5, 0.5, -0.5)
-        ]
+    func respawnGlobe(_ newPlace: GlobePosition) {
 
-        let newPosition = positionMapping[newPlace, default: SIMD3(0, 1.6, -0.5)]
+        let newPosition = newPlace.position
         
         let randomRotationY = Float.random(in: -Float.pi...Float.pi)
         let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
@@ -391,62 +342,22 @@ class GlobeEntity: Entity {
             duration: 2)
     }
     
-//    func respawnGlobeToCenter() {
-//        
-//        let newPosition = SIMD3<Float>(0, 1.6, -0.5)
-//        
-//        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
-//        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
-//        
-//        animateTransform(
-//            orientation: newOrientation,
-//            position: newPosition,
-//            duration: 2)
-//        
-//    }
-//    
-//    func respawnGlobeToLeft() {
-//        
-//        let newPosition = SIMD3<Float>(-0.5, 1.6, -0.5)
-//        
-//        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
-//        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
-//    
-//        animateTransform(
-//            orientation: newOrientation,
-//            position: newPosition,
-//            duration: 2)
-//        
-//    }
-//    
-//    func respawnGlobeToRight() {
-//        
-//        let newPosition = SIMD3<Float>(0.5, 1.6, -0.5)
-//        
-//        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
-//        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
-//        
-//        animateTransform(
-//            orientation: newOrientation,
-//            position: newPosition,
-//            duration: 2)
-//        
-//    }
     
-    func repositionGlobe() -> String {
+    func repositionGlobe() -> GlobePosition {
         guard let cameraPosition = CameraTracker.shared.position else {
             print("Camera position is unknown.")
-            return ""
+            return .center
         }
         
-        var counterPosition: String = ""
-        
-        let (globeRotates, distance, direction) = PositionCondition.positionConditionsGetter(for: positionConditions,
-                                                                             lastUsedIndex: PositionCondition.lastUsedPositionConditionIndex)
+        var counterPosition: GlobePosition = .center
         
         PositionCondition.positionConditionsSetter(for: positionConditions,
                                                    lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
         
+        let (globeRotates, distance, direction) = PositionCondition.positionConditionsGetter(for: positionConditions,
+                                                                             lastUsedIndex: PositionCondition.lastUsedPositionConditionIndex)
+        
+
         let _: Bool = (globeRotates == .rotating) ? true : false
         
         let distanceMultiplier: Float = (distance == .near) ? 0.5 : 1.0
@@ -454,45 +365,27 @@ class GlobeEntity: Entity {
         let offset: SIMD3<Float>
         
         // We could the predefined number here, but these number is in queue, so it takes turn, try array
+        // Predefined cycling values
+        let horizontalValues: [Float] = [-0.6, 0, 0.6]
+        let verticalValues: [Float] = [0.4, 0.9, 1.4]
+        
+        
         let randomiseHorizontal = Float.random(in: -0.5...0.5)
         let randomiseVertical = Float.random(in: 0...1.8)
 //        let randomiseHorizontalLeft = Float.random(in: -0.5...0)
 //        let randomiseVerticalUp = Float.random(in: 1.7...2.5)
 //        let randomiseVerticalDown = Float.random(in: 0...1.7)
-
-//        struct Randomiser {
-//            private var randomisers: [() -> Float]
-//            private var currentIndex = -1
-//            
-//            init() {
-//                randomisers = [
-//                    { Float.random(in: -0.5...0.5) },  // randomiseHorizontal
-//                    { Float.random(in: 0...1.8) },     // randomiseVertical
-//                    { Float.random(in: -0.5...0) },    // randomiseHorizontalLeft
-//                    { Float.random(in: 1.7...2.5) },   // randomiseVerticalUp
-//                    { Float.random(in: 0...1.7) }      // randomiseVerticalDown
-//                ]
-//                HorizontalValueRandomiser = [-0.5,-0.3,-0.1,0.1,0.3,0.5]
-//                VerticalValueRandomiser = [-0.5,-0.3,-0.1,0.1,0.3,0.5]
-//            }
-//            
-//            mutating func next() -> Float {
-//                currentIndex = (currentIndex + 1) % randomizers.count
-//                return randomizers[currentIndex]()
-//            }
-//        }
-//
         
         switch direction {
         case .vertical:
-            offset = SIMD3<Float>(0, randomiseVertical, -0.5) * distanceMultiplier
-            counterPosition = ["Center", "CenterUp", "CenterDown"].randomElement()!
+            offset = SIMD3<Float>(0, randomiseHorizontal, -0.5) * distanceMultiplier
+            counterPosition = [.center, .centerUp, .centerDown].randomElement()!
         case .horizontal:
-            offset = SIMD3<Float>(randomiseHorizontal, 0, -0.5) * distanceMultiplier
-            counterPosition = ["Center", "Left", "Right"].randomElement()!
+            offset = SIMD3<Float>(randomiseVertical, 0, -0.5) * distanceMultiplier
+            counterPosition = [.center, .left, .right].randomElement()!
         case .diagonal:
             offset = SIMD3<Float>(-0.5, randomiseVertical, -0.5) * distanceMultiplier
-            counterPosition = ["CenterUp", "Center", "CenterDown", "RightUp", "Right", "RightDown"].randomElement()!
+            counterPosition = [.centerUp, .center, .centerDown, .rightUp, .right, .rightDown].randomElement()!
 //        case .diagonalUp:
 //            offset = SIMD3<Float>(randomiseHorizontalLeft, randomiseVerticalUp, -0.5) * distanceMultiplier
 //            counterPosition = ["Center", "CenterUp", "RightUp", "Right"].randomElement()!
@@ -501,9 +394,9 @@ class GlobeEntity: Entity {
 //            counterPosition = ["Center", "CenterDown", "RightDown", "Right"].randomElement()!
         case .none:
             offset = SIMD3<Float>(0, 0, -0.5) * distanceMultiplier
-            counterPosition = ["Center", "CenterUp", "CenterDown",
-                               "Left", "LeftUp", "LeftDown" ,
-                               "Right", "RightUp", "RightDown"].randomElement()!
+            counterPosition = [.center, .centerUp, .centerDown,
+                               .left, .leftUp, .leftDown,
+                               .right, .rightUp, .rightDown].randomElement()!
         }
         
         let newPosition = cameraPosition + offset

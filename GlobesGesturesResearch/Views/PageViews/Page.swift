@@ -45,14 +45,14 @@ enum Page: String, CaseIterable {
                     "position",
                     "move",
                     "Positioning the globe",
-                    "We are measuring the accuracy and time to properly position the globe.",
+                    "In this technique, the globe spins as the globe moves so the side of the globe facing to you is always the same.",
                     .position)
         case .positionExperiment2:
             return ("2",
                     "position",
                     "move",
                     "Positioning the globe",
-                    "We are measuring the accuracy and time to properly position the globe.",
+                    "In this technique, the globe stays in its position so the side of the globe facing to you is changing.",
                     .position)
 
         case .rotationExperiment1:
@@ -60,14 +60,14 @@ enum Page: String, CaseIterable {
                     "orientation",
                     "rotate",
                     "Rotating the globe",
-                    "We are measuring the accuracy and time to properly rotate the globe.",
+                    "In this technique, the rotation is utilising both hands.",
                     .rotation)
         case .rotationExperiment2:
             return ("4",
                     "orientation",
                     "rotate",
                     "Rotating the globe",
-                    "We are measuring the accuracy and time to properly rotate the globe.",
+                    "In this technique, the rotation is utilising right hand only.",
                     .rotation)
 
         case .scaleExperiment1:
@@ -75,14 +75,14 @@ enum Page: String, CaseIterable {
                     "size",
                     "scale",
                     "Scaling the globe",
-                    "We are measuring the accuracy and time to properly scale the globe.",
+                    "In this technique, the globe moves away as you scale it up, and the other way around.",
                     .scale)
         case .scaleExperiment2:
             return ("6",
                     "size",
                     "scale",
                     "Scaling the globe",
-                    "We are measuring the accuracy and time to properly scale the globe.",
+                    "In this technique, the globe maintains its position whether you scale it up or down.",
                     .scale)
 
         default:

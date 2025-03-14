@@ -19,6 +19,8 @@ struct ScaleCondition {
     
     static var scaleConditionsCompleted: Bool = false
     
+    static var scaleSwapTechnique: Bool = false // This var will swap technique, so that technique is implemented to Balanced Latin Square by half order
+    
     enum MovingGlobe {
         case notMoving
         case moving
@@ -49,7 +51,7 @@ struct ScaleCondition {
         var scalingConditions: [ScaleCondition] = []
         let rows = data.split(whereSeparator: \.isNewline).dropFirst().filter { !$0.isEmpty }
         //let rows = data.split(separator: "\n").dropFirst() // Skip header row
-        for row in rows {
+        for (index, row) in rows.enumerated() {
             let columns = row.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
             guard columns.count == 3
             else {
@@ -59,6 +61,10 @@ struct ScaleCondition {
                                                     condition1: columns[1],
                                                     condition2: columns[2])
             scalingConditions.append(scalingCondition)
+            
+            if index.isMultiple(of: 2) && columns[0] == "Active" {
+                scaleSwapTechnique = true
+            }
         }
         return scalingConditions
     }
