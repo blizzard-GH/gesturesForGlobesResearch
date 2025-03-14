@@ -55,9 +55,20 @@ struct TaskView: View {
                             startTimer()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 if currentPage == .positionExperiment1 || currentPage == .positionExperiment2 {
-                                    let counterPosition = model.firstGlobeEntity?.repositionGlobe()
-                                    model.secondGlobeEntity?.respawnGlobe(counterPosition ?? .center)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        let counterPosition = model.firstGlobeEntity?.repositionGlobe()
+                                        model.secondGlobeEntity?.respawnGlobe(counterPosition ?? .center)
+                                    }
                                 }
+                                if currentPage == .rotationExperiment1 || currentPage == .rotationExperiment2 {
+                                    model.firstGlobeEntity?.rerotateGlobe()
+                                    model.firstGlobeEntity?.respawnGlobe(.left)
+                                    model.secondGlobeEntity?.respawnGlobe(.right)
+                                }
+                                if currentPage == .scaleExperiment1 || currentPage == .scaleExperiment2 {
+                                    model.firstGlobeEntity?.rescaleGlobe()
+                                    model.firstGlobeEntity?.respawnGlobe(.leftClose)
+                                    model.secondGlobeEntity?.respawnGlobe(.rightClose)                                }
                             }
                             // Task{
 //                                await checkMatchingStatus(taskNumber : details.taskNumber, model: model)
