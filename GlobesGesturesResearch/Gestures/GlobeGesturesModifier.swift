@@ -105,6 +105,8 @@ private struct GlobeGesturesModifier: ViewModifier {
     
     var oneHandedRotationGesture: Bool { model.oneHandedRotationGesture }
     
+    let soundManager = SoundManager.shared
+    
     
     @ViewBuilder
     func body(content: Content) -> some View {
@@ -200,8 +202,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                         state.localRotationAtGestureStart = (value.entity as? GlobeEntity)?.orientation
                         
                         if let originalTransform = model.firstGlobeEntity?.transform,
-                        let targetTransform = model.secondGlobeEntity?.transform {
-                            studyModel.setupNextTask(gestureType: .position, originalTransform: originalTransform, targetTransform: targetTransform)
+                           let targetTransform = model.secondGlobeEntity?.transform {
+                            studyModel.setupNextTask(gestureType: .position, originalTransform: originalTransform,
+                                                     targetTransform: targetTransform,
+                                                     soundManager: soundManager)
                             studyModel.currentTask?.start(type: .position,
                                                           originalTransform: originalTransform,
                                                           targetTransform: targetTransform)
@@ -311,7 +315,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                         
                         if let originalTransform = model.firstGlobeEntity?.transform,
                         let targetTransform = model.secondGlobeEntity?.transform {
-                            studyModel.setupNextTask(gestureType: .scale, originalTransform: originalTransform, targetTransform: targetTransform)
+                            studyModel.setupNextTask(gestureType: .scale, originalTransform: originalTransform,
+                                                     targetTransform: targetTransform,
+                                                     soundManager: soundManager)
                             studyModel.currentTask?.start(type: .scale,
                                                           originalTransform: originalTransform,
                                                           targetTransform: targetTransform)
@@ -385,7 +391,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                             pauseRotationAndStoreRotationState()
                             if let originalTransform = model.firstGlobeEntity?.transform,
                             let targetTransform = model.secondGlobeEntity?.transform {
-                                studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform, targetTransform: targetTransform)
+                                studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform,
+                                                         targetTransform: targetTransform,
+                                                         soundManager: soundManager)
                                 studyModel.currentTask?.start(type: .rotation,
                                                               originalTransform: originalTransform,
                                                               targetTransform: targetTransform)
@@ -469,7 +477,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                         pauseRotationAndStoreRotationState()
                         if let originalTransform = model.firstGlobeEntity?.transform,
                         let targetTransform = model.secondGlobeEntity?.transform {
-                            studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform, targetTransform: targetTransform)
+                            studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform,
+                                                     targetTransform: targetTransform,
+                                                     soundManager: soundManager)
                             studyModel.currentTask?.start(type: .rotation,
                                                           originalTransform: originalTransform,
                                                           targetTransform: targetTransform)

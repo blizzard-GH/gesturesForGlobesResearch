@@ -13,9 +13,12 @@ class RotationTask: StudyTask {
     var accuracyResult: Float = 0.0
     
     var matcher: any Matcher
+    var soundManager: SoundManager
+
     
-    init(originalRotation: simd_quatf, targetRotation: simd_quatf) {
-        matcher = RotationMatcher(rotationTarget: targetRotation)
+    init(originalRotation: simd_quatf, targetRotation: simd_quatf, soundManager: SoundManager) {
+        self.matcher = RotationMatcher(rotationTarget: targetRotation, soundManager: soundManager)
+        self.soundManager = soundManager
     }
     
     

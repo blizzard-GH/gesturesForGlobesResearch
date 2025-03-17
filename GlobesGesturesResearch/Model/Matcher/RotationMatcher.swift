@@ -13,13 +13,18 @@ class RotationMatcher: Matcher {
     let rotationTarget: simd_quatf
     let tolerance: Float = 0.5
     
-    init(rotationTarget: simd_quatf) {
+    private let soundManager: SoundManager
+
+    
+    init(rotationTarget: simd_quatf, soundManager: SoundManager) {
         self.rotationTarget = rotationTarget
+        self.soundManager = soundManager
     }
     
     func isMatching(_ transform: Transform) -> Bool {
         let angleDifference = quaternionAngleDifference(q1: transform.rotation, q2: rotationTarget)
-        return angleDifference <= tolerance
+        let matched = angleDifference <= tolerance
+        return matched
     }
     
     func quaternionAngleDifference(q1: simd_quatf, q2: simd_quatf) -> Float {

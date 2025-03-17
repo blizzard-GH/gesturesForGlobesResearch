@@ -13,9 +13,12 @@ class PositionTask: StudyTask {
     var accuracyResult: Float = 0.0
     
     var matcher: any Matcher
+    var soundManager: SoundManager
+
     
-    init(originalPosition: SIMD3<Float>, targetPosition: SIMD3<Float>) {
-        self.matcher = PositionMatcher(targetPosition: targetPosition)
+    init(originalPosition: SIMD3<Float>, targetPosition: SIMD3<Float>, soundManager: SoundManager) {
+        self.matcher = PositionMatcher(targetPosition: targetPosition, soundManager: soundManager)
+        self.soundManager = soundManager  
     }
     
     func saveToFile() {

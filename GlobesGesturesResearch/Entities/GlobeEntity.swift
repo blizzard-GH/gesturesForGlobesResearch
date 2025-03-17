@@ -44,6 +44,8 @@ class GlobeEntity: Entity {
     
     var lastGlobeCounterReposition: SIMD3<Float>?
     
+    var useFirstScaleIndex: Bool = true
+    
     enum GlobePosition: CaseIterable {
         case center, left, leftClose, right, rightClose
         case centerUp, leftUp, rightUp, centerDown, leftDown, rightDown
@@ -453,12 +455,17 @@ class GlobeEntity: Entity {
         
         let (movingGlobe, zoomDirection) = ScaleCondition.scaleConditionsGetter(for: scaleConditions, lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex)
         
-        let movingGlobeScale: Float = (movingGlobe == .notMoving) ? 1.2 : 0.8
-        let zoomDirectionScale: Float = (zoomDirection == .smallToLarge) ? 1.1 : 1.0
+//        let movingGlobeScale: Float = (movingGlobe == .notMoving) ? 1.2 : 0.8
+        let firstZoomScale: Float = (zoomDirection == .smallToLarge) ? 0.6 : 1.8
+        let secondZoomScale: Float = (zoomDirection == .smallToLarge) ? 1.2 : 0.9
         
-        let finalScale = movingGlobeScale * zoomDirectionScale
+        // Select which scale to use based on toggle
+        let zoomDirectionScale = useFirstScaleIndex ? firstZoomScale : secondZoomScale
         
-        animateTransform(scale: finalScale, duration: 3)
+        // Toggle for next execution
+        useFirstScaleIndex.toggle()
+        
+        animateTransform(scale: zoomDirectionScale, duration: 3)
         
 //    Randomiser:
 //        let randomScaleFactor = Float.random(in: 0.8...1.2)

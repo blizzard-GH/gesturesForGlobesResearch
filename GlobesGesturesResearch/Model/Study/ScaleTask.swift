@@ -12,9 +12,12 @@ class ScaleTask: StudyTask {
     var accuracyResult: Float = 0.0
     
     var matcher: any Matcher
+    var soundManager: SoundManager
+
     
-    init(originalScale: Float, targetScale: Float) {
-        matcher = ScaleMatcher(targetScale: SIMD3<Float>(repeating: targetScale))
+    init(originalScale: Float, targetScale: Float, soundManager: SoundManager) {
+        self.matcher = ScaleMatcher(targetScale: SIMD3<Float>(repeating: targetScale), soundManager: soundManager)
+        self.soundManager = soundManager
     }
     
     func saveToFile() {

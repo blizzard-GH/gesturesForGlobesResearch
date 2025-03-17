@@ -13,14 +13,21 @@ import simd
 class PositionMatcher: Matcher {
     let targetPosition: SIMD3<Float>
     let tolerance: Float = 0.5
+    private let soundManager: SoundManager
+
     
-    init(targetPosition: SIMD3<Float>) {
+    init(targetPosition: SIMD3<Float>, soundManager: SoundManager) {
         self.targetPosition = targetPosition
+        self.soundManager = soundManager
     }
     
     func isMatching(_ transform: Transform) -> Bool {
         let distance = simd_distance(transform.translation, targetPosition)
-        return distance <= tolerance
+        let matched = distance <= tolerance
+        if matched {
+            soundManager.playCorrectSound()
+        }
+        return matched
     }
     
     func getAccuracy(_ transform: Transform) -> Float {

@@ -29,6 +29,7 @@ class StudyModel {
     private var scaleTaskRepetitionCount: Int = 0
     
     var proceedToNextExperiment: Bool = false
+    
             
 //    Current task
     var currentTask: StudyTask?
@@ -36,17 +37,20 @@ class StudyModel {
 //    var currentTaskPage: Page = .welcome
     
     /// Create the next task
-    func setupNextTask(gestureType: GestureType, originalTransform: Transform, targetTransform: Transform) {
+    func setupNextTask(gestureType: GestureType, originalTransform: Transform, targetTransform: Transform, soundManager: SoundManager) {
         switch gestureType {
         case .position:
             currentTask = PositionTask(originalPosition: originalTransform.translation,
-                                       targetPosition: targetTransform.translation)
+                                       targetPosition: targetTransform.translation,
+                                       soundManager: soundManager)
         case .rotation:
             currentTask = RotationTask(originalRotation: originalTransform.rotation,
-                                       targetRotation: targetTransform.rotation)
+                                       targetRotation: targetTransform.rotation,
+                                       soundManager: soundManager)
         case .scale:
             currentTask = ScaleTask(originalScale: originalTransform.scale.x,
-                                    targetScale: targetTransform.scale.x)
+                                    targetScale: targetTransform.scale.x,
+                                    soundManager: soundManager)
         }
     }
     

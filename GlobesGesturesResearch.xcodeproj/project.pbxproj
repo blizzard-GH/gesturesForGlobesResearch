@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -121,6 +121,11 @@
 		97E82D512D56537C00A94A2F /* Rotation.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rotation.csv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		976EF9942D87A560008A56DA /* Controllers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Controllers; sourceTree = "<group>"; };
+		976EF9952D87B057008A56DA /* Sounds */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Sounds; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		7DD56E4E2C6CC830009AE72C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -221,6 +226,8 @@
 				7DC861432CA44E0D00D2F90F /* geo.csv */,
 				7DD56E632C6CC831009AE72C /* Info.plist */,
 				7DD56E602C6CC831009AE72C /* Preview Content */,
+				976EF9942D87A560008A56DA /* Controllers */,
+				976EF9952D87B057008A56DA /* Sounds */,
 			);
 			path = GlobesGesturesResearch;
 			sourceTree = "<group>";
@@ -320,6 +327,10 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				976EF9942D87A560008A56DA /* Controllers */,
+				976EF9952D87B057008A56DA /* Sounds */,
 			);
 			name = GlobesGesturesResearch;
 			packageProductDependencies = (
