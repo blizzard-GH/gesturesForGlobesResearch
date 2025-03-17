@@ -24,6 +24,7 @@ class RotationMatcher: Matcher {
     func isMatching(_ transform: Transform) -> Bool {
         let angleDifference = quaternionAngleDifference(q1: transform.rotation, q2: rotationTarget)
         let matched = angleDifference <= tolerance
+
         return matched
     }
     

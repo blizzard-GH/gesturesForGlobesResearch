@@ -173,9 +173,9 @@ class ViewModel: CustomDebugStringConvertible {
         secondEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: 0.5)
         
         if secondEntity.components.has(OpacityComponent.self) {
-            secondEntity.components[OpacityComponent.self] = OpacityComponent(opacity: 0.5)
+            secondEntity.components[OpacityComponent.self] = OpacityComponent(opacity: 0.4)
         } else {
-            secondEntity.components.set(OpacityComponent(opacity: 0.5))
+            secondEntity.components.set(OpacityComponent(opacity: 0.4))
         }
         
         firstGlobeEntity = firstEntity

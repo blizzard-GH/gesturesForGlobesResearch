@@ -61,14 +61,19 @@ struct TaskView: View {
                                     }
                                 }
                                 if currentPage == .rotationExperiment1 || currentPage == .rotationExperiment2 {
-                                    model.firstGlobeEntity?.rerotateGlobe()
-                                    model.firstGlobeEntity?.respawnGlobe(.left)
-                                    model.secondGlobeEntity?.respawnGlobe(.right)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        model.firstGlobeEntity?.respawnGlobe(.left)
+                                        model.secondGlobeEntity?.respawnGlobe(.right)
+                                        model.firstGlobeEntity?.rerotateGlobe()
+                                    }
                                 }
                                 if currentPage == .scaleExperiment1 || currentPage == .scaleExperiment2 {
-                                    model.firstGlobeEntity?.rescaleGlobe()
-                                    model.firstGlobeEntity?.respawnGlobe(.leftClose)
-                                    model.secondGlobeEntity?.respawnGlobe(.rightClose)                                }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        model.firstGlobeEntity?.respawnGlobe(.leftClose)
+                                        model.secondGlobeEntity?.respawnGlobe(.rightClose)
+                                        model.firstGlobeEntity?.rescaleGlobe()
+                                    }
+}
                             }
                             // Task{
 //                                await checkMatchingStatus(taskNumber : details.taskNumber, model: model)
@@ -96,8 +101,8 @@ struct TaskView: View {
                             Text("Current page: \(currentPage)")
                             //                        Text("current task accuracy: \(studyModel.currentTask? ?? 0.0)")
                             Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
-                            Text("Last used index: \(PositionCondition.lastUsedPositionConditionIndex)")
-                            Text("Is conditions looping complete: \(PositionCondition.positionConditionsCompleted)")
+                            Text("Last used index: \(ScaleCondition.lastUsedScaleConditionIndex)")
+                            Text("Is conditions looping complete: \(ScaleCondition.scaleConditionsCompleted)")
                         }
                         .padding()
 

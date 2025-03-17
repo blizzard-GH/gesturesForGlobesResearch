@@ -280,6 +280,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
+                    soundManager.playCorrectSound()
                     if studyModel.isTaskRepeated(gestureType: .position) {
                         model.firstGlobeEntity?.respawnGlobe(model.firstGlobeEntity?.lastGlobeCounterReposition ?? SIMD3<Float>(0,0.9,-0.5))
                         model.secondGlobeEntity?.respawnGlobe(model.firstGlobeEntity?.lastGlobeReposition ?? SIMD3<Float>(0,0.9,-0.5))
@@ -360,12 +361,14 @@ private struct GlobeGesturesModifier: ViewModifier {
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
+                    soundManager.playCorrectSound()
                     if studyModel.isTaskRepeated(gestureType: .scale) {
-                        model.firstGlobeEntity?.respawnGlobe(.left)
-                        model.secondGlobeEntity?.respawnGlobe(.right)
+                        model.firstGlobeEntity?.respawnGlobe(.rightClose)
+                        model.secondGlobeEntity?.respawnGlobe(.leftClose)
                     } else {
                         model.firstGlobeEntity?.rescaleGlobe()
-                        model.secondGlobeEntity?.respawnGlobe(.center)
+                        model.firstGlobeEntity?.respawnGlobe(.leftClose)
+                        model.secondGlobeEntity?.respawnGlobe(.rightClose)
                         if ScaleCondition.scaleConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
                         }
@@ -446,11 +449,13 @@ private struct GlobeGesturesModifier: ViewModifier {
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
+                    soundManager.playCorrectSound()
                     if studyModel.isTaskRepeated(gestureType: .rotation) {
                         model.firstGlobeEntity?.respawnGlobe(.left)
                         model.secondGlobeEntity?.respawnGlobe(.right)
                     } else {
                         model.firstGlobeEntity?.rerotateGlobe()
+                        model.firstGlobeEntity?.respawnGlobe(.left)
                         model.secondGlobeEntity?.respawnGlobe(.right)
                         if RotationCondition.rotationConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
@@ -551,12 +556,14 @@ private struct GlobeGesturesModifier: ViewModifier {
                     if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
                         studyModel.currentTask?.updateAccuracyResult()
                         studyModel.storeTask()
+                        soundManager.playCorrectSound()
                         if studyModel.isTaskRepeated(gestureType: .rotation) {
                             model.firstGlobeEntity?.respawnGlobe(.left)
                             model.secondGlobeEntity?.respawnGlobe(.right)
                         } else {
                             model.firstGlobeEntity?.rerotateGlobe()
-                            model.secondGlobeEntity?.respawnGlobe(.center)
+                            model.firstGlobeEntity?.respawnGlobe(.left)
+                            model.secondGlobeEntity?.respawnGlobe(.right)
                             if RotationCondition.rotationConditionsCompleted == true {
                                 studyModel.proceedToNextExperiment = true
                             }

@@ -24,9 +24,7 @@ class PositionMatcher: Matcher {
     func isMatching(_ transform: Transform) -> Bool {
         let distance = simd_distance(transform.translation, targetPosition)
         let matched = distance <= tolerance
-        if matched {
-            soundManager.playCorrectSound()
-        }
+
         return matched
     }
     

@@ -23,6 +23,7 @@ class ScaleMatcher: Matcher {
     func isMatching(_ transform: Transform) -> Bool {
         let scaleDifference = simd_distance(transform.scale, targetScale)
         let matched = scaleDifference <= tolerance
+
         return matched
     }
     
