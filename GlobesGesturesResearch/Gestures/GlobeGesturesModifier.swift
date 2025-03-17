@@ -290,10 +290,13 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
                 }
+                studyModel.currentTask?.updateAccuracyResult()
+                studyModel.storeTask()
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
-                    studyModel.currentTask?.updateAccuracyResult()
-                    studyModel.storeTask()
+//                    studyModel.currentTask?.updateAccuracyResult()
+//                    studyModel.storeTask()
                     soundManager.playCorrectSound()
+                    studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .position) {
                         model.firstGlobeEntity?.respawnGlobe(model.firstGlobeEntity?.lastGlobeCounterReposition ?? SIMD3<Float>(0,0.9,-0.5))
                         model.secondGlobeEntity?.respawnGlobe(model.firstGlobeEntity?.lastGlobeReposition ?? SIMD3<Float>(0,0.9,-0.5))
@@ -371,10 +374,13 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
                 }
+                studyModel.currentTask?.updateAccuracyResult()
+                studyModel.storeTask()
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
-                    studyModel.currentTask?.updateAccuracyResult()
-                    studyModel.storeTask()
+//                    studyModel.currentTask?.updateAccuracyResult()
+//                    studyModel.storeTask()
                     soundManager.playCorrectSound()
+                    studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .scale) {
                         model.firstGlobeEntity?.rescaleGlobe()
                         model.firstGlobeEntity?.respawnGlobe(.rightClose)
@@ -460,10 +466,13 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
                 }
+                studyModel.currentTask?.updateAccuracyResult()
+                studyModel.storeTask()
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
-                    studyModel.currentTask?.updateAccuracyResult()
-                    studyModel.storeTask()
+//                    studyModel.currentTask?.updateAccuracyResult()
+//                    studyModel.storeTask()
                     soundManager.playCorrectSound()
+                    studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .rotation) {
                         model.firstGlobeEntity?.rerotateGlobe()
                         model.firstGlobeEntity?.respawnGlobe(.right)
@@ -568,10 +577,13 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                     originalTransform: originalTransform,
                                                     targetTransform: targetTransform)
                     }
+                    studyModel.currentTask?.updateAccuracyResult()
+                    studyModel.storeTask()
                     if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
-                        studyModel.currentTask?.updateAccuracyResult()
-                        studyModel.storeTask()
+//                        studyModel.currentTask?.updateAccuracyResult()
+//                        studyModel.storeTask()
                         soundManager.playCorrectSound()
+                        studyModel.currentTask = nil
                         if studyModel.isTaskRepeated(gestureType: .rotation) {
                             model.firstGlobeEntity?.rerotateGlobe()
                             model.firstGlobeEntity?.respawnGlobe(.left)
@@ -590,96 +602,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                 }
             }
     }
-    
-//    private var rotateHoldGesture: some Gesture {
-//        LongPressGesture(minimumDuration: minimumLongPressDuration)
-//            .sequenced(before: RotateGesture3D())
-//            .targetedToAnyEntity()
-//            .updating($yRotationState) { value, yRotationState, _ in
-//                guard let entity = value.entity as? GlobeEntity else { return }
-//
-//                switch value.gestureValue {
-//                case .first(true):
-//                    // Long press starts.
-//                    yRotationState = .pressing
-//                    log("Long press started")
-//
-//                case .second(true, let rotate):
-//                    // Rotate gesture starts.
-//                    Task { @MainActor in
-//                        pauseRotationAndStoreRotationState()
-//
-//                        if let originalTransform = model.firstGlobeEntity?.transform,
-//                           let targetTransform = model.secondGlobeEntity?.transform {
-//                            studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform,
-//                                                     targetTransform: targetTransform,
-//                                                     soundManager: soundManager)
-//                            studyModel.currentTask?.start(type: .rotation,
-//                                                          originalTransform: originalTransform,
-//                                                          targetTransform: targetTransform)
-//                        }
-//                    }
-//                    
-//                    if let globeEntity = value.entity as? GlobeEntity,
-//                       let orientationAtGestureStart = state.orientationAtGestureStart {
-//                        log("update rotate")
-//
-//                        // Reduce the rotation angle for enlarged globes to avoid excessively fast movements
-//                        guard let rotate = rotate else { return }
-//                        let rotation = rotate.rotation  // Adjusted to access rotation from 'rotate'
-//                        let scale = max(1, Double(globeEntity.meanScale))
-//                        let angle = Angle2D(radians: rotation.angle.radians / scale)
-//
-//                        // Flip orientation of rotation to match rotation direction of hands.
-//                        let flippedRotation = Rotation3D(angle: angle,
-//                                                         axis: RotationAxis3D(x: -rotation.axis.x,
-//                                                                              y: rotation.axis.y,
-//                                                                              z: -rotation.axis.z))
-//
-//                        let newOrientation = orientationAtGestureStart.rotated(by: flippedRotation)
-//                        globeEntity.animationPlaybackController?.stop()
-//                        globeEntity.orientation = simd_quatf(newOrientation)
-//                    }
-//
-//                default:
-//                    break
-//                }
-//            }
-//            .onEnded { value in
-//                log("end rotate")
-//
-//                // Reset the previous rotation state
-//                if let paused = state.isRotationPausedAtGestureStart {
-//                    model.configuration.isRotationPaused = paused
-//                }
-//
-//                state.endGesture()
-//                if let originalTransform = model.firstGlobeEntity?.transform,
-//                   let targetTransform = model.secondGlobeEntity?.transform {
-//                    studyModel.currentTask?.end(type: .rotation,
-//                                                originalTransform: originalTransform,
-//                                                targetTransform: targetTransform)
-//                }
-//                if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
-//                    studyModel.currentTask?.updateAccuracyResult()
-//                    studyModel.storeTask()
-//                    soundManager.playCorrectSound()
-//                    if studyModel.isTaskRepeated(gestureType: .rotation) {
-//                        model.firstGlobeEntity?.rerotateGlobe()
-//                        model.firstGlobeEntity?.respawnGlobe(.right)
-//                        model.secondGlobeEntity?.respawnGlobe(.left)
-//                    } else {
-//                        model.firstGlobeEntity?.rerotateGlobe()
-//                        model.firstGlobeEntity?.respawnGlobe(.left)
-//                        model.secondGlobeEntity?.respawnGlobe(.right)
-//                        if RotationCondition.rotationConditionsCompleted == true {
-//                            studyModel.proceedToNextExperiment = true
-//                        }
-//                    }
-//                }
-//            }
-//    }
-    
+        
     
     /// Pauses automatic rotation of the globe while the globe is rotated by a gesture, and stores the automatic rotation state.
     private func pauseRotationAndStoreRotationState() {

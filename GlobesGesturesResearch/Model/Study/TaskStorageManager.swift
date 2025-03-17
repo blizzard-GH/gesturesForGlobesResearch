@@ -48,11 +48,11 @@ class TaskStorageManager {
         var csvString = ""
         
         if !fileExists {
-            csvString += "TaskID, date,type,status,original_translation_x,original_translation_y,original_translation_z,original_rotation_x,original_rotation_y,original_rotation_z,original_rotation_w,original_scale_x,original_scale_y,original_scale_z,target_translation_x,target_translation_y,target_translation_z,target_rotation_x,target_rotation_y,target_rotation_z,target_rotation_w,target_scale_x,target_scale_y,target_scale_z,accuracy_result\n"
+            csvString += "TaskID, date,type,gesture,original_translation_x,original_translation_y,original_translation_z,original_rotation_x,original_rotation_y,original_rotation_z,original_rotation_w,original_scale_x,original_scale_y,original_scale_z,target_translation_x,target_translation_y,target_translation_z,target_rotation_x,target_rotation_y,target_rotation_z,target_rotation_w,target_scale_x,target_scale_y,target_scale_z,accuracy_result,status\n"
         }
         
         // Convert each action to a CSV row
-        let rows = task.actions.elements.map { action in
+        let rows = task.actions.elements.enumerated().map { (index, action) in
             let date = ISO8601DateFormatter().string(from: action.date)
             let targetTranslation = "\(action.targetTransform.translation.x),\(action.targetTransform.translation.y),\(action.targetTransform.translation.z)"
             let targetRotationVector = action.targetTransform.rotation.vector
@@ -64,7 +64,20 @@ class TaskStorageManager {
             let originalScale = "\(action.originalTransform.scale.x),\(action.originalTransform.scale.y),\(action.originalTransform.scale.z)"
             let typeString = type.fileName
             
-            return "\(action.taskID.uuidString),\(date),\(typeString),\(action.status),\(originalTranslation),\(originalRotation),\(originalScale),\(targetTranslation),\(targetRotation),\(targetScale),\(task.accuracyResult)"
+            let totalActions = task.actions.elements.count
+            let isFirstAttempt = (index == 0 && totalActions > 0)
+            let isLastAttempt = (index == totalActions - 1 && totalActions > 0)
+
+            // Determine trial status
+            let status: String
+            if isFirstAttempt {
+                status = isLastAttempt && task.isMatching ? "Matched" : "Start task"
+            } else if isLastAttempt && task.isMatching {
+                status = "Matched"
+            } else {
+                status = "Trial"
+            }
+            return "\(action.taskID.uuidString),\(date),\(typeString),\(action.status),\(originalTranslation),\(originalRotation),\(originalScale),\(targetTranslation),\(targetRotation),\(targetScale),\(task.accuracyResult),\(status)"
         }
         
         csvString += rows.joined(separator: "\n") + "\n"
@@ -81,6 +94,7 @@ class TaskStorageManager {
                 try csvString.write(to: fileURL, atomically: true, encoding: .utf8)
             }
             Logger().info("Data saved to \(fileURL.path)")
+            print("Path: \(fileURL.path)")
         } catch {
             Logger().error("Failed to save CSV: \(error.localizedDescription)")
         }

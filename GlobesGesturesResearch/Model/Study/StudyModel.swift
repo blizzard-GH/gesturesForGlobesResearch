@@ -99,7 +99,7 @@ class StudyModel {
         default:
             fatalError("Unknown task type")
         }
-        currentTask = nil
+//        currentTask = nil
     }
     
     func log() {
