@@ -46,6 +46,7 @@
 		970D876A2D0A636A00700830 /* StudyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970D87692D0A636300700830 /* StudyModel.swift */; };
 		972409E62D5AE97A0006A1CD /* TrainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972409E52D5AE9760006A1CD /* TrainingView.swift */; };
 		9742BB292D33E1B7001079D4 /* GestureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9742BB282D33E1B2001079D4 /* GestureType.swift */; };
+		976EF99B2D87E39B008A56DA /* RotationOptionsAttachmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976EF99A2D87E391008A56DA /* RotationOptionsAttachmentView.swift */; };
 		9798B5372D11C7F400D0319C /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9798B5362D11C7EF00D0319C /* Instruction.swift */; };
 		97C198AF2D2ED1F100655735 /* RotationMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C198AE2D2ED1E100655735 /* RotationMatcher.swift */; };
 		97C198B12D2ED20100655735 /* ScaleMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C198B02D2ED1FA00655735 /* ScaleMatcher.swift */; };
@@ -105,6 +106,7 @@
 		970D87692D0A636300700830 /* StudyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyModel.swift; sourceTree = "<group>"; };
 		972409E52D5AE9760006A1CD /* TrainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingView.swift; sourceTree = "<group>"; };
 		9742BB282D33E1B2001079D4 /* GestureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureType.swift; sourceTree = "<group>"; };
+		976EF99A2D87E391008A56DA /* RotationOptionsAttachmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationOptionsAttachmentView.swift; sourceTree = "<group>"; };
 		9798B5362D11C7EF00D0319C /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
 		97C198AE2D2ED1E100655735 /* RotationMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationMatcher.swift; sourceTree = "<group>"; };
 		97C198B02D2ED1FA00655735 /* ScaleMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleMatcher.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				7D839A122D41D3A800F08DC3 /* PositionOptionsAttachmentView.swift */,
+				976EF99A2D87E391008A56DA /* RotationOptionsAttachmentView.swift */,
 				7D839A152D41DF4300F08DC3 /* ScaleOptionsAttachmentView.swift */,
 			);
 			path = Attachments;
@@ -413,6 +416,7 @@
 				7DD56E6F2C6CC93D009AE72C /* GlobeConfiguration.swift in Sources */,
 				7DD56E592C6CC830009AE72C /* GlobeGestureStudyApp.swift in Sources */,
 				97D8C1382D3FF3070079F1C1 /* GestureStatus.swift in Sources */,
+				976EF99B2D87E39B008A56DA /* RotationOptionsAttachmentView.swift in Sources */,
 				7D60D9512CF84F2900D7C8AD /* GoogleForm.swift in Sources */,
 				7D60D9522CF84F2900D7C8AD /* TaskView.swift in Sources */,
 				97C37A222D12DDCB00E628CB /* PositionMatcher.swift in Sources */,

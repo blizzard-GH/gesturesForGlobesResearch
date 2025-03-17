@@ -71,7 +71,7 @@ struct WebViewDecorated: View {
     
     @MainActor
     private func showOrHideGlobe(_ show: Bool) {
-        if currentPage != .introForm && currentPage != .outroForm {
+        if currentPage != .introForm {
             Task { @MainActor in
                 
                 try await Task.sleep(nanoseconds: 100_000_000)
@@ -95,8 +95,12 @@ struct WebViewDecorated: View {
             switch currentPage {
             case .positionComparison:
                 model.attachmentView = .position
+            case .rotationComparison:
+                model.attachmentView = .rotation
             case .scaleComparison:
                 model.attachmentView = .scale
+            case .outroForm:
+                model.attachmentView = .all
             default:
                 model.attachmentView = .none
             }

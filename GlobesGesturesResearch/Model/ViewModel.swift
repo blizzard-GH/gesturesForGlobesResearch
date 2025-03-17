@@ -76,7 +76,9 @@ class ViewModel: CustomDebugStringConvertible {
     
     enum AttachmentView: String {
         case position
+        case rotation
         case scale
+        case all
     }
     
     /// Show an attachment view with options for positioning or scaling globes

@@ -23,6 +23,8 @@ struct TrainingView: View {
             switch currentPage {
             case .positionComparison:
                 model.attachmentView = .position
+            case .rotationComparison:
+                model.attachmentView = .rotation
             case .scaleComparison:
                 model.attachmentView = .scale
             default:

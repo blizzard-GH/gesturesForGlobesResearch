@@ -32,6 +32,9 @@ struct ImmersiveView: View {
             Attachment(id: ViewModel.AttachmentView.position.rawValue) {
                 PositionOptionsAttachmentView()
             }
+            Attachment(id: ViewModel.AttachmentView.rotation.rawValue) {
+                RotationOptionsAttachmentView()
+            }
             Attachment(id: ViewModel.AttachmentView.scale.rawValue) {
                 ScaleOptionsAttachmentView()
             }
@@ -83,10 +86,10 @@ struct ImmersiveView: View {
                 root.addChild(secondGlobeEntity)
             }
         }
-        
+             
         // update attachments
         addAttachments(attachments)
-        
+
         // update globe rotation
         model.firstGlobeEntity?.updateRotation(configuration: model.configuration)
     }
@@ -95,11 +98,24 @@ struct ImmersiveView: View {
     private func addAttachments(_ attachments: RealityViewAttachments) {
         guard let globeEntity = model.firstGlobeEntity else { return }
         switch model.attachmentView {
-        case .position, .scale:
+        case .position, .rotation, .scale:
             if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
                 attachmentEntity.position = [0, model.globe.radius * 1.2, 0]
                 attachmentEntity.components.set(BillboardComponent())
                 globeEntity.addChild(attachmentEntity)
+            }
+        case .all:
+            let allAttachments: [ViewModel.AttachmentView] = [.position, .rotation, .scale]
+            let spacing: Float = Float(model.globe.radius) * 0.2
+            for (index, attachmentType) in allAttachments.enumerated() {
+                if let attachmentEntity = attachments.entity(for: attachmentType.rawValue) {
+                    let yPosition = Float(model.globe.radius) * 1.2 + (Float(index) * spacing)
+                    // Set position with broken down components
+                    let position = SIMD3<Float>(0, yPosition, 0)
+                    attachmentEntity.position = position
+                    attachmentEntity.components.set(BillboardComponent())
+                    globeEntity.addChild(attachmentEntity)
+                }
             }
         case .none:
             for viewAttachmentEntity in globeEntity.children where viewAttachmentEntity is ViewAttachmentEntity {

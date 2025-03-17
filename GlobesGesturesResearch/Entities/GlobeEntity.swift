@@ -429,8 +429,8 @@ class GlobeEntity: Entity {
         
         let (modality, complexity) = RotationCondition.rotationConditionsGetter(for: rotationConditions, lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex)
                 
-        let firstRotationIntensity: Float = (complexity == .simple) ? 0.25 : 0.5
-        let secondRotationIntensity: Float = (complexity == .complex) ? 0.75 : 1.0
+        let firstRotationIntensity: Float = (complexity == .simple) ? 0.125 : 0.25
+        let secondRotationIntensity: Float = (complexity == .complex) ? 0.375 : 0.5
         
         
         let rotationIntensity = useFirstRotationIndex ? firstRotationIntensity : secondRotationIntensity

@@ -24,8 +24,12 @@ struct TaskView: View {
             switch currentPage {
             case .positionComparison:
                 model.attachmentView = .position
+            case .rotationComparison:
+                model.attachmentView = .rotation
             case .scaleComparison:
                 model.attachmentView = .scale
+            case .outroForm:
+                model.attachmentView = .all
             default:
                 model.attachmentView = .none
             }
@@ -117,6 +121,10 @@ struct TaskView: View {
                                 ScaleCondition.scaleConditionsCompleted = false
                                 RotationCondition.rotationConditionsCompleted = false
                                 //                            studyModel.currentTaskPage = currentPage
+                                if currentPage == .rotationExperiment1 || currentPage == .rotationExperiment2{
+                                    RotationCondition.rotationSwapTechnique.toggle()
+                                    updateRotationConditions()
+                                }
                                 isDoingTask = false
                                 showTaskContent = false
                                 showOrHideGlobe(false)
@@ -218,6 +226,11 @@ struct TaskView: View {
                 model.hideGlobe(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
             }
         }
+    }
+    
+//    Switching between one-handed or two-handed rotation
+    func updateRotationConditions() {
+        model.updateRotationConditions()
     }
 }
 
