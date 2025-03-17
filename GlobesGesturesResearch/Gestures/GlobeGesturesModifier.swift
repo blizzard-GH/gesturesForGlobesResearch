@@ -110,36 +110,41 @@ private struct GlobeGesturesModifier: ViewModifier {
     
     @ViewBuilder
     func body(content: Content) -> some View {
-        switch studyModel.currentPage {
-        case .positionTraining,
-                .positionExperiment1, .positionExperimentForm1,
-                .positionExperiment2, .positionExperimentForm2, .positionComparison:
-            content
-                .simultaneousGesture(dragGesture)
-        case    .rotationExperiment1, .rotationExperimentForm1,
-                .rotationExperiment2, .rotationExperimentForm2:
-            if oneHandedRotationGesture {
+        if let firstGlobeEntity = model.firstGlobeEntity {
+            switch studyModel.currentPage {
+            case .positionTraining,
+                    .positionExperiment1, .positionExperimentForm1,
+                    .positionExperiment2, .positionExperimentForm2, .positionComparison:
+                content
+                    .simultaneousGesture(dragGesture)
+            case    .rotationExperiment1, .rotationExperimentForm1,
+                    .rotationExperiment2, .rotationExperimentForm2:
+                if oneHandedRotationGesture {
+                    content
+                        .simultaneousGesture(rotateGlobeAxisGesture)
+                } else {
+                    content
+                        .simultaneousGesture(rotateGesture)
+                }
+            case .rotationTraining, .rotationComparison:
                 content
                     .simultaneousGesture(rotateGlobeAxisGesture)
-            } else {
-                content
                     .simultaneousGesture(rotateGesture)
+            case .scaleTraining,
+                    .scaleExperiment1, .scaleExperimentForm1,
+                    .scaleExperiment2, .scaleExperimentForm2, .scaleComparison:
+                content
+                    .simultaneousGesture(magnifyGesture)
+            default :
+                content
+                    .simultaneousGesture(dragGesture)
+                    .simultaneousGesture(magnifyGesture)
+                    .simultaneousGesture(rotateGesture)
+                    .simultaneousGesture(rotateGlobeAxisGesture)
             }
-        case .rotationTraining, .rotationComparison:
+        } else if let secondGlobeEntity = model.secondGlobeEntity {
             content
-                .simultaneousGesture(rotateGlobeAxisGesture)
-                .simultaneousGesture(rotateGesture)
-        case .scaleTraining,
-                .scaleExperiment1, .scaleExperimentForm1,
-                .scaleExperiment2, .scaleExperimentForm2, .scaleComparison:
-            content
-                .simultaneousGesture(magnifyGesture)
-        default :
-            content
-                .simultaneousGesture(dragGesture)
-                .simultaneousGesture(magnifyGesture)
-                .simultaneousGesture(rotateGesture)
-                .simultaneousGesture(rotateGlobeAxisGesture)
+                .simultaneousGesture(doubleTapGesture)
         }
 //        content
 //            .simultaneousGesture(doubleTapGesture)
@@ -363,6 +368,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                     studyModel.storeTask()
                     soundManager.playCorrectSound()
                     if studyModel.isTaskRepeated(gestureType: .scale) {
+                        model.firstGlobeEntity?.rescaleGlobe()
                         model.firstGlobeEntity?.respawnGlobe(.rightClose)
                         model.secondGlobeEntity?.respawnGlobe(.leftClose)
                     } else {
@@ -451,8 +457,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                     studyModel.storeTask()
                     soundManager.playCorrectSound()
                     if studyModel.isTaskRepeated(gestureType: .rotation) {
-                        model.firstGlobeEntity?.respawnGlobe(.left)
-                        model.secondGlobeEntity?.respawnGlobe(.right)
+                        model.firstGlobeEntity?.rerotateGlobe()
+                        model.firstGlobeEntity?.respawnGlobe(.right)
+                        model.secondGlobeEntity?.respawnGlobe(.left)
                     } else {
                         model.firstGlobeEntity?.rerotateGlobe()
                         model.firstGlobeEntity?.respawnGlobe(.left)
@@ -558,6 +565,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         studyModel.storeTask()
                         soundManager.playCorrectSound()
                         if studyModel.isTaskRepeated(gestureType: .rotation) {
+                            model.firstGlobeEntity?.rerotateGlobe()
                             model.firstGlobeEntity?.respawnGlobe(.left)
                             model.secondGlobeEntity?.respawnGlobe(.right)
                         } else {
