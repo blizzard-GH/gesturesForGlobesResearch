@@ -59,48 +59,48 @@ struct TaskView: View {
                             startTimer()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 if currentPage == .positionExperiment1 || currentPage == .positionExperiment2 {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                         let counterPosition = model.firstGlobeEntity?.repositionGlobe()
                                         model.secondGlobeEntity?.respawnGlobe(counterPosition ?? SIMD3<Float>(0,0.9,-0.5))
                                     }
                                 }
                                 if currentPage == .rotationExperiment1 || currentPage == .rotationExperiment2 {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                         model.firstGlobeEntity?.respawnGlobe(.left)
                                         model.secondGlobeEntity?.respawnGlobe(.right)
-                                        model.firstGlobeEntity?.rerotateGlobe()
+                                        _ = model.firstGlobeEntity?.rerotateGlobe()
                                     }
                                 }
                                 if currentPage == .scaleExperiment1 || currentPage == .scaleExperiment2 {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                         model.firstGlobeEntity?.respawnGlobe(.leftClose)
                                         model.secondGlobeEntity?.respawnGlobe(.rightClose)
-                                        model.firstGlobeEntity?.rescaleGlobe()
+                                        _ = model.firstGlobeEntity?.rescaleGlobe()
                                     }
-}
+                                }
                             }
                             // Task{
-//                                await checkMatchingStatus(taskNumber : details.taskNumber, model: model)
-//                            }
-//                            model.firstGlobeEntity?.respawnGlobe("Left")
-//                            model.secondGlobeEntity?.respawnGlobe("Right")
+                            //                                await checkMatchingStatus(taskNumber : details.taskNumber, model: model)
+                            //                            }
+                            //                            model.firstGlobeEntity?.respawnGlobe("Left")
+                            //                            model.secondGlobeEntity?.respawnGlobe("Right")
                         }
                     } else {
                         if let currentTask = studyModel.currentTask, currentTask.isMatching{
-//                        if studyModel.getMatcher(taskNumber: details.taskNumber, model: model) {
+                            //                        if studyModel.getMatcher(taskNumber: details.taskNumber, model: model) {
                             Text("Matched!")
                                 .font(.headline)
                                 .foregroundColor(.green)
                                 .padding()
                         }
-//                        Text("Time elapsed: \(String(format: "%.2f", elapsedTime)) seconds")
-//                            .font(.title)
-//                            .monospacedDigit()
-//                            .padding()
+                        //                        Text("Time elapsed: \(String(format: "%.2f", elapsedTime)) seconds")
+                        //                            .font(.title)
+                        //                            .monospacedDigit()
+                        //                            .padding()
                         //Below is for debugging only
                         VStack{
                             Text("Debugging:")
-                            Text("currentPge: \(currentPage)")
+//                            Text("Task repeated: \(model.isTaskRepeated)")
                             Text("Is storing needed \(currentPage.isStoringRecordNeeded)")
                             Text("Current page: \(currentPage)")
                             //                        Text("current task accuracy: \(studyModel.currentTask? ?? 0.0)")
@@ -109,9 +109,10 @@ struct TaskView: View {
                             Text("Is conditions looping complete: \(ScaleCondition.scaleConditionsCompleted)")
                         }
                         .padding()
-
+                        
                         
                         Instruction(currentPage: $currentPage)
+
                         if studyModel.proceedToNextExperiment {
                             Button(
                                 "Finish \(details.description), and move to the next task."
@@ -176,16 +177,16 @@ struct TaskView: View {
         .onAppear{
             updateAttachmentView()
             showOrHideGlobe(false)
-//            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
+            //            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
         }
         .onDisappear{
             showOrHideGlobe(false)
-//            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
-
+            //            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
+            
         }
         .background(RoundedRectangle(cornerRadius: 15)
-        .fill(Color(.systemGray4))
-        .shadow(radius: 5))
+            .fill(Color(.systemGray4))
+            .shadow(radius: 5))
         .padding(40)
     }
     

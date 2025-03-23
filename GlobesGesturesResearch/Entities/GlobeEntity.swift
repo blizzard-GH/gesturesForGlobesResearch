@@ -43,7 +43,7 @@ class GlobeEntity: Entity {
     var lastGlobeReposition: SIMD3<Float>?
     
     var lastGlobeCounterReposition: SIMD3<Float>?
-    
+        
     var useFirstRotationIndex: Bool = true
     
     var useFirstScaleIndex: Bool = true
@@ -345,7 +345,7 @@ class GlobeEntity: Entity {
         animateTransform(
             orientation: newOrientation,
             position: newPosition,
-            duration: 2)
+            duration: 0.2)
     }
     
     func respawnGlobe(_ newCoordinate: SIMD3<Float>) {
@@ -356,7 +356,7 @@ class GlobeEntity: Entity {
         animateTransform(
             orientation: newOrientation,
             position: newCoordinate,
-            duration: 2)
+            duration: 0.2)
     }
     
     func xyCounterPosition(of position: SIMD3<Float>) -> SIMD3<Float> {
@@ -373,7 +373,7 @@ class GlobeEntity: Entity {
         var counterPosition: SIMD3<Float> = SIMD3<Float>(0.0, 0.8, -1.5)
         
         PositionCondition.positionConditionsSetter(for: positionConditions,
-                                                   lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
+                                                       lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
         
         let (globeRotates, distance, direction) = PositionCondition.positionConditionsGetter(for: positionConditions,
                                                                              lastUsedIndex: PositionCondition.lastUsedPositionConditionIndex)
@@ -411,8 +411,8 @@ class GlobeEntity: Entity {
         }
         
         let newPosition = cameraPosition + offset
-        animateTransform(position: newPosition, duration: 3)
-        
+        animateTransform(position: newPosition, duration: 0.2)
+                
         lastGlobeReposition = newPosition
         
         lastGlobeCounterReposition = counterPosition
@@ -420,17 +420,18 @@ class GlobeEntity: Entity {
         return counterPosition
     }
     
-    func rerotateGlobe() {
+    func rerotateGlobe() -> simd_quatf {
         
         if useFirstRotationIndex {
             RotationCondition.rotationConditionsSetter(for: rotationConditions,
                                                        lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
         }
-        
-        let (modality, complexity) = RotationCondition.rotationConditionsGetter(for: rotationConditions, lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex)
                 
-        let firstRotationIntensity: Float = (complexity == .simple) ? 0.125 : 0.25
-        let secondRotationIntensity: Float = (complexity == .complex) ? 0.375 : 0.5
+        let (modality, complexity) = RotationCondition.rotationConditionsGetter(for: rotationConditions, lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex)
+        
+        //First globe rotation
+        let firstRotationIntensity: Float = (complexity == .simple) ? 0.125 : 0.375
+        let secondRotationIntensity: Float = (complexity == .simple) ? 0.25 : 0.5
         
         
         let rotationIntensity = useFirstRotationIndex ? firstRotationIntensity : secondRotationIntensity
@@ -439,9 +440,20 @@ class GlobeEntity: Entity {
         
         let rotationQuarternion = simd_quatf(angle: yRotation, axis: SIMD3<Float>(0, 1, 0))
         
+        // Second globe rotation
+        let counterFirstRotationIntensity: Float = (complexity == .simple) ? 0.375 : 0.125
+        let counterSecondRotationIntensity: Float = (complexity == .simple) ? 0.5 : 0.25
+        
+        
+        let counterRotationIntensity = useFirstRotationIndex ? counterFirstRotationIntensity : counterSecondRotationIntensity
+                
+        let counterYRotation = Float.pi * counterRotationIntensity
+        
+        let counterRotationQuarternion = simd_quatf(angle: counterYRotation, axis: SIMD3<Float>(0, 1, 0))
+        
         useFirstRotationIndex.toggle()
 
-        animateTransform(orientation: rotationQuarternion, duration: 3)
+        animateTransform(orientation: rotationQuarternion, duration: 0.6)
         
 //    Randomiser:
 //        guard let cameraPosition = CameraTracker.shared.position else {
@@ -453,10 +465,11 @@ class GlobeEntity: Entity {
 //        let rotationQuaternion = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
 //        
 //        animateTransform(orientation: rotationQuaternion, duration: 0)
+        return counterRotationQuarternion
     }
     
-    func rescaleGlobe() {
-        
+    func rescaleGlobe() -> Float {
+             
         if useFirstScaleIndex {
             ScaleCondition.scaleConditionsSetter(for: scaleConditions,
                                                  lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
@@ -464,22 +477,26 @@ class GlobeEntity: Entity {
         
         let (movingGlobe, zoomDirection) = ScaleCondition.scaleConditionsGetter(for: scaleConditions, lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex)
         
-//        let movingGlobeScale: Float = (movingGlobe == .notMoving) ? 1.2 : 0.8
-        let firstZoomScale: Float = (zoomDirection == .smallToLarge) ? 0.6 : 1.8
-        let secondZoomScale: Float = (zoomDirection == .smallToLarge) ? 1.2 : 0.9
+//        print("Current Condition: \(zoomDirection), useFirstScaleIndex: \(useFirstScaleIndex), is moving: \(movingGlobe)")
+        
+        let firstZoomScale: Float = (zoomDirection == .smallToLarge) ? 0.33 : 3.0
+        let secondZoomScale: Float = (zoomDirection == .smallToLarge) ? 0.17 : 6.0
         
         let zoomDirectionScale = useFirstScaleIndex ? firstZoomScale : secondZoomScale
         
+        let firstCounterScale: Float = (zoomDirection == .smallToLarge) ? 3.0 : 0.33
+        let secondCounterScale: Float = (zoomDirection == .smallToLarge) ? 6.0 : 0.17
+        
+        let counterScale = useFirstScaleIndex ? firstCounterScale: secondCounterScale
+        
+//        print("Applying Scale: \(zoomDirectionScale), Counter Scale: \(counterScale)")
+
+        
         useFirstScaleIndex.toggle()
         
-        animateTransform(scale: zoomDirectionScale, duration: 3)
+        animateTransform(scale: zoomDirectionScale, duration: 0.6)
         
-//    Randomiser:
-//        let randomScaleFactor = Float.random(in: 0.8...1.2)
-//        
-//        let randomScale = Float.random(in: 0.5...1.5)
-//        
-//        animateTransform(scale: randomScale, duration: 0)
+        return counterScale
     }
     
     /// The  mean scale factor of this entity relative to the world space.

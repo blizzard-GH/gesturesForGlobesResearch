@@ -18,11 +18,11 @@ struct PositionCondition {
     let condition5: String
     let condition6: String
     
-    static var gestureFeatureCompleted: Bool = false
+    static var gestureFeatureCompleted: Bool = false // Used to switch between technique in experiment 1 and 2
     
     static var lastUsedPositionConditionIndex: Int = -1
     
-    static var positionConditionsCompleted: Bool = false
+    static var positionConditionsCompleted: Bool = false // Used to show 'next' button once all conditions are done
     
     static var positionSwapTechnique: Bool = false // This var will swap technique, so that technique is implemented to Balanced Latin Square by half order
     
@@ -138,7 +138,7 @@ struct PositionCondition {
     
     static func positionConditionsGetter(for positionConditions: [PositionCondition], lastUsedIndex: Int) -> (rotatingGlobe: RotatingGlobe, distance: Distance, direction: Direction){
 //        var activeSubject: ScalingCondition?
-        var rotatingGlobe: RotatingGlobe = gestureFeatureCompleted ? .rotating : .notRotating
+        let rotatingGlobe: RotatingGlobe = gestureFeatureCompleted ? .rotating : .notRotating
         var distance: Distance = .near
         var direction: Direction = .none
         
@@ -214,7 +214,7 @@ struct PositionCondition {
         
         if (lastUsedIndex + 1) == conditionValues.count {
             gestureFeatureCompleted.toggle()
-            positionConditionsCompleted = true
+            positionConditionsCompleted.toggle()
             lastUsedIndex = -1
         } else {
             lastUsedIndex += 1

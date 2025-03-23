@@ -37,7 +37,7 @@ class ViewModel: CustomDebugStringConvertible {
         description: "This is the main globe used for gestures research.",
         infoURL: URL(string: "https://www.solarsystemscope.com/textures/"),
         radius: 0.325,
-        texture: "earth_daymap"
+        texture: "NE1_HR_SR_OB_DR_8k"
     )
     
     @MainActor
@@ -51,7 +51,7 @@ class ViewModel: CustomDebugStringConvertible {
         description: "This is a target globe.",
         infoURL: URL(string: "https://www.solarsystemscope.com/textures/"),
         radius: 0.325,
-        texture: "earth_daymap"
+        texture: "NE1_HR_SR_OB_DR_8k"
     )
     
     var positionConditions: [PositionCondition] = []

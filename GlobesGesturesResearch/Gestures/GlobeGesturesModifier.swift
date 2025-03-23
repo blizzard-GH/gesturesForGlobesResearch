@@ -382,11 +382,13 @@ private struct GlobeGesturesModifier: ViewModifier {
                     soundManager.playCorrectSound()
                     studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .scale) {
-                        model.firstGlobeEntity?.rescaleGlobe()
+                        let counterScale = model.firstGlobeEntity?.rescaleGlobe()
+                        model.secondGlobeEntity?.animateTransform(scale: counterScale, duration: 0.6)
                         model.firstGlobeEntity?.respawnGlobe(.rightClose)
                         model.secondGlobeEntity?.respawnGlobe(.leftClose)
                     } else {
-                        model.firstGlobeEntity?.rescaleGlobe()
+                        let counterScale = model.firstGlobeEntity?.rescaleGlobe()
+                        model.secondGlobeEntity?.animateTransform(scale: counterScale, duration: 0.6)
                         model.firstGlobeEntity?.respawnGlobe(.leftClose)
                         model.secondGlobeEntity?.respawnGlobe(.rightClose)
                         if ScaleCondition.scaleConditionsCompleted == true {
@@ -474,11 +476,13 @@ private struct GlobeGesturesModifier: ViewModifier {
                     soundManager.playCorrectSound()
                     studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .rotation) {
-                        model.firstGlobeEntity?.rerotateGlobe()
+                        let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                        model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
                         model.firstGlobeEntity?.respawnGlobe(.right)
                         model.secondGlobeEntity?.respawnGlobe(.left)
                     } else {
-                        model.firstGlobeEntity?.rerotateGlobe()
+                        let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                        model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
                         model.firstGlobeEntity?.respawnGlobe(.left)
                         model.secondGlobeEntity?.respawnGlobe(.right)
                         if RotationCondition.rotationConditionsCompleted == true {
@@ -488,6 +492,123 @@ private struct GlobeGesturesModifier: ViewModifier {
                 }
             }
     }
+    
+//    Backup for one-handed gesture for y axis
+//    /// One-handed gesture to rotate globe around the vertical y-axis.
+//    private var rotateGlobeAxisGesture: some Gesture {
+//        LongPressGesture(minimumDuration: minimumLongPressDuration)
+//            .sequenced(before: DragGesture(minimumDistance: 0.0))
+//            .targetedToAnyEntity()
+//            .updating($yRotationState) { value, yRotationState, _ in
+//                guard let entity = value.entity as? GlobeEntity else { return }
+//                switch value.gestureValue {
+//                    // Long press begins.
+//                case .first(true):
+//                    yRotationState = .pressing
+//                    // Long press confirmed, dragging may begin.
+//                case .second(true, let drag):
+//                    Task { @MainActor in
+//                        pauseRotationAndStoreRotationState()
+//                        if let originalTransform = model.firstGlobeEntity?.transform,
+//                        let targetTransform = model.secondGlobeEntity?.transform {
+//                            studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform,
+//                                                     targetTransform: targetTransform,
+//                                                     soundManager: soundManager)
+//                            studyModel.currentTask?.start(type: .rotation,
+//                                                          originalTransform: originalTransform,
+//                                                          targetTransform: targetTransform)
+//                        }
+//                    }
+//                    
+////                    if model.attachmentView == .none {
+////                        model.updateRotationConditions()
+////                    }
+//                    
+//                    guard let drag = drag else { return }
+//                    
+//                    Task { @MainActor in
+//                        if state.previousLocation3D == nil {
+//                            state.previousLocation3D = drag.location3D
+//                        }
+//                        guard let previousLocation3D = state.previousLocation3D else { return }
+//                        
+//                        // Map the horizontal displacement of the hand to a rotation around the rotation axis of the globe.
+//                        // Place a temporary entity at the center of the globe and orient its z-axis toward the camera and the
+//                        // x-axis in horizontal direction. Then transform the hand gesture movement to the coordinate system
+//                        // of the temporary entity and compute the horizontal delta since the last update.
+//                        guard let cameraPosition = CameraTracker.shared.position else { return }
+//                        var v2 = cameraPosition - entity.position
+//                        v2.y = 0 // work in x-z plane
+//                        v2 = normalize(v2)
+//                        let rotation = simd_quatf(from: [0, 0, 1], to: v2) // have z-axis point at the camera
+//                        let rotatedEntity = Entity()
+//                        rotatedEntity.position = entity.position
+//                        rotatedEntity.orientation = rotation
+//                        
+//                        // Transform hand gesture coordinates from the globe entity to the temporary entity.
+//                        var location = value.convert(drag.location3D, from: .local, to: rotatedEntity)
+//                        var previousLocation = value.convert(previousLocation3D, from: .local, to: rotatedEntity)
+//                        location.y = 0
+//                        previousLocation.y = 0
+//                        let deltaTranslation = location.x - previousLocation.x
+//                        state.previousLocation3D = drag.location3D
+//                        
+//                        // Adjust the amount of rotation per translation delta to the size of the globe.
+//                        // The angular rotation per translation delta is reduced for enlarged globes.
+//                        let scaleRadius = max(1, entity.meanScale) * model.globe.radius
+//                        let rotationAmount = Float(deltaTranslation) * rotationSpeed / scaleRadius * 1000
+//                        
+//                        // A rotation quaternion around the globe's rotation axis.
+//                        entity.animationPlaybackController?.stop()
+//                        entity.orientation *= simd_quatf(angle: rotationAmount, axis: SIMD3<Float>(0, 1, 0))
+//                    }
+//                    // Dragging ended or the long press cancelled.
+//                default:
+//                    yRotationState = .inactive
+//                }
+//            }
+//            .onEnded { value in
+//                switch value.gestureValue {
+//                case .second(true, _):
+//                    // Reset the previous rotation state
+//                    if let paused = state.isRotationPausedAtGestureStart {
+//                        model.configuration.isRotationPaused = paused
+//                    }
+//                    
+//                    state.endGesture()
+//                    if let originalTransform = model.firstGlobeEntity?.transform,
+//                    let targetTransform = model.secondGlobeEntity?.transform {
+//                        studyModel.currentTask?.end(type: .rotation,
+//                                                    originalTransform: originalTransform,
+//                                                    targetTransform: targetTransform)
+//                    }
+//                    studyModel.currentTask?.updateAccuracyResult()
+//                    studyModel.storeTask()
+//                    if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
+////                        studyModel.currentTask?.updateAccuracyResult()
+////                        studyModel.storeTask()
+//                        soundManager.playCorrectSound()
+//                        studyModel.currentTask = nil
+//                        if studyModel.isTaskRepeated(gestureType: .rotation) {
+//                            let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+//                            model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
+//                            model.firstGlobeEntity?.respawnGlobe(.right)
+//                            model.secondGlobeEntity?.respawnGlobe(.left)
+//                        } else {
+//                            let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+//                            model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
+//                            model.firstGlobeEntity?.respawnGlobe(.left)
+//                            model.secondGlobeEntity?.respawnGlobe(.right)
+//                            if RotationCondition.rotationConditionsCompleted == true {
+//                                studyModel.proceedToNextExperiment = true
+//                            }
+//                        }
+//                    }
+//                default:
+//                    break
+//                }
+//            }
+//    }
     
     /// One-handed gesture to rotate globe around the vertical y-axis.
     private var rotateGlobeAxisGesture: some Gesture {
@@ -535,27 +656,39 @@ private struct GlobeGesturesModifier: ViewModifier {
                         var v2 = cameraPosition - entity.position
                         v2.y = 0 // work in x-z plane
                         v2 = normalize(v2)
-                        let rotation = simd_quatf(from: [0, 0, 1], to: v2) // have z-axis point at the camera
+//                        let rotation = simd_quatf(from: [0, 0, 1], to: v2) // have z-axis point at the camera
+                        let rotation = simd_quatf(angle: 0, axis: SIMD3<Float>(0, 1, 0)) // Align with world y-axis
                         let rotatedEntity = Entity()
                         rotatedEntity.position = entity.position
                         rotatedEntity.orientation = rotation
                         
+                        let handAlignedEntity = Entity()
+                        handAlignedEntity.position = entity.position
+                        handAlignedEntity.orientation = simd_quatf(angle: 0, axis: SIMD3<Float>(0, 1, 0)) // Align with world y-axis
+                        
                         // Transform hand gesture coordinates from the globe entity to the temporary entity.
-                        var location = value.convert(drag.location3D, from: .local, to: rotatedEntity)
-                        var previousLocation = value.convert(previousLocation3D, from: .local, to: rotatedEntity)
-                        location.y = 0
-                        previousLocation.y = 0
-                        let deltaTranslation = location.x - previousLocation.x
+                        let location = value.convert(drag.location3D, from: .local, to: rotatedEntity)
+                        let previousLocation = value.convert(previousLocation3D, from: .local, to: rotatedEntity)
+//                        location.y = 0
+//                        previousLocation.y = 0
+                        let deltaTranslationX = location.x - previousLocation.x
+                        let deltaTranslationY = location.y - previousLocation.y
+                        let deltaTranslationZ = location.z - previousLocation.z
                         state.previousLocation3D = drag.location3D
                         
                         // Adjust the amount of rotation per translation delta to the size of the globe.
                         // The angular rotation per translation delta is reduced for enlarged globes.
                         let scaleRadius = max(1, entity.meanScale) * model.globe.radius
-                        let rotationAmount = Float(deltaTranslation) * rotationSpeed / scaleRadius * 1000
+                        let xRotationAmount = Float(deltaTranslationX) * rotationSpeed / scaleRadius * 1000
+                        let yRotationAmount = Float(deltaTranslationY) * rotationSpeed / scaleRadius * 1000
+                        let zRotationAmount = Float(deltaTranslationZ) * rotationSpeed / scaleRadius * 1000
                         
                         // A rotation quaternion around the globe's rotation axis.
                         entity.animationPlaybackController?.stop()
-                        entity.orientation *= simd_quatf(angle: rotationAmount, axis: SIMD3<Float>(0, 1, 0))
+                        let xRotation = simd_quatf(angle: xRotationAmount, axis: SIMD3<Float>(1, 0, 0))
+                        let yRotation = simd_quatf(angle: yRotationAmount, axis: SIMD3<Float>(0, 1, 0))
+                        let zRotation = simd_quatf(angle: zRotationAmount, axis: SIMD3<Float>(0, 0, 1))
+                        entity.orientation *= zRotation * yRotation * xRotation
                     }
                     // Dragging ended or the long press cancelled.
                 default:
@@ -585,11 +718,13 @@ private struct GlobeGesturesModifier: ViewModifier {
                         soundManager.playCorrectSound()
                         studyModel.currentTask = nil
                         if studyModel.isTaskRepeated(gestureType: .rotation) {
-                            model.firstGlobeEntity?.rerotateGlobe()
-                            model.firstGlobeEntity?.respawnGlobe(.left)
-                            model.secondGlobeEntity?.respawnGlobe(.right)
+                            let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                            model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
+                            model.firstGlobeEntity?.respawnGlobe(.right)
+                            model.secondGlobeEntity?.respawnGlobe(.left)
                         } else {
-                            model.firstGlobeEntity?.rerotateGlobe()
+                            let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                            model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
                             model.firstGlobeEntity?.respawnGlobe(.left)
                             model.secondGlobeEntity?.respawnGlobe(.right)
                             if RotationCondition.rotationConditionsCompleted == true {

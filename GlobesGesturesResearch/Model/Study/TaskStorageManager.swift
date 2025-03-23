@@ -38,6 +38,22 @@ class TaskStorageManager {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.path ?? "Nothing"
     }
     
+    private var userID: Int = 0
+    
+
+    func initialiseUserID() {
+//        if userID == 0 {
+//            let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appending(path: "study_tasks.csv", directoryHint: .notDirectory)
+//            userID = getLastUserID(fileURL: fileURL) + 1
+//        }
+        if userID == 0 {
+            let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appending(path: "study_tasks.csv", directoryHint: .notDirectory)
+            // Get the last userID from the CSV and increment it
+            userID = getLastUserID(fileURL: fileURL) + 1
+        }
+        
+    }
+    
     @MainActor
     func saveTask<T: StudyTask>(_ task: T, type: TaskType) {
         let fileName = "study_tasks.csv"
@@ -47,8 +63,10 @@ class TaskStorageManager {
         
         var csvString = ""
         
+        var currentUserID = userID
+        
         if !fileExists {
-            csvString += "TaskID, date,type,gesture,original_translation_x,original_translation_y,original_translation_z,original_rotation_x,original_rotation_y,original_rotation_z,original_rotation_w,original_scale_x,original_scale_y,original_scale_z,target_translation_x,target_translation_y,target_translation_z,target_rotation_x,target_rotation_y,target_rotation_z,target_rotation_w,target_scale_x,target_scale_y,target_scale_z,accuracy_result,status\n"
+            csvString += "UserID,TaskID, Date,Type,Gesture,original_translation_x,original_translation_y,original_translation_z,original_rotation_x,original_rotation_y,original_rotation_z,original_rotation_w,original_scale_x,original_scale_y,original_scale_z,target_translation_x,target_translation_y,target_translation_z,target_rotation_x,target_rotation_y,target_rotation_z,target_rotation_w,target_scale_x,target_scale_y,target_scale_z,accuracy_result,status\n"
         }
         
         // Convert each action to a CSV row
@@ -77,7 +95,7 @@ class TaskStorageManager {
             } else {
                 status = "Trial"
             }
-            return "\(action.taskID.uuidString),\(date),\(typeString),\(action.status),\(originalTranslation),\(originalRotation),\(originalScale),\(targetTranslation),\(targetRotation),\(targetScale),\(task.accuracyResult),\(status)"
+            return "\(currentUserID),\(action.taskID.uuidString),\(date),\(typeString),\(action.status),\(originalTranslation),\(originalRotation),\(originalScale),\(targetTranslation),\(targetRotation),\(targetScale),\(task.accuracyResult),\(status)"
         }
         
         csvString += rows.joined(separator: "\n") + "\n"
@@ -98,6 +116,25 @@ class TaskStorageManager {
         } catch {
             Logger().error("Failed to save CSV: \(error.localizedDescription)")
         }
+    }
+    
+    private func getLastUserID(fileURL: URL) -> Int {
+        guard let fileHandle = try? FileHandle(forReadingFrom: fileURL) else {
+            return 1000
+        }
+        
+        let fileContent = String(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)
+        fileHandle.closeFile()
+
+        let lines = fileContent?.split(separator: "\n").filter { !$0.isEmpty }
+        if let lastLine = lines?.last {
+            let components = lastLine.split(separator: ",")
+            if let lastUserIDString = components.first, let lastUserID = Int(lastUserIDString) {
+                return lastUserID  // Return the last used userID
+            }
+        }
+
+        return 1000  
     }
     
 //    func convertToCSVRow<T: Encodable>(_ task: T) throws -> String {

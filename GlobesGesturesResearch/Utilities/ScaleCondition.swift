@@ -13,11 +13,11 @@ struct ScaleCondition {
     let condition1: String
     let condition2: String
     
-    static var gestureFeatureCompleted: Bool = false
+    static var gestureFeatureCompleted: Bool = false // Used to switch between technique in experiment 1 and 2
 
     static var lastUsedScaleConditionIndex: Int = -1
     
-    static var scaleConditionsCompleted: Bool = false
+    static var scaleConditionsCompleted: Bool = false // Used to show 'next' button once all conditions are done
     
     static var scaleSwapTechnique: Bool = false // This var will swap technique, so that technique is implemented to Balanced Latin Square by half order
     
@@ -108,7 +108,7 @@ struct ScaleCondition {
     
     static func scaleConditionsGetter(for scaleConditions: [ScaleCondition], lastUsedIndex: Int) -> (movingGlobe: MovingGlobe, zoomDirection: ZoomDirection) {
 //        var activeSubject: ScalingCondition?
-        var movingGlobe: MovingGlobe = gestureFeatureCompleted ? .moving : .notMoving
+        let movingGlobe: MovingGlobe = gestureFeatureCompleted ? .moving : .notMoving
         var zoomDirection: ZoomDirection = .smallToLarge
         
         
@@ -171,7 +171,7 @@ struct ScaleCondition {
         
         if (lastUsedIndex + 1) == conditionValues.count {
             gestureFeatureCompleted.toggle()
-            scaleConditionsCompleted = true
+            scaleConditionsCompleted.toggle()
             lastUsedIndex = -1
         } else {
             lastUsedIndex += 1

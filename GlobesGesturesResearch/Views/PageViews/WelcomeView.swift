@@ -96,6 +96,7 @@ Please follow the instructions on the next screens. Thank you in advance for con
                     .padding()
                     
                     Button(action: {
+                        TaskStorageManager.shared.initialiseUserID()
                         withAnimation(.easeInOut(duration: 0.3)) {
                                             currentPage = currentPage.next() //
                                             isButtonPressed.toggle()

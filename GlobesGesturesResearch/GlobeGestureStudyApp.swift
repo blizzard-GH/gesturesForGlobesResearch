@@ -18,6 +18,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         // start camera tracking
         CameraTracker.start()
         
+        _ = SoundManager.shared
+        
         return true
     }
 }
@@ -34,10 +36,15 @@ struct GlobeGestureStudyApp: App {
     
     @State private var studyModel = StudyModel()
     
+    @State private var isWindowHidden: Bool = false
+    
 //    @State private var currentPage: Page = .welcome
     
     var body: some Scene {
-        WindowGroup {
+//        WindowGroup(id: "Main Window"){
+//            EmptyView()
+//        }
+        WindowGroup(id: "Second Window"){
             ContentView(currentPage: $studyModel.currentPage)
                 .environment(model)
                 .environment(studyModel)
@@ -46,22 +53,21 @@ struct GlobeGestureStudyApp: App {
             .contentSize
         ) // window resizability is derived from window content
         
-        WindowGroup(id: "info", for: UUID.self) { $globeId in
-            if let infoURL = model.globe.infoURL {
-                WebViewDecorated(currentPage: $studyModel.currentPage, url: infoURL, webViewStatus: $webViewStatus)
-                    .ornament(attachmentAnchor: .scene(.bottom)) {
-                        Button("Open in Safari") { openURL(infoURL) }
-                            .padding()
-                            .glassBackgroundEffect()
-                    }
-                    .frame(minWidth: 500)
-            }
-        }
-        .windowResizability(
-            .contentSize
-        ) // window resizability is derived from window content
-        
-
+//        WindowGroup(id: "info", for: UUID.self) { $globeId in
+//            if let infoURL = model.globe.infoURL {
+//                WebViewDecorated(currentPage: $studyModel.currentPage, url: infoURL, webViewStatus: $webViewStatus)
+//                    .ornament(attachmentAnchor: .scene(.bottom)) {
+//                        Button("Open in Safari") { openURL(infoURL) }
+//                            .padding()
+//                            .glassBackgroundEffect()
+//                    }
+//                    .frame(minWidth: 500)
+//            }
+//        }
+//        .windowResizability(
+//            .contentSize
+//        ) // window resizability is derived from window content
+        //
         ImmersiveSpace(id: "ImmersiveGlobeSpace") {
             ImmersiveView()
                 .environment(model)

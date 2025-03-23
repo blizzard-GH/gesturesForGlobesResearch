@@ -45,14 +45,14 @@ enum Page: String, CaseIterable {
                     "position",
                     "move",
                     "Positioning the globe",
-                    "In this technique, the globe spins as the globe moves so the side of the globe facing to you is always the same.",
+                    "This is the first positioning technique assigned to you.",
                     .position)
         case .positionExperiment2:
             return ("2",
                     "position",
                     "move",
                     "Positioning the globe",
-                    "In this technique, the globe stays in its position so the side of the globe facing to you is changing.",
+                    "This is the second positioning technique assigned to you..",
                     .position)
 
         case .rotationExperiment1:
@@ -60,14 +60,14 @@ enum Page: String, CaseIterable {
                     "orientation",
                     "rotate",
                     "Rotating the globe",
-                    "In this technique, the rotation is utilising both hands.",
+                    "This is the first rotating technique assigned to you.",
                     .rotation)
         case .rotationExperiment2:
             return ("4",
                     "orientation",
                     "rotate",
                     "Rotating the globe",
-                    "In this technique, the rotation is utilising right hand only.",
+                    "This is the second rotating technique assigned to you.",
                     .rotation)
 
         case .scaleExperiment1:
@@ -75,14 +75,14 @@ enum Page: String, CaseIterable {
                     "size",
                     "scale",
                     "Scaling the globe",
-                    "In this technique, the globe moves away as you scale it up, and the other way around.",
+                    "This is the first scaling technique assigned to you.",
                     .scale)
         case .scaleExperiment2:
             return ("6",
                     "size",
                     "scale",
                     "Scaling the globe",
-                    "In this technique, the globe maintains its position whether you scale it up or down.",
+                    "This is the second scaling technique assigned to you.",
                     .scale)
 
         default:
@@ -136,37 +136,37 @@ enum Page: String, CaseIterable {
         case .positionTraining:
             "Position Training"
         case .positionExperiment1:
-            "Experiment 1 Position: Rotating globe"
+            "Experiment 1 Position: First Technique"
         case .positionExperimentForm1:
-            "Experiment 1 Form: Rotating"
+            "Experiment 1 Form for First Technique"
         case .positionExperiment2:
-            "Experiment 1 Position: Non-rotating globe"
+            "Experiment 1 Position: Second Technique"
         case .positionExperimentForm2:
-            "Experiment 1 Form: Non-rotating"
+            "Experiment 1 Form for Second Technique"
         case .positionComparison:
             "Position Comparison"
         case .rotationTraining:
             "Rotation Training"
         case .rotationExperiment1:
-            "Experiment 2 Rotation: One-handed"
+            "Experiment 2 Rotation: First Technique"
         case .rotationExperimentForm1:
-            "Experiment 2 Form: One-handed"
+            "Experiment 2 Form for First Technique"
         case .rotationExperiment2:
-            "Experiment 2 Rotation: Two-handed"
+            "Experiment 2 Rotation: Second Technique"
         case .rotationExperimentForm2:
-            "Experiment 2 Form: Two-handed"
+            "Experiment 2 Form for Second Technique"
         case .rotationComparison:
             "Rotation Comparison"
         case .scaleTraining:
             "Scale Training"
         case .scaleExperiment1:
-            "Experiment 3 Scale: Moving"
+            "Experiment 3 Scale: First Technique"
         case .scaleExperimentForm1:
-            "Experiment 3 Form: Moving"
+            "Experiment 3 Form for First Technique"
         case .scaleExperiment2:
-            "Experiment 3 Scale: Non-Moving"
+            "Experiment 3 Scale: Second Technique"
         case .scaleExperimentForm2:
-            "Experiment 3 Form: Non-Moving"
+            "Experiment 3 Form for Second Technique"
         case .scaleComparison:
             "Scale Comparison"
         case .outroForm:

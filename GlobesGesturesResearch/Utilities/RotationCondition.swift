@@ -13,11 +13,11 @@ struct RotationCondition {
     let condition1: String
     let condition2: String
     
-    static var gestureFeatureCompleted: Bool = false
+    static var gestureFeatureCompleted: Bool = false // Used to switch between technique in experiment 1 and 2
     
     static var lastUsedRotationConditionIndex: Int = -1
     
-    static var rotationConditionsCompleted: Bool = false
+    static var rotationConditionsCompleted: Bool = false // Used to show 'next' button once all conditions are done
     
     static var rotationSwapTechnique: Bool = false // This var will swap technique, so that technique is implemented to Balanced Latin Square by half order
     
@@ -108,7 +108,7 @@ struct RotationCondition {
     
     static func rotationConditionsGetter(for rotationConditions: [RotationCondition], lastUsedIndex: Int) -> (modalitiy: Modality, complexity: Complexity) {
 //        var activeSubject: ScalingCondition?
-        var modality: Modality = gestureFeatureCompleted ? .oneHanded : .twoHanded
+        let modality: Modality = gestureFeatureCompleted ? .oneHanded : .twoHanded
         var complexity: Complexity = .simple
         
         
@@ -172,7 +172,7 @@ struct RotationCondition {
         
         if (lastUsedIndex + 1) == conditionValues.count {
             gestureFeatureCompleted.toggle()
-            rotationConditionsCompleted = true
+            rotationConditionsCompleted.toggle()
             lastUsedIndex = -1
         } else {
             lastUsedIndex += 1

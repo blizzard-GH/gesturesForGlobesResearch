@@ -17,7 +17,7 @@ struct ContentView: View {
     
     /// Track web page loading errors and completion of Google Forms
     @State private var webViewStatus = WebViewStatus.loading
-    
+        
     var body: some View {
         pageViewForCurrentPage
             .id(currentPage)
