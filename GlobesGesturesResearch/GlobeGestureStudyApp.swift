@@ -52,7 +52,6 @@ struct GlobeGestureStudyApp: App {
         .windowResizability(
             .contentSize
         ) // window resizability is derived from window content
-        
 //        WindowGroup(id: "info", for: UUID.self) { $globeId in
 //            if let infoURL = model.globe.infoURL {
 //                WebViewDecorated(currentPage: $studyModel.currentPage, url: infoURL, webViewStatus: $webViewStatus)

@@ -17,9 +17,10 @@ enum Page: String, CaseIterable {
     case positionExperiment2
     case positionExperimentForm2
     case positionComparison
-    case rotationTraining
+    case rotationTraining1
     case rotationExperiment1
     case rotationExperimentForm1
+    case rotationTraining2
     case rotationExperiment2
     case rotationExperimentForm2
     case rotationComparison
@@ -108,9 +109,9 @@ enum Page: String, CaseIterable {
         case .positionTraining:
             return ("position gesture",
                     "drag gesture",
-                    "Look at the globes, pinch your finger, and hold it while dragging your pinching fingers anywhere")
+                    "Look at the globes, pinch your finger, and hold it while dragging your pinching fingers to match the transparent globe position")
             
-        case .rotationTraining:
+        case .rotationTraining1, .rotationTraining2:
             return ("rotation gesture",
                     "rotate gesture",
                     "Look at the globe, make a rotation gesture")
@@ -118,7 +119,7 @@ enum Page: String, CaseIterable {
         case .scaleTraining:
             return ("scale gesture",
                     "magnify gesture",
-                    "Look at the globes, make a magnify gesture by using thumb and index finger")
+                    "Look at the globes, make a magnify gesture by using both hands")
         default:
             return ("None",
                     "None",
@@ -145,12 +146,14 @@ enum Page: String, CaseIterable {
             "Experiment 1 Form for Second Technique"
         case .positionComparison:
             "Position Comparison"
-        case .rotationTraining:
-            "Rotation Training"
+        case .rotationTraining1:
+            "Rotation Training: First Technique"
         case .rotationExperiment1:
             "Experiment 2 Rotation: First Technique"
         case .rotationExperimentForm1:
             "Experiment 2 Form for First Technique"
+        case .rotationTraining2:
+            "Rotation training: Second Technique"
         case .rotationExperiment2:
             "Experiment 2 Rotation: Second Technique"
         case .rotationExperimentForm2:

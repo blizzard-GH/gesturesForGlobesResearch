@@ -26,9 +26,7 @@ struct GetReady: View {
                     .foregroundColor(.primary)
                     .padding(.top, 20)
                 
-                Text("""
-            Please \(details.mainVerb) the main globe to match the \(details.mainFeature) of the target globe.
-            """)
+                Text("Please \(details.mainVerb) the main globe to match the \(details.mainFeature) of the target globe.")
                 .font(.body)
                 .italic()
                 .foregroundColor(.secondary)

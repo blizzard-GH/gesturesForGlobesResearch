@@ -86,11 +86,7 @@ struct WelcomeView: View {
                         .fontWeight(.bold)
                         .multilineTextAlignment(.center)
                     
-                    Text("""
-This study explores the most effective and intuitive gestures to interact with virtual globes. Your participation will help us better understand intuitive gestures for positioning, scaling, and rotating in 3D environments.
-            
-Please follow the instructions on the next screens. Thank you in advance for contributing to this research!
-""")
+                    Text("To commence the study, please tap the button below.")
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .padding()

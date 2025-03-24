@@ -46,7 +46,6 @@ struct Instruction: View {
                 // Instruction Text Section
                 Text("""
             Please \(details.mainVerb) the main globe to match the \(details.mainFeature) of the transparent globe.
-            We will collect your data of matching it.
             """)
                 .font(.body)
                 .bold()

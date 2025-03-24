@@ -41,16 +41,12 @@ struct TrainingView: View {
                     .padding()
             } else {
                 let details = currentPage.trainingDetails
-                Text(" This is the training session for \(details.trainingType).")
+                Text(" Training session for \(details.trainingType).")
                     .font(.title)
                     .multilineTextAlignment(.center)
                     .padding()
                 Text("""
-                In this section we are making sure you are familiar with \(details.gestureMethod). 
-                
-                \(details.trainingDescription).
-                
-                If you have done, click the button to continue to the study.
+                Make yourself familiar with \(details.gestureMethod). 
                 """)
                 .font(.headline)
                 .multilineTextAlignment(.center)

@@ -57,7 +57,7 @@ struct ContentView: View {
         switch currentPage {
         case .welcome:
             WelcomeView(currentPage: $currentPage)
-        case .positionTraining, .rotationTraining, .scaleTraining:
+        case .positionTraining, .rotationTraining1, .rotationTraining2, .scaleTraining:
             TrainingView(currentPage: $currentPage)
         case .thankYou:
             ThankYouView()
