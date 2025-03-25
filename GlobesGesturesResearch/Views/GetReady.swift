@@ -12,7 +12,7 @@ struct GetReady: View {
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     
     @Binding var currentPage: Page
-    @State private var remainingTime: Int = 2
+    @State private var remainingTime: Int = 0
     @State private var timer: Timer? = nil
     
     var onCountdownComplete: () -> Void

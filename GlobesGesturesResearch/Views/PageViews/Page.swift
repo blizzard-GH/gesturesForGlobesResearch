@@ -13,21 +13,27 @@ enum Page: String, CaseIterable {
     case introForm
     case positionTraining
     case positionExperiment1
+    case confirmationPagePosition1
     case positionExperimentForm1
     case positionExperiment2
+    case confirmationPagePosition2
     case positionExperimentForm2
     case positionComparison
     case rotationTraining1
     case rotationExperiment1
+    case confirmationPageRotation1
     case rotationExperimentForm1
     case rotationTraining2
     case rotationExperiment2
+    case confirmationPageRotation2
     case rotationExperimentForm2
     case rotationComparison
     case scaleTraining
     case scaleExperiment1
+    case confirmationPageScale1
     case scaleExperimentForm1
     case scaleExperiment2
+    case confirmationPageScale2
     case scaleExperimentForm2
     case scaleComparison
     case outroForm
@@ -138,10 +144,14 @@ enum Page: String, CaseIterable {
             "Position Training"
         case .positionExperiment1:
             "Experiment 1 Position: First Technique"
+        case .confirmationPagePosition1:
+            "Confirmation Page: Position 1"
         case .positionExperimentForm1:
             "Experiment 1 Form for First Technique"
         case .positionExperiment2:
             "Experiment 1 Position: Second Technique"
+        case .confirmationPagePosition2:
+            "Confirmation Page: Position 2"
         case .positionExperimentForm2:
             "Experiment 1 Form for Second Technique"
         case .positionComparison:
@@ -150,12 +160,16 @@ enum Page: String, CaseIterable {
             "Rotation Training: First Technique"
         case .rotationExperiment1:
             "Experiment 2 Rotation: First Technique"
+        case .confirmationPageRotation1:
+            "Confirmation Page: Rotation 1"
         case .rotationExperimentForm1:
             "Experiment 2 Form for First Technique"
         case .rotationTraining2:
             "Rotation training: Second Technique"
         case .rotationExperiment2:
             "Experiment 2 Rotation: Second Technique"
+        case .confirmationPageRotation2:
+            "Confirmation Page: Rotation 2"
         case .rotationExperimentForm2:
             "Experiment 2 Form for Second Technique"
         case .rotationComparison:
@@ -164,10 +178,14 @@ enum Page: String, CaseIterable {
             "Scale Training"
         case .scaleExperiment1:
             "Experiment 3 Scale: First Technique"
+        case .confirmationPageScale1:
+            "Confirmation Page: Scale 1"
         case .scaleExperimentForm1:
             "Experiment 3 Form for First Technique"
         case .scaleExperiment2:
             "Experiment 3 Scale: Second Technique"
+        case .confirmationPageScale2:
+            "Confirmation Page: Scale 2"
         case .scaleExperimentForm2:
             "Experiment 3 Form for Second Technique"
         case .scaleComparison:

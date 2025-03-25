@@ -14,6 +14,7 @@ struct ContentView: View {
     
     /// The currently displayed  page
     @Binding var currentPage: Page
+
     
     /// Track web page loading errors and completion of Google Forms
     @State private var webViewStatus = WebViewStatus.loading
@@ -61,6 +62,10 @@ struct ContentView: View {
             TrainingView(currentPage: $currentPage)
         case .thankYou:
             ThankYouView()
+        case .confirmationPagePosition1, .confirmationPagePosition2,
+                .confirmationPageRotation1, .confirmationPageRotation2,
+                .confirmationPageScale1, .confirmationPageScale2:
+            ConfirmationPage(currentPage: $currentPage)
         default:
             if currentPage.taskDetails != nil {
                 // show a task view

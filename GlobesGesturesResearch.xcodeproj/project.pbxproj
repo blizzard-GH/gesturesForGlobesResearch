@@ -43,6 +43,7 @@
 		7DD56E992C6DB033009AE72C /* GlobeGesturesModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E982C6DB000009AE72C /* GlobeGesturesModifier.swift */; };
 		7DE6A6F62C6E1DCC00E0D956 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */; };
 		7DE6A6F72C6E1DCC00E0D956 /* WebViewDecorated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */; };
+		970AC1ED2D91920F00D084A4 /* ConfirmationPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970AC1EC2D91920E00D084A4 /* ConfirmationPage.swift */; };
 		970D876A2D0A636A00700830 /* StudyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970D87692D0A636300700830 /* StudyModel.swift */; };
 		972409E62D5AE97A0006A1CD /* TrainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972409E52D5AE9760006A1CD /* TrainingView.swift */; };
 		9742BB292D33E1B7001079D4 /* GestureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9742BB282D33E1B2001079D4 /* GestureType.swift */; };
@@ -103,6 +104,7 @@
 		7DD56E982C6DB000009AE72C /* GlobeGesturesModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeGesturesModifier.swift; sourceTree = "<group>"; };
 		7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewDecorated.swift; sourceTree = "<group>"; };
+		970AC1EC2D91920E00D084A4 /* ConfirmationPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationPage.swift; sourceTree = "<group>"; };
 		970D87692D0A636300700830 /* StudyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyModel.swift; sourceTree = "<group>"; };
 		972409E52D5AE9760006A1CD /* TrainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingView.swift; sourceTree = "<group>"; };
 		9742BB282D33E1B2001079D4 /* GestureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureType.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			children = (
 				7D60D9572CF8550F00D7C8AD /* Page.swift */,
 				7D60D94F2CF84F2900D7C8AD /* WelcomeView.swift */,
+				970AC1EC2D91920E00D084A4 /* ConfirmationPage.swift */,
 				972409E52D5AE9760006A1CD /* TrainingView.swift */,
 				7D60D94E2CF84F2900D7C8AD /* TaskView.swift */,
 				7D60D94D2CF84F2900D7C8AD /* GoogleForm.swift */,
@@ -405,6 +408,7 @@
 				97C198AF2D2ED1F100655735 /* RotationMatcher.swift in Sources */,
 				97D8C13A2D3FF4A50079F1C1 /* TaskStorageManager.swift in Sources */,
 				970D876A2D0A636A00700830 /* StudyModel.swift in Sources */,
+				970AC1ED2D91920F00D084A4 /* ConfirmationPage.swift in Sources */,
 				7D839A162D41DF4300F08DC3 /* ScaleOptionsAttachmentView.swift in Sources */,
 				7DD56E992C6DB033009AE72C /* GlobeGesturesModifier.swift in Sources */,
 				7DD56E7E2C6CCA71009AE72C /* GlobeEntity.swift in Sources */,

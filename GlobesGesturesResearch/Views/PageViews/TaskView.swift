@@ -12,6 +12,8 @@ struct TaskView: View {
     @Environment(StudyModel.self) var studyModel
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
+    @Environment(\.dismissWindow) private var dismissWindow
+    @Environment(\.openWindow) private var openWindow
     
     @Binding var currentPage: Page
     @State private var isDoingTask: Bool = false
@@ -78,6 +80,9 @@ struct TaskView: View {
                                         _ = model.firstGlobeEntity?.rescaleGlobe()
                                     }
                                 }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                                    dismissWindow(id: "Second Window")
+                                }
                             }
                             // Task{
                             //                                await checkMatchingStatus(taskNumber : details.taskNumber, model: model)
@@ -86,13 +91,13 @@ struct TaskView: View {
                             //                            model.secondGlobeEntity?.respawnGlobe("Right")
                         }
                     } else {
-                        if let currentTask = studyModel.currentTask, currentTask.isMatching{
+//                        if let currentTask = studyModel.currentTask, currentTask.isMatching{
                             //                        if studyModel.getMatcher(taskNumber: details.taskNumber, model: model) {
-                            Text("Matched!")
-                                .font(.headline)
-                                .foregroundColor(.green)
-                                .padding()
-                        }
+//                            Text("Matched!")
+//                                .font(.headline)
+//                                .foregroundColor(.green)
+//                                .padding()
+//                        }
                         //                        Text("Time elapsed: \(String(format: "%.2f", elapsedTime)) seconds")
                         //                            .font(.title)
                         //                            .monospacedDigit()
@@ -175,12 +180,14 @@ struct TaskView: View {
         .padding()
         .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray2)).shadow(radius: 5)).padding(40)
         .onAppear{
+            isDoingTask = false
+            showTaskContent = false
             updateAttachmentView()
             showOrHideGlobe(false)
             //            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
         }
         .onDisappear{
-            showOrHideGlobe(false)
+//            showOrHideGlobe(false)
             //            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
             
         }

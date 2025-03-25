@@ -29,6 +29,8 @@ extension View {
 @MainActor
 private struct GlobeGesturesModifier: ViewModifier {
     
+    @Environment(\.openWindow) private var openWindow
+    
     /// State variables for drag, magnify, scale and 3D rotation gestures. State variables for the y-rotation gesture is separate.
     struct GlobeGestureState {
         var isDragging = false
@@ -106,7 +108,7 @@ private struct GlobeGesturesModifier: ViewModifier {
     
     @GestureState private var yRotationState = YRotationState.inactive
     
-    private let minimumLongPressDuration = 0.5
+    private let minimumLongPressDuration = 0.3
     
     /// Amount of angular rotation per translation delta for single-handed rotation around the y-axis. This value is reduced for enlarged globes.
     private let rotationSpeed: Float = 0.0015
@@ -131,7 +133,6 @@ private struct GlobeGesturesModifier: ViewModifier {
             content
                 .simultaneousGesture(dragGesture)
         case    .rotationExperiment1, .rotationExperimentForm1,
-                .rotationTraining1, .rotationTraining2,
                 .rotationExperiment2, .rotationExperimentForm2:
             if oneHandedRotationGesture {
                 content
@@ -140,6 +141,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                 content
                     .simultaneousGesture(rotateGesture)
             }
+        case .rotationTraining1, .rotationTraining2:
+            content
+                .simultaneousGesture(rotateGlobeAxisGesture)
         case .rotationComparison:
             content
                 .simultaneousGesture(rotateGlobeAxisGesture)
@@ -330,9 +334,13 @@ private struct GlobeGesturesModifier: ViewModifier {
                     } else {
                         let counterPosition = model.firstGlobeEntity?.repositionGlobe()
                         model.secondGlobeEntity?.respawnGlobe(counterPosition ?? SIMD3<Float>(0,0.9,-0.5))
-                        print("\(PositionCondition.lastUsedPositionConditionIndex)")
+                        print("POSITION INDEX: \(PositionCondition.lastUsedPositionConditionIndex)")
                         if PositionCondition.positionConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
+                                studyModel.currentPage = studyModel.currentPage.next()
+                            }
+                            openWindow(id: "Second Window")
                         }
                     }
                 }
@@ -445,6 +453,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                         model.secondGlobeEntity?.respawnGlobe(.rightClose)
                         if ScaleCondition.scaleConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
+                                studyModel.currentPage = studyModel.currentPage.next()
+                            }
+                            openWindow(id: "Second Window")
                         }
                     }
                 }
@@ -564,6 +576,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                         model.secondGlobeEntity?.respawnGlobe(.right)
                         if RotationCondition.rotationConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
+                                studyModel.currentPage = studyModel.currentPage.next()
+                            }
+                            openWindow(id: "Second Window")
                         }
                     }
                 }
@@ -781,6 +797,8 @@ private struct GlobeGesturesModifier: ViewModifier {
 //                    }
 //                    OPTION 2
                     Task { @MainActor in
+                        guard let globeEntity = value.entity as? GlobeEntity else { return }
+                        let isFirstGlobe = (globeEntity == model.firstGlobeEntity)
                         if state.previousLocation3D == nil {
                             state.previousLocation3D = drag.location3D
                             
@@ -836,7 +854,26 @@ private struct GlobeGesturesModifier: ViewModifier {
                         entity.orientation *= rotationQuaternionY * rotationQuaternionX
 //                        entity.orientation *= rotationQuaternionY
 
+                        var originalTransform = globeEntity.transform
+
+                        if isFirstGlobe {
+                            originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
+                                                                             position: globeEntity.position,
+                                                                             duration: animationDuration)
+                        }
                         
+                        guard var currentTask = studyModel.currentTask else {
+                            log("Error: currentTask is nil. Cannot add action")
+                            return
+                        }
+                        if let targetTransform = model.secondGlobeEntity?.transform {
+                            currentTask.addAction(StudyAction(
+                                taskID: currentTask.taskID,
+                                type: .rotation,
+                                status: .rotate,
+                                originalTransform: originalTransform,
+                                targetTransform: targetTransform))
+                        }
                     }
                 default:
                     yRotationState = .inactive
@@ -884,6 +921,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                             model.secondGlobeEntity?.respawnGlobe(.right)
                             if RotationCondition.rotationConditionsCompleted == true {
                                 studyModel.proceedToNextExperiment = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
+                                    studyModel.currentPage = studyModel.currentPage.next()
+                                }
+                                openWindow(id: "Second Window")
                             }
                         }
                     }
