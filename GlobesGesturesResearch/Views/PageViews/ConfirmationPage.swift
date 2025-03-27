@@ -29,7 +29,7 @@ struct ConfirmationPage: View {
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
             Button(
-                "Let's move on to the next task."
+                "Next"
             ) {
                 studyModel.proceedToNextExperiment = false
                 PositionCondition.positionConditionsCompleted = false
@@ -85,6 +85,7 @@ struct ConfirmationPage: View {
             .onAppear{
                 showOrHideGlobe(false)
             }
+            .bold()
             .padding()
             .background(Color.cyan)
             .cornerRadius(10)
@@ -108,6 +109,7 @@ struct ConfirmationPage: View {
             .fill(Color(.systemGray4))
             .shadow(radius: 5))
         .padding(40)
+        .frame(minWidth: 800, minHeight: 800)
     }
     
     private func updateAttachmentView() {

@@ -22,6 +22,7 @@ struct StartTaskButton: View {
                     Label("Start Task", systemImage: "globe")
                 }
             }
+            .bold()
             .buttonStyle(PlainButtonStyle())
             .padding()
             .frame(maxWidth: 200, maxHeight: 50)

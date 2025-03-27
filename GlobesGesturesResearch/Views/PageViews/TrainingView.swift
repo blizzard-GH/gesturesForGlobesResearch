@@ -63,7 +63,8 @@ struct TrainingView: View {
                         }
                     }
                 }){
-                    Text("Finish training, and move to the next task.")
+                    Text("Finish training")
+                        .bold()
                         .font(.headline)
                         .foregroundColor(.white)
                         .cornerRadius(15)

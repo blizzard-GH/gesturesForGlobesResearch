@@ -20,19 +20,19 @@ struct GetReady: View {
     var body: some View {
         VStack {
             if let details = currentPage.taskDetails {
-                Text(" Get ready! ")
+                Text("Please wait!")
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
                     .padding(.top, 20)
                 
-                Text("Please \(details.mainVerb) the main globe to match the \(details.mainFeature) of the target globe.")
-                .font(.body)
-                .italic()
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .padding()
-                Text(remainingTime > 0 ? "Starting in: \(remainingTime) seconds" : "Go!")
+//                Text("Please \(details.mainVerb) the main globe to match the \(details.mainFeature) of the target globe.")
+//                .font(.body)
+//                .italic()
+//                .foregroundColor(.secondary)
+//                .multilineTextAlignment(.center)
+//                .padding()
+                Text("Loading..")
                     .font(.largeTitle)
                     .bold()
                     .foregroundColor(remainingTime > 0 ? .teal : .cyan)

@@ -42,13 +42,11 @@ struct TaskView: View {
         VStack {
             if let details = currentPage.taskDetails {
                 if !isDoingTask {
-                    Text("""
-                We are about to start \(details.mainFeature) experiment \(details.taskNumber)
-                The measurement will begin immediately after you click the button below.
-                Whenever you are ready, click the button 'Start Task' below and do as instructed.
-                
-                \(details.instructions)
-                """)
+                    Text("PART : \(details.partNumber)")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.center)
+                    Text("We are about to start \(details.mainFeature) experiment \(details.taskNumber)")
                     .multilineTextAlignment(.center)
                     .padding()
                     StartTaskButton(isDoingTask: $isDoingTask)
@@ -161,6 +159,7 @@ struct TaskView: View {
                                 model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
                                 currentPage = currentPage.next()
                             }
+                            .bold()
                             .onAppear{
                                 showOrHideGlobe(false)
                             }

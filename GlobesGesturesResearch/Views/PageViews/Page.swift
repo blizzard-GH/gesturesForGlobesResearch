@@ -41,6 +41,7 @@ enum Page: String, CaseIterable {
     
     /// A task number or nil if the page does not start a set of tasks.
     var taskDetails: (taskNumber: String,
+                      partNumber: String,
                       mainFeature: String,
                       mainVerb: String,
                       description: String,
@@ -49,47 +50,53 @@ enum Page: String, CaseIterable {
         switch self {
         case .positionExperiment1:
             return ("1",
+                    "I",
                     "position",
                     "move",
                     "Positioning the globe",
-                    "This is the first positioning technique assigned to you.",
+                    "Whenever you're ready, Press the button below.",
                     .position)
         case .positionExperiment2:
             return ("2",
+                    "I",
                     "position",
                     "move",
                     "Positioning the globe",
-                    "This is the second positioning technique assigned to you..",
+                    "Whenever you're ready, Press the button below.",
                     .position)
 
         case .rotationExperiment1:
             return ("3",
+                    "II",
                     "orientation",
                     "rotate",
                     "Rotating the globe",
-                    "This is the first rotating technique assigned to you.",
+                    "Whenever you're ready, Press the button below.",
                     .rotation)
         case .rotationExperiment2:
             return ("4",
+                    "II",
                     "orientation",
                     "rotate",
                     "Rotating the globe",
-                    "This is the second rotating technique assigned to you.",
+                    "Whenever you're ready, Press the button below.",
                     .rotation)
 
         case .scaleExperiment1:
             return ("5",
+                    "III",
                     "size",
                     "scale",
                     "Scaling the globe",
-                    "This is the first scaling technique assigned to you.",
+                    "Whenever you're ready, Press the button below.",
                     .scale)
         case .scaleExperiment2:
             return ("6",
+                    "III",
                     "size",
                     "scale",
                     "Scaling the globe",
-                    "This is the second scaling technique assigned to you.",
+                    "Whenever you're ready, Press the button below.",
                     .scale)
 
         default:
@@ -137,63 +144,63 @@ enum Page: String, CaseIterable {
     var name: String {
         switch self {
         case .welcome:
-            "Welcome display"
+            "1. Welcome display"
         case .introForm:
-            "Introduction"
+            "2. Introduction"
         case .positionTraining:
-            "Position Training"
+            "3. Position Training"
         case .positionExperiment1:
-            "Experiment 1 Position: First Technique"
+            "4. Experiment 1 Position: First Technique"
         case .confirmationPagePosition1:
-            "Confirmation Page: Position 1"
+            "5. Confirmation Page: Position 1"
         case .positionExperimentForm1:
-            "Experiment 1 Form for First Technique"
+            "6. Experiment 1 Form for First Technique"
         case .positionExperiment2:
-            "Experiment 1 Position: Second Technique"
+            "7. Experiment 1 Position: Second Technique"
         case .confirmationPagePosition2:
-            "Confirmation Page: Position 2"
+            "8. Confirmation Page: Position 2"
         case .positionExperimentForm2:
-            "Experiment 1 Form for Second Technique"
+            "9. Experiment 1 Form for Second Technique"
         case .positionComparison:
-            "Position Comparison"
+            "10. Position Comparison"
         case .rotationTraining1:
-            "Rotation Training: First Technique"
+            "11. Rotation Training: First Technique"
         case .rotationExperiment1:
-            "Experiment 2 Rotation: First Technique"
+            "12. Experiment 2 Rotation: First Technique"
         case .confirmationPageRotation1:
-            "Confirmation Page: Rotation 1"
+            "13. Confirmation Page: Rotation 1"
         case .rotationExperimentForm1:
-            "Experiment 2 Form for First Technique"
+            "14. Experiment 2 Form for First Technique"
         case .rotationTraining2:
-            "Rotation training: Second Technique"
+            "15. Rotation training: Second Technique"
         case .rotationExperiment2:
-            "Experiment 2 Rotation: Second Technique"
+            "16. Experiment 2 Rotation: Second Technique"
         case .confirmationPageRotation2:
-            "Confirmation Page: Rotation 2"
+            "17. Confirmation Page: Rotation 2"
         case .rotationExperimentForm2:
-            "Experiment 2 Form for Second Technique"
+            "18. Experiment 2 Form for Second Technique"
         case .rotationComparison:
-            "Rotation Comparison"
+            "19. Rotation Comparison"
         case .scaleTraining:
-            "Scale Training"
+            "20. Scale Training"
         case .scaleExperiment1:
-            "Experiment 3 Scale: First Technique"
+            "21. Experiment 3 Scale: First Technique"
         case .confirmationPageScale1:
-            "Confirmation Page: Scale 1"
+            "22. Confirmation Page: Scale 1"
         case .scaleExperimentForm1:
-            "Experiment 3 Form for First Technique"
+            "23. Experiment 3 Form for First Technique"
         case .scaleExperiment2:
-            "Experiment 3 Scale: Second Technique"
+            "24. Experiment 3 Scale: Second Technique"
         case .confirmationPageScale2:
-            "Confirmation Page: Scale 2"
+            "25. Confirmation Page: Scale 2"
         case .scaleExperimentForm2:
-            "Experiment 3 Form for Second Technique"
+            "26. Experiment 3 Form for Second Technique"
         case .scaleComparison:
-            "Scale Comparison"
+            "27. Scale Comparison"
         case .outroForm:
-            "End Form"
+            "28. End Form"
         case .thankYou:
-            "Thank You display"
+            "29. Thank You display"
         }
     }
     

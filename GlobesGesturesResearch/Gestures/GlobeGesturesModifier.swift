@@ -2,6 +2,7 @@ import ARKit
 import os
 import RealityKit
 import SwiftUI
+import simd
 
 extension View {
     /// Adds gestures for moving, scaling and rotating a globe.
@@ -91,7 +92,7 @@ private struct GlobeGesturesModifier: ViewModifier {
     
     @State private var state = GlobeGestureState()
     
-    enum YRotationState {
+    enum RotationState {
         case inactive
         case pressing
         case dragging(translation: CGSize)
@@ -106,7 +107,7 @@ private struct GlobeGesturesModifier: ViewModifier {
         }
     }
     
-    @GestureState private var yRotationState = YRotationState.inactive
+    @GestureState private var rotationState = RotationState.inactive
     
     private let minimumLongPressDuration = 0.3
     
@@ -133,6 +134,7 @@ private struct GlobeGesturesModifier: ViewModifier {
             content
                 .simultaneousGesture(dragGesture)
         case    .rotationExperiment1, .rotationExperimentForm1,
+                .rotationTraining1, .rotationTraining2,
                 .rotationExperiment2, .rotationExperimentForm2:
             if oneHandedRotationGesture {
                 content
@@ -141,9 +143,6 @@ private struct GlobeGesturesModifier: ViewModifier {
                 content
                     .simultaneousGesture(rotateGesture)
             }
-        case .rotationTraining1, .rotationTraining2:
-            content
-                .simultaneousGesture(rotateGlobeAxisGesture)
         case .rotationComparison:
             content
                 .simultaneousGesture(rotateGlobeAxisGesture)
@@ -229,7 +228,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                     
                     guard !state.isScaling,
                           !state.isRotating,
-                          !yRotationState.isActive else {
+                          !rotationState.isActive else {
                         log("exit drag")
                         return
                     }
@@ -353,7 +352,7 @@ private struct GlobeGesturesModifier: ViewModifier {
             .onChanged { value in
                 Task { @MainActor in
                     guard let globeEntity = value.entity as? GlobeEntity else { return }
-                    guard !state.isRotating, !yRotationState.isActive else {
+                    guard !state.isRotating, !rotationState.isActive else {
                         log("exit magnify")
                         return
                     }
@@ -471,7 +470,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                 Task { @MainActor in
                     guard let globeEntity = value.entity as? GlobeEntity else { return }
                     
-                    guard !state.isScaling, !yRotationState.isActive else {
+                    guard !state.isScaling, !rotationState.isActive else {
                         log ("exit rotate")
                         return
                     }
@@ -708,12 +707,13 @@ private struct GlobeGesturesModifier: ViewModifier {
         LongPressGesture(minimumDuration: minimumLongPressDuration)
             .sequenced(before: DragGesture(minimumDistance: 0.0))
             .targetedToAnyEntity()
-            .updating($yRotationState) { value, yRotationState, _ in
+            .updating($rotationState) { value, rotationState, _ in
                 guard let entity = value.entity as? GlobeEntity else { return }
                 switch value.gestureValue {
                     // Long press begins.
                 case .first(true):
-                    yRotationState = .pressing
+                    rotationState = .pressing
+                    
                     // Long press confirmed, dragging may begin.
                 case .second(true, let drag):
                     Task { @MainActor in
@@ -796,98 +796,77 @@ private struct GlobeGesturesModifier: ViewModifier {
 //                        entity.animationPlaybackController?.stop()
 //                    }
 //                    OPTION 2
+//                    rotationState = .dragging(translation: drag.translation)
+                   
                     Task { @MainActor in
-                        guard let globeEntity = value.entity as? GlobeEntity else { return }
-                        let isFirstGlobe = (globeEntity == model.firstGlobeEntity)
-                        if state.previousLocation3D == nil {
-                            state.previousLocation3D = drag.location3D
-                            
-                            // Store initial local axes at the start of the gesture
-                            let transformMatrix = entity.transformMatrix(relativeTo: nil)
-                            state.initialLocalX = normalize(SIMD3<Float>(transformMatrix.columns.0.x,
-                                                                         transformMatrix.columns.0.y,
-                                                                         transformMatrix.columns.0.z))
-                            state.initialLocalY = normalize(SIMD3<Float>(transformMatrix.columns.1.x,
-                                                                         transformMatrix.columns.1.y,
-                                                                         transformMatrix.columns.1.z))
-                            
+                        if state.orientationAtGestureStart == nil {
+                            state.orientationAtGestureStart = Rotation3D(entity.orientation)
                         }
-                        guard let previousLocation3D = state.previousLocation3D else { return }
-                        
-                        // Map the horizontal displacement of the hand to a rotation around the rotation axis of the globe.
-                        // Place a temporary entity at the center of the globe and orient its z-axis toward the camera and the
-                        // x-axis in horizontal direction. Then transform the hand gesture movement to the coordinate system
-                        // of the temporary entity and compute the horizontal delta since the last update.
-                        guard let cameraPosition = CameraTracker.shared.position else { return }
-                        var v2 = cameraPosition - entity.position
-//                        v2.y = 0 // work in x-z plane
-//                        v2 = normalize(v2)
-                        let rotation = simd_quatf(from: [0, 0, 1], to: v2) // have z-axis point at the camera
-                        let rotatedEntity = Entity()
-                        rotatedEntity.position = entity.position
-                        rotatedEntity.orientation = rotation
-                        
-                        // Transform hand gesture coordinates from the globe entity to the temporary entity.
-                        var location = value.convert(drag.location3D, from: .local, to: .scene)
-                        var previousLocation = value.convert(previousLocation3D, from: .local, to: .scene)
-//                        location.z = 0
-//                        previousLocation.z = 0
-                        let deltaTranslation = location - previousLocation
-                        
-                        state.previousLocation3D = drag.location3D
-                        
-                        // Adjust the amount of rotation per translation delta to the size of the globe.
-                        // The angular rotation per translation delta is reduced for enlarged globes.
-                        let scaleRadius = max(1, entity.meanScale) * model.globe.radius
-                        let rotationAmountX = Float(deltaTranslation.x) * rotationSpeed / scaleRadius * 1000
-                        let rotationAmountY = Float(deltaTranslation.y) * rotationSpeed / scaleRadius * 1000
-                        
-                        guard let initialLocalX = state.initialLocalX, let initialLocalY = state.initialLocalY else {
-                            return
-                        }
-                        
-                        let rotationQuaternionX = simd_quatf(angle: rotationAmountX, axis: initialLocalY)
-                        let rotationQuaternionY = simd_quatf(angle: rotationAmountY, axis: initialLocalX)
-                        
-                        // A rotation quaternion around the globe's rotation axis.
-                        entity.animationPlaybackController?.stop()
-                        entity.orientation *= rotationQuaternionY * rotationQuaternionX
-//                        entity.orientation *= rotationQuaternionY
 
-                        var originalTransform = globeEntity.transform
+                        if let globeEntity = value.entity as? GlobeEntity,
+                           let orientationAtGestureStart = state.orientationAtGestureStart {
+                            log("update rotate")
+                            
+                            let dragTranslation = drag.translation
+                                                        
+                            // reduce the rotation angle for enlarged globes to avoid excessively fast movements
+//                            let rotation = value.rotation
+                            let scale = max(1, Float(globeEntity.meanScale) * model.globe.radius)
+                            let angleX = Angle2D(radians: Double(Float(dragTranslation.height) * rotationSpeed / scale))
+                            let angleY = Angle2D(radians: Double(Float(dragTranslation.width) * rotationSpeed / scale))
+                            
+                            // Originally it flips orientation of rotation to match rotation direction of hands, for two-handed.
+                            // Flipping code from "GestureComponent.swift" of Apple sample code project "Transforming RealityKit entities using gestures"
+                            // https://developer.apple.com/documentation/realitykit/transforming-realitykit-entities-with-gestures?changes=_8
+                            let rotationX = Rotation3D(angle: angleY, axis: RotationAxis3D(x: 0, y: 1, z: 0))
+                            let rotationY = Rotation3D(angle: angleX, axis: RotationAxis3D(x: 1, y: 0, z: 0))
+                            
+                            let newOrientation = orientationAtGestureStart
+                                .rotated(by: rotationX)
+                                .rotated(by: rotationY)
+                            
+                            // Apply the rotation to the globe
+                            globeEntity.animationPlaybackController?.stop()
+                            globeEntity.orientation = simd_quatf(newOrientation)
+                        }
 
-                        if isFirstGlobe {
-                            originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
-                                                                             position: globeEntity.position,
-                                                                             duration: animationDuration)
-                        }
-                        
-                        guard var currentTask = studyModel.currentTask else {
-                            log("Error: currentTask is nil. Cannot add action")
-                            return
-                        }
-                        if let targetTransform = model.secondGlobeEntity?.transform {
-                            currentTask.addAction(StudyAction(
-                                taskID: currentTask.taskID,
-                                type: .rotation,
-                                status: .rotate,
-                                originalTransform: originalTransform,
-                                targetTransform: targetTransform))
-                        }
+//                        var originalTransform = globeEntity.transform
+//
+//                        if isFirstGlobe {
+//                            originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
+//                                                                             position: globeEntity.position,
+//                                                                             duration: animationDuration)
+//                        }
+//                        
+//                        guard var currentTask = studyModel.currentTask else {
+//                            log("Error: currentTask is nil. Cannot add action")
+//                            return
+//                        }
+//                        if let targetTransform = model.secondGlobeEntity?.transform {
+//                            currentTask.addAction(StudyAction(
+//                                taskID: currentTask.taskID,
+//                                type: .rotation,
+//                                status: .rotate,
+//                                originalTransform: originalTransform,
+//                                targetTransform: targetTransform))
+//                        }
                     }
+                    
                 default:
-                    yRotationState = .inactive
+                    rotationState = .inactive
                 }
             }
             .onEnded { value in
-                guard let entity = value.entity as? GlobeEntity else { return }
-                let transformMatrix = entity.transformMatrix(relativeTo: nil)
-                state.initialLocalX = normalize(SIMD3<Float>(transformMatrix.columns.0.x,
-                                                             transformMatrix.columns.0.y,
-                                                             transformMatrix.columns.0.z))
-                state.initialLocalY = normalize(SIMD3<Float>(transformMatrix.columns.1.x,
-                                                             transformMatrix.columns.1.y,
-                                                             transformMatrix.columns.1.z))
+                
+//                guard let entity = value.entity as? GlobeEntity else { return }
+                
+//                let transformMatrix = entity.transformMatrix(relativeTo: nil)
+//                state.initialLocalX = normalize(SIMD3<Float>(transformMatrix.columns.0.x,
+//                                                             transformMatrix.columns.0.y,
+//                                                             transformMatrix.columns.0.z))
+//                state.initialLocalY = normalize(SIMD3<Float>(transformMatrix.columns.1.x,
+//                                                             transformMatrix.columns.1.y,
+//                                                             transformMatrix.columns.1.z))
                 switch value.gestureValue {
                 case .second(true, _):
                     // Reset the previous rotation state

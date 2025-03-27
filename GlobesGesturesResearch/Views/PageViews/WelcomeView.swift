@@ -86,7 +86,8 @@ struct WelcomeView: View {
                         .fontWeight(.bold)
                         .multilineTextAlignment(.center)
                     
-                    Text("To commence the study, please tap the button below.")
+                    
+                    Text("To move the window, look at the bar in the bottom, pinch and move around.")
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .padding()
@@ -110,6 +111,7 @@ struct WelcomeView: View {
                             .shadow(color: .black, radius: 1)
 
                     }
+                    .bold()
                     .background(Color.blue)
                     .cornerRadius(20)
                     .scaleEffect(isButtonPressed ? 1.1 : 1.0)
