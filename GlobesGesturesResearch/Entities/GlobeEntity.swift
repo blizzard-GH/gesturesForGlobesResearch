@@ -97,6 +97,14 @@ class GlobeEntity: Entity {
         // Add InputTargetComponent to enable gestures
         components.set(InputTargetComponent())
         components.set(CollisionComponent(shapes: [.generateSphere(radius: globe.radius)]))
+        
+        // Set PhysicsBodyComponent to .kinematic to disable physical gestures
+        components.set(PhysicsBodyComponent(
+            shapes: [.generateSphere(radius: globe.radius)], // Use the existing collision shape
+            mass: 0, // Mass is irrelevant for .kinematic
+            material: PhysicsMaterialResource.generate(friction: 0.5, restitution: 0.0),
+            mode: .kinematic // Kinematic objects are unaffected by forces but respond to gestures
+        ))
     }
     
     @MainActor

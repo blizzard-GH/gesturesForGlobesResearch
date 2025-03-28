@@ -11,17 +11,62 @@ struct ScaleOptionsAttachmentView: View {
     @Environment(ViewModel.self) var model
     
     var body: some View {
-        VStack {
-            Text("Scaling Behaviour")
-            Picker("Globe Position", selection: Bindable(model).moveGlobeWhileScaling) {
-                Text("Maintain Distance to Globe").tag(true)
-                Text("Maintain Globe Position").tag(false)
-            }
-            .pickerStyle(.segmented)
-            .fixedSize()
-        }
-        .padding()
-        .glassBackgroundEffect()
+//        VStack {
+//            Text("Toggle the Scaling Behaviour below:")
+//            Picker("Globe Position", selection: Bindable(model).moveGlobeWhileScaling) {
+//                Text("Maintain Distance to Globe").tag(true)
+//                Text("Maintain Globe Position").tag(false)
+//            }
+//            .pickerStyle(.segmented)
+//            .fixedSize()
+////            Toggle(isOn: Bindable(model).moveGlobeWhileScaling) {
+////                Text(model.moveGlobeWhileScaling ? "Maintain Distance to Globe" : "Maintain Globe Position")
+////                    .font(.subheadline)
+////            }
+////            .toggleStyle(SwitchToggleStyle(tint: .blue))
+////            .padding()
+//        }
+//        .padding()
+//        .glassBackgroundEffect()
+        VStack(spacing: 20) {
+                    Text("Scaling Behaviour")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .padding(.bottom, 10)
+
+                    HStack(spacing: 20) {
+                        Button(action: {
+                            model.moveGlobeWhileScaling = true
+                        }) {
+                            Text("Maintain Distance to Globe")
+                                .font(.headline)
+                                .frame(width: 300)
+                                .padding()
+                                .background(model.moveGlobeWhileScaling ? Color.blue : Color.gray.opacity(0.2))
+                                .foregroundColor(model.moveGlobeWhileScaling ? .white : .black)
+                                .cornerRadius(25)
+                        }
+                        .frame(width: 300)
+                        .cornerRadius(25)
+
+                        Button(action: {
+                            model.moveGlobeWhileScaling = false
+                        }) {
+                            Text("Maintain Globe Position")
+                                .font(.headline)
+                                .frame(width: 300)
+                                .padding()
+                                .background(!model.moveGlobeWhileScaling ? Color.blue : Color.gray.opacity(0.2))
+                                .foregroundColor(!model.moveGlobeWhileScaling ? .white : .black)
+                                .cornerRadius(25)
+                        }
+                        .frame(width: 300)
+                        .cornerRadius(25)
+                    }
+                    .padding(.horizontal)
+                }
+                .padding()
+                .glassBackgroundEffect()
     }
 }
 //

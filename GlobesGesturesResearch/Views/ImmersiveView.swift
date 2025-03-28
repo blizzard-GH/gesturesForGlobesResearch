@@ -100,18 +100,34 @@ struct ImmersiveView: View {
         switch model.attachmentView {
         case .position, .rotation, .scale:
             if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
-                attachmentEntity.position = [0, model.globe.radius * 1.2, 0]
+                let yPosition = model.globe.radius * 1.5
+                let zPosition = model.globe.radius
+                attachmentEntity.position = [0, yPosition, zPosition]
                 attachmentEntity.components.set(BillboardComponent())
                 globeEntity.addChild(attachmentEntity)
             }
+//            if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
+//                let yPosition = model.globe.radius * 1.5
+//                let zPosition = model.globe.radius
+//
+//                let attachmentAnchor = Entity()
+//                attachmentAnchor.position = SIMD3<Float>(0, yPosition, zPosition) // Relative to globe
+//
+//                attachmentAnchor.addChild(attachmentEntity)
+//
+//                attachmentEntity.components.set(BillboardComponent())
+//
+//                globeEntity.addChild(attachmentAnchor)
+//            }
         case .all:
-            let allAttachments: [ViewModel.AttachmentView] = [.position, .rotation, .scale]
-            let spacing: Float = Float(model.globe.radius) * 0.2
+            let allAttachments: [ViewModel.AttachmentView] = [.scale, .rotation, .position]
+            let spacing: Float = Float(model.globe.radius) * 0.5
             for (index, attachmentType) in allAttachments.enumerated() {
                 if let attachmentEntity = attachments.entity(for: attachmentType.rawValue) {
-                    let yPosition = Float(model.globe.radius) * 1.2 + (Float(index) * spacing)
+                    let yPosition = Float(model.globe.radius) * 1.5 + (Float(index) * spacing)
                     // Set position with broken down components
-                    let position = SIMD3<Float>(0, yPosition, 0)
+                    let zPosition = Float(model.globe.radius)
+                    let position = SIMD3<Float>(0, yPosition, zPosition)
                     attachmentEntity.position = position
                     attachmentEntity.components.set(BillboardComponent())
                     globeEntity.addChild(attachmentEntity)
