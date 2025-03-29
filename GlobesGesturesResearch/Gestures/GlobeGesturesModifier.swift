@@ -109,7 +109,13 @@ private struct GlobeGesturesModifier: ViewModifier {
     
     @GestureState private var rotationState = RotationState.inactive
     
-    private let minimumLongPressDuration = 0.3
+    private var minimumLongPressDuration: Double {
+        if studyModel.currentPage == .outroForm {
+            return 0.3
+        } else {
+            return 0.0
+        }
+    }
     
     /// Amount of angular rotation per translation delta for single-handed rotation around the y-axis. This value is reduced for enlarged globes.
     private let rotationSpeed: Float = 0.0015
@@ -225,6 +231,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                     // Determine if it's the first or second globe
                     let isFirstGlobe = (globeEntity == model.firstGlobeEntity)
 //                    let isSecondGlobe = (globeEntity == model.secondGlobeEntity)
+                    guard isFirstGlobe else {
+                        log("Ignoring drag gesture on secondGlobe")
+                        return
+                    }
                     
                     guard !state.isScaling,
                           !state.isRotating,
@@ -238,15 +248,15 @@ private struct GlobeGesturesModifier: ViewModifier {
                         state.positionAtGestureStart = value.entity.position(relativeTo: nil)
                         state.localRotationAtGestureStart = (value.entity as? GlobeEntity)?.orientation
                         
-                        if let originalTransform = model.firstGlobeEntity?.transform,
-                           let targetTransform = model.secondGlobeEntity?.transform {
-                            studyModel.setupNextTask(gestureType: .position, originalTransform: originalTransform,
-                                                     targetTransform: targetTransform,
-                                                     soundManager: soundManager)
-                            studyModel.currentTask?.start(type: .position,
+                        let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
+                        let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
+                        studyModel.setupNextTask(gestureType: .position, originalTransform: originalTransform,
+                                                 targetTransform: targetTransform,
+                                                 soundManager: soundManager)
+                        studyModel.currentTask?.start(type: .position,
                                                           originalTransform: originalTransform,
                                                           targetTransform: targetTransform)
-                        }
+                        
                     }
 //                    if model.attachmentView == .none {
 //                        model.updatePositionConditions()
@@ -285,25 +295,24 @@ private struct GlobeGesturesModifier: ViewModifier {
 //                            log("Error: secondGlobeEntity is nil")
 //                            return
 //                        }
-                        if isFirstGlobe {
-                            // First globe: Allow full position changes, while restricting second globe to move
-                            originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
+                        
+                        originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
                                                                              position: position,
                                                                              duration: animationDuration)
-                        }
                         
                         guard var currentTask = studyModel.currentTask else {
                             log("Error: currentTask is nil. Cannot add action")
                             return
                         }
-                        if let targetTransform = model.secondGlobeEntity?.transform {
-                            currentTask.addAction(StudyAction(
+                        let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
+                        
+                        currentTask.addAction(StudyAction(
                                 taskID: currentTask.taskID,
                                 type: .position,
                                 status: .drag,
                                 originalTransform: originalTransform,
                                 targetTransform: targetTransform))
-                        }
+                        
 //                        if let targetTransform = model.secondGlobeEntity?.transform {
 //                            studyModel.setupNextTask(gestureType: .position, targetTransform: targetTransform)
 //                            studyModel.currentTask?.start(type: .position, transform: value.entity.transform)
@@ -314,12 +323,12 @@ private struct GlobeGesturesModifier: ViewModifier {
             .onEnded { value in
                 log("end drag")
                 state.endGesture()
-                if let originalTransform = model.firstGlobeEntity?.transform,
-                let targetTransform = model.secondGlobeEntity?.transform {
-                    studyModel.currentTask?.end(type: .position,
+                let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
+                let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
+                studyModel.currentTask?.end(type: .position,
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
-                }
+                
                 studyModel.currentTask?.updateAccuracyResult()
                 studyModel.storeTask()
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
@@ -352,12 +361,17 @@ private struct GlobeGesturesModifier: ViewModifier {
             .onChanged { value in
                 Task { @MainActor in
                     guard let globeEntity = value.entity as? GlobeEntity else { return }
+//                    EXPERIMENTAL: below restricts the simultaneous gestures between rotation and scaling
                     guard !state.isRotating, !rotationState.isActive else {
                         log("exit magnify")
                         return
                     }
                     
                     let isFirstGlobe = (globeEntity == model.firstGlobeEntity)
+                    guard isFirstGlobe else {
+                        log("Ignoring magnify gesture on secondGlobe")
+                        return
+                    }
                                         
                     if !state.isScaling {
                         log("start magnify")
@@ -367,15 +381,15 @@ private struct GlobeGesturesModifier: ViewModifier {
                         // Querying the position on each update would result in an unstable globe position if the camera is moved.
                         state.cameraPositionAtGestureStart = CameraTracker.shared.position
                         
-                        if let originalTransform = model.firstGlobeEntity?.transform,
-                        let targetTransform = model.secondGlobeEntity?.transform {
-                            studyModel.setupNextTask(gestureType: .scale, originalTransform: originalTransform,
+                        let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
+                        let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
+                        studyModel.setupNextTask(gestureType: .scale, originalTransform: originalTransform,
                                                      targetTransform: targetTransform,
                                                      soundManager: soundManager)
-                            studyModel.currentTask?.start(type: .scale,
+                        studyModel.currentTask?.start(type: .scale,
                                                           originalTransform: originalTransform,
                                                           targetTransform: targetTransform)
-                        }
+                        
                     }
                     
 //                    if model.attachmentView == .none {
@@ -404,35 +418,33 @@ private struct GlobeGesturesModifier: ViewModifier {
                     
                     var originalTransform = globeEntity.transform
 
-                    if isFirstGlobe {
-                        originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
+                    originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
                                                                          position: globeEntity.position,
                                                                          duration: animationDuration)
-                    }
                     
                     guard var currentTask = studyModel.currentTask else {
                         log("Error: currentTask is nil. Cannot add action")
                         return
                     }
-                    if let targetTransform = model.secondGlobeEntity?.transform {
-                        currentTask.addAction(StudyAction(
-                            taskID: currentTask.taskID,
-                            type: .scale,
-                            status: .magnify,
-                            originalTransform: originalTransform,
-                            targetTransform: targetTransform))
-                    }
+                    let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
+                    currentTask.addAction(StudyAction(
+                        taskID: currentTask.taskID,
+                        type: .scale,
+                        status: .magnify,
+                        originalTransform: originalTransform,
+                        targetTransform: targetTransform))
+                    
                 }
             }
             .onEnded { _ in
                 state.endGesture()
                 log("end magnify")
-                if let originalTransform = model.firstGlobeEntity?.transform,
-                let targetTransform = model.secondGlobeEntity?.transform {
-                    studyModel.currentTask?.end(type: .scale,
+                let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
+                let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
+                studyModel.currentTask?.end(type: .scale,
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
-                }
+                
                 studyModel.currentTask?.updateAccuracyResult()
                 studyModel.storeTask()
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
@@ -445,11 +457,14 @@ private struct GlobeGesturesModifier: ViewModifier {
                         model.secondGlobeEntity?.animateTransform(scale: counterScale, duration: 0.6)
                         model.firstGlobeEntity?.respawnGlobe(.rightClose)
                         model.secondGlobeEntity?.respawnGlobe(.leftClose)
+
                     } else {
                         let counterScale = model.firstGlobeEntity?.rescaleGlobe()
                         model.secondGlobeEntity?.animateTransform(scale: counterScale, duration: 0.6)
                         model.firstGlobeEntity?.respawnGlobe(.leftClose)
                         model.secondGlobeEntity?.respawnGlobe(.rightClose)
+
+
                         if ScaleCondition.scaleConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
@@ -470,27 +485,32 @@ private struct GlobeGesturesModifier: ViewModifier {
                 Task { @MainActor in
                     guard let globeEntity = value.entity as? GlobeEntity else { return }
                     
+//                    EXPERIMENTAL: below restricts the simultaneous gestures between rotation and scaling
                     guard !state.isScaling, !rotationState.isActive else {
                         log ("exit rotate")
                         return
                     }
                     
                     let isFirstGlobe = (globeEntity == model.firstGlobeEntity)
+                    guard isFirstGlobe else {
+                        log("Ignoring rotate gesture on secondGlobe")
+                        return
+                    }
                     
                     if !state.isRotating {
                         log("start rotate")
                         state.orientationAtGestureStart = .init(value.entity.orientation(relativeTo: nil))
                         Task { @MainActor in
                             pauseRotationAndStoreRotationState()
-                            if let originalTransform = model.firstGlobeEntity?.transform,
-                            let targetTransform = model.secondGlobeEntity?.transform {
-                                studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform,
+                            let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
+                            let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
+                            studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform,
                                                          targetTransform: targetTransform,
                                                          soundManager: soundManager)
-                                studyModel.currentTask?.start(type: .rotation,
+                            studyModel.currentTask?.start(type: .rotation,
                                                               originalTransform: originalTransform,
                                                               targetTransform: targetTransform)
-                            }
+                            
                         }
                     }
                     
@@ -521,24 +541,22 @@ private struct GlobeGesturesModifier: ViewModifier {
                     }
                     var originalTransform = globeEntity.transform
 
-                    if isFirstGlobe {
-                        originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
+                    originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
                                                                          position: globeEntity.position,
                                                                          duration: animationDuration)
-                    }
                     
                     guard var currentTask = studyModel.currentTask else {
                         log("Error: currentTask is nil. Cannot add action")
                         return
                     }
-                    if let targetTransform = model.secondGlobeEntity?.transform {
-                        currentTask.addAction(StudyAction(
-                            taskID: currentTask.taskID,
-                            type: .rotation,
-                            status: .rotate,
-                            originalTransform: originalTransform,
-                            targetTransform: targetTransform))
-                    }
+                    let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
+                    currentTask.addAction(StudyAction(
+                        taskID: currentTask.taskID,
+                        type: .rotation,
+                        status: .rotate,
+                        originalTransform: originalTransform,
+                        targetTransform: targetTransform))
+                    
                 }
             }
             .onEnded { value in
@@ -550,12 +568,12 @@ private struct GlobeGesturesModifier: ViewModifier {
                 }
                 
                 state.endGesture()
-                if let originalTransform = model.firstGlobeEntity?.transform,
-                let targetTransform = model.secondGlobeEntity?.transform {
-                    studyModel.currentTask?.end(type: .rotation,
+                let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
+                let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
+                studyModel.currentTask?.end(type: .rotation,
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
-                }
+                
                 studyModel.currentTask?.updateAccuracyResult()
                 studyModel.storeTask()
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
@@ -716,17 +734,24 @@ private struct GlobeGesturesModifier: ViewModifier {
                     
                     // Long press confirmed, dragging may begin.
                 case .second(true, let drag):
+                    
+                    let isFirstGlobe = (entity == model.firstGlobeEntity)
+
+                    guard isFirstGlobe else {
+                        log("Ignoring magnify gesture on secondGlobe")
+                        return
+                    }
                     Task { @MainActor in
                         pauseRotationAndStoreRotationState()
-                        if let originalTransform = model.firstGlobeEntity?.transform,
-                        let targetTransform = model.secondGlobeEntity?.transform {
-                            studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform,
+                        let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
+                        let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
+                        studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform,
                                                      targetTransform: targetTransform,
                                                      soundManager: soundManager)
-                            studyModel.currentTask?.start(type: .rotation,
+                        studyModel.currentTask?.start(type: .rotation,
                                                           originalTransform: originalTransform,
                                                           targetTransform: targetTransform)
-                        }
+                        
                     }
                     
 //                    if model.attachmentView == .none {
@@ -799,6 +824,7 @@ private struct GlobeGesturesModifier: ViewModifier {
 //                    rotationState = .dragging(translation: drag.translation)
                    
                     Task { @MainActor in
+                        
                         if state.orientationAtGestureStart == nil {
                             state.orientationAtGestureStart = Rotation3D(entity.orientation)
                         }
@@ -828,6 +854,25 @@ private struct GlobeGesturesModifier: ViewModifier {
                             // Apply the rotation to the globe
                             globeEntity.animationPlaybackController?.stop()
                             globeEntity.orientation = simd_quatf(newOrientation)
+                            
+                            var originalTransform = globeEntity.transform
+
+                            originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
+                                                                                 position: globeEntity.position,
+                                                                                 duration: animationDuration)
+                            
+                            guard var currentTask = studyModel.currentTask else {
+                                log("Error: currentTask is nil. Cannot add action")
+                                return
+                            }
+                            let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
+                            currentTask.addAction(StudyAction(
+                                taskID: currentTask.taskID,
+                                type: .rotation,
+                                status: .rotate,
+                                originalTransform: originalTransform,
+                                targetTransform: targetTransform))
+                            
                         }
 
 //                        var originalTransform = globeEntity.transform
@@ -875,12 +920,12 @@ private struct GlobeGesturesModifier: ViewModifier {
                     }
                     
                     state.endGesture()
-                    if let originalTransform = model.firstGlobeEntity?.transform,
-                    let targetTransform = model.secondGlobeEntity?.transform {
-                        studyModel.currentTask?.end(type: .rotation,
+                    let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
+                    let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
+                    studyModel.currentTask?.end(type: .rotation,
                                                     originalTransform: originalTransform,
                                                     targetTransform: targetTransform)
-                    }
+                    
                     studyModel.currentTask?.updateAccuracyResult()
                     studyModel.storeTask()
                     if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {

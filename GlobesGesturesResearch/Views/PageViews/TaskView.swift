@@ -100,74 +100,74 @@ struct TaskView: View {
                         //                            .font(.title)
                         //                            .monospacedDigit()
                         //                            .padding()
-                        //Below is for debugging only
-                        VStack{
-                            Text("Debugging:")
-//                            Text("Task repeated: \(model.isTaskRepeated)")
-                            Text("Is storing needed \(currentPage.isStoringRecordNeeded)")
-                            Text("Current page: \(currentPage)")
-                            //                        Text("current task accuracy: \(studyModel.currentTask? ?? 0.0)")
-                            Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
-                            Text("Last used index: \(ScaleCondition.lastUsedScaleConditionIndex)")
-                            Text("Is conditions looping complete: \(ScaleCondition.scaleConditionsCompleted)")
-                        }
-                        .padding()
+                        //Below is for DEBUGGING only
+//                        VStack{
+//                            Text("Debugging:")
+////                            Text("Task repeated: \(model.isTaskRepeated)")
+//                            Text("Is storing needed \(currentPage.isStoringRecordNeeded)")
+//                            Text("Current page: \(currentPage)")
+//                            //                        Text("current task accuracy: \(studyModel.currentTask? ?? 0.0)")
+//                            Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
+//                            Text("Last used index: \(ScaleCondition.lastUsedScaleConditionIndex)")
+//                            Text("Is conditions looping complete: \(ScaleCondition.scaleConditionsCompleted)")
+//                        }
+//                        .padding()
                         
                         
                         Instruction(currentPage: $currentPage)
 
-                        if studyModel.proceedToNextExperiment {
-                            Button(
-                                "Finish \(details.description), and move to the next task."
-                            ) {
-                                studyModel.proceedToNextExperiment = false
-                                PositionCondition.positionConditionsCompleted = false
-                                ScaleCondition.scaleConditionsCompleted = false
-                                RotationCondition.rotationConditionsCompleted = false
-                                //                            studyModel.currentTaskPage = currentPage
-//                                if currentPage == .rotationExperiment1 || currentPage == .rotationExperiment2{
-////                                    RotationCondition.rotationSwapTechnique.toggle()
-//                                    updateRotationConditions()
+//                        if studyModel.proceedToNextExperiment {
+//                            Button(
+//                                "Finish \(details.description), and move to the next task."
+//                            ) {
+//                                studyModel.proceedToNextExperiment = false
+//                                PositionCondition.positionConditionsCompleted = false
+//                                ScaleCondition.scaleConditionsCompleted = false
+//                                RotationCondition.rotationConditionsCompleted = false
+//                                //                            studyModel.currentTaskPage = currentPage
+////                                if currentPage == .rotationExperiment1 || currentPage == .rotationExperiment2{
+//////                                    RotationCondition.rotationSwapTechnique.toggle()
+////                                    updateRotationConditions()
+////                                }
+//                                isDoingTask = false
+//                                showTaskContent = false
+//                                showOrHideGlobe(false)
+//                                stopTimer()
+//                                switch currentPage {
+//                                case .positionExperiment1, .positionExperiment2:
+//                                    print("Entered positionExperiment case")
+//                                    do {
+//                                        try PositionCondition.savePositionConditions(positionConditions: model.positionConditions)
+//                                    } catch {
+//                                        print("Failed to save position conditions: \(error.localizedDescription)")
+//                                    }
+//                                case .rotationExperiment1, .rotationExperiment2:
+//                                    do {
+//                                        try RotationCondition.saveRotationConditions(rotationConditions: model.rotationConditions)
+//                                    } catch {
+//                                        print("Failed to save rotation conditions: \(error.localizedDescription)")
+//                                    }
+//                                case .scaleExperiment1, .scaleExperiment2:
+//                                    do {
+//                                        try ScaleCondition.saveScaleConditions(scaleConditions: model.scaleConditions)
+//                                    } catch {
+//                                        print("Failed to save position conditions: \(error.localizedDescription)")
+//                                    }
+//                                default:
+//                                    break
 //                                }
-                                isDoingTask = false
-                                showTaskContent = false
-                                showOrHideGlobe(false)
-                                stopTimer()
-                                switch currentPage {
-                                case .positionExperiment1, .positionExperiment2:
-                                    print("Entered positionExperiment case")
-                                    do {
-                                        try PositionCondition.savePositionConditions(positionConditions: model.positionConditions)
-                                    } catch {
-                                        print("Failed to save position conditions: \(error.localizedDescription)")
-                                    }
-                                case .rotationExperiment1, .rotationExperiment2:
-                                    do {
-                                        try RotationCondition.saveRotationConditions(rotationConditions: model.rotationConditions)
-                                    } catch {
-                                        print("Failed to save rotation conditions: \(error.localizedDescription)")
-                                    }
-                                case .scaleExperiment1, .scaleExperiment2:
-                                    do {
-                                        try ScaleCondition.saveScaleConditions(scaleConditions: model.scaleConditions)
-                                    } catch {
-                                        print("Failed to save position conditions: \(error.localizedDescription)")
-                                    }
-                                default:
-                                    break
-                                }
-                                model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
-                                currentPage = currentPage.next()
-                            }
-                            .bold()
-                            .onAppear{
-                                showOrHideGlobe(false)
-                            }
-                            .padding()
-                            .background(Color.cyan)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                        }
+//                                model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
+//                                currentPage = currentPage.next()
+//                            }
+//                            .bold()
+//                            .onAppear{
+//                                showOrHideGlobe(false)
+//                            }
+//                            .padding()
+//                            .background(Color.cyan)
+//                            .cornerRadius(10)
+//                            .shadow(radius: 5)
+//                        }
                     }
                 }
             } else {
@@ -184,11 +184,6 @@ struct TaskView: View {
             updateAttachmentView()
             showOrHideGlobe(false)
             //            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
-        }
-        .onDisappear{
-//            showOrHideGlobe(false)
-            //            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
-            
         }
         .background(RoundedRectangle(cornerRadius: 15)
             .fill(Color(.systemGray4))

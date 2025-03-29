@@ -32,7 +32,7 @@ struct GetReady: View {
 //                .foregroundColor(.secondary)
 //                .multilineTextAlignment(.center)
 //                .padding()
-                Text("Loading task \(details.taskNumber)...")
+                Text("Loading task \(details.taskNumber) ...")
                     .font(.largeTitle)
                     .bold()
                     .foregroundColor(remainingTime > 0 ? .teal : .cyan)

@@ -12,7 +12,7 @@ import simd
 @MainActor
 class PositionMatcher: Matcher {
     let targetPosition: SIMD3<Float>
-    let tolerance: Float = 0.5
+    let tolerance: Float = 0.15
     private let soundManager: SoundManager
 
     

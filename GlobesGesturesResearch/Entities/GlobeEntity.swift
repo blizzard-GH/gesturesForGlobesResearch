@@ -347,24 +347,26 @@ class GlobeEntity: Entity {
 
         let newPosition = newPlace.position
         
-        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
-        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+//        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
+        let fixedRotationY = Float.pi
+        let newOrientation = simd_quatf(angle: fixedRotationY, axis: SIMD3<Float>(0, 1, 0))
         
         animateTransform(
             orientation: newOrientation,
             position: newPosition,
-            duration: 0.2)
+            duration: 0.1)
     }
     
     func respawnGlobe(_ newCoordinate: SIMD3<Float>) {
         
-        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
-        let newOrientation = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
+//        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
+        let fixedRotationY = Float.pi
+        let newOrientation = simd_quatf(angle: fixedRotationY, axis: SIMD3<Float>(0, 1, 0))
         
         animateTransform(
             orientation: newOrientation,
             position: newCoordinate,
-            duration: 0.2)
+            duration: 0.1)
     }
     
     func xyCounterPosition(of position: SIMD3<Float>) -> SIMD3<Float> {

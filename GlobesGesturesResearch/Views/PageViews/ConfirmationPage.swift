@@ -24,10 +24,12 @@ struct ConfirmationPage: View {
     
     var body: some View {
         VStack{
-            Text("Current experiment finished")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .multilineTextAlignment(.center)
+            if let details = currentPage.taskDetails {
+                Text("Part \(details.partNumber): task \(details.taskNumber) finished")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
+            }
             Button(
                 "Next"
             ) {

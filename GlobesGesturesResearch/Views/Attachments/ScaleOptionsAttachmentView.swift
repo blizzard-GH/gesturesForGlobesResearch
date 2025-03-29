@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 struct ScaleOptionsAttachmentView: View {
     @Environment(ViewModel.self) var model
     
