@@ -157,6 +157,50 @@ class ViewModel: CustomDebugStringConvertible {
     }
     
     @MainActor
+    /// Open an immersive space if there is none and show a globe. Once loaded, the globe fades in.
+    /// - Parameters:
+    ///   - globe: The globe to show.
+    ///   - selection: When selection is not `none`, the texture is replaced periodically with a texture of one of the globes in the selection.
+    ///   - openImmersiveSpaceAction: Action for opening an immersive space.
+    func loadSingleGlobe(
+        firstGlobe: Globe,
+        openImmersiveSpaceAction: OpenImmersiveSpaceAction
+    ) {
+        guard !immersiveSpaceIsShown else { return }
+        
+        configuration.isLoading = true
+        configuration.isVisible = false
+        configuration.showAttachment = false
+        
+        //        Task {
+        //            openImmersiveGlobeSpace(openImmersiveSpaceAction)
+        //            let globeEntity = try await GlobeEntity(globe: globe)
+        //            Task { @MainActor in
+        ////                ViewModel.shared.storeGlobeEntity(globeEntity)
+        //                self.storeGlobeEntity(globeEntity, globe: globe)
+        //            }
+        //        }
+        Task {
+            openImmersiveGlobeSpace(openImmersiveSpaceAction)
+            
+            async let firstGlobeEntity = GlobeEntity(globe: firstGlobe)
+            
+            do {
+                let entities = try await (firstGlobeEntity)
+                Task { @MainActor in
+                    storeSingleGlobeEntity(entities)
+                    
+                    entities.respawnGlobe(.right)
+                }
+            } catch {
+                Task { @MainActor in
+                    loadingGlobeFailed(id: nil)
+                }
+            }
+        }
+    }
+    
+    @MainActor
     /// Called after a  globe entity has been loaded.
     /// - Parameter globeEntity: The globe entity to add.
     //    func storeGlobeEntity(_ globeEntity: GlobeEntity, globe: Globe) {
@@ -175,9 +219,9 @@ class ViewModel: CustomDebugStringConvertible {
         secondEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: 0.5)
         
         if secondEntity.components.has(OpacityComponent.self) {
-            secondEntity.components[OpacityComponent.self] = OpacityComponent(opacity: 0.4)
+            secondEntity.components[OpacityComponent.self] = OpacityComponent(opacity: 1.0)
         } else {
-            secondEntity.components.set(OpacityComponent(opacity: 0.4))
+            secondEntity.components.set(OpacityComponent(opacity: 1.0))
         }
         
         firstGlobeEntity = firstEntity
@@ -203,6 +247,20 @@ class ViewModel: CustomDebugStringConvertible {
     }
     
     @MainActor
+    /// Called after a  globe entity has been loaded.
+    /// - Parameter globeEntity: The globe entity to add.
+    //    func storeGlobeEntity(_ globeEntity: GlobeEntity, globe: Globe) {
+    func storeSingleGlobeEntity(_ firstEntity: GlobeEntity) {
+
+        firstEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
+                
+        firstGlobeEntity = firstEntity
+        configuration.isLoading = false
+        configuration.isVisible = true
+        
+    }
+    
+    @MainActor
     /// A new globe entity could not be loaded.
     /// - Parameters:
     ///   - id: The id of the globe that could not be loaded.
@@ -223,7 +281,10 @@ class ViewModel: CustomDebugStringConvertible {
             radius: globe.radius,
             duration: duration
         )
-        secondGlobeEntity?.scaleAndAdjustDistanceToCamera(newScale: 0.001, radius: secondGlobe.radius, duration: duration)
+        secondGlobeEntity?.scaleAndAdjustDistanceToCamera(
+            newScale: 0.001,
+            radius: secondGlobe.radius,
+            duration: duration)
         
         configuration.isVisible = false
         configuration.showAttachment = false
@@ -342,68 +403,71 @@ class ViewModel: CustomDebugStringConvertible {
     }
     
     @MainActor
-    func updatePositionConditions() {
-        let rotatingGlobe: PositionCondition.RotatingGlobe
-        rotatingGlobe = PositionCondition.positionConditionsGetter(for: positionConditions,
+    func updatePositionConditions(currentPage: Page) {
+        let rotatingGlobeList: [PositionCondition.PositioningGesture]
+        rotatingGlobeList = PositionCondition.positionConditionsGetter(for: positionConditions,
                                                                    lastUsedIndex: PositionCondition.lastUsedPositionConditionIndex).0
-        if PositionCondition.positionSwapTechnique {
-            switch rotatingGlobe {
-            case .rotating:
-                rotateGlobeWhileDragging = false  // Flipped to conform balanced latin square for technique variable
-            case .notRotating:
+        switch currentPage {
+        case .positionExperiment1, .confirmationPagePosition1, .positionExperimentForm1:
+            if rotatingGlobeList[0] == .notRotating{
+                rotateGlobeWhileDragging = false
+            } else {
                 rotateGlobeWhileDragging = true
             }
-        } else {
-            switch rotatingGlobe {
-            case .rotating:
+        case .positionExperiment2, .confirmationPagePosition2, .positionExperimentForm2:
+            if rotatingGlobeList[1] == .rotating{
                 rotateGlobeWhileDragging = true
-            case .notRotating:
+            } else {
                 rotateGlobeWhileDragging = false
             }
+        default:
+            rotateGlobeWhileDragging = false
         }
     }
     
     @MainActor
-    func updateRotationConditions() {
-        let modality: RotationCondition.Modality
-        modality = RotationCondition.rotationConditionsGetter(for: rotationConditions,
+    func updateRotationConditions(currentPage: Page) {
+        let modalitylist: [RotationCondition.RotationGestureModality]
+        modalitylist = RotationCondition.rotationConditionsGetter(for: rotationConditions,
                                                               lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex).0
-        if RotationCondition.rotationSwapTechnique {
-            switch modality {
-            case .oneHanded:
-                oneHandedRotationGesture = false
-            case .twoHanded:
+        switch currentPage {
+        case .rotationTraining1, .rotationExperiment1, .confirmationPageRotation1, .rotationExperimentForm1:
+            if modalitylist[0] == .oneHanded{
                 oneHandedRotationGesture = true
-            }
-        } else {
-            switch modality {
-            case .oneHanded:
-                oneHandedRotationGesture = true
-            case .twoHanded:
+            } else {
                 oneHandedRotationGesture = false
             }
+        case .rotationTraining2, .rotationExperiment2, .confirmationPageRotation2, .rotationExperimentForm2:
+            if modalitylist[1] == .twoHanded{
+                oneHandedRotationGesture = false
+            } else {
+                oneHandedRotationGesture = true
+            }
+        default:
+            oneHandedRotationGesture = true
         }
     }
     
     @MainActor
-    func updateScaleConditions() {
-        let movingGlobe: ScaleCondition.MovingGlobe
-        movingGlobe = ScaleCondition.scaleConditionsGetter(for: scaleConditions,
+    func updateScaleConditions(currentPage: Page) {
+        let movingGlobeList: [ScaleCondition.ScalingGesture]
+        movingGlobeList = ScaleCondition.scaleConditionsGetter(for: scaleConditions,
                                                                    lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex).0
-        if ScaleCondition.scaleSwapTechnique {
-            switch movingGlobe {
-            case .moving:
+        switch currentPage {
+        case .scaleExperiment1, .confirmationPageScale1, .scaleExperimentForm1:
+            if movingGlobeList[0] == .notMoving{
                 moveGlobeWhileScaling = false
-            case .notMoving:
+            } else {
                 moveGlobeWhileScaling = true
             }
-        } else {
-            switch movingGlobe {
-            case .moving:
+        case .scaleExperiment2, .confirmationPageScale2, .scaleExperimentForm2:
+            if movingGlobeList[1] == .moving{
                 moveGlobeWhileScaling = true
-            case .notMoving:
+            } else {
                 moveGlobeWhileScaling = false
             }
+        default:
+            moveGlobeWhileScaling = false
         }
     }
 }

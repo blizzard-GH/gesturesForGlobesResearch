@@ -18,15 +18,31 @@ struct PositionCondition {
     let condition5: String
     let condition6: String
     
-    static var gestureFeatureCompleted: Bool = false // Used to switch between technique in experiment 1 and 2
+//    static var gestureFeatureCompleted: Bool = false // Used to switch between technique in experiment 1 and 2
     
     static var lastUsedPositionConditionIndex: Int = -1
     
     static var positionConditionsCompleted: Bool = false // Used to show 'next' button once all conditions are done
     
-    static var positionSwapTechnique: Bool = false // This var will swap technique, so that technique is implemented to Balanced Latin Square by half order
+    static var positionGestureOrder :  RotationOrder = .nonRotatingFirst
     
-    enum RotatingGlobe {
+    enum RotationOrder{
+        case rotatingFirst
+        case nonRotatingFirst
+        
+        var list: [PositioningGesture] {
+            switch self {
+            case .rotatingFirst:
+                return [.rotating, .notRotating]
+            case .nonRotatingFirst:
+                return [.notRotating, .rotating]
+            }
+        }
+    }
+        
+//    static var positionSwapTechnique: Bool = false // This var will swap technique, so that technique is implemented to Balanced Latin Square by half order
+    
+    enum PositioningGesture {
         case rotating
         case notRotating
     }
@@ -85,7 +101,7 @@ struct PositionCondition {
             positionConditions.append(positionCondition)
             
             if index.isMultiple(of: 2) && columns[0] == "Active" {
-                positionSwapTechnique = true
+                positionGestureOrder = .rotatingFirst
             }
         }
         return positionConditions
@@ -129,22 +145,23 @@ struct PositionCondition {
                                                          condition5: positionConditions[nextIndex].condition5,
                                                          condition6: positionConditions[nextIndex].condition6)
         
-        let csvHeader = "status,condition1,condition2,condition3,condition4,condition5,condition6,condition7,condition8\n"
+        let csvHeader = "status,condition1,condition2,condition3,condition4,condition5,condition6\n"
         let csvRows = updatedConditions.map { "\($0.status),\($0.condition1),\($0.condition2),\($0.condition3),\($0.condition4),\($0.condition5),\($0.condition6)" }
         let csvString = csvHeader + csvRows.joined(separator: "\n")
 
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
     }
     
-    static func positionConditionsGetter(for positionConditions: [PositionCondition], lastUsedIndex: Int) -> (rotatingGlobe: RotatingGlobe, distance: Distance, direction: Direction){
+    static func positionConditionsGetter(for positionConditions: [PositionCondition], lastUsedIndex: Int) -> (rotatingGlobeList: [PositioningGesture], distance: Distance, direction: Direction){
 //        var activeSubject: ScalingCondition?
-        let rotatingGlobe: RotatingGlobe = gestureFeatureCompleted ? .rotating : .notRotating
+        let rotatingGlobeList = positionGestureOrder.list
+//        let rotatingGlobe: RotatingGlobe = gestureFeatureCompleted ? rotatingGlobeList[0] : rotatingGlobeList[1]
         var distance: Distance = .near
         var direction: Direction = .none
         
         guard let activeSubject = positionConditions.first(where: { $0.status == "Active"}) else {
             print("No active subject exists.")
-            return (.rotating, .near, .none)
+            return ([.notRotating, .rotating], .near, .none)
         }
         
 //        for subject in scalingConditions {
@@ -167,7 +184,7 @@ struct PositionCondition {
         
         if conditionValues.isEmpty {
             print("No conditions available.")
-            return (.rotating, .near, .none)
+            return ([.notRotating, .rotating], .near, .none)
         }
         
         // safeguard the index
@@ -192,7 +209,7 @@ struct PositionCondition {
         default:
             break
         }
-        return (rotatingGlobe, distance, direction)
+        return (rotatingGlobeList, distance, direction)
     }
     
     static func positionConditionsSetter(for positionConditions: [PositionCondition], lastUsedIndex: inout Int) {
@@ -213,8 +230,8 @@ struct PositionCondition {
         }
         
         if (lastUsedIndex + 1) == conditionValues.count {
-            gestureFeatureCompleted.toggle()
-            positionConditionsCompleted.toggle()
+//            gestureFeatureCompleted.toggle()
+            positionConditionsCompleted = true
             lastUsedIndex = -1
         } else {
             lastUsedIndex += 1

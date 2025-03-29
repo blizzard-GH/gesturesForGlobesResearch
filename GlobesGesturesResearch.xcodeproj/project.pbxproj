@@ -62,6 +62,7 @@
 		97E82D4E2D56536300A94A2F /* RotationCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E82D4D2D56535A00A94A2F /* RotationCondition.swift */; };
 		97E82D502D56537300A94A2F /* Positioning.csv in Resources */ = {isa = PBXBuildFile; fileRef = 97E82D4F2D56536C00A94A2F /* Positioning.csv */; };
 		97E82D522D56538400A94A2F /* Rotation.csv in Resources */ = {isa = PBXBuildFile; fileRef = 97E82D512D56537C00A94A2F /* Rotation.csv */; };
+		97F4BB332D9689BB00314DD1 /* GestureCombinationAttachmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F4BB322D9689AC00314DD1 /* GestureCombinationAttachmentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -123,6 +124,7 @@
 		97E82D4D2D56535A00A94A2F /* RotationCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationCondition.swift; sourceTree = "<group>"; };
 		97E82D4F2D56536C00A94A2F /* Positioning.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = Positioning.csv; sourceTree = "<group>"; };
 		97E82D512D56537C00A94A2F /* Rotation.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = Rotation.csv; sourceTree = "<group>"; };
+		97F4BB322D9689AC00314DD1 /* GestureCombinationAttachmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureCombinationAttachmentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -192,6 +194,7 @@
 		7D839A142D41D4CA00F08DC3 /* Attachments */ = {
 			isa = PBXGroup;
 			children = (
+				97F4BB322D9689AC00314DD1 /* GestureCombinationAttachmentView.swift */,
 				7D839A122D41D3A800F08DC3 /* PositionOptionsAttachmentView.swift */,
 				976EF99A2D87E391008A56DA /* RotationOptionsAttachmentView.swift */,
 				7D839A152D41DF4300F08DC3 /* ScaleOptionsAttachmentView.swift */,
@@ -430,6 +433,7 @@
 				7D2F438E2D3B2D8200928A68 /* StudyTask.swift in Sources */,
 				9742BB292D33E1B7001079D4 /* GestureType.swift in Sources */,
 				7D60D9532CF84F2900D7C8AD /* WelcomeView.swift in Sources */,
+				97F4BB332D9689BB00314DD1 /* GestureCombinationAttachmentView.swift in Sources */,
 				7D60D9582CF8550F00D7C8AD /* Page.swift in Sources */,
 				7DD56E5D2C6CC830009AE72C /* ImmersiveView.swift in Sources */,
 				97C37A202D12787200E628CB /* GetReady.swift in Sources */,

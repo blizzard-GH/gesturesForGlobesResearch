@@ -29,35 +29,36 @@ struct ScaleOptionsAttachmentView: View {
 //        .padding()
 //        .glassBackgroundEffect()
         VStack(spacing: 20) {
-                    Text("Scaling Behaviour")
+                    Text("Scaling Gesture")
                         .font(.title2)
                         .fontWeight(.semibold)
                         .padding(.bottom, 10)
 
                     HStack(spacing: 20) {
-                        Button(action: {
-                            model.moveGlobeWhileScaling = true
-                        }) {
-                            Text("Maintain Distance to Globe")
-                                .font(.headline)
-                                .frame(width: 300)
-                                .padding()
-                                .background(model.moveGlobeWhileScaling ? Color.blue : Color.gray.opacity(0.2))
-                                .foregroundColor(model.moveGlobeWhileScaling ? .white : .black)
-                                .cornerRadius(25)
-                        }
-                        .frame(width: 300)
-                        .cornerRadius(25)
-
+                        
                         Button(action: {
                             model.moveGlobeWhileScaling = false
                         }) {
-                            Text("Maintain Globe Position")
+                            Text("Maintain globe position")
                                 .font(.headline)
                                 .frame(width: 300)
                                 .padding()
                                 .background(!model.moveGlobeWhileScaling ? Color.blue : Color.gray.opacity(0.2))
                                 .foregroundColor(!model.moveGlobeWhileScaling ? .white : .black)
+                                .cornerRadius(25)
+                        }
+                        .frame(width: 300)
+                        .cornerRadius(25)
+                        
+                        Button(action: {
+                            model.moveGlobeWhileScaling = true
+                        }) {
+                            Text("Maintain distance to globe")
+                                .font(.headline)
+                                .frame(width: 300)
+                                .padding()
+                                .background(model.moveGlobeWhileScaling ? Color.blue : Color.gray.opacity(0.2))
+                                .foregroundColor(model.moveGlobeWhileScaling ? .white : .black)
                                 .cornerRadius(25)
                         }
                         .frame(width: 300)

@@ -78,9 +78,8 @@ struct WebViewDecorated: View {
                 
                 if show {
                     guard !model.configuration.isVisible else { return }
-                    model.load(
+                    model.loadSingleGlobe(
                         firstGlobe: model.globe,
-                        secondGlobe: model.secondGlobe,
                         openImmersiveSpaceAction: openImmersiveSpaceAction
                     )
                 } else {

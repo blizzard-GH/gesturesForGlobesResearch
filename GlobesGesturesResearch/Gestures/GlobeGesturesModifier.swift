@@ -248,9 +248,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                           targetTransform: targetTransform)
                         }
                     }
-                    if model.attachmentView == .none {
-                        model.updatePositionConditions()
-                    }
+//                    if model.attachmentView == .none {
+//                        model.updatePositionConditions()
+//                    }
                     
                     if let positionAtGestureStart = state.positionAtGestureStart,
                        let localRotationAtGestureStart = state.localRotationAtGestureStart,
@@ -378,9 +378,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                         }
                     }
                     
-                    if model.attachmentView == .none {
-                        model.updateScaleConditions()
-                    }
+//                    if model.attachmentView == .none {
+//                        model.updateScaleConditions()
+//                    }
                     
                     if let globeScaleAtGestureStart = state.scaleAtGestureStart,
                        let globePositionAtGestureStart = state.positionAtGestureStart,

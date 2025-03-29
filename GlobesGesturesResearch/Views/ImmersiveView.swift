@@ -38,6 +38,9 @@ struct ImmersiveView: View {
             Attachment(id: ViewModel.AttachmentView.scale.rawValue) {
                 ScaleOptionsAttachmentView()
             }
+            Attachment(id: ViewModel.AttachmentView.all.rawValue) {
+                GestureCombinationAttachmentView()
+            }
         }
         .globeGestures(model: model, studyModel: studyModel)
     }
@@ -98,7 +101,7 @@ struct ImmersiveView: View {
     private func addAttachments(_ attachments: RealityViewAttachments) {
         guard let globeEntity = model.firstGlobeEntity else { return }
         switch model.attachmentView {
-        case .position, .rotation, .scale:
+        case .position, .rotation, .scale, .all:
             if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
                 let yPosition = model.globe.radius * 1.5
                 let zPosition = model.globe.radius
@@ -119,20 +122,20 @@ struct ImmersiveView: View {
 //
 //                globeEntity.addChild(attachmentAnchor)
 //            }
-        case .all:
-            let allAttachments: [ViewModel.AttachmentView] = [.scale, .rotation, .position]
-            let spacing: Float = Float(model.globe.radius) * 0.5
-            for (index, attachmentType) in allAttachments.enumerated() {
-                if let attachmentEntity = attachments.entity(for: attachmentType.rawValue) {
-                    let yPosition = Float(model.globe.radius) * 1.5 + (Float(index) * spacing)
-                    // Set position with broken down components
-                    let zPosition = Float(model.globe.radius)
-                    let position = SIMD3<Float>(0, yPosition, zPosition)
-                    attachmentEntity.position = position
-                    attachmentEntity.components.set(BillboardComponent())
-                    globeEntity.addChild(attachmentEntity)
-                }
-            }
+//        case .all:
+//            let allAttachments: [ViewModel.AttachmentView] = [.scale, .rotation, .position]
+//            let spacing: Float = Float(model.globe.radius) * 0.5
+//            for (index, attachmentType) in allAttachments.enumerated() {
+//                if let attachmentEntity = attachments.entity(for: attachmentType.rawValue) {
+//                    let yPosition = Float(model.globe.radius) * 1.5 + (Float(index) * spacing)
+//                    // Set position with broken down components
+//                    let zPosition = Float(model.globe.radius)
+//                    let position = SIMD3<Float>(0, yPosition, zPosition)
+//                    attachmentEntity.position = position
+//                    attachmentEntity.components.set(BillboardComponent())
+//                    globeEntity.addChild(attachmentEntity)
+//                }
+//            }
         case .none:
             for viewAttachmentEntity in globeEntity.children where viewAttachmentEntity is ViewAttachmentEntity {
                 globeEntity.removeChild(viewAttachmentEntity)

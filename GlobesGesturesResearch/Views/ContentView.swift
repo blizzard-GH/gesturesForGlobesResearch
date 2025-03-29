@@ -50,7 +50,13 @@ struct ContentView: View {
                 .padding(24)
                 .foregroundStyle(.secondary)
             }
+            .onAppear{
+                model.updatePositionConditions(currentPage: currentPage)
+                model.updateRotationConditions(currentPage: currentPage)
+                model.updateScaleConditions(currentPage: currentPage)
+            }
     }
+
     
     /// A SwiftUI view for the current page.
     @ViewBuilder

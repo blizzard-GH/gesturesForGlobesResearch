@@ -28,6 +28,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct GlobeGestureStudyApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @Environment(\.openURL) private var openURL
+    @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismissWindow) private var dismissWindow
     
     /// View model injected in environment.
     @State private var model = ViewModel.shared
@@ -36,14 +38,31 @@ struct GlobeGestureStudyApp: App {
     
     @State private var studyModel = StudyModel()
     
-    @State private var isWindowHidden: Bool = false
     
 //    @State private var currentPage: Page = .welcome
     
     var body: some Scene {
-//        WindowGroup(id: "Main Window"){
-//            EmptyView()
+//        WindowGroup(id: "Gesture Options Window"){
+//            switch studyModel.currentPage {
+//            case .positionComparison:
+//                PositionOptionsAttachmentView()
+//            case .rotationComparison:
+//                RotationOptionsAttachmentView()
+//            case .scaleComparison:
+//                ScaleOptionsAttachmentView()
+//            case .outroForm:
+//                GestureCombinationAttachmentView()
+//            default:
+//                EmptyView()
+//                    .onAppear{
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                            dismissWindow(id: "Gesture Options Window")
+//                        }
+//                    }
+//            }
 //        }
+//        .environment(model)
+//        .environment(studyModel)
         WindowGroup(id: "Second Window"){
             ContentView(currentPage: $studyModel.currentPage)
                 .environment(model)

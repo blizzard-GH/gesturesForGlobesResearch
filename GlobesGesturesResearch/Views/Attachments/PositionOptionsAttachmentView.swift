@@ -33,7 +33,7 @@ struct PositionOptionsAttachmentView: View {
 //        .padding()
 //        .glassBackgroundEffect()
         VStack(spacing: 20) {
-                    Text("Positioning Behaviour")
+                    Text("Positioning Gesture")
                         .font(.title2)
                         .fontWeight(.semibold)
                         .padding(.bottom, 10)
@@ -41,9 +41,23 @@ struct PositionOptionsAttachmentView: View {
                     // Custom toggle-style Picker
                     HStack(spacing: 20) {
                         Button(action: {
+                            model.rotateGlobeWhileDragging = false
+                        }) {
+                            Text("Static orientation")
+                                .font(.headline)
+                                .frame(width: 300)
+                                .padding()
+                                .background(!model.rotateGlobeWhileDragging ? Color.blue : Color.gray.opacity(0.2))
+                                .foregroundColor(!model.rotateGlobeWhileDragging ? .white : .black)
+                                .cornerRadius(25)
+                        }
+                        .frame(width: 300)
+                        .cornerRadius(25)
+                        
+                        Button(action: {
                             model.rotateGlobeWhileDragging = true
                         }) {
-                            Text("Adaptive Orientation")
+                            Text("Adaptive orientation")
                                 .font(.headline)
                                 .frame(width: 300)
                                 .padding()
@@ -54,19 +68,6 @@ struct PositionOptionsAttachmentView: View {
                         .frame(width: 300)
                         .cornerRadius(25)
 
-                        Button(action: {
-                            model.rotateGlobeWhileDragging = false
-                        }) {
-                            Text("Static Orientation")
-                                .font(.headline)
-                                .frame(width: 300)
-                                .padding()
-                                .background(!model.rotateGlobeWhileDragging ? Color.blue : Color.gray.opacity(0.2))
-                                .foregroundColor(!model.rotateGlobeWhileDragging ? .white : .black)
-                                .cornerRadius(25)
-                        }
-                        .frame(width: 300)
-                        .cornerRadius(25)
                     }
                     .padding(.horizontal)
                 }

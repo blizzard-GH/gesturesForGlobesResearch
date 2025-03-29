@@ -13,15 +13,31 @@ struct ScaleCondition {
     let condition1: String
     let condition2: String
     
-    static var gestureFeatureCompleted: Bool = false // Used to switch between technique in experiment 1 and 2
+//    static var gestureFeatureCompleted: Bool = false // Used to switch between technique in experiment 1 and 2
 
     static var lastUsedScaleConditionIndex: Int = -1
     
     static var scaleConditionsCompleted: Bool = false // Used to show 'next' button once all conditions are done
     
-    static var scaleSwapTechnique: Bool = false // This var will swap technique, so that technique is implemented to Balanced Latin Square by half order
+//    static var scaleSwapTechnique: Bool = false // This var will swap technique, so that technique is implemented to Balanced Latin Square by half order
     
-    enum MovingGlobe {
+    static var scaleGestureOrder :  MovingOrder = .notMovingFirst
+    
+    enum MovingOrder{
+        case notMovingFirst
+        case movingFirst
+        
+        var list: [ScalingGesture] {
+            switch self {
+            case .notMovingFirst:
+                return [.notMoving, .moving]
+            case .movingFirst:
+                return [.moving, .notMoving]
+            }
+        }
+    }
+    
+    enum ScalingGesture {
         case notMoving
         case moving
     }
@@ -63,7 +79,7 @@ struct ScaleCondition {
             scalingConditions.append(scalingCondition)
             
             if index.isMultiple(of: 2) && columns[0] == "Active" {
-                scaleSwapTechnique = true
+                scaleGestureOrder = .movingFirst
             }
         }
         return scalingConditions
@@ -106,15 +122,17 @@ struct ScaleCondition {
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
     }
     
-    static func scaleConditionsGetter(for scaleConditions: [ScaleCondition], lastUsedIndex: Int) -> (movingGlobe: MovingGlobe, zoomDirection: ZoomDirection) {
+    static func scaleConditionsGetter(for scaleConditions: [ScaleCondition], lastUsedIndex: Int) -> (movingGlobeList: [ScalingGesture], zoomDirection: ZoomDirection) {
 //        var activeSubject: ScalingCondition?
-        let movingGlobe: MovingGlobe = gestureFeatureCompleted ? .moving : .notMoving
+//        let movingGlobe: ScalingGesture = gestureFeatureCompleted ? .moving : .notMoving
+        let movingGlobeList = scaleGestureOrder.list
+
         var zoomDirection: ZoomDirection = .smallToLarge
         
         
         guard let activeSubject = scaleConditions.first(where: { $0.status == "Active"}) else {
             print("No active subject exists.")
-            return (.notMoving, .smallToLarge)
+            return ([.notMoving, .moving], .smallToLarge)
         }
         
 //        for subject in scalingConditions {
@@ -133,7 +151,7 @@ struct ScaleCondition {
         
         if conditionValues.isEmpty {
             print("No conditions available.")
-            return (.notMoving, .smallToLarge)
+            return ([.notMoving, .moving], .smallToLarge)
         }
         
 //        for condition in conditionValues {
@@ -152,7 +170,7 @@ struct ScaleCondition {
             break
         }
 //    }
-        return (movingGlobe, zoomDirection)
+        return (movingGlobeList, zoomDirection)
     }
     
     static func scaleConditionsSetter(for scaleConditions: [ScaleCondition], lastUsedIndex: inout Int) {
@@ -170,8 +188,8 @@ struct ScaleCondition {
         }
         
         if (lastUsedIndex + 1) == conditionValues.count {
-            gestureFeatureCompleted.toggle()
-            scaleConditionsCompleted.toggle()
+//            gestureFeatureCompleted.toggle()
+            scaleConditionsCompleted = true
             lastUsedIndex = -1
         } else {
             lastUsedIndex += 1

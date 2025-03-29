@@ -42,7 +42,7 @@ struct TaskView: View {
         VStack {
             if let details = currentPage.taskDetails {
                 if !isDoingTask {
-                    Text("PART : \(details.partNumber)")
+                    Text("PART \(details.partNumber) : Task \(details.taskNumber)")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .multilineTextAlignment(.center)
@@ -125,10 +125,10 @@ struct TaskView: View {
                                 ScaleCondition.scaleConditionsCompleted = false
                                 RotationCondition.rotationConditionsCompleted = false
                                 //                            studyModel.currentTaskPage = currentPage
-                                if currentPage == .rotationExperiment1 || currentPage == .rotationExperiment2{
-                                    RotationCondition.rotationSwapTechnique.toggle()
-                                    updateRotationConditions()
-                                }
+//                                if currentPage == .rotationExperiment1 || currentPage == .rotationExperiment2{
+////                                    RotationCondition.rotationSwapTechnique.toggle()
+//                                    updateRotationConditions()
+//                                }
                                 isDoingTask = false
                                 showTaskContent = false
                                 showOrHideGlobe(false)
@@ -236,9 +236,9 @@ struct TaskView: View {
     }
     
 //    Switching between one-handed or two-handed rotation
-    func updateRotationConditions() {
-        model.updateRotationConditions()
-    }
+//    func updateRotationConditions() {
+//        model.updateRotationConditions()
+//    }
 }
 
 //#Preview {

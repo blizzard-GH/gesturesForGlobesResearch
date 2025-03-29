@@ -12,7 +12,7 @@ struct GetReady: View {
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     
     @Binding var currentPage: Page
-    @State private var remainingTime: Int = 0
+    @State private var remainingTime: Int = 1
     @State private var timer: Timer? = nil
     
     var onCountdownComplete: () -> Void
@@ -32,7 +32,7 @@ struct GetReady: View {
 //                .foregroundColor(.secondary)
 //                .multilineTextAlignment(.center)
 //                .padding()
-                Text("Loading..")
+                Text("Loading task \(details.taskNumber)...")
                     .font(.largeTitle)
                     .bold()
                     .foregroundColor(remainingTime > 0 ? .teal : .cyan)

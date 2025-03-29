@@ -29,7 +29,7 @@ struct RotationOptionsAttachmentView: View {
 //        .padding()
 //        .glassBackgroundEffect()
         VStack(spacing: 20) {
-                    Text("Rotation Behaviour")
+                    Text("Rotation Gesture")
                         .font(.title2)
                         .fontWeight(.semibold)
                         .padding(.bottom, 10)
@@ -38,7 +38,7 @@ struct RotationOptionsAttachmentView: View {
                         Button(action: {
                             model.oneHandedRotationGesture = true
                         }) {
-                            Text("One-handed Gesture")
+                            Text("One-handed rotation gesture")
                                 .font(.headline)
                                 .frame(width: 300)
                                 .padding()
@@ -52,7 +52,7 @@ struct RotationOptionsAttachmentView: View {
                         Button(action: {
                             model.oneHandedRotationGesture = false
                         }) {
-                            Text("Two-handed Gesture")
+                            Text("Two-handed rotation gesture")
                                 .font(.headline)
                                 .frame(width: 300)
                                 .padding()

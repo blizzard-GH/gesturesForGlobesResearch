@@ -13,20 +13,36 @@ struct RotationCondition {
     let condition1: String
     let condition2: String
     
-    static var gestureFeatureCompleted: Bool = false // Used to switch between technique in experiment 1 and 2
+//    static var gestureFeatureCompleted: Bool = false // Used to switch between technique in experiment 1 and 2
     
     static var lastUsedRotationConditionIndex: Int = -1
     
     static var rotationConditionsCompleted: Bool = false // Used to show 'next' button once all conditions are done
     
-    static var rotationSwapTechnique: Bool = false // This var will swap technique, so that technique is implemented to Balanced Latin Square by half order
+//    static var rotationSwapTechnique: Bool = false // This var will swap technique, so that technique is implemented to Balanced Latin Square by half order
+    
+    static var rotationGestureOrder :  ModalityOrder = .oneHandedRotationFirst
+    
+    enum ModalityOrder{
+        case oneHandedRotationFirst
+        case twoHandedRotationFirst
+        
+        var list: [RotationGestureModality] {
+            switch self {
+            case .oneHandedRotationFirst:
+                return [.oneHanded, .twoHanded]
+            case .twoHandedRotationFirst:
+                return [.twoHanded, .oneHanded]
+            }
+        }
+    }
     
     enum Complexity {
         case simple
         case complex
     }
     
-    enum Modality {
+    enum RotationGestureModality {
         case oneHanded
         case twoHanded
     }
@@ -63,7 +79,7 @@ struct RotationCondition {
             rotationConditions.append(rotationCondition)
             
             if index.isMultiple(of: 2) && columns[0] == "Active" {
-                rotationSwapTechnique = true
+                rotationGestureOrder = .twoHandedRotationFirst
             }
         }
         return rotationConditions
@@ -106,15 +122,16 @@ struct RotationCondition {
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
     }
     
-    static func rotationConditionsGetter(for rotationConditions: [RotationCondition], lastUsedIndex: Int) -> (modalitiy: Modality, complexity: Complexity) {
+    static func rotationConditionsGetter(for rotationConditions: [RotationCondition], lastUsedIndex: Int) -> (modalityOrderList: [RotationGestureModality], complexity: Complexity) {
 //        var activeSubject: ScalingCondition?
-        let modality: Modality = gestureFeatureCompleted ? .oneHanded : .twoHanded
-        var complexity: Complexity = .simple
+//        let modality: RotationGestureModality = gestureFeatureCompleted ? .oneHanded : .twoHanded
+        let modalityOrderList = rotationGestureOrder.list
         
+        var complexity: Complexity = .simple
         
         guard let activeSubject = rotationConditions.first(where: { $0.status == "Active"}) else {
             print("No active subject exists.")
-            return (.oneHanded, .simple)
+            return ([.oneHanded, .twoHanded], .simple)
         }
         
 //        for subject in scalingConditions {
@@ -133,7 +150,7 @@ struct RotationCondition {
         
         if conditionValues.isEmpty {
             print("No conditions available.")
-            return (.oneHanded, .simple)
+            return ([.oneHanded, .twoHanded], .simple)
         }
         
 //        for condition in conditionValues {
@@ -153,7 +170,7 @@ struct RotationCondition {
             break
         }
 //        }
-        return (modality, complexity)
+        return (modalityOrderList, complexity)
     }
     
     static func rotationConditionsSetter(for rotationConditions: [RotationCondition], lastUsedIndex: inout Int) {
@@ -171,8 +188,8 @@ struct RotationCondition {
         }
         
         if (lastUsedIndex + 1) == conditionValues.count {
-            gestureFeatureCompleted.toggle()
-            rotationConditionsCompleted.toggle()
+//            gestureFeatureCompleted.toggle()
+            rotationConditionsCompleted = true
             lastUsedIndex = -1
         } else {
             lastUsedIndex += 1

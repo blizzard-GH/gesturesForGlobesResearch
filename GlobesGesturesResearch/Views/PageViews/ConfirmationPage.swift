@@ -36,11 +36,8 @@ struct ConfirmationPage: View {
                 ScaleCondition.scaleConditionsCompleted = false
                 RotationCondition.rotationConditionsCompleted = false
                 //                            studyModel.currentTaskPage = currentPage
-//                if
-//                    currentPage == .rotationExperiment1
-//                        ||
-//                        currentPage == .rotationExperiment2{
-//                    RotationCondition.rotationSwapTechnique.toggle()
+//                if currentPage == .rotationExperiment1 || currentPage == .rotationExperiment2{
+////                    RotationCondition.rotationSwapTechnique.toggle()
 //                    updateRotationConditions()
 //                }
                 isDoingTask = false
@@ -56,8 +53,7 @@ struct ConfirmationPage: View {
                     } catch {
                         print("Failed to save position conditions: \(error.localizedDescription)")
                     }
-                case .rotationExperiment1:
-                    model.oneHandedRotationGesture.toggle()
+                
                 case
 //                        .rotationExperiment1,
                         .rotationExperiment2:
@@ -79,7 +75,7 @@ struct ConfirmationPage: View {
                 }
                 model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
                 currentPage = currentPage.next()
-                print("GESTURE FEATURE COMPLETED: \(RotationCondition.gestureFeatureCompleted)")
+//                print("GESTURE FEATURE COMPLETED: \(RotationCondition.gestureFeatureCompleted)")
               
             }
             .onAppear{
@@ -144,7 +140,7 @@ struct ConfirmationPage: View {
     }
     
 //    Switching between one-handed or two-handed rotation
-    func updateRotationConditions() {
-        model.updateRotationConditions()
-    }
+//    func updateRotationConditions() {
+//        model.updateRotationConditions()
+//    }
 }

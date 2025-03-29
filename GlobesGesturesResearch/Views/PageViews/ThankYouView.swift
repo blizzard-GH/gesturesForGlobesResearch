@@ -9,7 +9,8 @@ import SwiftUI
 
 /// The last view shown.
 struct ThankYouView: View {
-    
+    @Environment(\.dismissWindow) private var dismissWindow
+
     var body: some View {
         ZStack{
             VStack{
@@ -43,7 +44,13 @@ struct ThankYouView: View {
             .padding(40)
             .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray2)).shadow(radius: 5))
         }
+        .onAppear{
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                dismissWindow(id: "Second Window")
+            }
+        }
     }
+
 }
 
 //#Preview{

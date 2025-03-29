@@ -387,7 +387,7 @@ class GlobeEntity: Entity {
                                                                              lastUsedIndex: PositionCondition.lastUsedPositionConditionIndex)
         
 
-        let _: Bool = (globeRotates == .rotating) ? true : false
+        let _: Bool = (globeRotates[0] == .rotating) ? true : false
         
         let distanceMultiplier: Float = (distance == .near) ? 1 : 1.5
         
@@ -435,7 +435,7 @@ class GlobeEntity: Entity {
                                                        lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
         }
                 
-        let (modality, complexity) = RotationCondition.rotationConditionsGetter(for: rotationConditions, lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex)
+        let (_, complexity) = RotationCondition.rotationConditionsGetter(for: rotationConditions, lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex)
         
         //First globe rotation
         let firstRotationIntensity: Float = (complexity == .simple) ? 0.125 : 0.375
@@ -483,7 +483,7 @@ class GlobeEntity: Entity {
                                                  lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
         }
         
-        let (movingGlobe, zoomDirection) = ScaleCondition.scaleConditionsGetter(for: scaleConditions, lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex)
+        let (_, zoomDirection) = ScaleCondition.scaleConditionsGetter(for: scaleConditions, lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex)
         
 //        print("Current Condition: \(zoomDirection), useFirstScaleIndex: \(useFirstScaleIndex), is moving: \(movingGlobe)")
         
