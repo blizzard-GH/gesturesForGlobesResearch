@@ -382,8 +382,8 @@ class GlobeEntity: Entity {
         
         var counterPosition: SIMD3<Float> = SIMD3<Float>(0.0, 0.8, -1.5)
         
-        PositionCondition.positionConditionsSetter(for: positionConditions,
-                                                       lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
+//        PositionCondition.positionConditionsSetter(for: positionConditions,
+//                                                       lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
         
         let (globeRotates, distance, direction) = PositionCondition.positionConditionsGetter(for: positionConditions,
                                                                              lastUsedIndex: PositionCondition.lastUsedPositionConditionIndex)
@@ -432,10 +432,10 @@ class GlobeEntity: Entity {
     
     func rerotateGlobe() -> simd_quatf {
         
-        if useFirstRotationIndex {
-            RotationCondition.rotationConditionsSetter(for: rotationConditions,
-                                                       lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
-        }
+//        if useFirstRotationIndex {
+//            RotationCondition.rotationConditionsSetter(for: rotationConditions,
+//                                                       lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
+//        }
                 
         let (_, complexity) = RotationCondition.rotationConditionsGetter(for: rotationConditions, lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex)
         
@@ -480,10 +480,10 @@ class GlobeEntity: Entity {
     
     func rescaleGlobe() -> Float {
              
-        if useFirstScaleIndex {
-            ScaleCondition.scaleConditionsSetter(for: scaleConditions,
-                                                 lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
-        }
+//        if useFirstScaleIndex {
+//            ScaleCondition.scaleConditionsSetter(for: scaleConditions,
+//                                                 lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
+//        }
         
         let (_, zoomDirection) = ScaleCondition.scaleConditionsGetter(for: scaleConditions, lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex)
         

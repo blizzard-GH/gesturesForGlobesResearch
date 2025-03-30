@@ -24,12 +24,11 @@ struct ConfirmationPage: View {
     
     var body: some View {
         VStack{
-            if let details = currentPage.taskDetails {
-                Text("Part \(details.partNumber): task \(details.taskNumber) finished")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-            }
+            Text("Task finished")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
+            
             Button(
                 "Next"
             ) {
@@ -47,8 +46,8 @@ struct ConfirmationPage: View {
                 showOrHideGlobe(false)
                 switch currentPage {
                 case
-//                        .positionExperiment1,
-                        .positionExperiment2:
+//                        .confirmationPagePosition1,
+                        .confirmationPagePosition2:
                     print("Entered positionExperiment case")
                     do {
                         try PositionCondition.savePositionConditions(positionConditions: model.positionConditions)
@@ -57,16 +56,16 @@ struct ConfirmationPage: View {
                     }
                 
                 case
-//                        .rotationExperiment1,
-                        .rotationExperiment2:
+//                        .confirmationPageRotation1,
+                        .confirmationPageRotation2:
                     do {
                         try RotationCondition.saveRotationConditions(rotationConditions: model.rotationConditions)
                     } catch {
                         print("Failed to save rotation conditions: \(error.localizedDescription)")
                     }
                 case
-//                        .scaleExperiment1,
-                        .scaleExperiment2:
+//                        .confirmationPageScale1,
+                        .confirmationPageScale2:
                     do {
                         try ScaleCondition.saveScaleConditions(scaleConditions: model.scaleConditions)
                     } catch {
@@ -83,6 +82,7 @@ struct ConfirmationPage: View {
             .onAppear{
                 showOrHideGlobe(false)
             }
+            .frame(minWidth: 500, minHeight: 150)
             .bold()
             .padding()
             .background(Color.cyan)

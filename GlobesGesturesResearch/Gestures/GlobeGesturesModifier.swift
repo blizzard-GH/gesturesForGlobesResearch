@@ -126,7 +126,7 @@ private struct GlobeGesturesModifier: ViewModifier {
     /// If the globes is farther away than this distance and it is tapped to show an attachment view.
     private let maxDistanceToCameraWhenTapped: Float = 1.5
     
-    var oneHandedRotationGesture: Bool { model.oneHandedRotationGesture }
+//    var oneHandedRotationGesture: Bool { model.oneHandedRotationGesture }
     
     let soundManager = SoundManager.shared
     
@@ -142,7 +142,7 @@ private struct GlobeGesturesModifier: ViewModifier {
         case    .rotationExperiment1, .rotationExperimentForm1,
                 .rotationTraining1, .rotationTraining2,
                 .rotationExperiment2, .rotationExperimentForm2:
-            if oneHandedRotationGesture {
+            if model.oneHandedRotationGesture {
                 content
                     .simultaneousGesture(rotateGlobeAxisGesture)
             } else {
@@ -159,7 +159,7 @@ private struct GlobeGesturesModifier: ViewModifier {
             content
                 .simultaneousGesture(magnifyGesture)
         case .outroForm:
-            if oneHandedRotationGesture {
+            if model.oneHandedRotationGesture {
                 content
                     .simultaneousGesture(dragGesture)
                     .simultaneousGesture(magnifyGesture)
@@ -341,8 +341,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                         model.secondGlobeEntity?.respawnGlobe(model.firstGlobeEntity?.lastGlobeReposition ?? SIMD3<Float>(0,0.9,-0.5))
                     } else {
                         let counterPosition = model.firstGlobeEntity?.repositionGlobe()
+                        PositionCondition.positionConditionsSetter(for: model.positionConditions,
+                                                                       lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
                         model.secondGlobeEntity?.respawnGlobe(counterPosition ?? SIMD3<Float>(0,0.9,-0.5))
-                        print("POSITION INDEX: \(PositionCondition.lastUsedPositionConditionIndex)")
+//                        print("POSITION INDEX: \(PositionCondition.lastUsedPositionConditionIndex)")
                         if PositionCondition.positionConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
@@ -460,6 +462,8 @@ private struct GlobeGesturesModifier: ViewModifier {
 
                     } else {
                         let counterScale = model.firstGlobeEntity?.rescaleGlobe()
+                        ScaleCondition.scaleConditionsSetter(for: model.scaleConditions,
+                                                             lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
                         model.secondGlobeEntity?.animateTransform(scale: counterScale, duration: 0.6)
                         model.firstGlobeEntity?.respawnGlobe(.leftClose)
                         model.secondGlobeEntity?.respawnGlobe(.rightClose)
@@ -583,11 +587,14 @@ private struct GlobeGesturesModifier: ViewModifier {
                     studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .rotation) {
                         let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                       
                         model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
                         model.firstGlobeEntity?.respawnGlobe(.right)
                         model.secondGlobeEntity?.respawnGlobe(.left)
                     } else {
                         let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                        RotationCondition.rotationConditionsSetter(for: model.rotationConditions,
+                                                                   lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
                         model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
                         model.firstGlobeEntity?.respawnGlobe(.left)
                         model.secondGlobeEntity?.respawnGlobe(.right)
@@ -935,11 +942,14 @@ private struct GlobeGesturesModifier: ViewModifier {
                         studyModel.currentTask = nil
                         if studyModel.isTaskRepeated(gestureType: .rotation) {
                             let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                            
                             model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
                             model.firstGlobeEntity?.respawnGlobe(.right)
                             model.secondGlobeEntity?.respawnGlobe(.left)
                         } else {
                             let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                            RotationCondition.rotationConditionsSetter(for: model.rotationConditions,
+                                                                       lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
                             model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
                             model.firstGlobeEntity?.respawnGlobe(.left)
                             model.secondGlobeEntity?.respawnGlobe(.right)

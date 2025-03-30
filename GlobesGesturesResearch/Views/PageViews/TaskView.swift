@@ -15,6 +15,22 @@ struct TaskView: View {
     @Environment(\.dismissWindow) private var dismissWindow
     @Environment(\.openWindow) private var openWindow
     
+    @MainActor
+    var rotateGlobeWhileDragging: Bool {
+        return model.rotateGlobeWhileDragging
+    }
+    
+    @MainActor
+    var oneHandedRotationGesture: Bool {
+        return model.oneHandedRotationGesture
+    }
+    
+    @MainActor
+    var moveGlobeWhileScaling: Bool {
+        return model.moveGlobeWhileScaling
+    }
+    
+    
     @Binding var currentPage: Page
     @State private var isDoingTask: Bool = false
     @State private var elapsedTime: Double = 0
@@ -61,6 +77,8 @@ struct TaskView: View {
                                 if currentPage == .positionExperiment1 || currentPage == .positionExperiment2 {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                         let counterPosition = model.firstGlobeEntity?.repositionGlobe()
+                                        PositionCondition.positionConditionsSetter(for: ViewModel.shared.positionConditions,
+                                                                                       lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
                                         model.secondGlobeEntity?.respawnGlobe(counterPosition ?? SIMD3<Float>(0,0.9,-0.5))
                                     }
                                 }
@@ -68,18 +86,22 @@ struct TaskView: View {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                         model.firstGlobeEntity?.respawnGlobe(.left)
                                         model.secondGlobeEntity?.respawnGlobe(.right)
-                                        _ = model.firstGlobeEntity?.rerotateGlobe()
+//                                        _ = model.firstGlobeEntity?.rerotateGlobe()
+                                        RotationCondition.rotationConditionsSetter(for: ViewModel.shared.rotationConditions,
+                                                                                   lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
                                     }
                                 }
                                 if currentPage == .scaleExperiment1 || currentPage == .scaleExperiment2 {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                         model.firstGlobeEntity?.respawnGlobe(.leftClose)
                                         model.secondGlobeEntity?.respawnGlobe(.rightClose)
-                                        _ = model.firstGlobeEntity?.rescaleGlobe()
+//                                        _ = model.firstGlobeEntity?.rescaleGlobe()
+                                        ScaleCondition.scaleConditionsSetter(for: ViewModel.shared.scaleConditions,
+                                                                             lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
                                     }
                                 }
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                                    dismissWindow(id: "Second Window")
+//                                    dismissWindow(id: "Second Window")
                                 }
                             }
                             // Task{
@@ -101,17 +123,22 @@ struct TaskView: View {
                         //                            .monospacedDigit()
                         //                            .padding()
                         //Below is for DEBUGGING only
-//                        VStack{
-//                            Text("Debugging:")
-////                            Text("Task repeated: \(model.isTaskRepeated)")
+                        VStack{
+                            Text("Debugging:")
+//                            Text("Task repeated: \(model.isTaskRepeated)")
 //                            Text("Is storing needed \(currentPage.isStoringRecordNeeded)")
-//                            Text("Current page: \(currentPage)")
-//                            //                        Text("current task accuracy: \(studyModel.currentTask? ?? 0.0)")
+                            Text("Current page: \(currentPage)")
+                            //                        Text("current task accuracy: \(studyModel.currentTask? ?? 0.0)")
 //                            Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
 //                            Text("Last used index: \(ScaleCondition.lastUsedScaleConditionIndex)")
 //                            Text("Is conditions looping complete: \(ScaleCondition.scaleConditionsCompleted)")
-//                        }
-//                        .padding()
+                            
+                            Text("Rotate globe while dragging: \(rotateGlobeWhileDragging)")
+                            Text("One-handed rotation gesture: \(oneHandedRotationGesture)")
+                            Text("Move globe while scaling: \(moveGlobeWhileScaling)")
+                            
+                        }
+                        .padding()
                         
                         
                         Instruction(currentPage: $currentPage)
