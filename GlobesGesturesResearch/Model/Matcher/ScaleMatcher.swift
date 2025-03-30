@@ -11,7 +11,7 @@ import RealityKit
 @Observable
 class ScaleMatcher: Matcher {
     let targetScale: SIMD3<Float>
-    let tolerance: Float = 0.5
+    let tolerance: Float = 0.2
     
     private let soundManager: SoundManager
     

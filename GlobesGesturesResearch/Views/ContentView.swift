@@ -51,6 +51,7 @@ struct ContentView: View {
                 .foregroundStyle(.secondary)
             }
             .onAppear{
+                _ = SoundManager.shared
                 model.updatePositionConditions(currentPage: currentPage)
                 model.updateRotationConditions(currentPage: currentPage)
                 model.updateScaleConditions(currentPage: currentPage)

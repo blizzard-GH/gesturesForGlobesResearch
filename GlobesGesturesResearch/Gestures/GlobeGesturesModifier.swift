@@ -334,7 +334,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
 //                    studyModel.currentTask?.updateAccuracyResult()
 //                    studyModel.storeTask()
-                    soundManager.playCorrectSound()
+                    SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .position) {
                         model.firstGlobeEntity?.respawnGlobe(model.firstGlobeEntity?.lastGlobeCounterReposition ?? SIMD3<Float>(0,0.9,-0.5))
@@ -452,7 +452,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
 //                    studyModel.currentTask?.updateAccuracyResult()
 //                    studyModel.storeTask()
-                    soundManager.playCorrectSound()
+                    SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .scale) {
                         let counterScale = model.firstGlobeEntity?.rescaleGlobe()
@@ -583,7 +583,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
 //                    studyModel.currentTask?.updateAccuracyResult()
 //                    studyModel.storeTask()
-                    soundManager.playCorrectSound()
+                    SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .rotation) {
                         let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
@@ -938,7 +938,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                     if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
 //                        studyModel.currentTask?.updateAccuracyResult()
 //                        studyModel.storeTask()
-                        soundManager.playCorrectSound()
+                        SoundManager.shared.playSound(named: "correct")
                         studyModel.currentTask = nil
                         if studyModel.isTaskRepeated(gestureType: .rotation) {
                             let counterRotation = model.firstGlobeEntity?.rerotateGlobe()

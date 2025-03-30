@@ -122,8 +122,9 @@ struct WelcomeView: View {
                 .padding(.horizontal, 40)
                 Spacer()
             }
-            
-            
+        }
+        .onAppear{
+            SoundManager.shared.playSound(named: "enterAndExit")
         }
     }
 }

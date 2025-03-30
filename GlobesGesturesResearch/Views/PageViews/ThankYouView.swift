@@ -45,6 +45,7 @@ struct ThankYouView: View {
             .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray2)).shadow(radius: 5))
         }
         .onAppear{
+            SoundManager.shared.playSound(named: "enterAndExit")
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 dismissWindow(id: "Second Window")
             }

@@ -101,7 +101,7 @@ struct TaskView: View {
                                     }
                                 }
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-//                                    dismissWindow(id: "Second Window")
+                                    dismissWindow(id: "Second Window")
                                 }
                             }
                             // Task{
