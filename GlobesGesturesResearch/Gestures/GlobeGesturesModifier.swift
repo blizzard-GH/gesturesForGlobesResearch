@@ -270,24 +270,26 @@ private struct GlobeGesturesModifier: ViewModifier {
                         let location3D = value.convert(value.location3D, from: .local, to: .scene)
                         let startLocation3D = value.convert(value.startLocation3D, from: .local, to: .scene)
                         let delta = location3D - startLocation3D
-                        let position = positionAtGestureStart + SIMD3<Float>(delta)
+                        let newPosition = positionAtGestureStart + SIMD3<Float>(delta)
                         
                         // rotate the globe around a vertical axis (which is different to the globe's axis if it is not north-oriented)
                         // such that the same location is facing the camera as the globe is dragged horizontally around the camera
-                        let rotation: simd_quatf?
+                        let newRotation: simd_quatf?
                         if model.rotateGlobeWhileDragging {
                             var v1 = cameraPosition - positionAtGestureStart
-                            var v2 = cameraPosition - position
+                            var v2 = cameraPosition - newPosition
                             v1.y = 0
                             v2.y = 0
                             v1 = normalize(v1)
                             v2 = normalize(v2)
                             let rotationSinceStart = simd_quatf(from: v1, to: v2)
                             let localRotationSinceStart = simd_quatf(value.convert(rotation: rotationSinceStart, from: .scene, to: .local))
-                            rotation = simd_mul(localRotationSinceStart, localRotationAtGestureStart)
+                            newRotation = simd_mul(localRotationSinceStart, localRotationAtGestureStart)
+                            
                         } else {
-                            rotation = nil
+                            newRotation = nil
                         }
+                        
                         
                         // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
                         var originalTransform = globeEntity.transform
@@ -296,8 +298,8 @@ private struct GlobeGesturesModifier: ViewModifier {
 //                            return
 //                        }
                         
-                        originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
-                                                                             position: position,
+                        originalTransform = globeEntity.animateTransform(orientation: newRotation,
+                                                                         position: newPosition,
                                                                              duration: animationDuration)
                         
                         guard var currentTask = studyModel.currentTask else {

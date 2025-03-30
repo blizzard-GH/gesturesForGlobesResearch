@@ -198,7 +198,7 @@ enum Page: String, CaseIterable {
         case .scaleComparison:
             "27. Scale Comparison"
         case .outroForm:
-            "28. End Form"
+            "28. Gesture Combination Form"
         case .thankYou:
             "29. Thank You display"
         }

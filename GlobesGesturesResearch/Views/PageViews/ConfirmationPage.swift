@@ -28,7 +28,7 @@ struct ConfirmationPage: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
-            
+                .padding(15)
             Button(
                 "Next"
             ) {
@@ -82,7 +82,6 @@ struct ConfirmationPage: View {
             .onAppear{
                 showOrHideGlobe(false)
             }
-            .frame(minWidth: 500, minHeight: 150)
             .bold()
             .padding()
             .background(Color.cyan)

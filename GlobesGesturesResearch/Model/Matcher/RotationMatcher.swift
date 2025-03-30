@@ -11,7 +11,7 @@ import RealityKit
 @Observable
 class RotationMatcher: Matcher {
     let rotationTarget: simd_quatf
-    let tolerance: Float = 0.2
+    let tolerance: Float = 0.3
     
     private let soundManager: SoundManager
 
