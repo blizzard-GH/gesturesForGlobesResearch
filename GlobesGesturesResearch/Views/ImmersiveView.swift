@@ -101,11 +101,19 @@ struct ImmersiveView: View {
     private func addAttachments(_ attachments: RealityViewAttachments) {
         guard let globeEntity = model.firstGlobeEntity else { return }
         switch model.attachmentView {
-        case .position, .rotation, .scale, .all:
+        case .position, .rotation, .scale:
             if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
                 let yPosition = model.globe.radius * 1.5
                 let zPosition = model.globe.radius
                 attachmentEntity.position = [0, yPosition, zPosition]
+                attachmentEntity.components.set(BillboardComponent())
+                globeEntity.addChild(attachmentEntity)
+            }
+        case .all:
+            if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
+                let yPosition = model.globe.radius * 1.6
+                let zPosition = model.globe.radius
+                attachmentEntity.position = [0, yPosition, -zPosition]
                 attachmentEntity.components.set(BillboardComponent())
                 globeEntity.addChild(attachmentEntity)
             }
