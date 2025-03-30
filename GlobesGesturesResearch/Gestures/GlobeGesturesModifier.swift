@@ -235,7 +235,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                         log("Ignoring drag gesture on secondGlobe")
                         return
                     }
-                    
+                    guard globeEntity.isInMovement == false else {
+                        log("Ignoring gesture due to its current movement")
+                        return
+                    }
                     guard !state.isScaling,
                           !state.isRotating,
                           !rotationState.isActive else {
@@ -376,6 +379,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                         log("Ignoring magnify gesture on secondGlobe")
                         return
                     }
+                    guard globeEntity.isInMovement == false else {
+                        log("Ignoring gesture due to its current movement")
+                        return
+                    }
                                         
                     if !state.isScaling {
                         log("start magnify")
@@ -457,19 +464,18 @@ private struct GlobeGesturesModifier: ViewModifier {
                     SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .scale) {
-                        let counterScale = model.firstGlobeEntity?.rescaleGlobe()
-                        model.secondGlobeEntity?.animateTransform(scale: counterScale, duration: 0.6)
                         model.firstGlobeEntity?.respawnGlobe(.rightClose)
                         model.secondGlobeEntity?.respawnGlobe(.leftClose)
+                        let counterScale = model.firstGlobeEntity?.rescaleGlobe()
+                        model.secondGlobeEntity?.animateTransform(scale: counterScale, duration: 0.2)
 
                     } else {
+                        model.firstGlobeEntity?.respawnGlobe(.leftClose)
+                        model.secondGlobeEntity?.respawnGlobe(.rightClose)
                         let counterScale = model.firstGlobeEntity?.rescaleGlobe()
                         ScaleCondition.scaleConditionsSetter(for: model.scaleConditions,
                                                              lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
-                        model.secondGlobeEntity?.animateTransform(scale: counterScale, duration: 0.6)
-                        model.firstGlobeEntity?.respawnGlobe(.leftClose)
-                        model.secondGlobeEntity?.respawnGlobe(.rightClose)
-
+                        model.secondGlobeEntity?.animateTransform(scale: counterScale, duration: 0.2)
 
                         if ScaleCondition.scaleConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
@@ -500,6 +506,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                     let isFirstGlobe = (globeEntity == model.firstGlobeEntity)
                     guard isFirstGlobe else {
                         log("Ignoring rotate gesture on secondGlobe")
+                        return
+                    }
+                    guard globeEntity.isInMovement == false else {
+                        log("Ignoring gesture due to its current movement")
                         return
                     }
                     
@@ -588,18 +598,17 @@ private struct GlobeGesturesModifier: ViewModifier {
                     SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .rotation) {
-                        let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
-                       
-                        model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
                         model.firstGlobeEntity?.respawnGlobe(.right)
                         model.secondGlobeEntity?.respawnGlobe(.left)
+                        let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                        model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.2)
                     } else {
+                        model.firstGlobeEntity?.respawnGlobe(.left)
+                        model.secondGlobeEntity?.respawnGlobe(.right)
                         let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
                         RotationCondition.rotationConditionsSetter(for: model.rotationConditions,
                                                                    lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
-                        model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
-                        model.firstGlobeEntity?.respawnGlobe(.left)
-                        model.secondGlobeEntity?.respawnGlobe(.right)
+                        model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.2)
                         if RotationCondition.rotationConditionsCompleted == true {
                             studyModel.proceedToNextExperiment = true
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
@@ -748,6 +757,10 @@ private struct GlobeGesturesModifier: ViewModifier {
 
                     guard isFirstGlobe else {
                         log("Ignoring magnify gesture on secondGlobe")
+                        return
+                    }
+                    guard entity.isInMovement == false else {
+                        log("Ignoring gesture due to its current movement")
                         return
                     }
                     Task { @MainActor in
@@ -943,18 +956,18 @@ private struct GlobeGesturesModifier: ViewModifier {
                         SoundManager.shared.playSound(named: "correct")
                         studyModel.currentTask = nil
                         if studyModel.isTaskRepeated(gestureType: .rotation) {
-                            let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
-                            
-                            model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
                             model.firstGlobeEntity?.respawnGlobe(.right)
                             model.secondGlobeEntity?.respawnGlobe(.left)
+                            let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                            
+                            model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.2)
                         } else {
+                            model.firstGlobeEntity?.respawnGlobe(.left)
+                            model.secondGlobeEntity?.respawnGlobe(.right)
                             let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
                             RotationCondition.rotationConditionsSetter(for: model.rotationConditions,
                                                                        lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
-                            model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.6)
-                            model.firstGlobeEntity?.respawnGlobe(.left)
-                            model.secondGlobeEntity?.respawnGlobe(.right)
+                            model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.2)
                             if RotationCondition.rotationConditionsCompleted == true {
                                 studyModel.proceedToNextExperiment = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){

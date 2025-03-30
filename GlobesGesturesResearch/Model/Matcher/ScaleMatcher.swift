@@ -11,7 +11,7 @@ import RealityKit
 @Observable
 class ScaleMatcher: Matcher {
     let targetScale: SIMD3<Float>
-    let tolerance: Float = 0.2
+    let tolerance: Float = 0.1
     
     private let soundManager: SoundManager
     
@@ -22,7 +22,9 @@ class ScaleMatcher: Matcher {
     
     func isMatching(_ transform: Transform) -> Bool {
         let scaleDifference = simd_distance(transform.scale, targetScale)
-        let matched = scaleDifference <= tolerance
+        
+        let scaleDifferenceRelative = scaleDifference / simd_length(targetScale)
+        let matched = scaleDifferenceRelative <= tolerance
 
         return matched
     }

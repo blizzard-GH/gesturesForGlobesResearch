@@ -40,6 +40,8 @@ class GlobeEntity: Entity {
         return ViewModel.shared.scaleConditions
     }
     
+    var isInMovement: Bool = false
+    
     var lastGlobeReposition: SIMD3<Float>?
     
     var lastGlobeCounterReposition: SIMD3<Float>?
@@ -345,6 +347,8 @@ class GlobeEntity: Entity {
     
     func respawnGlobe(_ newPlace: GlobePosition) {
 
+        isInMovement = true
+        
         let newPosition = newPlace.position
         
 //        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
@@ -355,10 +359,15 @@ class GlobeEntity: Entity {
             orientation: newOrientation,
             position: newPosition,
             duration: 0.1)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.isInMovement = false
+        }
     }
     
     func respawnGlobe(_ newCoordinate: SIMD3<Float>) {
         
+        isInMovement = true
 //        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
         let fixedRotationY = Float.pi
         let newOrientation = simd_quatf(angle: fixedRotationY, axis: SIMD3<Float>(0, 1, 0))
@@ -366,7 +375,11 @@ class GlobeEntity: Entity {
         animateTransform(
             orientation: newOrientation,
             position: newCoordinate,
-            duration: 0.1)
+            duration: 0.0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.isInMovement = false
+        }
     }
     
     func xyCounterPosition(of position: SIMD3<Float>) -> SIMD3<Float> {
@@ -375,6 +388,9 @@ class GlobeEntity: Entity {
     
     
     func repositionGlobe() -> SIMD3<Float>? {
+        
+        isInMovement = true
+        
         guard let cameraPosition = CameraTracker.shared.position else {
             print("Camera position is unknown.")
             return SIMD3<Float>(0.0, 0.8, -1.5)
@@ -421,17 +437,22 @@ class GlobeEntity: Entity {
         }
         
         let newPosition = cameraPosition + offset
-        animateTransform(position: newPosition, duration: 0.2)
+        animateTransform(position: newPosition, duration: 0.1)
                 
         lastGlobeReposition = newPosition
         
         lastGlobeCounterReposition = counterPosition
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.isInMovement = false
+        }
         
         return counterPosition
     }
     
     func rerotateGlobe() -> simd_quatf {
         
+        isInMovement = true
 //        if useFirstRotationIndex {
 //            RotationCondition.rotationConditionsSetter(for: rotationConditions,
 //                                                       lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
@@ -440,30 +461,54 @@ class GlobeEntity: Entity {
         let (_, complexity) = RotationCondition.rotationConditionsGetter(for: rotationConditions, lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex)
         
         //First globe rotation
-        let firstRotationIntensity: Float = (complexity == .simple) ? 0.125 : 0.375
-        let secondRotationIntensity: Float = (complexity == .simple) ? 0.25 : 0.5
+        let firstRotationIntensity: Float = (complexity == .simple) ? 0.25 : 0.5
+        let secondRotationIntensity: Float = (complexity == .simple) ? 0.125 : 0.375
         
         
         let rotationIntensity = useFirstRotationIndex ? firstRotationIntensity : secondRotationIntensity
                 
         let yRotation = Float.pi * rotationIntensity
         
-        let rotationQuarternion = simd_quatf(angle: yRotation, axis: SIMD3<Float>(0, 1, 0))
+        var rotationQuaternion = simd_quatf(angle: yRotation, axis: SIMD3<Float>(0, 1, 0))
+        
+        if complexity == .complex {
+            // Add rotations on X and Z axes
+            let xRotation = Float.pi * (useFirstRotationIndex ? 0.25 : 0.125)
+            let zRotation = Float.pi * (useFirstRotationIndex ? 0.125 : 0.25)
+            
+            let xRotationQuaternion = simd_quatf(angle: xRotation, axis: SIMD3<Float>(1, 0, 0))
+            let zRotationQuaternion = simd_quatf(angle: zRotation, axis: SIMD3<Float>(0, 0, 1))
+            
+            // Combine rotations
+            rotationQuaternion = simd_mul(simd_mul(xRotationQuaternion, zRotationQuaternion), rotationQuaternion)
+        }
         
         // Second globe rotation
-        let counterFirstRotationIntensity: Float = (complexity == .simple) ? 0.375 : 0.125
-        let counterSecondRotationIntensity: Float = (complexity == .simple) ? 0.5 : 0.25
+        let counterFirstRotationIntensity: Float = (complexity == .simple) ? -0.25 : -0.5
+        let counterSecondRotationIntensity: Float = (complexity == .simple) ? -0.125 : -0.375
         
         
         let counterRotationIntensity = useFirstRotationIndex ? counterFirstRotationIntensity : counterSecondRotationIntensity
                 
         let counterYRotation = Float.pi * counterRotationIntensity
         
-        let counterRotationQuarternion = simd_quatf(angle: counterYRotation, axis: SIMD3<Float>(0, 1, 0))
+        var counterRotationQuaternion = simd_quatf(angle: counterYRotation, axis: SIMD3<Float>(0, 1, 0))
+        
+        if complexity == .complex {
+            // Add counter-rotations on X and Z axes
+            let counterXRotation = Float.pi * (useFirstRotationIndex ? -0.25 : -0.125)
+            let counterZRotation = Float.pi * (useFirstRotationIndex ? -0.125 : -0.25)
+
+            let counterXRotationQuaternion = simd_quatf(angle: counterXRotation, axis: SIMD3<Float>(1, 0, 0))
+            let counterZRotationQuaternion = simd_quatf(angle: counterZRotation, axis: SIMD3<Float>(0, 0, 1))
+
+            // Combine counter-rotations
+            counterRotationQuaternion = simd_mul(simd_mul(counterXRotationQuaternion, counterZRotationQuaternion), counterRotationQuaternion)
+        }
         
         useFirstRotationIndex.toggle()
 
-        animateTransform(orientation: rotationQuarternion, duration: 0.6)
+        animateTransform(orientation: rotationQuaternion, duration: 0.1)
         
 //    Randomiser:
 //        guard let cameraPosition = CameraTracker.shared.position else {
@@ -475,11 +520,17 @@ class GlobeEntity: Entity {
 //        let rotationQuaternion = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
 //        
 //        animateTransform(orientation: rotationQuaternion, duration: 0)
-        return counterRotationQuarternion
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.isInMovement = false
+        }
+        
+        return counterRotationQuaternion
     }
     
     func rescaleGlobe() -> Float {
-             
+          
+        isInMovement = true
+        
 //        if useFirstScaleIndex {
 //            ScaleCondition.scaleConditionsSetter(for: scaleConditions,
 //                                                 lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
@@ -489,13 +540,13 @@ class GlobeEntity: Entity {
         
 //        print("Current Condition: \(zoomDirection), useFirstScaleIndex: \(useFirstScaleIndex), is moving: \(movingGlobe)")
         
-        let firstZoomScale: Float = (zoomDirection == .smallToLarge) ? 0.33 : 3.0
-        let secondZoomScale: Float = (zoomDirection == .smallToLarge) ? 0.17 : 6.0
+        let firstZoomScale: Float = (zoomDirection == .smallToLarge) ? 0.33 : 1.5
+        let secondZoomScale: Float = (zoomDirection == .smallToLarge) ? 0.17 : 2.0
         
         let zoomDirectionScale = useFirstScaleIndex ? firstZoomScale : secondZoomScale
         
-        let firstCounterScale: Float = (zoomDirection == .smallToLarge) ? 3.0 : 0.33
-        let secondCounterScale: Float = (zoomDirection == .smallToLarge) ? 6.0 : 0.17
+        let firstCounterScale: Float = (zoomDirection == .smallToLarge) ? 1.5 : 0.33
+        let secondCounterScale: Float = (zoomDirection == .smallToLarge) ? 2.0 : 0.17
         
         let counterScale = useFirstScaleIndex ? firstCounterScale: secondCounterScale
         
@@ -504,7 +555,11 @@ class GlobeEntity: Entity {
         
         useFirstScaleIndex.toggle()
         
-        animateTransform(scale: zoomDirectionScale, duration: 0.6)
+        animateTransform(scale: zoomDirectionScale, duration: 0.1)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.isInMovement = false
+        }
         
         return counterScale
     }

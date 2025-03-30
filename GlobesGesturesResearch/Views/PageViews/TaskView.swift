@@ -62,7 +62,7 @@ struct TaskView: View {
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .multilineTextAlignment(.center)
-                    Text("We are about to start \(details.mainFeature) experiment \(details.taskNumber)")
+                    Text("We are about to start \(details.mainGerund) experiment")
                     .multilineTextAlignment(.center)
                     .padding()
                     StartTaskButton(isDoingTask: $isDoingTask)
@@ -86,7 +86,8 @@ struct TaskView: View {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                         model.firstGlobeEntity?.respawnGlobe(.left)
                                         model.secondGlobeEntity?.respawnGlobe(.right)
-//                                        _ = model.firstGlobeEntity?.rerotateGlobe()
+                                        let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                                        model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.2)
                                         RotationCondition.rotationConditionsSetter(for: ViewModel.shared.rotationConditions,
                                                                                    lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
                                     }
@@ -95,7 +96,8 @@ struct TaskView: View {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                         model.firstGlobeEntity?.respawnGlobe(.leftClose)
                                         model.secondGlobeEntity?.respawnGlobe(.rightClose)
-//                                        _ = model.firstGlobeEntity?.rescaleGlobe()
+                                        let counterScale = model.firstGlobeEntity?.rescaleGlobe()
+                                        model.secondGlobeEntity?.animateTransform(scale: counterScale, duration: 0.2)
                                         ScaleCondition.scaleConditionsSetter(for: ViewModel.shared.scaleConditions,
                                                                              lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
                                     }
