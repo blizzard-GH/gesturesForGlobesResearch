@@ -41,8 +41,6 @@ class TaskStorageManager {
     
     private var userID: Int = 0
     
-    let studyModel: StudyModel
-
     func initialiseUserID() {
 //        if userID == 0 {
 //            let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appending(path: "study_tasks.csv", directoryHint: .notDirectory)
@@ -68,13 +66,12 @@ class TaskStorageManager {
         var currentUserID = userID
         
         if !fileExists {
-            csvString += "UserID,TaskID,currentPage,rotateGlobeWhileDragging,oneHandedRotationGesture,moveGlobeWhileScaling,distance,direction,complexity,zoomDirection,Date,Type,ActionStatus,original_translation_x,original_translation_y,original_translation_z,original_rotation_x,original_rotation_y,original_rotation_z,original_rotation_w,original_scale_x,original_scale_y,original_scale_z,target_translation_x,target_translation_y,target_translation_z,target_rotation_x,target_rotation_y,target_rotation_z,target_rotation_w,target_scale_x,target_scale_y,target_scale_z,accuracy_result,status\n"
+            csvString += "UserID,TaskID,rotateGlobeWhileDragging,oneHandedRotationGesture,moveGlobeWhileScaling,distance,direction,complexity,zoomDirection,Date,Type,ActionStatus,original_translation_x,original_translation_y,original_translation_z,original_rotation_x,original_rotation_y,original_rotation_z,original_rotation_w,original_scale_x,original_scale_y,original_scale_z,target_translation_x,target_translation_y,target_translation_z,target_rotation_x,target_rotation_y,target_rotation_z,target_rotation_w,target_scale_x,target_scale_y,target_scale_z,accuracy_result,status\n"
         }
         
         // Convert each action to a CSV row
         let rows = task.actions.elements.enumerated().map { (index, action) in
             let date = ISO8601DateFormatter().string(from: action.date)
-            let currentPage = studyModel.currentPage
             let distance = PositionCondition.currentDistance
             let direction = PositionCondition.currentDirection
             let complexity = RotationCondition.currentComplexity
@@ -102,7 +99,7 @@ class TaskStorageManager {
             } else {
                 status = "Trial"
             }
-            return "\(currentUserID),\(action.taskID.uuidString),\(currentPage),\(ViewModel.shared.rotateGlobeWhileDragging),\(ViewModel.shared.oneHandedRotationGesture),\(ViewModel.shared.moveGlobeWhileScaling),\(distance),\(direction),\(complexity),\(zoomDirection),\(date),\(typeString),\(action.status),\(originalTranslation),\(originalRotation),\(originalScale),\(targetTranslation),\(targetRotation),\(targetScale),\(task.accuracyResult),\(status)"
+            return "\(currentUserID),\(action.taskID.uuidString),\(ViewModel.shared.rotateGlobeWhileDragging),\(ViewModel.shared.oneHandedRotationGesture),\(ViewModel.shared.moveGlobeWhileScaling),\(distance),\(direction),\(complexity),\(zoomDirection),\(date),\(typeString),\(action.status),\(originalTranslation),\(originalRotation),\(originalScale),\(targetTranslation),\(targetRotation),\(targetScale),\(task.accuracyResult),\(status)"
         }
         
         csvString += rows.joined(separator: "\n") + "\n"

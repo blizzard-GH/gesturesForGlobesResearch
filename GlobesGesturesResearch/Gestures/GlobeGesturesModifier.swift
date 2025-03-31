@@ -150,15 +150,19 @@ private struct GlobeGesturesModifier: ViewModifier {
                     .simultaneousGesture(rotateGesture)
             }
         case .rotationComparison:
-            content
-                .simultaneousGesture(rotateGlobeAxisGesture)
-                .simultaneousGesture(rotateGesture)
+            if model.oneHandedRotationGesture {
+                content
+                    .simultaneousGesture(rotateGlobeAxisGesture)
+            } else {
+                content
+                    .simultaneousGesture(rotateGesture)
+            }
         case .scaleTraining,
                 .scaleExperiment1, .scaleExperimentForm1,
                 .scaleExperiment2, .scaleExperimentForm2, .scaleComparison:
             content
                 .simultaneousGesture(magnifyGesture)
-//                .simultaneousGesture(dragGesture)
+                .simultaneousGesture(dragHelperGesture)
         case .outroForm:
             if model.oneHandedRotationGesture {
                 content
@@ -995,6 +999,58 @@ private struct GlobeGesturesModifier: ViewModifier {
             }
     }
         
+    /// Helper gesture to reposition the globe in scaling and rotating
+    private var dragHelperGesture: some Gesture {
+        DragGesture(minimumDistance: 0.0)
+            .targetedToAnyEntity()
+            .handActivationBehavior(.automatic) // allow for globe to be pushed when the hand or a finger intersects it
+            .onChanged { value in
+                Task { @MainActor in
+                    guard !state.isScaling,
+                          !state.isRotating,
+                          !rotationState.isActive else {
+                        log("exit drag")
+                        return
+                    }
+                    if state.positionAtGestureStart == nil {
+                        log("start drag")
+                        state.isDragging = true
+                        state.positionAtGestureStart = value.entity.position(relativeTo: nil)
+                        state.localRotationAtGestureStart = (value.entity as? GlobeEntity)?.orientation
+                    }
+                    
+                    if let positionAtGestureStart = state.positionAtGestureStart,
+                       let localRotationAtGestureStart = state.localRotationAtGestureStart,
+                       let globeEntity = value.entity as? GlobeEntity,
+                       let cameraPosition = CameraTracker.shared.position {
+                        log("update drag")
+                        let location3D = value.convert(value.location3D, from: .local, to: .scene)
+                        let startLocation3D = value.convert(value.startLocation3D, from: .local, to: .scene)
+                        let delta = location3D - startLocation3D
+                        let position = positionAtGestureStart + SIMD3<Float>(delta)
+                        
+                        // rotate the globe around a vertical axis (which is different to the globe's axis if it is not north-oriented)
+                        // such that the same location is facing the camera as the globe is dragged horizontally around the camera
+                        var v1 = cameraPosition - positionAtGestureStart
+                        var v2 = cameraPosition - position
+                        v1.y = 0
+                        v2.y = 0
+                        v1 = normalize(v1)
+                        v2 = normalize(v2)
+                        let rotationSinceStart = simd_quatf(from: v1, to: v2)
+                        let localRotationSinceStart = simd_quatf(value.convert(rotation: rotationSinceStart, from: .scene, to: .local))
+                        let rotation = simd_mul(localRotationSinceStart, localRotationAtGestureStart)
+                        
+                        // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
+                        globeEntity.animateTransform(orientation: rotation, position: position, duration: animationDuration)
+                    }
+                }
+            }
+            .onEnded { _ in
+                log("end drag")
+                state.endGesture()
+            }
+    }
     
     /// Pauses automatic rotation of the globe while the globe is rotated by a gesture, and stores the automatic rotation state.
     private func pauseRotationAndStoreRotationState() {
