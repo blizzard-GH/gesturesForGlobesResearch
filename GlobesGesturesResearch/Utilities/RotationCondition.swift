@@ -20,8 +20,14 @@ struct RotationCondition {
     static var rotationConditionsCompleted: Bool = false // Used to show 'next' button once all conditions are done
     
 //    static var rotationSwapTechnique: Bool = false // This var will swap technique, so that technique is implemented to Balanced Latin Square by half order
-    
+
     static var rotationGestureOrder :  ModalityOrder = .oneHandedRotationFirst
+    
+    //Only for printing in csv
+    static var currentComplexity: Complexity = .simple
+    
+    //Only for printing in csv
+    static var currentGestureModality: RotationGestureModality = .oneHanded
     
     enum ModalityOrder{
         case oneHandedRotationFirst
@@ -169,6 +175,9 @@ struct RotationCondition {
         default:
             break
         }
+        
+        currentComplexity = complexity
+        currentGestureModality = modalityOrderList[safeIndex]
 //        }
         return (modalityOrderList, complexity)
     }

@@ -23,6 +23,12 @@ struct ScaleCondition {
     
     static var scaleGestureOrder :  MovingOrder = .notMovingFirst
     
+    //Only for printing in csv
+    static var currentScalingGesture: ScalingGesture = .notMoving
+    
+    //Only for printing in csv
+    static var currentZoomDirection: ZoomDirection = .smallToLarge
+    
     enum MovingOrder{
         case notMovingFirst
         case movingFirst
@@ -169,6 +175,9 @@ struct ScaleCondition {
         default:
             break
         }
+        
+        currentScalingGesture = movingGlobeList[safeIndex]
+        currentZoomDirection = zoomDirection
 //    }
         return (movingGlobeList, zoomDirection)
     }
