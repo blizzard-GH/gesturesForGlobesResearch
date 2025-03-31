@@ -30,14 +30,21 @@ class RotationMatcher: Matcher {
     
     func quaternionAngleDifference(q1: simd_quatf, q2: simd_quatf) -> Float {
         // Calculate the dot product of the two quaternions and make it absolute
-        var dotProduct = simd_dot(q1.vector, q2.vector)
+//        var dotProduct = simd_dot(q1.vector, q2.vector)
+//        
+//        if dotProduct < 0 {
+//            dotProduct = -dotProduct
+//        }
+//        
+//        // Avoiding numerical errors
+//        let clampedDot = max(-1.0, min(1.0, dotProduct))
+        // Normalised
+        let normQ1 = simd_normalize(q1)
+        let normQ2 = simd_normalize(q2)
         
-        if dotProduct < 0 {
-            dotProduct = -dotProduct
-        }
-        
-        // Avoiding numerical errors
-        let clampedDot = max(-1.0, min(1.0, dotProduct))
+        // Compute the dot product and clamp to avoid numerical issues
+        let dotProduct = simd_dot(normQ1.vector, normQ2.vector)
+        let clampedDot = max(-1.0, min(1.0, abs(dotProduct)))
         
         // Measure the angle between the two quaternions
         let angle = 2.0 * acos(clampedDot)
@@ -46,7 +53,11 @@ class RotationMatcher: Matcher {
     }
     
     func getAccuracy(_ transform: Transform) -> Float {
-        let angleDifference = quaternionAngleDifference(q1: transform.rotation, q2: rotationTarget)
-        return angleDifference
+//        let angleDifference = quaternionAngleDifference(q1: transform.rotation, q2: rotationTarget)
+//        return angleDifference
+        // Normalised: 
+        let normQ1 = simd_normalize(transform.rotation)
+        let normQ2 = simd_normalize(rotationTarget)
+        return quaternionAngleDifference(q1: normQ1, q2: normQ2)
     }
 }

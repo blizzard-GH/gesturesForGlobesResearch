@@ -79,13 +79,13 @@ struct TaskView: View {
                                         let counterPosition = model.firstGlobeEntity?.repositionGlobe()
                                         PositionCondition.positionConditionsSetter(for: ViewModel.shared.positionConditions,
                                                                                        lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
-                                        model.secondGlobeEntity?.respawnGlobe(counterPosition ?? SIMD3<Float>(0,0.9,-0.5))
+                                        model.secondGlobeEntity?.refineGlobePosition(counterPosition ?? SIMD3<Float>(0,0.9,-0.5))
                                     }
                                 }
                                 if currentPage == .rotationExperiment1 || currentPage == .rotationExperiment2 {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        model.firstGlobeEntity?.respawnGlobe(.left)
-                                        model.secondGlobeEntity?.respawnGlobe(.right)
+                                        model.firstGlobeEntity?.respawnGlobe(.leftClose)
+                                        model.secondGlobeEntity?.respawnGlobe(.rightClose)
                                         let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
                                         model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.2)
                                         RotationCondition.rotationConditionsSetter(for: ViewModel.shared.rotationConditions,
@@ -125,22 +125,22 @@ struct TaskView: View {
                         //                            .monospacedDigit()
                         //                            .padding()
                         //Below is for DEBUGGING only
-                        VStack{
-                            Text("Debugging:")
-//                            Text("Task repeated: \(model.isTaskRepeated)")
-//                            Text("Is storing needed \(currentPage.isStoringRecordNeeded)")
-                            Text("Current page: \(currentPage)")
-                            //                        Text("current task accuracy: \(studyModel.currentTask? ?? 0.0)")
-//                            Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
-//                            Text("Last used index: \(ScaleCondition.lastUsedScaleConditionIndex)")
-//                            Text("Is conditions looping complete: \(ScaleCondition.scaleConditionsCompleted)")
-                            
-                            Text("Rotate globe while dragging: \(rotateGlobeWhileDragging)")
-                            Text("One-handed rotation gesture: \(oneHandedRotationGesture)")
-                            Text("Move globe while scaling: \(moveGlobeWhileScaling)")
-                            
-                        }
-                        .padding()
+//                        VStack{
+//                            Text("Debugging:")
+////                            Text("Task repeated: \(model.isTaskRepeated)")
+////                            Text("Is storing needed \(currentPage.isStoringRecordNeeded)")
+//                            Text("Current page: \(currentPage)")
+//                            //                        Text("current task accuracy: \(studyModel.currentTask? ?? 0.0)")
+////                            Text("is matching: \(studyModel.currentTask?.isMatching ?? false)")
+////                            Text("Last used index: \(ScaleCondition.lastUsedScaleConditionIndex)")
+////                            Text("Is conditions looping complete: \(ScaleCondition.scaleConditionsCompleted)")
+//                            
+//                            Text("Rotate globe while dragging: \(rotateGlobeWhileDragging)")
+//                            Text("One-handed rotation gesture: \(oneHandedRotationGesture)")
+//                            Text("Move globe while scaling: \(moveGlobeWhileScaling)")
+//                            
+//                        }
+//                        .padding()
                         
                         
                         Instruction(currentPage: $currentPage)

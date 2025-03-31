@@ -358,14 +358,14 @@ class GlobeEntity: Entity {
         animateTransform(
             orientation: newOrientation,
             position: newPosition,
-            duration: 0.1)
+            duration: 0.2)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.isInMovement = false
         }
     }
     
-    func respawnGlobe(_ newCoordinate: SIMD3<Float>) {
+    func refineGlobePosition(_ newCoordinate: SIMD3<Float>) {
         
         isInMovement = true
 //        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
@@ -375,9 +375,9 @@ class GlobeEntity: Entity {
         animateTransform(
             orientation: newOrientation,
             position: newCoordinate,
-            duration: 0.0)
+            duration: 0.2)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.isInMovement = false
         }
     }
@@ -437,13 +437,13 @@ class GlobeEntity: Entity {
         }
         
         let newPosition = cameraPosition + offset
-        animateTransform(position: newPosition, duration: 0.1)
+        animateTransform(position: newPosition, duration: 0.2)
                 
         lastGlobeReposition = newPosition
         
         lastGlobeCounterReposition = counterPosition
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.isInMovement = false
         }
         
@@ -508,7 +508,7 @@ class GlobeEntity: Entity {
         
         useFirstRotationIndex.toggle()
 
-        animateTransform(orientation: rotationQuaternion, duration: 0.1)
+        animateTransform(orientation: rotationQuaternion, duration: 0.2)
         
 //    Randomiser:
 //        guard let cameraPosition = CameraTracker.shared.position else {
@@ -520,7 +520,7 @@ class GlobeEntity: Entity {
 //        let rotationQuaternion = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
 //        
 //        animateTransform(orientation: rotationQuaternion, duration: 0)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.isInMovement = false
         }
         
@@ -555,9 +555,9 @@ class GlobeEntity: Entity {
         
         useFirstScaleIndex.toggle()
         
-        animateTransform(scale: zoomDirectionScale, duration: 0.1)
+        animateTransform(scale: zoomDirectionScale, duration: 0.2)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.isInMovement = false
         }
         
