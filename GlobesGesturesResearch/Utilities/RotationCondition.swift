@@ -26,8 +26,6 @@ struct RotationCondition {
     //Only for printing in csv
     static var currentComplexity: Complexity = .simple
     
-    //Only for printing in csv
-    static var currentGestureModality: RotationGestureModality = .oneHanded
     
     enum ModalityOrder{
         case oneHandedRotationFirst
@@ -177,7 +175,6 @@ struct RotationCondition {
         }
         
         currentComplexity = complexity
-        currentGestureModality = modalityOrderList[safeIndex]
 //        }
         return (modalityOrderList, complexity)
     }

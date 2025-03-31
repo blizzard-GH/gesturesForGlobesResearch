@@ -67,7 +67,7 @@ class TaskStorageManager {
         var currentUserID = userID
         
         if !fileExists {
-            csvString += "UserID,TaskID,rotateGlobeWhileDragging,oneHandedRotationGesture,moveGlobeWhileScaling,distance,direction,positioningGesture,complexity,rotationGesture,zoomDirection,scalingGesture,Date,Type,Gesture,original_translation_x,original_translation_y,original_translation_z,original_rotation_x,original_rotation_y,original_rotation_z,original_rotation_w,original_scale_x,original_scale_y,original_scale_z,target_translation_x,target_translation_y,target_translation_z,target_rotation_x,target_rotation_y,target_rotation_z,target_rotation_w,target_scale_x,target_scale_y,target_scale_z,accuracy_result,status\n"
+            csvString += "UserID,TaskID,rotateGlobeWhileDragging,oneHandedRotationGesture,moveGlobeWhileScaling,distance,direction,complexity,zoomDirection,Date,Type,Gesture,original_translation_x,original_translation_y,original_translation_z,original_rotation_x,original_rotation_y,original_rotation_z,original_rotation_w,original_scale_x,original_scale_y,original_scale_z,target_translation_x,target_translation_y,target_translation_z,target_rotation_x,target_rotation_y,target_rotation_z,target_rotation_w,target_scale_x,target_scale_y,target_scale_z,accuracy_result,status\n"
         }
         
         // Convert each action to a CSV row
@@ -75,11 +75,8 @@ class TaskStorageManager {
             let date = ISO8601DateFormatter().string(from: action.date)
             let distance = PositionCondition.currentDistance
             let direction = PositionCondition.currentDirection
-            let positioningGesture = PositionCondition.currentPositioningGesture
             let complexity = RotationCondition.currentComplexity
-            let rotationGesture = RotationCondition.currentGestureModality
             let zoomDirection = ScaleCondition.currentZoomDirection
-            let scalingGesture = ScaleCondition.currentScalingGesture
             let targetTranslation = "\(action.targetTransform.translation.x),\(action.targetTransform.translation.y),\(action.targetTransform.translation.z)"
             let targetRotationVector = action.targetTransform.rotation.vector
             let targetRotation = "\(targetRotationVector.x),\(targetRotationVector.y),\(targetRotationVector.z),\(targetRotationVector.w)"
@@ -103,7 +100,7 @@ class TaskStorageManager {
             } else {
                 status = "Trial"
             }
-            return "\(currentUserID),\(action.taskID.uuidString),\(ViewModel.shared.rotateGlobeWhileDragging),\(distance),\(direction),\(positioningGesture),\(complexity),\(rotationGesture),\(zoomDirection),\(scalingGesture),\(ViewModel.shared.oneHandedRotationGesture),\(ViewModel.shared.moveGlobeWhileScaling),\(date),\(typeString),\(action.status),\(originalTranslation),\(originalRotation),\(originalScale),\(targetTranslation),\(targetRotation),\(targetScale),\(task.accuracyResult),\(status)"
+            return "\(currentUserID),\(action.taskID.uuidString),\(ViewModel.shared.rotateGlobeWhileDragging),\(distance),\(direction),\(complexity),\(zoomDirection),\(ViewModel.shared.oneHandedRotationGesture),\(ViewModel.shared.moveGlobeWhileScaling),\(date),\(typeString),\(action.status),\(originalTranslation),\(originalRotation),\(originalScale),\(targetTranslation),\(targetRotation),\(targetScale),\(task.accuracyResult),\(status)"
         }
         
         csvString += rows.joined(separator: "\n") + "\n"

@@ -23,8 +23,6 @@ struct ScaleCondition {
     
     static var scaleGestureOrder :  MovingOrder = .notMovingFirst
     
-    //Only for printing in csv
-    static var currentScalingGesture: ScalingGesture = .notMoving
     
     //Only for printing in csv
     static var currentZoomDirection: ZoomDirection = .smallToLarge
@@ -176,7 +174,6 @@ struct ScaleCondition {
             break
         }
         
-        currentScalingGesture = movingGlobeList[safeIndex]
         currentZoomDirection = zoomDirection
 //    }
         return (movingGlobeList, zoomDirection)

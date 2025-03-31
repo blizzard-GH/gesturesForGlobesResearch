@@ -52,6 +52,11 @@ struct ContentView: View {
             }
             .onAppear{
                 _ = SoundManager.shared
+//                model.updatePositionConditions(currentPage: currentPage)
+//                model.updateRotationConditions(currentPage: currentPage)
+//                model.updateScaleConditions(currentPage: currentPage)
+            }
+            .onChange(of: currentPage) {
                 model.updatePositionConditions(currentPage: currentPage)
                 model.updateRotationConditions(currentPage: currentPage)
                 model.updateScaleConditions(currentPage: currentPage)

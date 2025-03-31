@@ -32,8 +32,6 @@ struct PositionCondition {
     //Only for printing in csv
     static var currentDirection: Direction = .horizontal
     
-    //Only for printing in csv
-    static var currentPositioningGesture: PositioningGesture = .notRotating
     
     enum RotationOrder{
         case rotatingFirst
@@ -221,7 +219,6 @@ struct PositionCondition {
         
         currentDistance = distance
         currentDirection = direction
-        currentPositioningGesture = rotatingGlobeList[safeIndex]
         
         return (rotatingGlobeList, distance, direction)
     }
