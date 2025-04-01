@@ -60,15 +60,15 @@ class ViewModel: CustomDebugStringConvertible {
     
     // MARK: - Gestures Configuration
     
-    /// Rotate the globe while it is being dragged such that the same geographic location is continuously facing the camera
+    /// Rotate the globe while it is being dragged such that the same geographic location is continuously facing the camera.
     @MainActor
     var rotateGlobeWhileDragging = true
     
-    /// Using one-handed or two-handed to rotate the globes
+    /// Using one-handed or two-handed gesture to rotate the globe.
     @MainActor
     var oneHandedRotationGesture = true
     
-    /// Move the scale towards or away from the camera while it is scaled.
+    /// Move the globe towards the camera or away from the camera while it is scaled.
     @MainActor
     var moveGlobeWhileScaling = true
     

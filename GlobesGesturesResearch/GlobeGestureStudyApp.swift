@@ -15,6 +15,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         RotationComponent.registerComponent()
         RotationSystem.registerSystem()
         
+        SphereLabelComponent.registerComponent()
+        SphereLabelSystem.registerSystem()
+        
         // start camera tracking
         CameraTracker.start()
         

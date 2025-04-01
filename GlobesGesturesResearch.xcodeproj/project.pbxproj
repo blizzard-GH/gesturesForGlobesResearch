@@ -14,6 +14,7 @@
 		7D2F439B2D3B4FAF00928A68 /* PositionTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F43972D3B4FAF00928A68 /* PositionTask.swift */; };
 		7D2F439C2D3B4FAF00928A68 /* ScaleTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F43992D3B4FAF00928A68 /* ScaleTask.swift */; };
 		7D2F439F2D3B50A300928A68 /* Matcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F439E2D3B50A100928A68 /* Matcher.swift */; };
+		7D5A47F92D9B835E00068B76 /* SphereLabelSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5A47F82D9B834500068B76 /* SphereLabelSystem.swift */; };
 		7D60D9512CF84F2900D7C8AD /* GoogleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D94D2CF84F2900D7C8AD /* GoogleForm.swift */; };
 		7D60D9522CF84F2900D7C8AD /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D94E2CF84F2900D7C8AD /* TaskView.swift */; };
 		7D60D9532CF84F2900D7C8AD /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D60D94F2CF84F2900D7C8AD /* WelcomeView.swift */; };
@@ -73,6 +74,7 @@
 		7D2F43982D3B4FAF00928A68 /* RotationTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationTask.swift; sourceTree = "<group>"; };
 		7D2F43992D3B4FAF00928A68 /* ScaleTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleTask.swift; sourceTree = "<group>"; };
 		7D2F439E2D3B50A100928A68 /* Matcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matcher.swift; sourceTree = "<group>"; };
+		7D5A47F82D9B834500068B76 /* SphereLabelSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SphereLabelSystem.swift; sourceTree = "<group>"; };
 		7D60D94D2CF84F2900D7C8AD /* GoogleForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleForm.swift; sourceTree = "<group>"; };
 		7D60D94E2CF84F2900D7C8AD /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		7D60D94F2CF84F2900D7C8AD /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 		7DD56E752C6CC9EB009AE72C /* Systems & Components */ = {
 			isa = PBXGroup;
 			children = (
+				7D5A47F82D9B834500068B76 /* SphereLabelSystem.swift */,
 				7DD56E722C6CC9EB009AE72C /* CameraTracker.swift */,
 				7DD56E742C6CC9EB009AE72C /* RotationSystem.swift */,
 			);
@@ -429,6 +432,7 @@
 				97C37A222D12DDCB00E628CB /* PositionMatcher.swift in Sources */,
 				7D2F439A2D3B4FAF00928A68 /* RotationTask.swift in Sources */,
 				7D2F439B2D3B4FAF00928A68 /* PositionTask.swift in Sources */,
+				7D5A47F92D9B835E00068B76 /* SphereLabelSystem.swift in Sources */,
 				7D2F439C2D3B4FAF00928A68 /* ScaleTask.swift in Sources */,
 				7D2F438E2D3B2D8200928A68 /* StudyTask.swift in Sources */,
 				9742BB292D33E1B7001079D4 /* GestureType.swift in Sources */,
@@ -588,7 +592,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GlobesGesturesResearch/Preview Content\"";
-				DEVELOPMENT_TEAM = P3579KHFBJ;
+				DEVELOPMENT_TEAM = L8FKNLG3XM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
@@ -617,7 +621,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GlobesGesturesResearch/Preview Content\"";
-				DEVELOPMENT_TEAM = P3579KHFBJ;
+				DEVELOPMENT_TEAM = L8FKNLG3XM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
