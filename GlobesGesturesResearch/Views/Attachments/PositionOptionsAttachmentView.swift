@@ -11,6 +11,9 @@ import SwiftUI
 struct PositionOptionsAttachmentView: View {
     @Environment(ViewModel.self) var model
     
+    private let rotateInfo = "The globe rotates as it moves, so you always see the same side of the Earth."
+    private let staticInfo = "The globe's orientation stays fixed as it moves."
+    
     var body: some View {
         VStack {
             Text("Positioning Behaviour")
@@ -19,15 +22,14 @@ struct PositionOptionsAttachmentView: View {
             
             Picker("Globe Rotation", selection: Bindable(model).rotateGlobeWhileDragging) {
                 Text("Static Orientation").tag(false)
-                    .font(.headline)
                 Text("Adaptive Orientation").tag(true)
-                    .font(.headline)
             }
             .pickerStyle(.segmented)
-            .fixedSize()
             .padding()
+            
+            Text(model.rotateGlobeWhileDragging ? rotateInfo : staticInfo)
+                .padding()
         }
         .padding()
-        .glassBackgroundEffect()
     }
 }

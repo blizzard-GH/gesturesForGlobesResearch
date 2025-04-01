@@ -31,15 +31,23 @@ struct ImmersiveView: View {
         } attachments: { // synchronous on MainActor
             Attachment(id: ViewModel.AttachmentView.position.rawValue) {
                 PositionOptionsAttachmentView()
+                    .fixedSize()
+                    .glassBackgroundEffect()
             }
             Attachment(id: ViewModel.AttachmentView.rotation.rawValue) {
                 RotationOptionsAttachmentView()
+                    .fixedSize()
+                    .glassBackgroundEffect()
             }
             Attachment(id: ViewModel.AttachmentView.scale.rawValue) {
                 ScaleOptionsAttachmentView()
+                    .fixedSize()
+                    .glassBackgroundEffect()
             }
             Attachment(id: ViewModel.AttachmentView.all.rawValue) {
                 GestureCombinationAttachmentView()
+                    .fixedSize()
+                    .glassBackgroundEffect()
             }
         }
         .globeGestures(model: model, studyModel: studyModel)
@@ -100,94 +108,27 @@ struct ImmersiveView: View {
     @MainActor
     private func addAttachments(_ attachments: RealityViewAttachments) {
         guard let globeEntity = model.firstGlobeEntity else { return }
-        let attachmentAnchor = Entity()
-            attachmentAnchor.position = globeEntity.position + [0, model.globe.radius * 1.5, model.globe.radius]
-        if let parent = globeEntity.parent {
-            parent.addChild(attachmentAnchor)
-        } else {
-            globeEntity.addChild(attachmentAnchor)
+        
+        // remove all previous attachment views
+        for viewAttachmentEntity in globeEntity.children where viewAttachmentEntity is ViewAttachmentEntity {
+            globeEntity.removeChild(viewAttachmentEntity)
         }
+        
         switch model.attachmentView {
         case .position, .rotation, .scale:
             if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
-//                let yPosition = model.globe.radius * 1.5
-//                let zPosition = model.globe.radius
-//                attachmentEntity.position = [0, yPosition, zPosition]
-//                attachmentEntity.components.set(BillboardComponent())
-//                globeEntity.addChild(attachmentEntity)
-                // Set attachment position relative to anchor
-//                attachmentEntity.position = [0, 0, 0]
                 attachmentEntity.components.set(BillboardComponent())
-
-                // Attach to anchor
-                attachmentAnchor.addChild(attachmentEntity)
-
-                // Start tracking
-                startTrackingAttachment(anchor: attachmentAnchor, target: globeEntity)
+                attachmentEntity.components.set(SphereLabelComponent(radius: model.globe.radius, offset: 0.1))
+                globeEntity.addChild(attachmentEntity)
             }
         case .all:
             if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
-//                let yPosition = model.globe.radius * 1.6
-//                let zPosition = model.globe.radius
-//                attachmentEntity.position = [0, yPosition, -zPosition]
-//                attachmentEntity.components.set(BillboardComponent())
-//                globeEntity.addChild(attachmentEntity)
-//                attachmentEntity.position = [0, 0, 0]
                 attachmentEntity.components.set(BillboardComponent())
-
-                // Attach to anchor
-                attachmentAnchor.addChild(attachmentEntity)
-                startTrackingAttachment(anchor: attachmentAnchor, target: globeEntity)
-
+                attachmentEntity.components.set(SphereLabelComponent(radius: model.globe.radius, offset: 0.25))
+                globeEntity.addChild(attachmentEntity)
             }
-//            if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
-//                let yPosition = model.globe.radius * 1.5
-//                let zPosition = model.globe.radius
-//
-//                let attachmentAnchor = Entity()
-//                attachmentAnchor.position = SIMD3<Float>(0, yPosition, zPosition) // Relative to globe
-//
-//                attachmentAnchor.addChild(attachmentEntity)
-//
-//                attachmentEntity.components.set(BillboardComponent())
-//
-//                globeEntity.addChild(attachmentAnchor)
-//            }
-//        case .all:
-//            let allAttachments: [ViewModel.AttachmentView] = [.scale, .rotation, .position]
-//            let spacing: Float = Float(model.globe.radius) * 0.5
-//            for (index, attachmentType) in allAttachments.enumerated() {
-//                if let attachmentEntity = attachments.entity(for: attachmentType.rawValue) {
-//                    let yPosition = Float(model.globe.radius) * 1.5 + (Float(index) * spacing)
-//                    // Set position with broken down components
-//                    let zPosition = Float(model.globe.radius)
-//                    let position = SIMD3<Float>(0, yPosition, zPosition)
-//                    attachmentEntity.position = position
-//                    attachmentEntity.components.set(BillboardComponent())
-//                    globeEntity.addChild(attachmentEntity)
-//                }
-//            }
         case .none:
-            for viewAttachmentEntity in globeEntity.children where viewAttachmentEntity is ViewAttachmentEntity {
-                globeEntity.removeChild(viewAttachmentEntity)
-            }
-        }
-        @MainActor
-        func startTrackingAttachment(anchor: Entity, target: Entity) {
-            print("Starting tracking...")
-            Task {
-                while true {
-                    try await Task.sleep(nanoseconds: 16_000_000) // ~16ms for 60 FPS
-                    anchor.position = target.position + [0, model.globe.radius * 1.5, model.globe.radius]
-//                    anchor.scale = target.scale
-                    
-                }
-            }
+            break
         }
     }
 }
-
-//#Preview(immersionStyle: .mixed) {
-//    ImmersiveView()
-//        .environment(ViewModel.preview)
-//}
