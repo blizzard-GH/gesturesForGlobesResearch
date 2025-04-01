@@ -100,22 +100,45 @@ struct ImmersiveView: View {
     @MainActor
     private func addAttachments(_ attachments: RealityViewAttachments) {
         guard let globeEntity = model.firstGlobeEntity else { return }
+        let attachmentAnchor = Entity()
+            attachmentAnchor.position = globeEntity.position + [0, model.globe.radius * 1.5, model.globe.radius]
+        if let parent = globeEntity.parent {
+            parent.addChild(attachmentAnchor)
+        } else {
+            globeEntity.addChild(attachmentAnchor)
+        }
         switch model.attachmentView {
         case .position, .rotation, .scale:
             if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
-                let yPosition = model.globe.radius * 1.5
-                let zPosition = model.globe.radius
-                attachmentEntity.position = [0, yPosition, zPosition]
+//                let yPosition = model.globe.radius * 1.5
+//                let zPosition = model.globe.radius
+//                attachmentEntity.position = [0, yPosition, zPosition]
+//                attachmentEntity.components.set(BillboardComponent())
+//                globeEntity.addChild(attachmentEntity)
+                // Set attachment position relative to anchor
+//                attachmentEntity.position = [0, 0, 0]
                 attachmentEntity.components.set(BillboardComponent())
-                globeEntity.addChild(attachmentEntity)
+
+                // Attach to anchor
+                attachmentAnchor.addChild(attachmentEntity)
+
+                // Start tracking
+                startTrackingAttachment(anchor: attachmentAnchor, target: globeEntity)
             }
         case .all:
             if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
-                let yPosition = model.globe.radius * 1.6
-                let zPosition = model.globe.radius
-                attachmentEntity.position = [0, yPosition, -zPosition]
+//                let yPosition = model.globe.radius * 1.6
+//                let zPosition = model.globe.radius
+//                attachmentEntity.position = [0, yPosition, -zPosition]
+//                attachmentEntity.components.set(BillboardComponent())
+//                globeEntity.addChild(attachmentEntity)
+//                attachmentEntity.position = [0, 0, 0]
                 attachmentEntity.components.set(BillboardComponent())
-                globeEntity.addChild(attachmentEntity)
+
+                // Attach to anchor
+                attachmentAnchor.addChild(attachmentEntity)
+                startTrackingAttachment(anchor: attachmentAnchor, target: globeEntity)
+
             }
 //            if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
 //                let yPosition = model.globe.radius * 1.5
@@ -147,6 +170,18 @@ struct ImmersiveView: View {
         case .none:
             for viewAttachmentEntity in globeEntity.children where viewAttachmentEntity is ViewAttachmentEntity {
                 globeEntity.removeChild(viewAttachmentEntity)
+            }
+        }
+        @MainActor
+        func startTrackingAttachment(anchor: Entity, target: Entity) {
+            print("Starting tracking...")
+            Task {
+                while true {
+                    try await Task.sleep(nanoseconds: 16_000_000) // ~16ms for 60 FPS
+                    anchor.position = target.position + [0, model.globe.radius * 1.5, model.globe.radius]
+//                    anchor.scale = target.scale
+                    
+                }
             }
         }
     }

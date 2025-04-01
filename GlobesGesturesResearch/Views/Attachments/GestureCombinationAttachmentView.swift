@@ -141,9 +141,9 @@ struct GestureCombinationAttachmentView: View {
                     .padding(.top, 20)
                 
                 Picker("Globe Rotation", selection: Bindable(model).rotateGlobeWhileDragging) {
-                    Text("Adaptive Orientation").tag(true)
-                        .font(.headline)
                     Text("Static Orientation").tag(false)
+                        .font(.headline)
+                    Text("Adaptive Orientation").tag(true)
                         .font(.headline)
                 }
                 .pickerStyle(WheelPickerStyle())
@@ -191,9 +191,9 @@ struct GestureCombinationAttachmentView: View {
                     .padding(.top, 20)
 
                 Picker("Globe Position", selection: Bindable(model).moveGlobeWhileScaling) {
-                    Text("Maintain Distance to Globe").tag(true)
-                        .font(.headline)
                     Text("Maintain Globe Position").tag(false)
+                        .font(.headline)
+                    Text("Maintain Distance to Globe").tag(true)
                         .font(.headline)
                 }
                 .pickerStyle(WheelPickerStyle()) // Wheeled Picker style

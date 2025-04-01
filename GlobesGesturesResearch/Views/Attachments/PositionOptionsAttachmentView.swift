@@ -31,9 +31,9 @@ struct PositionOptionsAttachmentView: View {
                 .padding(.top, 20)
             
             Picker("Globe Rotation", selection: Bindable(model).rotateGlobeWhileDragging) {
-                Text("Adaptive Orientation").tag(true)
-                    .font(.headline)
                 Text("Static Orientation").tag(false)
+                    .font(.headline)
+                Text("Adaptive Orientation").tag(true)
                     .font(.headline)
             }
             .pickerStyle(WheelPickerStyle())
