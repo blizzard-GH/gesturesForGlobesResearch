@@ -10,97 +10,22 @@ import SwiftUI
 struct ConfirmationPage: View {
     @Environment(ViewModel.self) var model
     @Environment(StudyModel.self) var studyModel
-    @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
-    @Environment(\.dismissWindow) private var dismissWindow
-    @Environment(\.openWindow) private var openWindow
     
     @Binding var currentPage: Page
-    @State private var isDoingTask: Bool = false
-    @State private var elapsedTime: Double = 0
-    @State private var timer: Timer? = nil
-    @State private var startTime: Date? = nil
-    @State private var showTaskContent: Bool = false
     
     var body: some View {
         VStack{
             Text("Task finished")
                 .font(.largeTitle)
-                .fontWeight(.bold)
-                .multilineTextAlignment(.center)
-                .padding(15)
-            Button(
-                "Next"
-            ) {
-                studyModel.proceedToNextExperiment = false
-                PositionCondition.positionConditionsCompleted = false
-                ScaleCondition.scaleConditionsCompleted = false
-                RotationCondition.rotationConditionsCompleted = false
-                //                            studyModel.currentTaskPage = currentPage
-//                if currentPage == .rotationExperiment1 || currentPage == .rotationExperiment2{
-////                    RotationCondition.rotationSwapTechnique.toggle()
-//                    updateRotationConditions()
-//                }
-                isDoingTask = false
-                showTaskContent = false
-                showOrHideGlobe(false)
-                switch currentPage {
-                case
-//                        .confirmationPagePosition1,
-                        .confirmationPagePosition2:
-                    print("Entered positionExperiment case")
-                    do {
-                        try PositionCondition.savePositionConditions(positionConditions: model.positionConditions)
-                    } catch {
-                        print("Failed to save position conditions: \(error.localizedDescription)")
-                    }
-                
-                case
-//                        .confirmationPageRotation1,
-                        .confirmationPageRotation2:
-                    do {
-                        try RotationCondition.saveRotationConditions(rotationConditions: model.rotationConditions)
-                    } catch {
-                        print("Failed to save rotation conditions: \(error.localizedDescription)")
-                    }
-                case
-//                        .confirmationPageScale1,
-                        .confirmationPageScale2:
-                    do {
-                        try ScaleCondition.saveScaleConditions(scaleConditions: model.scaleConditions)
-                    } catch {
-                        print("Failed to save position conditions: \(error.localizedDescription)")
-                    }
-                default:
-                    break
-                }
-                model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
-                currentPage = currentPage.next()
-//                print("GESTURE FEATURE COMPLETED: \(RotationCondition.gestureFeatureCompleted)")
-              
-            }
-            .onAppear{
-                showOrHideGlobe(false)
-            }
-            .bold()
-            .padding()
-            .background(Color.cyan)
-            .cornerRadius(10)
-            .shadow(radius: 5)
+                .padding()
+            Button("Next", action: next)
+                .padding()
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray2)).shadow(radius: 5)).padding(40)
         .onAppear{
-            isDoingTask = false
-            showTaskContent = false
             updateAttachmentView()
-            showOrHideGlobe(false)
-            //            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
-        }
-        .onDisappear{
-            showOrHideGlobe(false)
-            //            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
-            
+            hideGlobe()
         }
         .background(RoundedRectangle(cornerRadius: 15)
             .fill(Color(.systemGray4))
@@ -110,38 +35,56 @@ struct ConfirmationPage: View {
     }
     
     private func updateAttachmentView() {
-            switch currentPage {
-            case .positionComparison:
-                model.attachmentView = .position
-            case .rotationComparison:
-                model.attachmentView = .rotation
-            case .scaleComparison:
-                model.attachmentView = .scale
-            case .outroForm:
-                model.attachmentView = .all
-            default:
-                model.attachmentView = .none
-            }
-        }
-    @MainActor
-    private func showOrHideGlobe(_ show: Bool) {
-        Task { @MainActor in
-            if show {
-                guard !model.configuration.isVisible else { return }
-                model.load(
-                        firstGlobe: model.globe,
-                        secondGlobe: model.secondGlobe,
-                        openImmersiveSpaceAction: openImmersiveSpaceAction
-                    )
-            } else {
-                guard model.configuration.isVisible else { return }
-                model.hideGlobe(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
-            }
+        switch currentPage {
+        case .positionComparison:
+            model.attachmentView = .position
+        case .rotationComparison:
+            model.attachmentView = .rotation
+        case .scaleComparison:
+            model.attachmentView = .scale
+        case .outroForm:
+            model.attachmentView = .all
+        default:
+            model.attachmentView = .none
         }
     }
     
-//    Switching between one-handed or two-handed rotation
-//    func updateRotationConditions() {
-//        model.updateRotationConditions()
-//    }
+    private func next() {
+        studyModel.proceedToNextExperiment = false
+        PositionCondition.positionConditionsCompleted = false
+        ScaleCondition.scaleConditionsCompleted = false
+        RotationCondition.rotationConditionsCompleted = false
+        switch currentPage {
+        case .confirmationPagePosition2:
+            do {
+                try PositionCondition.savePositionConditions(positionConditions: model.positionConditions)
+            } catch {
+                print("Failed to save position conditions: \(error.localizedDescription)")
+            }
+            
+        case .confirmationPageRotation2:
+            do {
+                try RotationCondition.saveRotationConditions(rotationConditions: model.rotationConditions)
+            } catch {
+                print("Failed to save rotation conditions: \(error.localizedDescription)")
+            }
+        case .confirmationPageScale2:
+            do {
+                try ScaleCondition.saveScaleConditions(scaleConditions: model.scaleConditions)
+            } catch {
+                print("Failed to save position conditions: \(error.localizedDescription)")
+            }
+        default:
+            break
+        }
+        model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
+        currentPage = currentPage.next()
+    }
+    
+    private func hideGlobe() {
+        Task { @MainActor in
+            guard model.configuration.isVisible else { return }
+            model.hideGlobe(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
+        }
+    }
 }
