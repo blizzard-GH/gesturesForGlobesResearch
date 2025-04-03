@@ -48,6 +48,7 @@ enum Page: String, CaseIterable {
                       description: String,
                       instructions: String,
                       taskGesture: GestureType)? {
+        let instructions = "When you are ready, press the button below."
         switch self {
         case .positionExperiment1:
             return ("1",
@@ -56,7 +57,7 @@ enum Page: String, CaseIterable {
                     "positioning",
                     "move",
                     "Positioning the globe",
-                    "Whenever you're ready, Press the button below.",
+                    instructions,
                     .position)
         case .positionExperiment2:
             return ("2",
@@ -65,7 +66,7 @@ enum Page: String, CaseIterable {
                     "positioning",
                     "move",
                     "Positioning the globe",
-                    "Whenever you're ready, Press the button below.",
+                    instructions,
                     .position)
 
         case .rotationExperiment1:
@@ -75,7 +76,7 @@ enum Page: String, CaseIterable {
                     "rotating",
                     "rotate",
                     "Rotating the globe",
-                    "Whenever you're ready, Press the button below.",
+                    instructions,
                     .rotation)
         case .rotationExperiment2:
             return ("4",
@@ -84,7 +85,7 @@ enum Page: String, CaseIterable {
                     "rotating",
                     "rotate",
                     "Rotating the globe",
-                    "Whenever you're ready, Press the button below.",
+                    instructions,
                     .rotation)
 
         case .scaleExperiment1:
@@ -94,7 +95,7 @@ enum Page: String, CaseIterable {
                     "scaling",
                     "scale",
                     "Scaling the globe",
-                    "Whenever you're ready, Press the button below.",
+                    instructions,
                     .scale)
         case .scaleExperiment2:
             return ("6",
@@ -103,9 +104,8 @@ enum Page: String, CaseIterable {
                     "scaling",
                     "scale",
                     "Scaling the globe",
-                    "Whenever you're ready, Press the button below.",
+                    instructions,
                     .scale)
-
         default:
             return nil
         }
@@ -129,17 +129,17 @@ enum Page: String, CaseIterable {
         case .positionTraining:
             return ("position gesture",
                     "drag gesture",
-                    "Look at the globes, pinch your finger, and hold it while dragging your pinching fingers to match the transparent globe position")
+                    "Look at the globes, then pinch and hold your fingers while moving to match the transparent globe position.")
             
         case .rotationTraining1, .rotationTraining2:
             return ("rotation gesture",
                     "rotate gesture",
-                    "Look at the globe, make a rotation gesture")
+                    "Look at the globes, then make a rotate with one or two hands.")
             
         case .scaleTraining:
             return ("scale gesture",
                     "magnify gesture",
-                    "Look at the globes, make a magnify gesture by using both hands")
+                    "Look at the globes, then adjust the size of the globe using both hands.")
         default:
             return ("None",
                     "None",
@@ -151,7 +151,7 @@ enum Page: String, CaseIterable {
     var name: String {
         switch self {
         case .welcome:
-            "1. Welcome display"
+            "1. Welcome Display"
         case .introForm:
             "2. Introduction"
         case .positionTraining:
@@ -207,7 +207,7 @@ enum Page: String, CaseIterable {
         case .outroForm:
             "28. Gesture Combination Form"
         case .thankYou:
-            "29. Thank You display"
+            "29. Thank You"
         }
     }
     
