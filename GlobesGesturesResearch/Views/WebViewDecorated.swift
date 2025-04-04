@@ -57,7 +57,7 @@ struct WebViewDecorated: View {
             loadingInformation = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 webViewStatus = .loading
-                updateAttachmentView()
+                model.updateAttachmentView(for: currentPage)
                 showOrHideGlobe(true)
                 loadingInformation = false
             }
@@ -89,21 +89,6 @@ struct WebViewDecorated: View {
             }
         }
     }
-    
-    private func updateAttachmentView() {
-            switch currentPage {
-            case .positionComparison:
-                model.attachmentView = .position
-            case .rotationComparison:
-                model.attachmentView = .rotation
-            case .scaleComparison:
-                model.attachmentView = .scale
-            case .outroForm:
-                model.attachmentView = .all
-            default:
-                model.attachmentView = .none
-            }
-        }
 }
 
 //#if DEBUG

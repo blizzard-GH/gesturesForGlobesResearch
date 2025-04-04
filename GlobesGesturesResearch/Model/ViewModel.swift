@@ -85,6 +85,27 @@ class ViewModel: CustomDebugStringConvertible {
     @MainActor
     var attachmentView: AttachmentView? = .none
     
+    @MainActor
+    func updateAttachmentView(for page: Page) {
+        func setAttachmentView(_ attachmentView: AttachmentView) {
+            if self.attachmentView != attachmentView {
+                self.attachmentView = attachmentView
+            }
+        }
+        switch page {
+        case .positionComparison:
+            setAttachmentView(.position)
+        case .rotationComparison:
+            setAttachmentView(.rotation)
+        case .scaleComparison:
+            setAttachmentView(.scale)
+        case .outroForm:
+            setAttachmentView(.all)
+        default:
+            attachmentView = .none
+        }
+    }
+    
     // MARK: - Visible Globes
     
     @MainActor

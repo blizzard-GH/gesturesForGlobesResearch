@@ -24,7 +24,7 @@ struct ConfirmationPage: View {
         }
         .padding()
         .onAppear{
-            updateAttachmentView()
+            model.updateAttachmentView(for: currentPage)
             hideGlobe()
         }
         .background(RoundedRectangle(cornerRadius: 15)
@@ -32,21 +32,6 @@ struct ConfirmationPage: View {
             .shadow(radius: 5))
         .padding(40)
         .frame(minWidth: 800, minHeight: 800)
-    }
-    
-    private func updateAttachmentView() {
-        switch currentPage {
-        case .positionComparison:
-            model.attachmentView = .position
-        case .rotationComparison:
-            model.attachmentView = .rotation
-        case .scaleComparison:
-            model.attachmentView = .scale
-        case .outroForm:
-            model.attachmentView = .all
-        default:
-            model.attachmentView = .none
-        }
     }
     
     private func next() {

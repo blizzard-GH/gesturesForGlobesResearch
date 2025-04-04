@@ -17,19 +17,6 @@ struct TrainingView: View {
     
     @Binding var currentPage: Page
     
-    private func updateAttachmentView() {
-        switch currentPage {
-        case .positionComparison:
-            model.attachmentView = .position
-        case .rotationComparison:
-            model.attachmentView = .rotation
-        case .scaleComparison:
-            model.attachmentView = .scale
-        default:
-            model.attachmentView = .none
-        }
-    }
-    
     var body: some View {
         VStack {
             if loadingInformation {
@@ -55,7 +42,7 @@ struct TrainingView: View {
         .onAppear{
             loadingInformation = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                updateAttachmentView()
+                model.updateAttachmentView(for: currentPage)
                 showOrHideGlobe(true)
                 loadingInformation = false
             }
