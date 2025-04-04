@@ -14,11 +14,10 @@ struct ContentView: View {
     
     /// The currently displayed  page
     @Binding var currentPage: Page
-
     
     /// Track web page loading errors and completion of Google Forms
     @State private var webViewStatus = WebViewStatus.loading
-        
+    
     var body: some View {
         pageViewForCurrentPage
             .id(currentPage)
@@ -37,33 +36,74 @@ struct ContentView: View {
                 }
             }
             .overlay(alignment: .bottomLeading) {
-                Menu(content: {
-                    ForEach(Page.allCases.reversed(), id: \.rawValue) { page in
-                        Button("\(page.name)") {
-                            currentPage = page
-                        }
-                    }
-                }, label: {
-                    Label("Page", systemImage: "ellipsis")
-                        .labelStyle(.iconOnly)
-                })
-                .padding(24)
-                .foregroundStyle(.secondary)
+                pageMenu
             }
             .onAppear{
                 _ = SoundManager.shared
-//                model.updatePositionConditions(currentPage: currentPage)
-//                model.updateRotationConditions(currentPage: currentPage)
-//                model.updateScaleConditions(currentPage: currentPage)
             }
             .onChange(of: currentPage) {
-                _ = SoundManager.shared
                 model.updatePositionConditions(currentPage: currentPage)
                 model.updateRotationConditions(currentPage: currentPage)
                 model.updateScaleConditions(currentPage: currentPage)
             }
     }
-
+    
+    @ViewBuilder
+    private var pageMenu: some View {
+        Menu(content: {
+            Section("Intro") {
+                pageButton(.welcome)
+                pageButton(.introForm)
+            }
+            Section("Position") {
+                pageButton(.positionTraining)
+                pageButton(.positionExperiment1)
+                pageButton(.confirmationPagePosition1)
+                pageButton(.positionExperimentForm1)
+                pageButton(.positionExperiment2)
+                pageButton(.confirmationPagePosition2)
+                pageButton(.positionExperimentForm2)
+                pageButton(.positionComparison)
+            }
+            Section("Rotation") {
+                pageButton(.rotationTraining1)
+                pageButton(.rotationExperiment1)
+                pageButton(.confirmationPageRotation1)
+                pageButton(.rotationExperimentForm1)
+                pageButton(.rotationTraining2)
+                pageButton(.rotationExperiment2)
+                pageButton(.confirmationPageRotation2)
+                pageButton(.rotationExperimentForm2)
+                pageButton(.rotationComparison)
+            }
+            Section("Scale") {
+                pageButton(.scaleTraining)
+                pageButton(.scaleExperiment1)
+                pageButton(.confirmationPageScale1)
+                pageButton(.scaleExperimentForm1)
+                pageButton(.scaleExperiment2)
+                pageButton(.confirmationPageScale2)
+                pageButton(.scaleExperimentForm2)
+                pageButton(.scaleComparison)
+            }
+            Section("Outro") {
+                pageButton(.outroForm)
+                pageButton(.thankYou)
+            }
+        }, label: {
+            Label("Page", systemImage: "ellipsis")
+                .labelStyle(.iconOnly)
+        })
+        .padding(24)
+        .foregroundStyle(.secondary)
+    }
+    
+    @ViewBuilder
+    private func pageButton(_ page: Page) -> some View {
+        Button("\(page.name)") {
+            currentPage = page
+        }
+    }
     
     /// A SwiftUI view for the current page.
     @ViewBuilder
@@ -102,8 +142,3 @@ struct ContentView: View {
         }
     }
 }
-
-//#Preview(windowStyle: .automatic) {
-//    ContentView()
-//        .environment(ViewModel.preview)
-//}
