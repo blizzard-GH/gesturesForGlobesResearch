@@ -23,7 +23,7 @@ struct ThankYouView: View {
         .onAppear{
             SoundManager.shared.playSound(named: "enterAndExit")
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                dismissWindow(id: "Second Window")
+                dismissWindow(id: ViewModel.windowID)
             }
         }
     }

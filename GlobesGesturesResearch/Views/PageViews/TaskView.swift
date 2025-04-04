@@ -39,7 +39,7 @@ struct TaskView: View {
                                 initializeGlobes()
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                                dismissWindow(id: "Second Window")
+                                dismissWindow(id: ViewModel.windowID)
                             }
                         }
                     } else {

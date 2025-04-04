@@ -360,7 +360,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
                                 studyModel.currentPage = studyModel.currentPage.next()
                             }
-                            openWindow(id: "Second Window")
+                            openWindow(id: ViewModel.windowID)
                         }
                     }
                 }
@@ -491,7 +491,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
                                 studyModel.currentPage = studyModel.currentPage.next()
                             }
-                            openWindow(id: "Second Window")
+                            openWindow(id: ViewModel.windowID)
                         }
                     }
                 }
@@ -627,7 +627,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
                                 studyModel.currentPage = studyModel.currentPage.next()
                             }
-                            openWindow(id: "Second Window")
+                            openWindow(id: ViewModel.windowID)
                         }
                     }
                 }
@@ -989,7 +989,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
                                     studyModel.currentPage = studyModel.currentPage.next()
                                 }
-                                openWindow(id: "Second Window")
+                                openWindow(id: ViewModel.windowID)
                             }
                         }
                     }

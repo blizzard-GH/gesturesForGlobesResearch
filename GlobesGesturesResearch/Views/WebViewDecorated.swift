@@ -64,8 +64,6 @@ struct WebViewDecorated: View {
         }
         .onDisappear{
             showOrHideGlobe(false)
-//            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
-
         }
     }
     

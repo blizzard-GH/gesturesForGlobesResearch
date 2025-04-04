@@ -26,6 +26,8 @@ class ViewModel: CustomDebugStringConvertible {
     @MainActor
     static let shared = ViewModel()
     
+    static let windowID = "Second Window"
+    
     @MainActor
     let globe = Globe(
         name: "Main Globe",
