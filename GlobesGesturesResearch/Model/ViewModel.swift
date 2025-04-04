@@ -168,9 +168,8 @@ class ViewModel: CustomDebugStringConvertible {
     /// Open an immersive space if there is none and show a globe. Once loaded, the globe fades in.
     /// - Parameters:
     ///   - globe: The globe to show.
-    ///   - selection: When selection is not `none`, the texture is replaced periodically with a texture of one of the globes in the selection.
     ///   - openImmersiveSpaceAction: Action for opening an immersive space.
-    func loadSingleGlobe(firstGlobe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) {
+    func loadSingleGlobe(globe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) {
         guard !immersiveSpaceIsShown else { return }
         
         configuration.isLoading = true
@@ -180,7 +179,7 @@ class ViewModel: CustomDebugStringConvertible {
         Task {
             openImmersiveGlobeSpace(openImmersiveSpaceAction)
             
-            async let firstGlobeEntity = GlobeEntity(globe: firstGlobe)
+            async let firstGlobeEntity = GlobeEntity(globe: globe)
             
             do {
                 let entities = try await (firstGlobeEntity)
@@ -244,7 +243,7 @@ class ViewModel: CustomDebugStringConvertible {
     @MainActor
     /// Hide a globe. The globe shrinks down.
     /// - Parameter id: Globe ID
-    func hideGlobe(dismissImmersiveSpaceAction: DismissImmersiveSpaceAction) {
+    func hideGlobes(dismissImmersiveSpaceAction: DismissImmersiveSpaceAction) {
         let duration = 0.666
         
         // shrink the globe

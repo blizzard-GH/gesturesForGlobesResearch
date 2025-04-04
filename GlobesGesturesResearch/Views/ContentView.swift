@@ -23,13 +23,12 @@ struct ContentView: View {
             .id(currentPage)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onChange(of: webViewStatus) {
-                // after a Google Forms is submitted, show the Google Forms web page for a few seconds,
+                // after a Google Forms is submitted, show the Google Forms web page for a one second,
                 // then switch to the next page.
                 if case .googleFormsSubmitted(let message) = webViewStatus {
                     if let page = Page.pageForGoogleForm(confirmationMessage: message) {
                         Task { @MainActor in
-                            let delay = UInt64(Page.googleFormsDelayAfterSubmission) * 1_000_000_000
-                            try await Task.sleep(nanoseconds: delay)
+                            try await Task.sleep(for: .seconds(1))
                             self.currentPage = page.next()
                         }
                     }

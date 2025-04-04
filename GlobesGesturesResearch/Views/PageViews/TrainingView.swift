@@ -43,32 +43,19 @@ struct TrainingView: View {
             loadingInformation = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 model.updateAttachmentView(for: currentPage)
-                showOrHideGlobe(true)
+                if !model.configuration.isVisible {
+                    model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+                }
                 loadingInformation = false
             }
         }
         .onDisappear{
-            showOrHideGlobe(false)
+            if model.configuration.isVisible {
+                model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
+            }
         }
         .frame(minWidth: 800)
         .padding()
-    }
-    
-    
-    @MainActor
-    private func showOrHideGlobe(_ show: Bool) {
-        Task { @MainActor in
-            if show {
-                guard !model.configuration.isVisible else { return }
-                model.loadSingleGlobe(
-                    firstGlobe: model.globe,
-                    openImmersiveSpaceAction: openImmersiveSpaceAction
-                )
-            } else {
-                guard model.configuration.isVisible else { return }
-                model.hideGlobe(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
-            }
-        }
     }
 }
 

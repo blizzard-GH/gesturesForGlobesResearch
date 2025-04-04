@@ -69,7 +69,7 @@ struct ConfirmationPage: View {
     private func hideGlobe() {
         Task { @MainActor in
             guard model.configuration.isVisible else { return }
-            model.hideGlobe(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
+            model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
         }
     }
 }

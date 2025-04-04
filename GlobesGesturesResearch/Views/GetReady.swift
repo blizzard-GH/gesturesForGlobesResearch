@@ -10,6 +10,7 @@ import SwiftUI
 struct GetReady: View {
     @Binding var currentPage: Page
     
+    /// Callback that is run after `countdown` seconds.
     var onCountdownComplete: () -> Void
     var countdown = 1.0
     
