@@ -52,7 +52,7 @@ enum Page: String, CaseIterable {
         switch self {
         case .positionExperiment1:
             return ("1",
-                    "I",
+                    "1",
                     "position",
                     "positioning",
                     "move",
@@ -61,7 +61,7 @@ enum Page: String, CaseIterable {
                     .position)
         case .positionExperiment2:
             return ("2",
-                    "I",
+                    "1",
                     "position",
                     "positioning",
                     "move",
@@ -71,7 +71,7 @@ enum Page: String, CaseIterable {
 
         case .rotationExperiment1:
             return ("3",
-                    "II",
+                    "2",
                     "orientation",
                     "rotating",
                     "rotate",
@@ -80,7 +80,7 @@ enum Page: String, CaseIterable {
                     .rotation)
         case .rotationExperiment2:
             return ("4",
-                    "II",
+                    "2",
                     "orientation",
                     "rotating",
                     "rotate",
@@ -90,7 +90,7 @@ enum Page: String, CaseIterable {
 
         case .scaleExperiment1:
             return ("5",
-                    "III",
+                    "3",
                     "size",
                     "scaling",
                     "scale",
@@ -99,7 +99,7 @@ enum Page: String, CaseIterable {
                     .scale)
         case .scaleExperiment2:
             return ("6",
-                    "III",
+                    "3",
                     "size",
                     "scaling",
                     "scale",
@@ -128,17 +128,17 @@ enum Page: String, CaseIterable {
         switch self {
         case .positionTraining:
             return ("positioning globes",
-                    "drag gesture",
+                    "position",
                     "Look at the globes, then pinch and hold your fingers while moving to match the transparent globe position.")
             
         case .rotationTraining1, .rotationTraining2:
             return ("rotating globes",
-                    "rotate gesture",
+                    "rotate",
                     "Look at the globes, then make a rotate with one or two hands.")
             
         case .scaleTraining:
             return ("scaling globes",
-                    "magnify gesture",
+                    "scale",
                     "Look at the globes, then adjust the size of the globe using both hands.")
         default:
             return ("None",

@@ -40,16 +40,14 @@ struct TrainingView: View {
                 let details = currentPage.trainingDetails
                 Text(" Training for \(details.trainingType).")
                     .font(.title)
-                    .multilineTextAlignment(.center)
                     .padding()
-                Text("""
-                Make yourself familiar with \(details.gestureMethod). 
-                """)
-                .font(.headline)
-                .multilineTextAlignment(.center)
-                .padding()
+                
+                Text("Learn how to \(details.gestureMethod) the globe.")
+                    .font(.headline)
+                    .padding()
                 
                 NextPageButton(page: $currentPage, title: "Finish Training")
+                    .padding()
                 
                 Spacer().frame(height: 50)
             }
