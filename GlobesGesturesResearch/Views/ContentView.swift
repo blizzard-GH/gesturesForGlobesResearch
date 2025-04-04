@@ -36,7 +36,11 @@ struct ContentView: View {
                 }
             }
             .overlay(alignment: .bottomLeading) {
-                pageMenu
+                HStack {
+                    pageMenu
+                    Text("\(currentPage.index + 1)")
+                        .foregroundStyle(.secondary)
+                }
             }
             .onAppear{
                 _ = SoundManager.shared
@@ -51,7 +55,7 @@ struct ContentView: View {
     @ViewBuilder
     private var pageMenu: some View {
         Menu(content: {
-            Section("Intro") {
+            Section("Introduction") {
                 pageButton(.welcome)
                 pageButton(.introForm)
             }
@@ -86,7 +90,7 @@ struct ContentView: View {
                 pageButton(.scaleExperimentForm2)
                 pageButton(.scaleComparison)
             }
-            Section("Outro") {
+            Section("End") {
                 pageButton(.outroForm)
                 pageButton(.thankYou)
             }
@@ -94,7 +98,7 @@ struct ContentView: View {
             Label("Page", systemImage: "ellipsis")
                 .labelStyle(.iconOnly)
         })
-        .padding(24)
+        .padding(32)
         .foregroundStyle(.secondary)
     }
     
