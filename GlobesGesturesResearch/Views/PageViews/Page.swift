@@ -127,17 +127,17 @@ enum Page: String, CaseIterable {
                           trainingDescription: String) {
         switch self {
         case .positionTraining:
-            return ("position gesture",
+            return ("positioning globes",
                     "drag gesture",
                     "Look at the globes, then pinch and hold your fingers while moving to match the transparent globe position.")
             
         case .rotationTraining1, .rotationTraining2:
-            return ("rotation gesture",
+            return ("rotating globes",
                     "rotate gesture",
                     "Look at the globes, then make a rotate with one or two hands.")
             
         case .scaleTraining:
-            return ("scale gesture",
+            return ("scaling globes",
                     "magnify gesture",
                     "Look at the globes, then adjust the size of the globe using both hands.")
         default:

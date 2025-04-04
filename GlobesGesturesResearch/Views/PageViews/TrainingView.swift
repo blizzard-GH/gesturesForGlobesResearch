@@ -12,26 +12,23 @@ struct TrainingView: View {
     @Environment(StudyModel.self) var studyModel
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
-
+    
     @State var loadingInformation: Bool = false
-    @State private var isButtonPressed: Bool = false
-
     
     @Binding var currentPage: Page
-
-    private func updateAttachmentView() {
-            switch currentPage {
-            case .positionComparison:
-                model.attachmentView = .position
-            case .rotationComparison:
-                model.attachmentView = .rotation
-            case .scaleComparison:
-                model.attachmentView = .scale
-            default:
-                model.attachmentView = .none
-            }
-        }
     
+    private func updateAttachmentView() {
+        switch currentPage {
+        case .positionComparison:
+            model.attachmentView = .position
+        case .rotationComparison:
+            model.attachmentView = .rotation
+        case .scaleComparison:
+            model.attachmentView = .scale
+        default:
+            model.attachmentView = .none
+        }
+    }
     
     var body: some View {
         VStack {
@@ -41,7 +38,7 @@ struct TrainingView: View {
                     .padding()
             } else {
                 let details = currentPage.trainingDetails
-                Text(" Training session for \(details.trainingType).")
+                Text(" Training for \(details.trainingType).")
                     .font(.title)
                     .multilineTextAlignment(.center)
                     .padding()
@@ -52,54 +49,21 @@ struct TrainingView: View {
                 .multilineTextAlignment(.center)
                 .padding()
                 
-                Button(action: {
-                    withAnimation(.easeInOut(duration: 0.3)) {
-                                        currentPage = currentPage.next() //
-                                        isButtonPressed.toggle()
-                                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            isButtonPressed = false
-                        }
-                    }
-                }){
-                    Text("Finish training")
-                        .bold()
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .cornerRadius(15)
-                        .shadow(color: .black, radius: 1)
-                }
-//                .padding(40)
-                .background(Color.blue)
-                .cornerRadius(20)
-                .scaleEffect(isButtonPressed ? 1.1 : 1.0)
-                .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
+                NextPageButton(page: $currentPage, title: "Finish Training")
                 
                 Spacer().frame(height: 50)
-                
-//            Debugging:
-//                Text("immersiveSpaceIsShown : \(model.immersiveSpaceIsShown)")
-//                Text("model.config.isVisible : \(model.configuration.isVisible)")
             }
         }
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray2)).shadow(radius: 5))
         .onAppear{
             loadingInformation = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 updateAttachmentView()
                 showOrHideGlobe(true)
-                //            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
                 loadingInformation = false
             }
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//                model.firstGlobeEntity?.respawnGlobe("Left")
-//                model.secondGlobeEntity?.respawnGlobe("Right")
-//            }
         }
         .onDisappear{
             showOrHideGlobe(false)
-//            model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
         }
         .frame(minWidth: 800)
         .padding()
@@ -112,9 +76,9 @@ struct TrainingView: View {
             if show {
                 guard !model.configuration.isVisible else { return }
                 model.loadSingleGlobe(
-                        firstGlobe: model.globe,
-                        openImmersiveSpaceAction: openImmersiveSpaceAction
-                    )
+                    firstGlobe: model.globe,
+                    openImmersiveSpaceAction: openImmersiveSpaceAction
+                )
             } else {
                 guard model.configuration.isVisible else { return }
                 model.hideGlobe(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
@@ -124,8 +88,9 @@ struct TrainingView: View {
 }
 
 
-//#Preview {
-//    TrainingView(currentPage: .constant(.positionTraining))
-//        .environment(ViewModel())
-//        .environment(StudyModel())
-//}
+#Preview {
+    TrainingView(currentPage: .constant(.positionTraining))
+        .glassBackgroundEffect()
+        .environment(ViewModel())
+        .environment(StudyModel())
+}
