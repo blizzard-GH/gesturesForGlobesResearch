@@ -12,38 +12,14 @@ struct ThankYouView: View {
     @Environment(\.dismissWindow) private var dismissWindow
 
     var body: some View {
-        ZStack{
-            VStack{
-                Spacer()
-            }
-            .frame(maxWidth: 750, maxHeight: 350)
-            .padding(40)
-            .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray4)).shadow(radius: 5))
-            .padding(.horizontal, 40)
+        VStack(spacing : 40) {
+            Label("You have reached the end.", systemImage: "checkmark.circle.fill")
             
-            VStack(spacing : 40) {
-                HStack{
-                    Text("You have reached the end.")
-                        .font(.body)
-                        .padding()
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(.green)
-                }
-                Text("Thank you for participating in this study!")
-                    .font(.largeTitle)
-                    .foregroundColor(.yellow)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                
-                Text("Your feedback is invaluable in improving future research!")
-                    .font(.body)
-                    .foregroundColor(.teal)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-            }
-            .padding(40)
-            .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray2)).shadow(radius: 5))
+            Text("Thank you for participating in this study!")
+                .font(.largeTitle)
+                .padding()
         }
+        .padding(40)
         .onAppear{
             SoundManager.shared.playSound(named: "enterAndExit")
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
@@ -54,6 +30,8 @@ struct ThankYouView: View {
 
 }
 
-//#Preview{
-//    ThankYouView()
-//}
+#Preview{
+    ThankYouView()
+        .padding()
+        .glassBackgroundEffect()
+}
