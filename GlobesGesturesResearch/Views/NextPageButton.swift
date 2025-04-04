@@ -24,7 +24,9 @@ struct NextPageButton: View {
                 page = page.next()
             }
         })
-        .tint(.accentColor)    }
+        .tint(.accentColor)
+        .controlSize(.large)
+    }
 }
 
 #Preview {
