@@ -55,7 +55,7 @@
 		97C198B12D2ED20100655735 /* ScaleMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C198B02D2ED1FA00655735 /* ScaleMatcher.swift */; };
 		97C37A202D12787200E628CB /* GetReady.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C37A1F2D12786F00E628CB /* GetReady.swift */; };
 		97C37A222D12DDCB00E628CB /* PositionMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C37A212D12DDC700E628CB /* PositionMatcher.swift */; };
-		97D85BFD2D09299300C9D1B9 /* StartTaskButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D85BFC2D09298B00C9D1B9 /* StartTaskButton.swift */; };
+		97D85BFD2D09299300C9D1B9 /* StartExperimentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D85BFC2D09298B00C9D1B9 /* StartExperimentButton.swift */; };
 		97D8C1382D3FF3070079F1C1 /* GestureStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D8C1372D3FF3020079F1C1 /* GestureStatus.swift */; };
 		97D8C13A2D3FF4A50079F1C1 /* TaskStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D8C1392D3FF4A10079F1C1 /* TaskStorageManager.swift */; };
 		97E82D482D564F9600A94A2F /* ScaleCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E82D472D564F9100A94A2F /* ScaleCondition.swift */; };
@@ -119,7 +119,7 @@
 		97C198B02D2ED1FA00655735 /* ScaleMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleMatcher.swift; sourceTree = "<group>"; };
 		97C37A1F2D12786F00E628CB /* GetReady.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReady.swift; sourceTree = "<group>"; };
 		97C37A212D12DDC700E628CB /* PositionMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionMatcher.swift; sourceTree = "<group>"; };
-		97D85BFC2D09298B00C9D1B9 /* StartTaskButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTaskButton.swift; sourceTree = "<group>"; };
+		97D85BFC2D09298B00C9D1B9 /* StartExperimentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartExperimentButton.swift; sourceTree = "<group>"; };
 		97D8C1372D3FF3020079F1C1 /* GestureStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureStatus.swift; sourceTree = "<group>"; };
 		97D8C1392D3FF4A10079F1C1 /* TaskStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStorageManager.swift; sourceTree = "<group>"; };
 		97E82D472D564F9100A94A2F /* ScaleCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleCondition.swift; sourceTree = "<group>"; };
@@ -311,7 +311,7 @@
 				9798B5362D11C7EF00D0319C /* Instruction.swift */,
 				7DD56E5A2C6CC830009AE72C /* ContentView.swift */,
 				7D60D9502CF84F2900D7C8AD /* PageViews */,
-				97D85BFC2D09298B00C9D1B9 /* StartTaskButton.swift */,
+				97D85BFC2D09298B00C9D1B9 /* StartExperimentButton.swift */,
 				7DD56E5C2C6CC830009AE72C /* ImmersiveView.swift */,
 				7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */,
 				7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */,
@@ -461,7 +461,7 @@
 				7DE6A6F72C6E1DCC00E0D956 /* WebViewDecorated.swift in Sources */,
 				7D2F439F2D3B50A300928A68 /* Matcher.swift in Sources */,
 				972409E62D5AE97A0006A1CD /* TrainingView.swift in Sources */,
-				97D85BFD2D09299300C9D1B9 /* StartTaskButton.swift in Sources */,
+				97D85BFD2D09299300C9D1B9 /* StartExperimentButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

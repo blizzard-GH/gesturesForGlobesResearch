@@ -15,7 +15,7 @@ struct StartExperimentButton: View {
     var body: some View {
         VStack {
             Button(action: { isDoingTask = true }) {
-                Label("Start Task", systemImage: "globe")
+                Label("Start Experiment", systemImage: "globe")
             }
             .tint(.accentColor)
             
