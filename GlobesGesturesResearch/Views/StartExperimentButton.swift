@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StartTaskButton: View {
+struct StartExperimentButton: View {
     @Environment(ViewModel.self) private var model
     
     @Binding var isDoingTask: Bool
@@ -27,7 +27,7 @@ struct StartTaskButton: View {
 }
 
 #Preview {
-    StartTaskButton(isDoingTask: .constant(false))
+    StartExperimentButton(isDoingTask: .constant(false))
         .padding()
         .glassBackgroundEffect()
         .environment(ViewModel())
