@@ -46,13 +46,9 @@ struct WelcomeView: View {
                 Text("To move the window, look at the bar below the window, then pinch and move.")
                     .multilineTextAlignment(.center)
                 
-                Button("Start", action: {
+                NextPageButton(page: $currentPage, title: "Start") {
                     TaskStorageManager.shared.initialiseUserID()
-                    withAnimation(.easeInOut(duration: 0.3)) {
-                        currentPage = currentPage.next()
-                    }
-                })
-                .tint(.accentColor)
+                }
             }
             .padding(100)
         }
