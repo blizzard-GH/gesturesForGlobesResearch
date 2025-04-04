@@ -133,25 +133,13 @@ class ViewModel: CustomDebugStringConvertible {
     ///   - globe: The globe to show.
     ///   - selection: When selection is not `none`, the texture is replaced periodically with a texture of one of the globes in the selection.
     ///   - openImmersiveSpaceAction: Action for opening an immersive space.
-    func load(
-        firstGlobe: Globe,
-        secondGlobe: Globe,
-        openImmersiveSpaceAction: OpenImmersiveSpaceAction
-    ) {
+    func load(firstGlobe: Globe, secondGlobe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) {
         guard !immersiveSpaceIsShown else { return }
         
         configuration.isLoading = true
         configuration.isVisible = false
         configuration.showAttachment = false
         
-        //        Task {
-        //            openImmersiveGlobeSpace(openImmersiveSpaceAction)
-        //            let globeEntity = try await GlobeEntity(globe: globe)
-        //            Task { @MainActor in
-        ////                ViewModel.shared.storeGlobeEntity(globeEntity)
-        //                self.storeGlobeEntity(globeEntity, globe: globe)
-        //            }
-        //        }
         Task {
             openImmersiveGlobeSpace(openImmersiveSpaceAction)
             
@@ -161,7 +149,7 @@ class ViewModel: CustomDebugStringConvertible {
             do {
                 let entities = try await (firstGlobeEntity, secondGlobeEntity)
                 Task { @MainActor in
-                    storeGlobeEntity(entities.0, entities.1)
+                    storeGlobeEntities(entities.0, entities.1)
                     
                     entities.0.respawnGlobe(.left)
                     entities.1.respawnGlobe(.right)
@@ -172,9 +160,6 @@ class ViewModel: CustomDebugStringConvertible {
                 }
             }
         }
-        
-//        firstGlobeEntity?.respawnGlobe("Left")
-//        secondGlobeEntity?.respawnGlobe("Right")
     }
     
     @MainActor
@@ -183,24 +168,13 @@ class ViewModel: CustomDebugStringConvertible {
     ///   - globe: The globe to show.
     ///   - selection: When selection is not `none`, the texture is replaced periodically with a texture of one of the globes in the selection.
     ///   - openImmersiveSpaceAction: Action for opening an immersive space.
-    func loadSingleGlobe(
-        firstGlobe: Globe,
-        openImmersiveSpaceAction: OpenImmersiveSpaceAction
-    ) {
+    func loadSingleGlobe(firstGlobe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) {
         guard !immersiveSpaceIsShown else { return }
         
         configuration.isLoading = true
         configuration.isVisible = false
         configuration.showAttachment = false
-        
-        //        Task {
-        //            openImmersiveGlobeSpace(openImmersiveSpaceAction)
-        //            let globeEntity = try await GlobeEntity(globe: globe)
-        //            Task { @MainActor in
-        ////                ViewModel.shared.storeGlobeEntity(globeEntity)
-        //                self.storeGlobeEntity(globeEntity, globe: globe)
-        //            }
-        //        }
+
         Task {
             openImmersiveGlobeSpace(openImmersiveSpaceAction)
             
@@ -224,21 +198,14 @@ class ViewModel: CustomDebugStringConvertible {
     @MainActor
     /// Called after a  globe entity has been loaded.
     /// - Parameter globeEntity: The globe entity to add.
-    //    func storeGlobeEntity(_ globeEntity: GlobeEntity, globe: Globe) {
-    func storeGlobeEntity(_ firstEntity: GlobeEntity, _ secondEntity: GlobeEntity) {
-        //        if globe == self.globe {
-        //            self.globeEntity = globeEntity
-        //        } else {
-        //            self.secondGlobeEntity = globeEntity
-        //        }
+    func storeGlobeEntities(_ firstEntity: GlobeEntity, _ secondEntity: GlobeEntity) {
         // Configure and position first globe
-        //        firstEntity.scale = [0.01, 0.01, 0.01]
         firstEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
         
         // Configure and position second globe
-        //        secondEntity.scale = [0.01, 0.01, 0.01]
         secondEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: 0.5)
         
+#warning("This seems to always set opacity to 1")
         if secondEntity.components.has(OpacityComponent.self) {
             secondEntity.components[OpacityComponent.self] = OpacityComponent(opacity: 1.0)
         } else {
@@ -249,30 +216,12 @@ class ViewModel: CustomDebugStringConvertible {
         secondGlobeEntity = secondEntity
         configuration.isLoading = false
         configuration.isVisible = true
-        
-        // Set the initial scale and position for a move-in animation.
-        // The animation is started by a DidAddEntity event when the immersive space has been created and the globe has been added to the scene.
-        //        globeEntity.scale = [0.01, 0.01, 0.01]
-        //        globeEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 2)
-        
-        // Rotate the central meridian to the camera, to avoid showing the empty hemisphere on the backside of some globes.
-        // The central meridian is at [-1, 0, 0], because the texture u-coordinate with lon = -180° starts at the x-axis.
-        //        if let viewDirection = CameraTracker.shared.viewDirection {
-        //            var orientation = simd_quatf(from: [-1, 0, 0], to: -viewDirection)
-        //            orientation = GlobeEntity.orientToNorth(orientation: globeEntity.orientation)
-        //            globeEntity.orientation = orientation
-        //        }
-        
-        // store the globe entity
-        //        self.globeEntity = globeEntity
     }
     
     @MainActor
     /// Called after a  globe entity has been loaded.
     /// - Parameter globeEntity: The globe entity to add.
-    //    func storeGlobeEntity(_ globeEntity: GlobeEntity, globe: Globe) {
     func storeSingleGlobeEntity(_ firstEntity: GlobeEntity) {
-
         firstEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
                 
         firstGlobeEntity = firstEntity
@@ -319,15 +268,6 @@ class ViewModel: CustomDebugStringConvertible {
     var immersiveSpaceIsShown = false
     
     @MainActor
-    private func forceCloseImmersiveSpace(_ action: DismissImmersiveSpaceAction) {
-        guard immersiveSpaceIsShown else { return }
-        Task {
-            immersiveSpaceIsShown = false
-            await action()
-        }
-    }
-    
-    @MainActor
     private func openImmersiveGlobeSpace(_ action: OpenImmersiveSpaceAction) {
         guard !immersiveSpaceIsShown else { return }
         Task {
@@ -361,9 +301,10 @@ class ViewModel: CustomDebugStringConvertible {
             configuration.isVisible = false
             firstGlobeEntity = nil
             secondGlobeEntity = nil
-            print("Immersive space closed")
         }
     }
+    
+    // MARK: - Error Handling
     
     /// Error to show in an alert dialog.
     @MainActor
@@ -412,6 +353,8 @@ class ViewModel: CustomDebugStringConvertible {
         
         return description
     }
+    
+    // MARK: - Gestures
     
     func loadGestureConditions() {
         do {
