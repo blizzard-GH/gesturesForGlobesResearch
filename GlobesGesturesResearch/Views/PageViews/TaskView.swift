@@ -43,7 +43,7 @@ struct TaskView: View {
                             }
                         }
                     } else {
-                        Instruction(currentPage: $currentPage)
+                        InstructionView(currentPage: $currentPage)
                     }
                 }
             } else {
@@ -105,6 +105,8 @@ struct TaskView: View {
 
 #Preview {
     TaskView(currentPage: .constant(.positionExperiment2))
+        .padding()
+        .glassBackgroundEffect()
         .environment(ViewModel())
         .environment(StudyModel())
 }
