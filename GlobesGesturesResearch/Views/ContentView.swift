@@ -54,11 +54,11 @@ struct ContentView: View {
     @ViewBuilder
     private var pageMenu: some View {
         Menu(content: {
-            Section("Introduction") {
+            Section {
                 pageButton(.welcome)
                 pageButton(.introForm)
             }
-            Section("Position") {
+            Menu("3–10 Position") {
                 pageButton(.positionTraining)
                 pageButton(.positionExperiment1)
                 pageButton(.confirmationPagePosition1)
@@ -68,7 +68,7 @@ struct ContentView: View {
                 pageButton(.positionExperimentForm2)
                 pageButton(.positionComparison)
             }
-            Section("Rotation") {
+            Menu("11–19 Rotation") {
                 pageButton(.rotationTraining1)
                 pageButton(.rotationExperiment1)
                 pageButton(.confirmationPageRotation1)
@@ -79,7 +79,7 @@ struct ContentView: View {
                 pageButton(.rotationExperimentForm2)
                 pageButton(.rotationComparison)
             }
-            Section("Scale") {
+            Menu("20–27 Scale") {
                 pageButton(.scaleTraining)
                 pageButton(.scaleExperiment1)
                 pageButton(.confirmationPageScale1)
@@ -89,7 +89,7 @@ struct ContentView: View {
                 pageButton(.scaleExperimentForm2)
                 pageButton(.scaleComparison)
             }
-            Section("End") {
+            Section {
                 pageButton(.outroForm)
                 pageButton(.thankYou)
             }
