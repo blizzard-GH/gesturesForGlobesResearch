@@ -373,7 +373,6 @@ private struct GlobeGesturesModifier: ViewModifier {
             .onChanged { value in
                 Task { @MainActor in
                     guard let globeEntity = value.entity as? GlobeEntity else { return }
-//                    EXPERIMENTAL: below restricts the simultaneous gestures between rotation and scaling
                     guard !state.isRotating, !rotationState.isActive else {
                         log("exit magnify")
                         return
@@ -429,6 +428,37 @@ private struct GlobeGesturesModifier: ViewModifier {
                             )
                         } else {
                             globeEntity.scale = [scale, scale, scale]
+                        }
+                        
+                        // This function below adjusts second globe's position according to the scale of the first globe
+                        if let secondGlobeEntity = model.secondGlobeEntity {
+                            
+                            let defaultRadius = model.globe.radius
+                            
+                            let globesdistance = abs(globeEntity.position.x - secondGlobeEntity.position.x)
+                            
+                            let secondGlobeScale = (secondGlobeEntity.scale.x + secondGlobeEntity.scale.y + secondGlobeEntity.scale.z) / 3.0
+                            let secondRadius = secondGlobeScale * defaultRadius
+
+                            let currentRadius = scale * defaultRadius
+                            
+                            let middleOffset: Float = 3.5
+                            
+                            let requiredDistance = currentRadius + secondRadius + middleOffset
+                            
+                            var secondGlobeNewPosition = secondGlobeEntity.position(relativeTo: nil)
+                            
+                            if (requiredDistance != globesdistance) && (currentRadius > middleOffset) {
+                                if secondGlobeEntity.position.x >= globeEntity.position.x {
+                                    secondGlobeNewPosition.x = globeEntity.position.x + (requiredDistance * (requiredDistance > globesdistance ? 1 : -1))
+                                } else {
+                                    secondGlobeNewPosition.x = globeEntity.position.x - (requiredDistance * (requiredDistance > globesdistance ? 1 : -1))
+                                }
+                            }
+                                                        
+                            secondGlobeEntity.animateTransform(orientation: secondGlobeEntity.orientation,
+                                                                position: secondGlobeNewPosition,
+                                                                duration: animationDuration)
                         }
                     }
                     
@@ -1042,6 +1072,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         let rotation = simd_mul(localRotationSinceStart, localRotationAtGestureStart)
                         
                         // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
+                        // below is the function to make the second globe moves along with first globe
                         if let firstGlobeEntity = model.firstGlobeEntity, let secondGlobeEntity = model.secondGlobeEntity {
                             
                             if globeEntity == model.firstGlobeEntity{
