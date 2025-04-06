@@ -999,7 +999,7 @@ private struct GlobeGesturesModifier: ViewModifier {
             }
     }
         
-    /// Helper gesture to reposition the globe in scaling and rotating
+    /// Helper gesture to reposition the globe in scaling
     private var dragHelperGesture: some Gesture {
         DragGesture(minimumDistance: 0.0)
             .targetedToAnyEntity()
@@ -1042,7 +1042,19 @@ private struct GlobeGesturesModifier: ViewModifier {
                         let rotation = simd_mul(localRotationSinceStart, localRotationAtGestureStart)
                         
                         // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
-                        globeEntity.animateTransform(orientation: rotation, position: position, duration: animationDuration)
+                        if let firstGlobeEntity = model.firstGlobeEntity, let secondGlobeEntity = model.secondGlobeEntity {
+                            
+                            if globeEntity == model.firstGlobeEntity{
+                                globeEntity.animateTransform(orientation: rotation, position: position, duration: animationDuration)
+                                let secondGlobeNewPosition = secondGlobeEntity.position(relativeTo: nil) + (position - firstGlobeEntity.position(relativeTo: nil))
+                                secondGlobeEntity.animateTransform(orientation: rotation, position: secondGlobeNewPosition, duration: animationDuration)
+                            }
+                            else {
+                                globeEntity.animateTransform(orientation: rotation, position: position, duration: animationDuration)
+                                let firstGlobeNewPosition = firstGlobeEntity.position(relativeTo: nil) + (position - secondGlobeEntity.position(relativeTo: nil))
+                                firstGlobeEntity.animateTransform(orientation: rotation, position: firstGlobeNewPosition, duration: animationDuration)
+                            }
+                        }
                     }
                 }
             }
