@@ -88,6 +88,9 @@ class ViewModel: CustomDebugStringConvertible {
     var attachmentView: AttachmentView? = .none
     
     @MainActor
+    var globesInProximity: Bool = false
+    
+    @MainActor
     func updateAttachmentView(for page: Page) {
         func setAttachmentView(_ attachmentView: AttachmentView) {
             if self.attachmentView != attachmentView {
