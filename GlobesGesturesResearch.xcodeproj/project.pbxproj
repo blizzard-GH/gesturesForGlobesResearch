@@ -132,6 +132,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		976AAE0F2DA224E80014B397 /* Videos */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Videos; sourceTree = "<group>"; };
 		976EF9942D87A560008A56DA /* Controllers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Controllers; sourceTree = "<group>"; };
 		976EF9952D87B057008A56DA /* Sounds */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Sounds; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -241,6 +242,7 @@
 				7DD56E602C6CC831009AE72C /* Preview Content */,
 				976EF9942D87A560008A56DA /* Controllers */,
 				976EF9952D87B057008A56DA /* Sounds */,
+				976AAE0F2DA224E80014B397 /* Videos */,
 			);
 			path = GlobesGesturesResearch;
 			sourceTree = "<group>";
@@ -344,6 +346,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				976AAE0F2DA224E80014B397 /* Videos */,
 				976EF9942D87A560008A56DA /* Controllers */,
 				976EF9952D87B057008A56DA /* Sounds */,
 			);
@@ -596,7 +599,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GlobesGesturesResearch/Preview Content\"";
-				DEVELOPMENT_TEAM = L8FKNLG3XM;
+				DEVELOPMENT_TEAM = P3579KHFBJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
@@ -625,7 +628,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GlobesGesturesResearch/Preview Content\"";
-				DEVELOPMENT_TEAM = L8FKNLG3XM;
+				DEVELOPMENT_TEAM = P3579KHFBJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";

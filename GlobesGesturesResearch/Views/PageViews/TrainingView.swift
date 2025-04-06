@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct TrainingView: View {
     @Environment(ViewModel.self) var model
@@ -14,6 +15,8 @@ struct TrainingView: View {
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
     
     @State var loadingInformation: Bool = false
+    @State private var player: AVPlayer? = nil
+    @State private var videoFileName: String?
     
     @Binding var currentPage: Page
     
@@ -33,6 +36,21 @@ struct TrainingView: View {
                     .font(.headline)
                     .padding()
                 
+                if let player = player {
+                    VideoPlayer(player: player)
+                        .frame(width: 640, height: 360)
+                        .cornerRadius(16)
+                        .padding()
+                        .onAppear {
+                            player.seek(to: .zero)
+                            player.play()
+                        }
+                } else {
+                    Text("Video unavailable")
+                        .foregroundColor(.gray)
+                        .padding()
+                }
+                
                 NextPageButton(page: $currentPage, title: "Finish Training")
                     .padding()
                 
@@ -41,6 +59,12 @@ struct TrainingView: View {
         }
         .onAppear{
             loadingInformation = true
+            videoFilenameSwitcher(model: model)
+            if let videoName = videoFileName {
+                self.player = VideoManager.shared.player(for: videoName)
+            } else {
+                self.player = nil
+            }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 model.updateAttachmentView(for: currentPage)
                 if !model.configuration.isVisible {
@@ -56,6 +80,24 @@ struct TrainingView: View {
         }
         .frame(minWidth: 800)
         .padding()
+    }
+    
+    func videoFilenameSwitcher(model: ViewModel) {
+        switch currentPage {
+        case .positionTraining:
+            videoFileName = "positioning"
+        case .rotationTraining1, .rotationTraining2:
+            if model.oneHandedRotationGesture {
+                videoFileName = "rotating1"
+            } else {
+                videoFileName = "rotating2"
+            }
+        case .scaleTraining:
+            videoFileName = "scaling"
+        default:
+            videoFileName = nil
+        }
+        
     }
 }
 
