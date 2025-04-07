@@ -17,14 +17,11 @@ class VideoManager {
     private init() {}
 
     func player(for videoName: String) -> AVPlayer? {
-        // If it's already loaded, return it
         if let player = players[videoName] {
             return player
         }
 
-        // Otherwise, try to load and cache it
         guard let videoURL = Bundle.main.url(forResource: videoName, withExtension: "mp4") else {
-            print("Video file \(videoName).mp4 not found")
             return nil
         }
 
