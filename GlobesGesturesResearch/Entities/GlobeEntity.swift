@@ -369,11 +369,11 @@ class GlobeEntity: Entity {
         
         isInMovement = true
 //        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
-        let fixedRotationY = Float.pi
-        let newOrientation = simd_quatf(angle: fixedRotationY, axis: SIMD3<Float>(0, 1, 0))
+//        let fixedRotationY = Float.pi
+//        let newOrientation = simd_quatf(angle: fixedRotationY, axis: SIMD3<Float>(0, 1, 0))
         
         animateTransform(
-            orientation: newOrientation,
+//            orientation: newOrientation,
             position: newCoordinate,
             duration: 0.2)
         
