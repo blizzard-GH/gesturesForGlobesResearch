@@ -367,8 +367,13 @@ private struct GlobeGesturesModifier: ViewModifier {
                     SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .position) {
-                        model.firstGlobeEntity?.refineGlobePosition(model.firstGlobeEntity?.lastGlobeCounterReposition ?? SIMD3<Float>(0,0.9,-0.5))
-                        model.secondGlobeEntity?.refineGlobePosition(model.firstGlobeEntity?.lastGlobeReposition ?? SIMD3<Float>(0,0.9,-0.5))
+                        if studyModel.positionTaskRepetitionCount % 2 != 0 {
+                            model.firstGlobeEntity?.refineGlobePosition(model.firstGlobeEntity?.lastGlobeCounterReposition ?? SIMD3<Float>(0,0.9,-0.5))
+                            model.secondGlobeEntity?.refineGlobePosition(model.firstGlobeEntity?.lastGlobeReposition ?? SIMD3<Float>(0,0.9,-0.5))
+                        } else {
+                            model.firstGlobeEntity?.refineGlobePosition(model.firstGlobeEntity?.lastGlobeReposition ?? SIMD3<Float>(0,0.9,-0.5))
+                            model.secondGlobeEntity?.refineGlobePosition(model.firstGlobeEntity?.lastGlobeCounterReposition ?? SIMD3<Float>(0,0.9,-0.5))
+                        }
                     } else {
                         let counterPosition = model.firstGlobeEntity?.repositionGlobe()
                         PositionCondition.positionConditionsSetter(for: model.positionConditions,
@@ -519,13 +524,21 @@ private struct GlobeGesturesModifier: ViewModifier {
                     SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .scale) {
-                        model.firstGlobeEntity?.respawnGlobe(.rightClose)
-                        model.secondGlobeEntity?.respawnGlobe(.leftClose)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            let counterScale = model.firstGlobeEntity?.rescaleGlobe()
-                            model.secondGlobeEntity?.animateTransform(scale: counterScale, duration: 0.2)
+                        if studyModel.scaleTaskRepetitionCount % 2 != 0 {
+                            model.firstGlobeEntity?.respawnGlobe(.rightClose)
+                            model.secondGlobeEntity?.respawnGlobe(.leftClose)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                let counterScale = model.firstGlobeEntity?.rescaleGlobe()
+                                model.secondGlobeEntity?.animateTransform(scale: counterScale, duration: 0.2)
+                            }
+                        } else {
+                            model.firstGlobeEntity?.respawnGlobe(.leftClose)
+                            model.secondGlobeEntity?.respawnGlobe(.rightClose)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                let counterScale = model.firstGlobeEntity?.rescaleGlobe()
+                                model.secondGlobeEntity?.animateTransform(scale: counterScale, duration: 0.2)
+                            }
                         }
-
                     } else {
                         model.firstGlobeEntity?.respawnGlobe(.leftClose)
                         model.secondGlobeEntity?.respawnGlobe(.rightClose)
@@ -657,11 +670,20 @@ private struct GlobeGesturesModifier: ViewModifier {
                     SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
                     if studyModel.isTaskRepeated(gestureType: .rotation) {
-                        model.firstGlobeEntity?.respawnGlobe(.rightClose)
-                        model.secondGlobeEntity?.respawnGlobe(.leftClose)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
-                            model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.2)
+                        if studyModel.rotationTaskRepetitionCount % 2 != 0 {
+                            model.firstGlobeEntity?.respawnGlobe(.rightClose)
+                            model.secondGlobeEntity?.respawnGlobe(.leftClose)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                                model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.2)
+                            }
+                        } else {
+                            model.firstGlobeEntity?.respawnGlobe(.leftClose)
+                            model.secondGlobeEntity?.respawnGlobe(.rightClose)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                                model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.2)
+                            }
                         }
                     } else {
                         model.firstGlobeEntity?.respawnGlobe(.leftClose)
@@ -1019,11 +1041,20 @@ private struct GlobeGesturesModifier: ViewModifier {
                         SoundManager.shared.playSound(named: "correct")
                         studyModel.currentTask = nil
                         if studyModel.isTaskRepeated(gestureType: .rotation) {
-                            model.firstGlobeEntity?.respawnGlobe(.rightClose)
-                            model.secondGlobeEntity?.respawnGlobe(.leftClose)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
-                                model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.2)
+                            if studyModel.rotationTaskRepetitionCount % 2 != 0 {
+                                model.firstGlobeEntity?.respawnGlobe(.rightClose)
+                                model.secondGlobeEntity?.respawnGlobe(.leftClose)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                                    model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.2)
+                                }
+                            } else {
+                                model.firstGlobeEntity?.respawnGlobe(.leftClose)
+                                model.secondGlobeEntity?.respawnGlobe(.rightClose)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    let counterRotation = model.firstGlobeEntity?.rerotateGlobe()
+                                    model.secondGlobeEntity?.animateTransform(orientation: counterRotation, duration: 0.2)
+                                }
                             }
                         } else {
                             model.firstGlobeEntity?.respawnGlobe(.leftClose)

@@ -22,18 +22,18 @@ class StudyModel {
     /// Completed scale tasks
     private var scaleTasks: [ScaleTask] = []
     
-    private var positionTaskRepetitionCount: Int = 0
+    var positionTaskRepetitionCount: Int = 0
     
-    private var rotationTaskRepetitionCount: Int = 0
+    var rotationTaskRepetitionCount: Int = 0
     
-    private var scaleTaskRepetitionCount: Int = 0
+    var scaleTaskRepetitionCount: Int = 0
     
     var proceedToNextExperiment: Bool = false
     
             
 //    Current task
     var currentTask: StudyTask?
-    var currentPage: Page = .outroForm
+    var currentPage: Page = .positionExperiment1
 //    var currentTaskPage: Page = .welcome
     
     /// Create the next task
