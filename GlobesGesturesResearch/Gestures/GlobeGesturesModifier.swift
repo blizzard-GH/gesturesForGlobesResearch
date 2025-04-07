@@ -61,7 +61,7 @@ private struct GlobeGesturesModifier: ViewModifier {
         var previousLocation3D: Point3D? = nil
         
         /// This var marks the proximity distance of globes
-        let inProximityRange: Float = 0.5
+        let inProximityRange: Float = 0.75
         
         /// Temporary entity for reference during gestures (frame of reference for x-y axes)
         var rotatedEntity: Entity? = nil
@@ -332,16 +332,19 @@ private struct GlobeGesturesModifier: ViewModifier {
 //                        }
                         
                         // This function applies transparency to second globe if it is in proximity to the first globe
-                        let globesDistance = simd_length(originalTransform.translation - targetTransform.translation)
+                        let globesDistance = simd_distance(originalTransform.translation,targetTransform.translation)
                         
                         if let secondGlobeEntity = model.secondGlobeEntity {
-                            if state.inProximityRange < globesDistance {
+                            if globesDistance < state.inProximityRange {
+                                print("Getting close")
                                 model.globesInProximity = true
                                 if secondGlobeEntity.components.has(OpacityComponent.self) {
                                     secondGlobeEntity.components[OpacityComponent.self] = OpacityComponent(opacity: 0.6)
                                 } else {
                                     secondGlobeEntity.components.set(OpacityComponent(opacity: 1.0))
                                 }
+                            } else {
+                                model.globesInProximity = false
                             }
                         }
                     }
