@@ -16,8 +16,11 @@ struct ConfirmationPage: View {
     
     var body: some View {
         VStack{
-            Text("Task finished")
+            Text("Experiment finished")
                 .font(.largeTitle)
+                .padding()
+            Text("The next section is questionnaire.")
+                .font(.subheadline)
                 .padding()
             Button("Next", action: next)
                 .padding()
