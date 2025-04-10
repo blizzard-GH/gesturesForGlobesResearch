@@ -23,6 +23,7 @@ struct NextPageButton: View {
             withAnimation(.easeInOut(duration: 0.3)) {
                 page = page.next()
             }
+            action?()
         })
         .tint(.accentColor)
         .controlSize(.large)
