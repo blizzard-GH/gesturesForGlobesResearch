@@ -209,12 +209,12 @@ class ViewModel: CustomDebugStringConvertible {
         // Configure and position second globe
         secondEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: 0.5)
         
-#warning("This seems to always set opacity to 1")
-        if secondEntity.components.has(OpacityComponent.self) {
-            secondEntity.components[OpacityComponent.self] = OpacityComponent(opacity: 1.0)
-        } else {
-            secondEntity.components.set(OpacityComponent(opacity: 1.0))
-        }
+//#warning("This seems to always set opacity to 1")
+//        if secondEntity.components.has(OpacityComponent.self) {
+//            secondEntity.components[OpacityComponent.self] = OpacityComponent(opacity: 1.0)
+//        } else {
+//            secondEntity.components.set(OpacityComponent(opacity: 1.0))
+//        }
         
         firstGlobeEntity = firstEntity
         secondGlobeEntity = secondEntity

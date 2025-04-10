@@ -35,11 +35,8 @@ struct TaskView: View {
                         GetReady(currentPage: $currentPage) {
                           
                             showTaskContent = true
-                            
-                            // show the globes
-                            if !model.configuration.isVisible {
-                                model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
-                            }
+                            // Show the globe
+                            showOrHideGlobe(true)
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                                 initializeGlobes()
@@ -62,9 +59,7 @@ struct TaskView: View {
             isDoingTask = false
             showTaskContent = false
             model.updateAttachmentView(for: currentPage)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
-            }
+            showOrHideGlobe(false)
         }
     }
     
@@ -91,6 +86,24 @@ struct TaskView: View {
                                                  lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
         default:
             break
+        }
+    }
+    
+    
+
+    private func showOrHideGlobe(_ show: Bool) {
+        Task { @MainActor in
+            if show {
+                guard !model.configuration.isVisible else { return }
+                model.load(
+                    firstGlobe: model.globe,
+                    secondGlobe: model.secondGlobe,
+                    openImmersiveSpaceAction: openImmersiveSpaceAction
+                )
+            } else {
+                guard model.configuration.isVisible else { return }
+                model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
+            }
         }
     }
 }

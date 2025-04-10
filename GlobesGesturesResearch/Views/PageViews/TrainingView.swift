@@ -37,51 +37,59 @@ struct TrainingView: View {
                     .font(.headline)
                     .padding()
                 
-                if let player = player {
+                if let player {
                     VideoPlayer(player: player)
                         .frame(width: 640, height: 360)
                         .cornerRadius(16)
                         .padding()
-                        .onAppear {
-                            player.seek(to: .zero)
-                            player.play()
-                        }
                 } else {
-                    Text("Video unavailable")
-                        .foregroundColor(.gray)
-                        .padding()
+                    ProgressView("Loading video...")
+                        .frame(height: 360)
                 }
                 
-                NextPageButton(page: $currentPage, title: "Finish Training")
+                NextPageButton(page: $currentPage, title: "Finish Training"){
+                    Task{@MainActor in
+                        player?.pause()
+                        player = nil
+                    }
+                    showOrHideGlobe(false)
+                }
                     .padding()
                 
                 Spacer().frame(height: 50)
             }
         }
+        .task{
+            await setupVideo()
+        }
         .onAppear{
-            loadingInformation = true
             videoFilenameSwitcher(model: model)
-            if let videoName = videoFileName {
-                self.player = VideoManager.shared.player(for: videoName)
-            } else {
-                self.player = nil
-            }
+            loadingInformation = true
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                 model.updateAttachmentView(for: currentPage)
-                if !model.configuration.isVisible {
-                    model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                showOrHideGlobe(true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     initialiseTrainingGlobes()
                     loadingInformation = false
                 }
             }
         }
         .onDisappear{
-            model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
+
+            showOrHideGlobe(false)
+           
         }
         .frame(minWidth: 800)
         .padding()
+    }
+    
+    @MainActor
+    private func setupVideo() async {
+        let newPlayer = VideoManager.shared.player(for: videoFileName ?? "SGpositioning")
+        await newPlayer?.seek(to: .zero)
+        newPlayer?.play()
+        self.player = newPlayer
     }
     
     func videoFilenameSwitcher(model: ViewModel) {
@@ -107,7 +115,7 @@ struct TrainingView: View {
         else {
             print("First globe does not exist")
             return}
-        firstGlobeEntity.respawnGlobe(.center)
+        firstGlobeEntity.respawnGlobe(.left)
         guard let secondGlobeEntity = model.secondGlobeEntity else {
             print("Second globe does not exist")
             return }
@@ -133,6 +141,22 @@ struct TrainingView: View {
     func initialGlobesScaling(first firstGlobeEntity: GlobeEntity,second secondGlobeEntity: GlobeEntity) {
         firstGlobeEntity.animateTransform(scale: 0.5, duration: 0.2)
         secondGlobeEntity.animateTransform(scale: 1.5, duration: 0.2)
+    }
+    
+    @MainActor
+    private func showOrHideGlobe(_ show: Bool) {
+        Task { @MainActor in
+            if show {
+                guard !model.configuration.isVisible else { return }
+                model.loadSingleGlobe(
+                    globe: model.globe,
+                    openImmersiveSpaceAction: openImmersiveSpaceAction
+                )
+            } else {
+                guard model.configuration.isVisible else { return }
+                model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
+            }
+        }
     }
 }
 

@@ -12,22 +12,14 @@ import AVFoundation
 class VideoManager {
     static let shared = VideoManager()
 
-    private var players: [String: AVPlayer] = [:]
-
     private init() {}
 
     func player(for videoName: String) -> AVPlayer? {
-        if let player = players[videoName] {
-            return player
-        }
-
         guard let videoURL = Bundle.main.url(forResource: videoName, withExtension: "mp4") else {
             return nil
         }
 
-        let player = AVPlayer(url: videoURL)
-        players[videoName] = player
-        return player
+        return AVPlayer(url: videoURL)
     }
 
     func playVideo(named videoName: String) {

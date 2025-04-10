@@ -31,6 +31,7 @@ extension View {
 private struct GlobeGesturesModifier: ViewModifier {
     
     @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
     
     /// State variables for drag, magnify, scale and 3D rotation gestures. State variables for the y-rotation gesture is separate.
     struct GlobeGestureState {
@@ -654,11 +655,15 @@ private struct GlobeGesturesModifier: ViewModifier {
                         globeEntity.animationPlaybackController?.stop()
                         globeEntity.orientation = simd_quatf(newOrientation)
                     }
-                    var originalTransform = globeEntity.transform
+                    let currentScale = globeEntity.scale
+                    let averageScale = (currentScale.x + currentScale.y + currentScale.z) / 3
+                    
+//                    var originalTransform = globeEntity.transform
 
-                    originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
+                    let originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
                                                                          position: globeEntity.position,
                                                                          duration: animationDuration)
+                    globeEntity.scale = SIMD3<Float>(repeating: averageScale)
                     
                     guard var currentTask = studyModel.currentTask else {
                         log("Error: currentTask is nil. Cannot add action")
@@ -872,11 +877,17 @@ private struct GlobeGesturesModifier: ViewModifier {
                             globeEntity.animationPlaybackController?.stop()
                             globeEntity.orientation = simd_quatf(newOrientation)
                             
-                            var originalTransform = globeEntity.transform
+                            let currentScale = globeEntity.scale
+                            let averageScale = (currentScale.x + currentScale.y + currentScale.z) / 3
+                            
+//                            var originalTransform = globeEntity.transform
 
-                            originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
+                            let originalTransform = globeEntity.animateTransform(scale: averageScale, orientation: globeEntity.orientation,
                                                                                  position: globeEntity.position,
                                                                                  duration: animationDuration)
+                            
+                            globeEntity.scale = SIMD3<Float>(repeating: averageScale)
+
                             
                             guard var currentTask = studyModel.currentTask else {
                                 log("Error: currentTask is nil. Cannot add action")
@@ -1406,11 +1417,14 @@ private struct GlobeGesturesModifier: ViewModifier {
                         globeEntity.orientation = simd_quatf(newOrientation)
                     }
 
-                    var originalTransform = globeEntity.transform
-
-                    originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
+                    let currentScale = globeEntity.scale
+                    let averageScale = (currentScale.x + currentScale.y + currentScale.z) / 3
+                    
+                    let originalTransform = globeEntity.animateTransform(scale: averageScale, orientation: globeEntity.orientation,
                                                                          position: globeEntity.position,
                                                                          duration: animationDuration)
+                    
+                    globeEntity.scale = SIMD3<Float>(repeating: averageScale)
                     
                     guard var currentTask = studyModel.currentTask else {
                         log("Error: currentTask is nil. Cannot add action")
@@ -1530,11 +1544,17 @@ private struct GlobeGesturesModifier: ViewModifier {
                             globeEntity.animationPlaybackController?.stop()
                             globeEntity.orientation = simd_quatf(newOrientation)
                             
-                            var originalTransform = globeEntity.transform
-
-                            originalTransform = globeEntity.animateTransform(orientation: globeEntity.orientation,
+                            let currentScale = globeEntity.scale
+                            let averageScale = (currentScale.x + currentScale.y + currentScale.z) / 3
+                            
+//                            globeEntity.move(to: updatedTransform, relativeTo: nil, duration: animationDuration)
+                            
+                            let originalTransform = globeEntity.animateTransform(scale: averageScale,
+                                                                                 orientation: globeEntity.orientation,
                                                                                  position: globeEntity.position,
                                                                                  duration: animationDuration)
+                            
+                            globeEntity.scale = SIMD3<Float>(repeating: averageScale)
                             
                             guard var currentTask = studyModel.currentTask else {
                                 log("Error: currentTask is nil. Cannot add action")

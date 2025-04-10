@@ -11,6 +11,7 @@ struct ConfirmationPage: View {
     @Environment(ViewModel.self) var model
     @Environment(StudyModel.self) var studyModel
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
+    @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     
     @Binding var currentPage: Page
     
@@ -27,11 +28,10 @@ struct ConfirmationPage: View {
         }
         .padding()
         .onAppear{
-            model.updateAttachmentView(for: currentPage)
-            hideGlobe()
+            showOrHideGlobe(false)
         }
         .onDisappear{
-            hideGlobe()
+            showOrHideGlobe(false)
         }
         .background(RoundedRectangle(cornerRadius: 15)
             .fill(Color(.systemGray4))
@@ -68,16 +68,24 @@ struct ConfirmationPage: View {
         default:
             break
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-            model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
-        }
+        showOrHideGlobe(false)
         currentPage = currentPage.next()
     }
     
-    private func hideGlobe() {
+    @MainActor
+    private func showOrHideGlobe(_ show: Bool) {
         Task { @MainActor in
-            guard model.configuration.isVisible else { return }
-            model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
+            if show {
+                guard !model.configuration.isVisible else { return }
+                model.load(
+                    firstGlobe: model.globe,
+                    secondGlobe: model.secondGlobe,
+                    openImmersiveSpaceAction: openImmersiveSpaceAction
+                )
+            } else {
+                guard model.configuration.isVisible else { return }
+                model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
+            }
         }
     }
 }
