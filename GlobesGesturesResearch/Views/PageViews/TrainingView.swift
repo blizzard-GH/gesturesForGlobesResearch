@@ -15,9 +15,8 @@ struct TrainingView: View {
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
     
-    @State var loadingInformation: Bool = false
+    @State private var loadingInformation: Bool = false
     @State private var player: AVPlayer? = nil
-    @State private var videoFileName: String?
     
     @Binding var currentPage: Page
     
@@ -47,25 +46,19 @@ struct TrainingView: View {
                         .frame(height: 360)
                 }
                 
-                NextPageButton(page: $currentPage, title: "Finish Training"){
-                    Task{@MainActor in
-                        player?.pause()
-                        player = nil
-                    }
-                    showOrHideGlobe(false)
-                }
+                NextPageButton(page: $currentPage, title: "Finish Training")
                     .padding()
                 
                 Spacer().frame(height: 50)
             }
         }
-        .task{
+        .task {
             await setupVideo()
+            player?.play()
         }
         .onAppear{
-            videoFilenameSwitcher(model: model)
             loadingInformation = true
-
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                 model.updateAttachmentView(for: currentPage)
                 showOrHideGlobe(true)
@@ -76,9 +69,8 @@ struct TrainingView: View {
             }
         }
         .onDisappear{
-
             showOrHideGlobe(false)
-           
+            player?.pause()
         }
         .frame(minWidth: 800)
         .padding()
@@ -86,39 +78,38 @@ struct TrainingView: View {
     
     @MainActor
     private func setupVideo() async {
-        let newPlayer = VideoManager.shared.player(for: videoFileName ?? "SGpositioning")
-        await newPlayer?.seek(to: .zero)
-        newPlayer?.play()
-        self.player = newPlayer
+        if let videoURL = Bundle.main.url(forResource: videoFilename, withExtension: "mp4") {
+            player = AVPlayer(url: videoURL)
+        }
     }
     
-    func videoFilenameSwitcher(model: ViewModel) {
+    private var videoFilename: String {
         switch currentPage {
         case .positionTraining:
-            videoFileName = "SGpositioning"
+            "SGpositioning"
         case .rotationTraining1, .rotationTraining2:
             if model.oneHandedRotationGesture {
-                videoFileName = "SGrotating1"
+                "SGrotating1"
             } else {
-                videoFileName = "SGrotating2"
+                "SGrotating2"
             }
         case .scaleTraining:
-            videoFileName = "SGscaling"
+            "SGscaling"
         default:
-            videoFileName = nil
+            "SGpositioning"
         }
-        
     }
     
     func initialiseTrainingGlobes() {
-        guard let firstGlobeEntity = model.firstGlobeEntity
-        else {
+        guard let firstGlobeEntity = model.firstGlobeEntity else {
             print("First globe does not exist")
-            return}
+            return
+        }
         firstGlobeEntity.respawnGlobe(.left)
         guard let secondGlobeEntity = model.secondGlobeEntity else {
             print("Second globe does not exist")
-            return }
+            return
+        }
         firstGlobeEntity.respawnGlobe(.left)
         secondGlobeEntity.respawnGlobe(.right)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
@@ -135,7 +126,7 @@ struct TrainingView: View {
         firstGlobeEntity.respawnGlobe(.leftClose)
         secondGlobeEntity.respawnGlobe(.rightClose)
         firstGlobeEntity.animateTransform(scale: secondGlobeEntity.scale.x, orientation: simd_quatf(angle: 6 * Float.pi, axis: SIMD3<Float>(1, 1, 0)), duration: 0.2)
-
+        
     }
     
     func initialGlobesScaling(first firstGlobeEntity: GlobeEntity,second secondGlobeEntity: GlobeEntity) {
