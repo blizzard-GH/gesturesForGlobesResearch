@@ -17,7 +17,7 @@ struct InstructionView: View {
                     .font(.title2)
                     .padding(.top, 20)
                 
-                Text("\(details.mainVerb.capitalized) the main globe to match the \(details.mainFeature) of the transparent globe.")
+                Text("\(details.mainVerb.capitalized) the main globe to match the \(details.mainFeature) of the monochrome globe.")
                     .padding()
             }
         }

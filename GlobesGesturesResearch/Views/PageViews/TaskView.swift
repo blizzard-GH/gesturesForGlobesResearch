@@ -33,6 +33,7 @@ struct TaskView: View {
                 } else {
                     if !showTaskContent {
                         GetReady(currentPage: $currentPage) {
+                          
                             showTaskContent = true
                             
                             // show the globes
@@ -43,7 +44,7 @@ struct TaskView: View {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                                 initializeGlobes()
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 dismissWindow(id: ViewModel.windowID)
                             }
                         }
@@ -61,7 +62,7 @@ struct TaskView: View {
             isDoingTask = false
             showTaskContent = false
             model.updateAttachmentView(for: currentPage)
-            if model.configuration.isVisible {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                 model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
             }
         }

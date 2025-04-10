@@ -30,6 +30,9 @@ struct ConfirmationPage: View {
             model.updateAttachmentView(for: currentPage)
             hideGlobe()
         }
+        .onDisappear{
+            hideGlobe()
+        }
         .background(RoundedRectangle(cornerRadius: 15)
             .fill(Color(.systemGray4))
             .shadow(radius: 5))
@@ -65,7 +68,9 @@ struct ConfirmationPage: View {
         default:
             break
         }
-        model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
+        }
         currentPage = currentPage.next()
     }
     

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVKit
+import RealityFoundation
 
 struct TrainingView: View {
     @Environment(ViewModel.self) var model
@@ -65,18 +66,19 @@ struct TrainingView: View {
             } else {
                 self.player = nil
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                 model.updateAttachmentView(for: currentPage)
                 if !model.configuration.isVisible {
                     model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
                 }
-                loadingInformation = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                    initialiseTrainingGlobes()
+                    loadingInformation = false
+                }
             }
         }
         .onDisappear{
-            if model.configuration.isVisible {
-                model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
-            }
+            model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
         }
         .frame(minWidth: 800)
         .padding()
@@ -85,19 +87,52 @@ struct TrainingView: View {
     func videoFilenameSwitcher(model: ViewModel) {
         switch currentPage {
         case .positionTraining:
-            videoFileName = "positioning"
+            videoFileName = "SGpositioning"
         case .rotationTraining1, .rotationTraining2:
             if model.oneHandedRotationGesture {
-                videoFileName = "rotating1"
+                videoFileName = "SGrotating1"
             } else {
-                videoFileName = "rotating2"
+                videoFileName = "SGrotating2"
             }
         case .scaleTraining:
-            videoFileName = "scaling"
+            videoFileName = "SGscaling"
         default:
             videoFileName = nil
         }
         
+    }
+    
+    func initialiseTrainingGlobes() {
+        guard let firstGlobeEntity = model.firstGlobeEntity
+        else {
+            print("First globe does not exist")
+            return}
+        firstGlobeEntity.respawnGlobe(.center)
+        guard let secondGlobeEntity = model.secondGlobeEntity else {
+            print("Second globe does not exist")
+            return }
+        firstGlobeEntity.respawnGlobe(.left)
+        secondGlobeEntity.respawnGlobe(.right)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+            if currentPage == .rotationTraining1 || currentPage == .rotationTraining2 {
+                initialGlobesRotation(first: firstGlobeEntity, second: secondGlobeEntity)
+            }
+            if currentPage == .scaleTraining {
+                initialGlobesScaling(first: firstGlobeEntity, second: secondGlobeEntity)
+            }
+        }
+    }
+    
+    func initialGlobesRotation(first firstGlobeEntity: GlobeEntity,second secondGlobeEntity: GlobeEntity) {
+        firstGlobeEntity.respawnGlobe(.leftClose)
+        secondGlobeEntity.respawnGlobe(.rightClose)
+        firstGlobeEntity.animateTransform(scale: secondGlobeEntity.scale.x, orientation: simd_quatf(angle: 6 * Float.pi, axis: SIMD3<Float>(1, 1, 0)), duration: 0.2)
+
+    }
+    
+    func initialGlobesScaling(first firstGlobeEntity: GlobeEntity,second secondGlobeEntity: GlobeEntity) {
+        firstGlobeEntity.animateTransform(scale: 0.5, duration: 0.2)
+        secondGlobeEntity.animateTransform(scale: 1.5, duration: 0.2)
     }
 }
 

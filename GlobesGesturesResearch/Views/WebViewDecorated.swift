@@ -47,18 +47,17 @@ struct WebViewDecorated: View {
         .id(url)
         .onAppear{
             webViewStatus = .loading
-            model.updateAttachmentView(for: currentPage)
-            
             // show the globe
-            // async is used to prevent isVisible state and loadSinglleGlobe racing problem
+            // async is used to prevent isVisible state and loadSingleGlobe racing problem
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 if currentPage != .introForm && !model.configuration.isVisible {
                     model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+                    model.updateAttachmentView(for: currentPage)
                 }
             }
         }
         .onDisappear{
-            if currentPage != .introForm && model.configuration.isVisible {
+            if currentPage != .introForm {
                 model.hideGlobes(dismissImmersiveSpaceAction:dismissImmersiveSpaceAction)
             }
         }

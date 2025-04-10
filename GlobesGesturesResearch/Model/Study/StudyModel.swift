@@ -33,7 +33,7 @@ class StudyModel {
             
 //    Current task
     var currentTask: StudyTask?
-    var currentPage: Page = .positionExperiment1
+    var currentPage: Page = .welcome
 //    var currentTaskPage: Page = .welcome
     
     /// Create the next task
