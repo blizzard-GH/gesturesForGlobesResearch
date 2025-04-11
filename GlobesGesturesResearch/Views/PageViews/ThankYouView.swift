@@ -21,7 +21,6 @@ struct ThankYouView: View {
         }
         .padding(40)
     }
-
 }
 
 #Preview{

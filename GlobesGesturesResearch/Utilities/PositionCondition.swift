@@ -159,7 +159,7 @@ struct PositionCondition {
         try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
     }
     
-    static func positionConditionsGetter(for positionConditions: [PositionCondition], lastUsedIndex: Int) -> (rotatingGlobeList: [PositioningGesture], distance: Distance, direction: Direction){
+    static func positionConditionsGetter(for positionConditions: [PositionCondition], lastUsedIndex: Int) -> (rotatingGlobeList: [PositioningGesture], distance: Distance, direction: Direction) {
 //        var activeSubject: ScalingCondition?
         let rotatingGlobeList = positionGestureOrder.list
 //        let rotatingGlobe: RotatingGlobe = gestureFeatureCompleted ? rotatingGlobeList[0] : rotatingGlobeList[1]

@@ -13,8 +13,6 @@ struct GlobeConfiguration: Equatable {
     // The globe for this configuration
     let globe: Globe
     
-
-    
     // MARK: - Size
     
     /// Maximum diameter of globe when scaled up in meter
