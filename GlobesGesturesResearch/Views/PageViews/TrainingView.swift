@@ -90,17 +90,17 @@ struct TrainingView: View {
     private var videoFilename: String {
         switch studyModel.currentPage {
         case .positionTraining:
-            "SGpositioning"
+            "positioning"
         case .rotationTraining1, .rotationTraining2:
             if model.oneHandedRotationGesture {
-                "SGrotating1"
+                "rotating1"
             } else {
-                "SGrotating2"
+                "rotating2"
             }
         case .scaleTraining:
-            "SGscaling"
+            "scaling"
         default:
-            "SGpositioning"
+            "positioning"
         }
     }
     
