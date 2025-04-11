@@ -60,7 +60,7 @@ struct TrainingView: View {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                 model.updateAttachmentView(for: studyModel.currentPage)
-                model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+                model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
                 initialiseTrainingGlobes()
                 loadingInformation = false
                 
