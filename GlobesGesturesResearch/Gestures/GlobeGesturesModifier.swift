@@ -182,14 +182,10 @@ private struct GlobeGesturesModifier: ViewModifier {
         case .scaleTraining:
             content
                 .simultaneousGesture(magnifyTrainingGesture)
-                .simultaneousGesture(dragHelperGesture)
-        
         case    .scaleExperiment1, .scaleExperimentForm1,
                 .scaleExperiment2, .scaleExperimentForm2, .scaleComparison:
             content
-                .simultaneousGesture(magnifyGesture)
-                .simultaneousGesture(dragHelperGesture)
-        
+                .simultaneousGesture(magnifyGesture)        
         case .outroForm:
             if model.oneHandedRotationGesture {
                 content

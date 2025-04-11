@@ -59,8 +59,8 @@ struct TrainingView: View {
             player?.play()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-#warning("Load two globes for training with the actual task")
-                model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+                model.updateAttachmentView(for: studyModel.currentPage)
+                model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
                 initialiseTrainingGlobes()
                 loadingInformation = false                
             }
