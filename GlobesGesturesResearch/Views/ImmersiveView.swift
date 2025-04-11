@@ -24,8 +24,6 @@ struct ImmersiveView: View {
             
             // initialize the globes
             updateGlobeEntity(to: content, attachments: attachments)
-            
-//            _ = content.subscribe(to: SceneEvents.DidAddEntity.self, handleDidAddEntity(_:))
         } update: { content, attachments in // synchronous on MainActor
             updateGlobeEntity(to: content, attachments: attachments)
         } attachments: { // synchronous on MainActor
@@ -49,6 +47,9 @@ struct ImmersiveView: View {
                     .fixedSize()
                     .glassBackgroundEffect()
             }
+        }
+        .onAppear() {
+            model.immersiveSpaceState = .open
         }
         .globeGestures(model: model, studyModel: studyModel)
     }
@@ -117,20 +118,12 @@ struct ImmersiveView: View {
         switch model.attachmentView {
         case .position, .rotation, .scale:
             if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
-                attachmentEntity.components.set(BillboardComponent())
                 attachmentEntity.components.set(SphereLabelComponent(radius: model.globe.radius, offset: 0.1))
-                
-                attachmentEntity.transform.rotation = simd_quatf(angle: .pi, axis: [0, 1, 0])
-
                 globeEntity.addChild(attachmentEntity)
             }
         case .all:
             if let attachmentEntity = attachments.entity(for: model.attachmentView!.rawValue) {
-                attachmentEntity.components.set(BillboardComponent())
                 attachmentEntity.components.set(SphereLabelComponent(radius: model.globe.radius, offset: 0.25))
-                
-                attachmentEntity.transform.rotation = simd_quatf(angle: .pi, axis: [0, 1, 0])
-
                 globeEntity.addChild(attachmentEntity)
             }
         case .none:

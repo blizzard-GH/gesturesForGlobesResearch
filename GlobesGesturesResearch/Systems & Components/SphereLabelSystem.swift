@@ -19,19 +19,20 @@ struct SphereLabelSystem: System {
     init(scene: RealityKit.Scene) {}
 
     func update(context: SceneUpdateContext) {
+        guard let cameraPosition = CameraTracker.shared.position else { return }
+        
         for entity in context.entities(matching: Self.query, updatingSystemWhen: .rendering) {
             guard let globeEntity = entity.parent,
                   let sphereLabelComponent = entity.components[SphereLabelComponent.self] else {
                 continue
             }
             
-            let distance = sphereLabelComponent.radius + sphereLabelComponent.offset / globeEntity.transform.scale.y
-            let top = globeEntity.transform.rotation.inverse.act([0, distance, 0])
-            entity.setPosition(top, relativeTo: globeEntity)
+            let distance = sphereLabelComponent.radius * globeEntity.transform.scale.y + sphereLabelComponent.offset
+            let parentPosition = globeEntity.position(relativeTo: nil)
+            let position = [0, distance, 0] + parentPosition
+            entity.look(at: cameraPosition, from: position, relativeTo: nil, forward: .positiveZ)
             entity.setScale([1, 1, 1], relativeTo: nil)
         }
     }
 
 }
-
-
