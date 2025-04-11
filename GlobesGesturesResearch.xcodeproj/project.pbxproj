@@ -25,8 +25,6 @@
 		7D8399B42D4095DD00F08DC3 /* ThrottledArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D8399B32D4095D800F08DC3 /* ThrottledArray.swift */; };
 		7D839A132D41D3A800F08DC3 /* PositionOptionsAttachmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D839A122D41D3A800F08DC3 /* PositionOptionsAttachmentView.swift */; };
 		7D839A162D41DF4300F08DC3 /* ScaleOptionsAttachmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D839A152D41DF4300F08DC3 /* ScaleOptionsAttachmentView.swift */; };
-		7DC861442CA44E0D00D2F90F /* geo.csv in Resources */ = {isa = PBXBuildFile; fileRef = 7DC861432CA44E0D00D2F90F /* geo.csv */; };
-		7DC861462CA537A900D2F90F /* ISO 3166-1 numeric-3.asc in Resources */ = {isa = PBXBuildFile; fileRef = 7DC861452CA537A900D2F90F /* ISO 3166-1 numeric-3.asc */; };
 		7DD56E592C6CC830009AE72C /* GlobeGestureStudyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E582C6CC830009AE72C /* GlobeGestureStudyApp.swift */; };
 		7DD56E5B2C6CC830009AE72C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E5A2C6CC830009AE72C /* ContentView.swift */; };
 		7DD56E5D2C6CC830009AE72C /* ImmersiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD56E5C2C6CC830009AE72C /* ImmersiveView.swift */; };
@@ -86,8 +84,6 @@
 		7D8399B32D4095D800F08DC3 /* ThrottledArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrottledArray.swift; sourceTree = "<group>"; };
 		7D839A122D41D3A800F08DC3 /* PositionOptionsAttachmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionOptionsAttachmentView.swift; sourceTree = "<group>"; };
 		7D839A152D41DF4300F08DC3 /* ScaleOptionsAttachmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleOptionsAttachmentView.swift; sourceTree = "<group>"; };
-		7DC861432CA44E0D00D2F90F /* geo.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = geo.csv; sourceTree = "<group>"; };
-		7DC861452CA537A900D2F90F /* ISO 3166-1 numeric-3.asc */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ISO 3166-1 numeric-3.asc"; sourceTree = "<group>"; };
 		7DD56E512C6CC830009AE72C /* GlobesGesturesResearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GlobesGesturesResearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DD56E582C6CC830009AE72C /* GlobeGestureStudyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobeGestureStudyApp.swift; sourceTree = "<group>"; };
 		7DD56E5A2C6CC830009AE72C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -243,8 +239,6 @@
 				7D60D9552CF84F2C00D7C8AD /* Extensions */,
 				7DD56E822C6CCAF3009AE72C /* Utilities */,
 				7DD56E5E2C6CC831009AE72C /* Assets.xcassets */,
-				7DC861452CA537A900D2F90F /* ISO 3166-1 numeric-3.asc */,
-				7DC861432CA44E0D00D2F90F /* geo.csv */,
 				7DD56E632C6CC831009AE72C /* Info.plist */,
 				7DD56E602C6CC831009AE72C /* Preview Content */,
 				976EF9942D87A560008A56DA /* Controllers */,
@@ -403,9 +397,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				97E82D502D56537300A94A2F /* Positioning.csv in Resources */,
-				7DC861442CA44E0D00D2F90F /* geo.csv in Resources */,
 				97E82D522D56538400A94A2F /* Rotation.csv in Resources */,
-				7DC861462CA537A900D2F90F /* ISO 3166-1 numeric-3.asc in Resources */,
 				7DD56E622C6CC831009AE72C /* Preview Assets.xcassets in Resources */,
 				7DD56E5F2C6CC831009AE72C /* Assets.xcassets in Resources */,
 				97E82D4A2D564FD100A94A2F /* Scaling.csv in Resources */,
