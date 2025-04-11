@@ -36,15 +36,15 @@ struct TrainingView: View {
                     .font(.headline)
                     .padding()
                 
-                if let player {
-                    VideoPlayer(player: player)
-                        .frame(width: 640, height: 360)
-                        .cornerRadius(16)
-                        .padding()
-                } else {
-                    ProgressView("Loading video...")
-                        .frame(height: 360)
-                }
+//                if let player {
+//                    VideoPlayer(player: player)
+//                        .frame(width: 640, height: 360)
+//                        .cornerRadius(16)
+//                        .padding()
+//                } else {
+//                    ProgressView("Loading video...")
+//                        .frame(height: 360)
+//                }
                 
                 NextPageButton(page: $currentPage, title: "Finish Training")
                     .padding()
