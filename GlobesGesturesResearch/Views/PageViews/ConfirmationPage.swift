@@ -26,7 +26,7 @@ struct ConfirmationPage: View {
         }
         .padding()
         .onAppear{
-            hideGlobe()
+            model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
         }
         .background(RoundedRectangle(cornerRadius: 15)
             .fill(Color(.systemGray4))
@@ -67,12 +67,5 @@ struct ConfirmationPage: View {
             await model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
         }
         studyModel.currentPage = studyModel.currentPage.next()
-    }
-    
-    private func hideGlobe() {
-        Task { @MainActor in
-            guard model.configuration.isVisible else { return }
-            model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
-        }
     }
 }

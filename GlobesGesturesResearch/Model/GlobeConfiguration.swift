@@ -13,14 +13,7 @@ struct GlobeConfiguration: Equatable {
     // The globe for this configuration
     let globe: Globe
     
-    /// True while the globe is loading.
-    var isLoading = false
-    
-    /// True if the globe is visible.
-    var isVisible = false
-    
-    /// If true, a view is attached to the globe
-    var showAttachment = false
+
     
     // MARK: - Size
     

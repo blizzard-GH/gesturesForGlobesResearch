@@ -20,7 +20,7 @@ struct StartExperimentButton: View {
             .tint(.accentColor)
             
             ProgressView()
-                .opacity(model.configuration.isLoading ? 1 : 0)
+                .opacity(model.immersiveSpaceState != .open ? 1 : 0)
                 .padding()
         }
     }

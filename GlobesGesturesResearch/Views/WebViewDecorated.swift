@@ -48,18 +48,21 @@ struct WebViewDecorated: View {
         .onAppear{
             webViewStatus = .loading
             model.updateAttachmentView(for: currentPage)
-            let targetPages: Set<Page> = [
-                .introForm,
-                .positionExperimentForm1, .positionExperimentForm2,
-                .rotationExperimentForm1, .rotationExperimentForm2,
-                .scaleExperimentForm1, .scaleExperimentForm2
-            ]
-
-            if !targetPages.contains(currentPage) && !model.configuration.isVisible {
-                model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
-            }
+            
+#warning("Is the following needed?")
+//            let targetPages: Set<Page> = [
+//                .introForm,
+//                .positionExperimentForm1, .positionExperimentForm2,
+//                .rotationExperimentForm1, .rotationExperimentForm2,
+//                .scaleExperimentForm1, .scaleExperimentForm2
+//            ]
+//
+//            if !targetPages.contains(currentPage) && !model.configuration.isVisible {
+//                model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+//            }
         }
         .onDisappear{
+#warning("Is the following needed?")
             let targetPages: Set<Page> = [
                 .introForm,
                 .positionExperimentForm1, .positionExperimentForm2,
@@ -67,31 +70,11 @@ struct WebViewDecorated: View {
                 .scaleExperimentForm1, .scaleExperimentForm2
             ]
 
-            if !targetPages.contains(currentPage) && !model.configuration.isVisible {
+            if !targetPages.contains(currentPage) {
                 model.hideGlobes(dismissImmersiveSpaceAction:dismissImmersiveSpaceAction)
             }
         }
             
-    }
-        
-    
-    @MainActor
-    private func showOrHideGlobe(_ show: Bool) {
-        if currentPage != .introForm {
-            Task { @MainActor in
-                try await Task.sleep(nanoseconds: 100_000_000)
-                if show {
-                    guard !model.configuration.isVisible else { return }
-                    model.loadSingleGlobe(
-                        globe: model.globe,
-                        openImmersiveSpaceAction: openImmersiveSpaceAction
-                    )
-                } else {
-                    guard model.configuration.isVisible else { return }
-                    model.hideGlobes(dismissImmersiveSpaceAction:dismissImmersiveSpaceAction)
-                }
-            }
-        }
     }
 }
 

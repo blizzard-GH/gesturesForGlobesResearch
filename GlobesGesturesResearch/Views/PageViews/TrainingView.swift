@@ -60,18 +60,14 @@ struct TrainingView: View {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                 model.updateAttachmentView(for: studyModel.currentPage)
-                if !model.configuration.isVisible {
-                    model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
-                }
+                model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
                 initialiseTrainingGlobes()
                 loadingInformation = false
                 
             }
         }
         .onDisappear{
-            if model.configuration.isVisible {
-                model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
-            }
+            model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
             player?.pause()
         }
         .frame(minWidth: 800)
@@ -127,22 +123,6 @@ struct TrainingView: View {
     func initialGlobesScaling(first firstGlobeEntity: GlobeEntity,second secondGlobeEntity: GlobeEntity) {
         firstGlobeEntity.animateTransform(scale: 0.5, duration: 0.2)
         secondGlobeEntity.animateTransform(scale: 1.5, duration: 0.2)
-    }
-    
-    @MainActor
-    private func showOrHideGlobe(_ show: Bool) {
-        Task { @MainActor in
-            if show {
-                guard !model.configuration.isVisible else { return }
-                model.loadSingleGlobe(
-                    globe: model.globe,
-                    openImmersiveSpaceAction: openImmersiveSpaceAction
-                )
-            } else {
-                guard model.configuration.isVisible else { return }
-                model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
-            }
-        }
     }
 }
 

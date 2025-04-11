@@ -141,10 +141,6 @@ class ViewModel: CustomDebugStringConvertible {
     func load(firstGlobe: Globe, secondGlobe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) {
         guard immersiveSpaceState == .closed else { return }
         
-        configuration.isLoading = true
-        configuration.isVisible = false
-        configuration.showAttachment = false
-        
         Task {
             await openImmersiveGlobeSpace(openImmersiveSpaceAction)
             
@@ -174,10 +170,6 @@ class ViewModel: CustomDebugStringConvertible {
     ///   - openImmersiveSpaceAction: Action for opening an immersive space.
     func loadSingleGlobe(globe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) {
         guard immersiveSpaceState == .closed else { return }
-        
-        configuration.isLoading = true
-        configuration.isVisible = false
-        configuration.showAttachment = false
 
         Task {
             await openImmersiveGlobeSpace(openImmersiveSpaceAction)
@@ -209,17 +201,8 @@ class ViewModel: CustomDebugStringConvertible {
         // Configure and position second globe
         secondEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: 0.5)
         
-//#warning("This seems to always set opacity to 1")
-//        if secondEntity.components.has(OpacityComponent.self) {
-//            secondEntity.components[OpacityComponent.self] = OpacityComponent(opacity: 1.0)
-//        } else {
-//            secondEntity.components.set(OpacityComponent(opacity: 1.0))
-//        }
-        
         firstGlobeEntity = firstEntity
         secondGlobeEntity = secondEntity
-        configuration.isLoading = false
-        configuration.isVisible = true
     }
     
     @MainActor
@@ -229,9 +212,6 @@ class ViewModel: CustomDebugStringConvertible {
         firstEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
                 
         firstGlobeEntity = firstEntity
-        configuration.isLoading = false
-        configuration.isVisible = true
-        
     }
     
     @MainActor
@@ -259,11 +239,10 @@ class ViewModel: CustomDebugStringConvertible {
             newScale: 0.001,
             radius: secondGlobe.radius,
             duration: duration)
-        
-        configuration.isVisible = false
-        configuration.showAttachment = false
-        
+                
         Task {
+#warning("Is this correct?")
+            try? await Task.sleep(for: .seconds(duration))
             await closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
         }
     }
@@ -309,7 +288,6 @@ class ViewModel: CustomDebugStringConvertible {
         guard immersiveSpaceState == .open else { return }
         await dismissImmersiveSpaceAction()
         immersiveSpaceState = .closed
-        configuration.isVisible = false
         firstGlobeEntity = nil
         secondGlobeEntity = nil
     }
