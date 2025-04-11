@@ -410,10 +410,10 @@ class GlobeEntity: Entity {
             offset = SIMD3<Float>(0, 0.9, -1.5) * distanceMultiplier
             counterPosition = SIMD3<Float>(0, 0.9, -1.5) * distanceMultiplier
         case .horizontal:
-            offset = SIMD3<Float>(-0.8, 0, -1.5) * distanceMultiplier
-            counterPosition = SIMD3<Float>(0.8, 0, -1.5) * distanceMultiplier
+            offset = SIMD3<Float>(-0.8, 0.65, -1.5) * distanceMultiplier
+            counterPosition = SIMD3<Float>(0.8, 0.65, -1.5) * distanceMultiplier
         case .diagonal:
-            offset = SIMD3<Float>(-0.5, 0.4, -1.5) * distanceMultiplier
+            offset = SIMD3<Float>(-0.5, 0.65, -1.5) * distanceMultiplier
             counterPosition = SIMD3<Float>(0.5, 1.5, -1.5) * distanceMultiplier
 //        case .diagonalUp:
 //            offset = SIMD3<Float>(randomiseHorizontalLeft, randomiseVerticalUp, -0.5) * distanceMultiplier
