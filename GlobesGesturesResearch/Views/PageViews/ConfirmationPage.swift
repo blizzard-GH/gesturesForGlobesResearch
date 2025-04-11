@@ -20,7 +20,7 @@ struct ConfirmationPage: View {
             Text("Experiment finished")
                 .font(.largeTitle)
                 .padding()
-            Text("The next section is questionnaire.")
+            Text("Please fill out the questionnaire in the next section.")
                 .font(.subheadline)
                 .padding()
             Button("Next", action: next)
