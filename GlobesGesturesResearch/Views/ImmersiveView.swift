@@ -48,8 +48,11 @@ struct ImmersiveView: View {
                     .glassBackgroundEffect()
             }
         }
-        .onAppear() {
+        .onAppear {
             model.immersiveSpaceState = .open
+        }
+        .onDisappear {
+            model.immersiveSpaceState = .closed
         }
         .globeGestures(model: model, studyModel: studyModel)
     }
