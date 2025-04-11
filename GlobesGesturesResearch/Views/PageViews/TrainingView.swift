@@ -64,10 +64,9 @@ struct TrainingView: View {
                 if !model.configuration.isVisible {
                     model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    initialiseTrainingGlobes()
-                    loadingInformation = false
-                }
+                initialiseTrainingGlobes()
+                loadingInformation = false
+                
             }
         }
         .onDisappear{
