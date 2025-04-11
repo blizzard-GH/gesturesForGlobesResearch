@@ -9,7 +9,6 @@ import SwiftUI
 
 /// A `WebView` for displaying a webpage .
 struct WebViewDecorated: View {
-    
     @Environment(ViewModel.self) var model
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction

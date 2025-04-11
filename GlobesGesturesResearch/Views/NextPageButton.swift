@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct NextPageButton: View {
-    @Binding var page: Page
+    @Environment(StudyModel.self) var studyModel
     let title: String
     let action: (() -> Void)?
     
-    init(page: Binding<Page>, title: String, action: (() -> Void)? = nil) {
-        self._page = page
+    init(title: String, action: (() -> Void)? = nil) {
         self.title = title
         self.action = action
     }
@@ -21,7 +20,7 @@ struct NextPageButton: View {
     var body: some View {
         Button(title, action: {
             withAnimation(.easeInOut(duration: 0.3)) {
-                page = page.next()
+                studyModel.currentPage = studyModel.currentPage.next()
             }
             action?()
         })
@@ -34,7 +33,7 @@ struct NextPageButton: View {
     @Previewable @State var page: Page = .welcome
     VStack {
         Text(page.name)
-        NextPageButton(page: $page, title: "Next Page")
+        NextPageButton(title: "Next Page")
             .padding()
     }
     .padding()

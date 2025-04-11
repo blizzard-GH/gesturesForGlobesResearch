@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GetReady: View {
-    @Binding var currentPage: Page
+    @Environment(StudyModel.self) var studyModel
     
     /// Callback that is run after `countdown` seconds.
     var onCountdownComplete: () -> Void
@@ -16,7 +16,7 @@ struct GetReady: View {
     
     var body: some View {
         VStack {
-            if let details = currentPage.taskDetails {
+            if let details = studyModel.currentPage.taskDetails {
                 Text("Loading Task \(details.taskNumber)…")
                     .font(.largeTitle)
                     .padding()
@@ -32,7 +32,7 @@ struct GetReady: View {
 }
 
 #Preview {
-    GetReady(currentPage: .constant(.positionExperiment1)){
+    GetReady(){
         print("Countdown finishes.")
     }
     .padding()

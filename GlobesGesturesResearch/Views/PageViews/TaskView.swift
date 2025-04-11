@@ -14,13 +14,12 @@ struct TaskView: View {
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
     @Environment(\.dismissWindow) private var dismissWindow
            
-    @Binding var currentPage: Page
     @State private var isDoingTask: Bool = false
     @State private var showTaskContent: Bool = false
     
     var body: some View {
         VStack {
-            if let details = currentPage.taskDetails {
+            if let details = studyModel.currentPage.taskDetails {
                 if !isDoingTask {
                     Text("Part \(details.partNumber): \(details.mainGerund.capitalized) Experiment \(details.taskNumber)")
                         .font(.largeTitle)
@@ -32,8 +31,7 @@ struct TaskView: View {
                         .padding()
                 } else {
                     if !showTaskContent {
-                        GetReady(currentPage: $currentPage) {
-                          
+                        GetReady() {
                             showTaskContent = true
                             // Show the globe
                             if !model.configuration.isVisible {
@@ -47,7 +45,7 @@ struct TaskView: View {
                             }
                         }
                     } else {
-                        InstructionView(currentPage: $currentPage)
+                        InstructionView()
                     }
                 }
             } else {
@@ -59,7 +57,7 @@ struct TaskView: View {
         .onAppear{
             isDoingTask = false
             showTaskContent = false
-            model.updateAttachmentView(for: currentPage)
+            model.updateAttachmentView(for: studyModel.currentPage)
             if model.configuration.isVisible {
                 model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
             }
@@ -67,7 +65,7 @@ struct TaskView: View {
     }
     
     private func initializeGlobes() {
-        switch currentPage {
+        switch studyModel.currentPage {
         case .positionExperiment1, .positionExperiment2:
             let counterPosition = model.firstGlobeEntity?.repositionGlobe()
             PositionCondition.positionConditionsSetter(for: ViewModel.shared.positionConditions,
@@ -92,8 +90,6 @@ struct TaskView: View {
         }
     }
     
-    
-
     private func showOrHideGlobe(_ show: Bool) {
         Task { @MainActor in
             if show {
@@ -112,7 +108,7 @@ struct TaskView: View {
 }
 
 #Preview {
-    TaskView(currentPage: .constant(.positionExperiment2))
+    TaskView()
         .padding()
         .glassBackgroundEffect()
         .environment(ViewModel())

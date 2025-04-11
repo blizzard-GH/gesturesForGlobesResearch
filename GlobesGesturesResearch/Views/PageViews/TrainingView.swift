@@ -17,9 +17,7 @@ struct TrainingView: View {
     
     @State private var loadingInformation: Bool = false
     @State private var player: AVPlayer? = nil
-    
-    @Binding var currentPage: Page
-    
+        
     var body: some View {
         VStack {
             if loadingInformation {
@@ -27,7 +25,7 @@ struct TrainingView: View {
                     .font(.headline)
                     .padding()
             } else {
-                let details = currentPage.trainingDetails
+                let details = studyModel.currentPage.trainingDetails
                 Text(" Training for \(details.trainingType).")
                     .font(.title)
                     .padding()
@@ -36,17 +34,17 @@ struct TrainingView: View {
                     .font(.headline)
                     .padding()
                 
-//                if let player {
-//                    VideoPlayer(player: player)
-//                        .frame(width: 640, height: 360)
-//                        .cornerRadius(16)
-//                        .padding()
-//                } else {
-//                    ProgressView("Loading video...")
-//                        .frame(height: 360)
-//                }
+                if let player {
+                    VideoPlayer(player: player)
+                        .frame(width: 640, height: 360)
+                        .cornerRadius(16)
+                        .padding()
+                } else {
+                    ProgressView("Loading video...")
+                        .frame(height: 360)
+                }
                 
-                NextPageButton(page: $currentPage, title: "Finish Training")
+                NextPageButton(title: "Finish Training")
                     .padding()
                 
                 Spacer().frame(height: 50)
@@ -61,7 +59,7 @@ struct TrainingView: View {
             player?.play()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                model.updateAttachmentView(for: currentPage)
+                model.updateAttachmentView(for: studyModel.currentPage)
                 if !model.configuration.isVisible {
                     model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
                 }
@@ -81,7 +79,7 @@ struct TrainingView: View {
     }
    
     private var videoFilename: String {
-        switch currentPage {
+        switch studyModel.currentPage {
         case .positionTraining:
             "SGpositioning"
         case .rotationTraining1, .rotationTraining2:
@@ -110,10 +108,10 @@ struct TrainingView: View {
         firstGlobeEntity.respawnGlobe(.left)
         secondGlobeEntity.respawnGlobe(.right)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-            if currentPage == .rotationTraining1 || currentPage == .rotationTraining2 {
+            if studyModel.currentPage == .rotationTraining1 || studyModel.currentPage == .rotationTraining2 {
                 initialGlobesRotation(first: firstGlobeEntity, second: secondGlobeEntity)
             }
-            if currentPage == .scaleTraining {
+            if studyModel.currentPage == .scaleTraining {
                 initialGlobesScaling(first: firstGlobeEntity, second: secondGlobeEntity)
             }
         }
@@ -150,7 +148,7 @@ struct TrainingView: View {
 
 
 #Preview {
-    TrainingView(currentPage: .constant(.positionTraining))
+    TrainingView()
         .glassBackgroundEffect()
         .environment(ViewModel())
         .environment(StudyModel())

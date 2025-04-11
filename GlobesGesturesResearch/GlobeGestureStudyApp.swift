@@ -39,7 +39,7 @@ struct GlobeGestureStudyApp: App {
     
     var body: some Scene {
         WindowGroup(id: ViewModel.windowID) {
-            ContentView(currentPage: $studyModel.currentPage)
+            ContentView()
                 .environment(viewModel)
                 .environment(studyModel)
         }

@@ -12,15 +12,12 @@ struct ContentView: View {
     @Environment(ViewModel.self) var model
     @Environment(StudyModel.self) var studyModel
     
-    /// The currently displayed  page
-    @Binding var currentPage: Page
-    
     /// Track web page loading errors and completion of Google Forms
     @State private var webViewStatus = WebViewStatus.loading
     
     var body: some View {
         pageViewForCurrentPage
-            .id(currentPage)
+            .id(studyModel.currentPage)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onChange(of: webViewStatus) {
                 // after a Google Forms is submitted, show the Google Forms web page for a one second,
@@ -29,7 +26,7 @@ struct ContentView: View {
                     if let page = Page.pageForGoogleForm(confirmationMessage: message) {
                         Task { @MainActor in
                             try await Task.sleep(for: .seconds(1))
-                            self.currentPage = page.next()
+                            studyModel.currentPage = page.next()
                         }
                     }
                 }
@@ -37,17 +34,17 @@ struct ContentView: View {
             .overlay(alignment: .bottomLeading) {
                 HStack {
                     pageMenu
-                    Text("\(currentPage.index + 1)")
+                    Text("\(studyModel.currentPage.index + 1)")
                         .foregroundStyle(.secondary)
                 }
             }
             .onAppear{
                 _ = SoundManager.shared
             }
-            .onChange(of: currentPage) {
-                model.updatePositionConditions(currentPage: currentPage)
-                model.updateRotationConditions(currentPage: currentPage)
-                model.updateScaleConditions(currentPage: currentPage)
+            .onChange(of: studyModel.currentPage) {
+                model.updatePositionConditions(currentPage: studyModel.currentPage)
+                model.updateRotationConditions(currentPage: studyModel.currentPage)
+                model.updateScaleConditions(currentPage: studyModel.currentPage)
             }
     }
     
@@ -104,32 +101,32 @@ struct ContentView: View {
     @ViewBuilder
     private func pageButton(_ page: Page) -> some View {
         Button("\(page.name)") {
-            currentPage = page
+            studyModel.currentPage = page
         }
     }
     
     /// A SwiftUI view for the current page.
     @ViewBuilder
     private var pageViewForCurrentPage: some View {
-        switch currentPage {
+        switch studyModel.currentPage {
         case .welcome:
-            WelcomeView(currentPage: $currentPage)
+            WelcomeView()
         case .positionTraining, .rotationTraining1, .rotationTraining2, .scaleTraining:
-            TrainingView(currentPage: $currentPage)
+            TrainingView()
         case .thankYou:
             ThankYouView()
         case .confirmationPagePosition1, .confirmationPagePosition2,
                 .confirmationPageRotation1, .confirmationPageRotation2,
                 .confirmationPageScale1, .confirmationPageScale2:
-            ConfirmationPage(currentPage: $currentPage)
+            ConfirmationPage()
         default:
-            if currentPage.taskDetails != nil {
+            if studyModel.currentPage.taskDetails != nil {
                 // show a task view
-                TaskView(currentPage: $currentPage)
-            } else if let googleForm = currentPage.googleForm {
+                TaskView()
+            } else if let googleForm = studyModel.currentPage.googleForm {
                 // show a Google Forms view
                 WebViewDecorated(
-                    currentPage: $currentPage,
+                    currentPage: Bindable(studyModel).currentPage,
                     url: googleForm.url,
                     googleFormsConfirmationMessage: googleForm.confirmationMessage,
                     webViewStatus: $webViewStatus
@@ -139,7 +136,7 @@ struct ContentView: View {
                 ContentUnavailableView(
                     "An error occurred.",
                     systemImage: "globe",
-                    description: Text("No view for \"\(currentPage.rawValue)\".")
+                    description: Text("No view for \"\(studyModel.currentPage.rawValue)\".")
                 )
             }
         }

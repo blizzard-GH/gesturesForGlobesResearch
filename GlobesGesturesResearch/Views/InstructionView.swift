@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct InstructionView: View {
-    @Binding var currentPage: Page
+    @Environment(StudyModel.self) var studyModel
     
     var body: some View {
         VStack {
-            if let details = currentPage.taskDetails {
+            if let details = studyModel.currentPage.taskDetails {
                 Text(" Match the globe \(details.mainFeature).")
                     .font(.title2)
                     .padding(.top, 20)
@@ -26,7 +26,7 @@ struct InstructionView: View {
 }
 
 #Preview(windowStyle: .automatic) {
-    InstructionView(currentPage: .constant(.rotationExperiment2))
+    InstructionView()
         .padding()
         .glassBackgroundEffect()
         .environment(ViewModel.preview)

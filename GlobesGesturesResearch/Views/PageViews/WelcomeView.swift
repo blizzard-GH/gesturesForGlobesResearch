@@ -9,7 +9,6 @@ import SwiftUI
 
 /// The first view shown.
 struct WelcomeView: View {
-    @Binding var currentPage: Page
     @Environment(ViewModel.self) var model
     
     var body: some View {
@@ -54,7 +53,7 @@ struct WelcomeView: View {
                 .foregroundStyle(.red)
                 .controlSize(.extraLarge)
 #endif
-                NextPageButton(page: $currentPage, title: "Start") {
+                NextPageButton(title: "Start") {
                     TaskStorageManager.shared.initialiseUserID()
                 }
             }
@@ -68,7 +67,7 @@ struct WelcomeView: View {
 }
 
 #Preview {
-    WelcomeView(currentPage: .constant(.welcome))
+    WelcomeView()
         .glassBackgroundEffect()
         .environment(ViewModel())
         .environment(StudyModel())

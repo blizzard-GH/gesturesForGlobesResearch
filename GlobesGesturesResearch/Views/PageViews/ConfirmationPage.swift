@@ -12,9 +12,7 @@ struct ConfirmationPage: View {
     @Environment(StudyModel.self) var studyModel
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
-    
-    @Binding var currentPage: Page
-    
+        
     var body: some View {
         VStack{
             Text("Experiment finished")
@@ -42,7 +40,7 @@ struct ConfirmationPage: View {
         PositionCondition.positionConditionsCompleted = false
         ScaleCondition.scaleConditionsCompleted = false
         RotationCondition.rotationConditionsCompleted = false
-        switch currentPage {
+        switch studyModel.currentPage {
         case .confirmationPagePosition2:
             do {
                 try PositionCondition.savePositionConditions(positionConditions: model.positionConditions)
@@ -68,7 +66,7 @@ struct ConfirmationPage: View {
         Task {
             await model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
         }
-        currentPage = currentPage.next()
+        studyModel.currentPage = studyModel.currentPage.next()
     }
     
     private func hideGlobe() {
