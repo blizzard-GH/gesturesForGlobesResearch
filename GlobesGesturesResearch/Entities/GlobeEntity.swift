@@ -401,9 +401,6 @@ class GlobeEntity: Entity {
         
         let offset: SIMD3<Float>
         
-        print("distance: \(distance)")
-        print("direction: \(direction)")
-        
 //        let randomiseHorizontal = Float.random(in: -0.5...0.5)
 //        let randomiseVertical = Float.random(in: 0...1.8)
         
