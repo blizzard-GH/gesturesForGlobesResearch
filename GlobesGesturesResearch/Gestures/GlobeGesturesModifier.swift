@@ -1418,11 +1418,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                 if studyModel.currentTask?.isMatching == true {
                     SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
-                    firstGlobeEntity.respawnGlobe(.left)
-                    secondGlobeEntity.respawnGlobe(.right)
+                    firstGlobeEntity.respawnGlobe(.leftClose)
+                    secondGlobeEntity.respawnGlobe(.rightClose)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                        firstGlobeEntity.animateTransform(orientation: simd_quatf(angle: 6 * Float.pi, axis: SIMD3<Float>(1, 1, 0)), duration: 0.2)
-                        secondGlobeEntity.animateTransform(orientation: simd_quatf(angle: 3 * Float.pi, axis: SIMD3<Float>(1, 1, 0)), duration: 0.2)
+                        firstGlobeEntity.animateTransform(orientation: simd_quatf(angle: 6 * Float.pi, axis: SIMD3<Float>(1, 1, 0)), duration: 0.1)
                     }
                 }
                 studyModel.currentTask = nil

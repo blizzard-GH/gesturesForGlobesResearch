@@ -22,6 +22,8 @@ struct PositionCondition {
     
     static var lastUsedPositionConditionIndex: Int = -1
     
+    static var lastUsedSafeIndex: Int = -1
+    
     static var positionConditionsCompleted: Bool = false // Used to show 'next' button once all conditions are done
     
     static var positionGestureOrder :  RotationOrder = .nonRotatingFirst
@@ -195,10 +197,16 @@ struct PositionCondition {
         }
         
         // safeguard the index
-        let safeIndex = min(max(lastUsedIndex, 0), conditionValues.count - 1)
+        var safeIndex = min(max(lastUsedIndex, 0), conditionValues.count - 1)
+        
+        if lastUsedSafeIndex == safeIndex {
+            safeIndex += 1
+        }
         
         let selectedCondition = conditionValues[safeIndex]
         
+        lastUsedSafeIndex = safeIndex
+                
 //        for condition in conditionValues {
         switch selectedCondition {
         case "A":
