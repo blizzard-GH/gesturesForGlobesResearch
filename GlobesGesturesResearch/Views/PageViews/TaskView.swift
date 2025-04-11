@@ -11,28 +11,28 @@ struct TaskView: View {
     @Environment(ViewModel.self) var model
     @Environment(StudyModel.self) var studyModel
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
-    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
     @Environment(\.dismissWindow) private var dismissWindow
            
-    @State private var isDoingTask: Bool = false
-    @State private var showTaskContent: Bool = false
-    
     var body: some View {
         VStack {
             if let details = studyModel.currentPage.taskDetails {
-                if !isDoingTask {
-                    Text("Part \(details.partNumber): \(details.mainGerund.capitalized) Experiment \(details.taskNumber)")
-                        .font(.largeTitle)
-                    
-                    Text("Press the button when you are ready.")
-                        .padding()
-                    
-                    Button(action: { isDoingTask = true }) {
-                        Label("Start Experiment", systemImage: "globe")
-                    }
-                    .tint(.accentColor)
+                Text("Part \(details.partNumber): \(details.mainGerund.capitalized) Experiment \(details.taskNumber)")
+                    .font(.largeTitle)
+                
+                Text("Press the button when you are ready.")
                     .padding()
+                
+                Button(action: {
+                    Task {
+                        await model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+                        initializeGlobes()
+                        dismissWindow(id: ViewModel.windowID)
+                    }
+                }) {
+                    Label("Start Experiment", systemImage: "globe")
                 }
+                .tint(.accentColor)
+                .padding()
             } else {
                 Text("Invalid Task")
                     .foregroundColor(.red)
