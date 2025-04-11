@@ -52,12 +52,13 @@ struct TrainingView: View {
                 Spacer().frame(height: 50)
             }
         }
-        .task {
-            await setupVideo()
-            player?.play()
-        }
         .onAppear{
             loadingInformation = true
+            
+            if let videoURL = Bundle.main.url(forResource: videoFilename, withExtension: "mp4") {
+                player = AVPlayer(url: videoURL)
+            }
+            player?.play()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                 model.updateAttachmentView(for: currentPage)
@@ -78,14 +79,7 @@ struct TrainingView: View {
         .frame(minWidth: 800)
         .padding()
     }
-    
-    @MainActor
-    private func setupVideo() async {
-        if let videoURL = Bundle.main.url(forResource: videoFilename, withExtension: "mp4") {
-            player = AVPlayer(url: videoURL)
-        }
-    }
-    
+   
     private var videoFilename: String {
         switch currentPage {
         case .positionTraining:
