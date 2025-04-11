@@ -121,10 +121,13 @@ private struct GlobeGesturesModifier: ViewModifier {
     /// If the globes is farther away than this distance and it is tapped to show an attachment view.
     private let maxDistanceToCameraWhenTapped: Float = 1.5
     
-    //    var oneHandedRotationGesture: Bool { model.oneHandedRotationGesture }
-    
     let soundManager = SoundManager.shared
     
+    private func showNextPageOnWindow() {
+        openWindow(id: ViewModel.windowID)
+        studyModel.proceedToNextExperiment = true
+        studyModel.currentPage = studyModel.currentPage.next()
+    }
     
     @ViewBuilder
     func body(content: Content) -> some View {
@@ -173,7 +176,7 @@ private struct GlobeGesturesModifier: ViewModifier {
         case    .scaleExperiment1, .scaleExperimentForm1,
                 .scaleExperiment2, .scaleExperimentForm2, .scaleComparison:
             content
-                .simultaneousGesture(magnifyGesture)        
+                .simultaneousGesture(magnifyGesture)
         case .outroForm:
             if model.oneHandedRotationGesture {
                 content
@@ -376,11 +379,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         model.secondGlobeEntity?.refineGlobePosition(counterPosition ?? SIMD3<Float>(0,0.9,-0.5))
                         //                        print("POSITION INDEX: \(PositionCondition.lastUsedPositionConditionIndex)")
                         if PositionCondition.positionConditionsCompleted == true {
-                            studyModel.proceedToNextExperiment = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
-                                studyModel.currentPage = studyModel.currentPage.next()
-                            }
-                            openWindow(id: ViewModel.windowID)
+                            showNextPageOnWindow()
                         }
                     }
                 }
@@ -552,11 +551,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                              lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
                         
                         if ScaleCondition.scaleConditionsCompleted == true {
-                            studyModel.proceedToNextExperiment = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
-                                studyModel.currentPage = studyModel.currentPage.next()
-                            }
-                            openWindow(id: ViewModel.windowID)
+                            showNextPageOnWindow()
                         }
                     }
                 }
@@ -700,11 +695,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         RotationCondition.rotationConditionsSetter(for: model.rotationConditions,
                                                                    lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
                         if RotationCondition.rotationConditionsCompleted == true {
-                            studyModel.proceedToNextExperiment = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
-                                studyModel.currentPage = studyModel.currentPage.next()
-                            }
-                            openWindow(id: ViewModel.windowID)
+                            showNextPageOnWindow()
                         }
                     }
                 }
@@ -759,13 +750,13 @@ private struct GlobeGesturesModifier: ViewModifier {
                     //                        if state.previousLocation3D == nil {
                     //                            state.previousLocation3D = drag.location3D
                     //                            state.orientationAtGestureStart = .init(entity.orientation(relativeTo: nil))
-                    //                            
-                    //                            
+                    //
+                    //
                     //                        }
                     //                        guard let referenceRotation = computeReferenceRotation(for: value.entity) else { return }
-                    //                        
+                    //
                     //                        guard let previousLocation3D = state.previousLocation3D else { return }
-                    //                        
+                    //
                     //                        // Map the horizontal displacement of the hand to a rotation around the rotation axis of the globe.
                     //                        // Place a temporary entity at the center of the globe and orient its z-axis toward the camera and the
                     //                        // x-axis in horizontal direction. Then transform the hand gesture movement to the coordinate system
@@ -780,13 +771,13 @@ private struct GlobeGesturesModifier: ViewModifier {
                     //                        let rotatedEntity = Entity()
                     //                        rotatedEntity.position = entity.position
                     //                        rotatedEntity.orientation = rotation
-                    //                        
+                    //
                     //                        let handAlignedEntity = Entity()
                     //                        handAlignedEntity.position = entity.position
                     ////                        handAlignedEntity.orientation = simd_quatf(angle: 0, axis: SIMD3<Float>(0, 1, 0)) // Align with world y-axis
                     //                        handAlignedEntity.orientation = referenceRotation // Align with world y-axis
                     //
-                    //                        
+                    //
                     //                        // Transform hand gesture coordinates from the globe entity to the temporary entity.
                     //                        var location = value.convert(drag.location3D, from: .local, to: handAlignedEntity)
                     //                        var previousLocation = value.convert(previousLocation3D, from: .local, to: handAlignedEntity)
@@ -796,23 +787,23 @@ private struct GlobeGesturesModifier: ViewModifier {
                     //                        let deltaTranslationY = location.x - previousLocation.x
                     ////                        let deltaTranslationZ = location.z - previousLocation.z
                     //                        state.previousLocation3D = drag.location3D
-                    //                        
+                    //
                     //                        // Adjust the amount of rotation per translation delta to the size of the globe.
                     //                        // The angular rotation per translation delta is reduced for enlarged globes.
                     //                        let scaleRadius = max(1, entity.meanScale) * model.globe.radius
                     //                        let xRotationAmount = Float(deltaTranslationX) * rotationSpeed / scaleRadius * 1000
                     //                        let yRotationAmount = Float(deltaTranslationY) * rotationSpeed / scaleRadius * 1000
                     ////                        let zRotationAmount = Float(deltaTranslationZ) * rotationSpeed / scaleRadius * 1000
-                    //                        
+                    //
                     //                        // A rotation quaternion around the globe's rotation axis.
                     //                        entity.animationPlaybackController?.stop()
                     //                        let xRotation = simd_quatf(angle: xRotationAmount, axis: SIMD3<Float>(1, 0, 0))
                     //                        let yRotation = simd_quatf(angle: yRotationAmount, axis: SIMD3<Float>(0, 1, 0))
                     ////                        let zRotation = simd_quatf(angle: zRotationAmount, axis: SIMD3<Float>(0, 0, 1))
-                    //                        
-                    //                        
+                    //
+                    //
                     //                        entity.orientation *= xRotation * yRotation
-                    //                        
+                    //
                     //                        entity.animationPlaybackController?.stop()
                     //                    }
                     //                    OPTION 2
@@ -883,7 +874,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         //                                                                             position: globeEntity.position,
                         //                                                                             duration: animationDuration)
                         //                        }
-                        //                        
+                        //
                         //                        guard var currentTask = studyModel.currentTask else {
                         //                            log("Error: currentTask is nil. Cannot add action")
                         //                            return
@@ -960,11 +951,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                             RotationCondition.rotationConditionsSetter(for: model.rotationConditions,
                                                                        lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
                             if RotationCondition.rotationConditionsCompleted == true {
-                                studyModel.proceedToNextExperiment = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 ){
-                                    studyModel.currentPage = studyModel.currentPage.next()
-                                }
-                                openWindow(id: ViewModel.windowID)
+                                showNextPageOnWindow()
                             }
                         }
                     }

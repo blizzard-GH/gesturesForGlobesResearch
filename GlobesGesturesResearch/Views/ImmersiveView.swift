@@ -11,10 +11,11 @@ import RealityKit
 struct ImmersiveView: View {
     @Environment(ViewModel.self) private var model
     @Environment(StudyModel.self) private var studyModel
+    @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
         RealityView { content, attachments in // async on MainActor
-            // Important: Any @State properties initialized in this closure are not available
+            // Important: @State properties initialized in this closure are not available
             // on the first call of the update closure (optionals will still be nil).
             // Therefore do not defer initialization of entities to the update closure.
             
@@ -89,17 +90,15 @@ struct ImmersiveView: View {
         attachments: RealityViewAttachments
     ) {
         guard let root = content.entities.first?.findEntity(named: "Globes") else { return }
-        let addedGlobeEntity = root.children.first(where: { ($0 is GlobeEntity) })
-        
-        if let addedGlobeEntity, model.firstGlobeEntity == nil{
-            root.removeChild(addedGlobeEntity)
-        } else {
-            if let globeEntity = model.firstGlobeEntity {
-                root.addChild(globeEntity)
-            }
-            if let secondGlobeEntity = model.secondGlobeEntity {
-                root.addChild(secondGlobeEntity)
-            }
+        root.children
+            .filter { $0 is GlobeEntity }
+            .forEach { $0.removeFromParent() }
+
+        if let firstGlobeEntity = model.firstGlobeEntity {
+            root.addChild(firstGlobeEntity)
+        }
+        if let secondGlobeEntity = model.secondGlobeEntity {
+            root.addChild(secondGlobeEntity)
         }
              
         // update attachments

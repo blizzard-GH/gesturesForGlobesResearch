@@ -138,13 +138,11 @@ class ViewModel: CustomDebugStringConvertible {
     ///   - globe: The globe to show.
     ///   - selection: When selection is not `none`, the texture is replaced periodically with a texture of one of the globes in the selection.
     ///   - openImmersiveSpaceAction: Action for opening an immersive space.
-    func load(firstGlobe: Globe, secondGlobe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) async {
-        await openImmersiveGlobeSpace(openImmersiveSpaceAction)
-        
+    func load(firstGlobe: Globe, secondGlobe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) async {        
         do {
-            async let globe1 = GlobeEntity(globe: firstGlobe)
-            async let globe2 = GlobeEntity(globe: secondGlobe)
-            let entities = try await (globe1, globe2)
+            async let globeEntity1 = GlobeEntity(globe: firstGlobe)
+            async let globeEntity2 = GlobeEntity(globe: secondGlobe)
+            let entities = try await (globeEntity1, globeEntity2)
             
             entities.0.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
             entities.1.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: 0.5)
@@ -165,7 +163,6 @@ class ViewModel: CustomDebugStringConvertible {
     ///   - globe: The globe to show.
     ///   - openImmersiveSpaceAction: Action for opening an immersive space.
     func load(globe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) async {
-        await openImmersiveGlobeSpace(openImmersiveSpaceAction)
         do {
             firstGlobeEntity = try await GlobeEntity(globe: globe)
             firstGlobeEntity?.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
@@ -176,26 +173,11 @@ class ViewModel: CustomDebugStringConvertible {
     }
     
     @MainActor
-    /// Hide a globe. The globe shrinks down.
+    /// Remove the globes from the scene.
     /// - Parameter id: Globe ID
-    func hideGlobes(dismissImmersiveSpaceAction: DismissImmersiveSpaceAction) {
-        let duration = 0.666
-        
-        // shrink the globe
-        firstGlobeEntity?.scaleAndAdjustDistanceToCamera(
-            newScale: 0.001, // scaling to 0 spins the globe, so scale to a value slightly greater than 0
-            radius: globe.radius,
-            duration: duration
-        )
-        secondGlobeEntity?.scaleAndAdjustDistanceToCamera(
-            newScale: 0.001,
-            radius: secondGlobe.radius,
-            duration: duration)
-        
-        Task {
-            try? await Task.sleep(for: .seconds(duration))
-            await closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
-        }
+    func removeGlobes() {
+        firstGlobeEntity = nil
+        secondGlobeEntity = nil
     }
     
     // MARK: - Immersive Space
@@ -209,11 +191,8 @@ class ViewModel: CustomDebugStringConvertible {
     var immersiveSpaceState = ImmersiveSpaceState.closed
     
     @MainActor
-    private func openImmersiveGlobeSpace(_ openImmersiveSpaceAction: OpenImmersiveSpaceAction) async {
-        guard immersiveSpaceState != .open,
-              immersiveSpaceState != .inTransition else {
-            return
-        }
+    func openImmersiveSpace(_ openImmersiveSpaceAction: OpenImmersiveSpaceAction) async {
+        guard immersiveSpaceState == .closed else { return }
         let result = await openImmersiveSpaceAction(id: "ImmersiveGlobeSpace")
         switch result {
         case .opened:
@@ -230,15 +209,6 @@ class ViewModel: CustomDebugStringConvertible {
             // On unknown response, assume space did not open.
             immersiveSpaceState = .closed
         }
-    }
-    
-    @MainActor
-    func closeImmersiveGlobeSpace(_ dismissImmersiveSpaceAction: DismissImmersiveSpaceAction) async {
-        guard immersiveSpaceState == .open else { return }
-        await dismissImmersiveSpaceAction()
-        immersiveSpaceState = .closed
-        firstGlobeEntity = nil
-        secondGlobeEntity = nil
     }
     
     // MARK: - Error Handling
@@ -330,18 +300,18 @@ class ViewModel: CustomDebugStringConvertible {
     
     @MainActor
     func updateRotationConditions(currentPage: Page) {
-        let modalitylist: [RotationCondition.RotationGestureModality]
-        modalitylist = RotationCondition.rotationConditionsGetter(for: rotationConditions,
+        let modalityList: [RotationCondition.RotationGestureModality]
+        modalityList = RotationCondition.rotationConditionsGetter(for: rotationConditions,
                                                                   lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex).0
         switch currentPage {
         case .rotationTraining1, .rotationExperiment1, .confirmationPageRotation1, .rotationExperimentForm1:
-            if modalitylist[0] == .oneHanded{
+            if modalityList[0] == .oneHanded{
                 oneHandedRotationGesture = true
             } else {
                 oneHandedRotationGesture = false
             }
         case .rotationTraining2, .rotationExperiment2, .confirmationPageRotation2, .rotationExperimentForm2:
-            if modalitylist[1] == .twoHanded{
+            if modalityList[1] == .twoHanded{
                 oneHandedRotationGesture = false
             } else {
                 oneHandedRotationGesture = true

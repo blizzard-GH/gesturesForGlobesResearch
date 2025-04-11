@@ -11,12 +11,13 @@ import RealityKit
 struct ContentView: View {
     @Environment(ViewModel.self) var model
     @Environment(StudyModel.self) var studyModel
+    @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     
     /// Track web page loading errors and completion of Google Forms
     @State private var webViewStatus = WebViewStatus.loading
     
     var body: some View {
-        pageViewForCurrentPage
+        viewForCurrentPage
             .id(studyModel.currentPage)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onChange(of: webViewStatus) {
@@ -38,10 +39,12 @@ struct ContentView: View {
                         .foregroundStyle(.secondary)
                 }
             }
-            .onAppear{
+            .task {
+                await model.openImmersiveSpace(openImmersiveSpaceAction)
                 _ = SoundManager.shared
             }
             .onChange(of: studyModel.currentPage) {
+                model.removeGlobes()
                 model.updateAttachmentView(for: studyModel.currentPage)
                 model.updatePositionConditions(currentPage: studyModel.currentPage)
                 model.updateRotationConditions(currentPage: studyModel.currentPage)
@@ -108,7 +111,7 @@ struct ContentView: View {
     
     /// A SwiftUI view for the current page.
     @ViewBuilder
-    private var pageViewForCurrentPage: some View {
+    private var viewForCurrentPage: some View {
         switch studyModel.currentPage {
         case .welcome:
             WelcomeView()
@@ -127,7 +130,7 @@ struct ContentView: View {
             } else if let googleForm = studyModel.currentPage.googleForm {
                 // show a Google Forms view
                 WebViewDecorated(
-                    currentPage: Bindable(studyModel).currentPage,
+                    showGlobe: showGlobe,
                     url: googleForm.url,
                     googleFormsConfirmationMessage: googleForm.confirmationMessage,
                     webViewStatus: $webViewStatus
@@ -140,6 +143,15 @@ struct ContentView: View {
                     description: Text("No view for \"\(studyModel.currentPage.rawValue)\".")
                 )
             }
+        }
+    }
+    
+    private var showGlobe: Bool {
+        switch studyModel.currentPage {
+        case .scaleComparison, .rotationComparison, .positionComparison, .outroForm:
+            true
+        default:
+            false
         }
     }
 }

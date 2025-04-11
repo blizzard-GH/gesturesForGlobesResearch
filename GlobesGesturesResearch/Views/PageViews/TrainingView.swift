@@ -84,8 +84,7 @@ struct TrainingView: View {
             }
             player?.play()
         }
-        .onDisappear{
-            model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
+        .onDisappear {
             player?.pause()
         }
         .frame(minWidth: 800)

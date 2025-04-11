@@ -10,12 +10,10 @@ import SwiftUI
 struct ConfirmationPage: View {
     @Environment(ViewModel.self) var model
     @Environment(StudyModel.self) var studyModel
-    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
-    @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
         
     var body: some View {
         VStack{
-            Text("Experiment finished")
+            Text("Experiment Finished")
                 .font(.largeTitle)
                 .padding()
             Text("Please fill out the questionnaire in the next section.")
@@ -58,9 +56,6 @@ struct ConfirmationPage: View {
             }
         default:
             break
-        }
-        Task {
-            await model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
         }
         studyModel.currentPage = studyModel.currentPage.next()
     }

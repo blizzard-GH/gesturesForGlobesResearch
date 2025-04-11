@@ -13,7 +13,7 @@ struct WebViewDecorated: View {
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
     
-    @Binding var currentPage: Page
+    let showGlobe: Bool
     let url: URL
     var googleFormsConfirmationMessage: String? = nil
     
@@ -43,36 +43,12 @@ struct WebViewDecorated: View {
                 .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 20))
             }
         }
-        .id(url)
+        //        .id(url)
         .task {
             webViewStatus = .loading
             if showGlobe {
                 await model.load(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
             }
         }
-        .onDisappear{
-            if showGlobe {
-                model.hideGlobes(dismissImmersiveSpaceAction:dismissImmersiveSpaceAction)
-            }
-        }
-    }
-    
-    private var showGlobe: Bool {
-        switch currentPage {
-        case .scaleComparison, .rotationComparison, .positionComparison, .outroForm:
-            true
-        default:
-            false
-        }
     }
 }
-
-
-#if DEBUG
-#Preview(windowStyle: .automatic) {
-    @Previewable @State var webViewStatus = WebViewStatus.loading
-    WebViewDecorated(currentPage: .constant(.welcome), url: URL(string: "https://monash.edu")!, webViewStatus: $webViewStatus)
-        .glassBackgroundEffect()
-        .environment(ViewModel.preview)
-}
-#endif
