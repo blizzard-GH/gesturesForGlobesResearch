@@ -44,10 +44,10 @@ struct WebViewDecorated: View {
             }
         }
         .id(url)
-        .onAppear{
+        .task {
             webViewStatus = .loading
             if showGlobe {
-                model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+                await model.load(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
             }
         }
         .onDisappear{

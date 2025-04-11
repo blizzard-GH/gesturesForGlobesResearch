@@ -164,45 +164,15 @@ class ViewModel: CustomDebugStringConvertible {
     /// - Parameters:
     ///   - globe: The globe to show.
     ///   - openImmersiveSpaceAction: Action for opening an immersive space.
-    func loadSingleGlobe(globe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) {
-        guard immersiveSpaceState == .closed else { return }
-#warning("Remove tasks?")
-        Task {
-            await openImmersiveGlobeSpace(openImmersiveSpaceAction)
-            
-            async let firstGlobeEntity = GlobeEntity(globe: globe)
-            
-            do {
-                let entities = try await (firstGlobeEntity)
-                Task { @MainActor in
-                    storeSingleGlobeEntity(entities)
-                    
-                    entities.respawnGlobe(.right)
-                }
-            } catch {
-                Task { @MainActor in
-                    loadingGlobeFailed(id: nil)
-                }
-            }
+    func load(globe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) async {
+        await openImmersiveGlobeSpace(openImmersiveSpaceAction)
+        do {
+            firstGlobeEntity = try await GlobeEntity(globe: globe)
+            firstGlobeEntity?.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
+            firstGlobeEntity?.respawnGlobe(.right)
+        } catch {
+            errorToShowInAlert = error
         }
-    }
-    
-    @MainActor
-    /// Called after a  globe entity has been loaded.
-    /// - Parameter globeEntity: The globe entity to add.
-    func storeSingleGlobeEntity(_ firstEntity: GlobeEntity) {
-        firstEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
-        
-        firstGlobeEntity = firstEntity
-    }
-    
-    @MainActor
-    /// A new globe entity could not be loaded.
-    /// - Parameters:
-    ///   - id: The id of the globe that could not be loaded.
-    func loadingGlobeFailed(id: Globe.ID?) {
-        errorToShowInAlert = error("There is not enough memory to show another globe.",
-                                   secondaryMessage: "First hide a visible globe, then select this globe again.")
     }
     
     @MainActor

@@ -35,12 +35,8 @@ struct TrainingView: View {
     var body: some View {
         VStack {
             let details = studyModel.currentPage.trainingDetails
-            Text(" Training for \(details.trainingType).")
+            Text(" Training for \(details.trainingType)")
                 .font(.title)
-                .padding()
-            
-            Text("Learn how to \(details.gestureMethod) the globe.")
-                .font(.headline)
                 .padding()
             
             if let player {
@@ -54,6 +50,15 @@ struct TrainingView: View {
             }
             
             Text(trainingPhase.instructions)
+            
+            if let details = studyModel.currentPage.next().taskDetails {
+                Text("Match the globe \(details.mainFeature).")
+                    .font(.title2)
+                    .padding(.top, 20)
+                
+                Text("\(details.mainVerb.capitalized) the coloured globe to match the \(details.mainFeature) of the monochrome globe.")
+                    .padding()
+            }
             
             switch trainingPhase {
             case .watchingVideo:

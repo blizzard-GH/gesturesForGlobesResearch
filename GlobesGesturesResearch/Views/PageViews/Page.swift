@@ -39,7 +39,7 @@ enum Page: String, CaseIterable {
     case outroForm
     case thankYou
     
-    /// A task number or nil if the page does not start a set of tasks.
+    /// A task number or nil if the page does not have a set of tasks.
     var taskDetails: (taskNumber: String,
                       partNumber: String,
                       mainFeature: String,
