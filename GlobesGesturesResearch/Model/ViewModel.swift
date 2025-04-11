@@ -139,14 +139,14 @@ class ViewModel: CustomDebugStringConvertible {
     ///   - selection: When selection is not `none`, the texture is replaced periodically with a texture of one of the globes in the selection.
     ///   - openImmersiveSpaceAction: Action for opening an immersive space.
     func load(firstGlobe: Globe, secondGlobe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) {
-        guard !immersiveSpaceIsShown else { return }
+        guard immersiveSpaceState == .closed else { return }
         
         configuration.isLoading = true
         configuration.isVisible = false
         configuration.showAttachment = false
         
         Task {
-            openImmersiveGlobeSpace(openImmersiveSpaceAction)
+            await openImmersiveGlobeSpace(openImmersiveSpaceAction)
             
             async let firstGlobeEntity = GlobeEntity(globe: firstGlobe)
             async let secondGlobeEntity = GlobeEntity(globe: secondGlobe)
@@ -173,14 +173,14 @@ class ViewModel: CustomDebugStringConvertible {
     ///   - globe: The globe to show.
     ///   - openImmersiveSpaceAction: Action for opening an immersive space.
     func loadSingleGlobe(globe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) {
-        guard !immersiveSpaceIsShown else { return }
+        guard immersiveSpaceState == .closed else { return }
         
         configuration.isLoading = true
         configuration.isVisible = false
         configuration.showAttachment = false
 
         Task {
-            openImmersiveGlobeSpace(openImmersiveSpaceAction)
+            await openImmersiveGlobeSpace(openImmersiveSpaceAction)
             
             async let firstGlobeEntity = GlobeEntity(globe: globe)
             
@@ -263,49 +263,55 @@ class ViewModel: CustomDebugStringConvertible {
         configuration.isVisible = false
         configuration.showAttachment = false
         
-        closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
+        Task {
+            await closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
+        }
     }
     
     // MARK: - Immersive Space
     
-    @MainActor
-    var immersiveSpaceIsShown = false
+    enum ImmersiveSpaceState {
+        case closed
+        case inTransition
+        case open
+    }
+    
+    var immersiveSpaceState = ImmersiveSpaceState.closed
     
     @MainActor
-    private func openImmersiveGlobeSpace(_ action: OpenImmersiveSpaceAction) {
-        guard !immersiveSpaceIsShown else { return }
-        Task {
-            let result = await action(id: "ImmersiveGlobeSpace")
-            switch result {
-            case .opened:
-                Task { @MainActor in
-                    immersiveSpaceIsShown = true
-                }
-            case .error:
-                Task { @MainActor in
-                    errorToShowInAlert = error("A globe could not be shown.")
-                }
-                fallthrough
-            case .userCancelled:
-                fallthrough
-            @unknown default:
-                Task { @MainActor in
-                    immersiveSpaceIsShown = false
-                }
+    private func openImmersiveGlobeSpace(_ openImmersiveSpaceAction: OpenImmersiveSpaceAction) async {
+        guard immersiveSpaceState != .open,
+              immersiveSpaceState != .inTransition else {
+            return
+        }
+        let result = await openImmersiveSpaceAction(id: "ImmersiveGlobeSpace")
+        switch result {
+        case .opened:
+            // Don't set immersiveSpaceState to .open because there
+            // may be multiple paths to ImmersiveView.onAppear().
+            // Only set .open in ImmersiveView.onAppear().
+            break
+        case .userCancelled:
+            immersiveSpaceState = .closed
+        case .error:
+            Task { @MainActor in
+                errorToShowInAlert = error("A globe could not be shown.")
             }
+            fallthrough
+        @unknown default:
+            // On unknown response, assume space did not open.
+            immersiveSpaceState = .closed
         }
     }
     
     @MainActor
-    func closeImmersiveGlobeSpace(_ action: DismissImmersiveSpaceAction) {
-        guard immersiveSpaceIsShown else { return }
-        Task {
-            await action()
-            immersiveSpaceIsShown = false
-            configuration.isVisible = false
-            firstGlobeEntity = nil
-            secondGlobeEntity = nil
-        }
+    func closeImmersiveGlobeSpace(_ dismissImmersiveSpaceAction: DismissImmersiveSpaceAction) async {
+        guard immersiveSpaceState == .open else { return }
+        await dismissImmersiveSpaceAction()
+        immersiveSpaceState = .closed
+        configuration.isVisible = false
+        firstGlobeEntity = nil
+        secondGlobeEntity = nil
     }
     
     // MARK: - Error Handling
@@ -340,7 +346,7 @@ class ViewModel: CustomDebugStringConvertible {
             }
         }
         
-        description += "Immersive space is shown: \(immersiveSpaceIsShown)\n"
+        description += "Immersive space state: \(immersiveSpaceState)\n"
         
         // globes
         description += "Globe configuration: \(globe.name), rotating: \(!configuration.isRotationPaused)\n"
@@ -439,3 +445,4 @@ class ViewModel: CustomDebugStringConvertible {
         }
     }
 }
+

@@ -65,7 +65,9 @@ struct ConfirmationPage: View {
         default:
             break
         }
-        model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
+        Task {
+            await model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
+        }
         currentPage = currentPage.next()
     }
     

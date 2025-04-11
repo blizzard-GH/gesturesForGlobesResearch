@@ -24,8 +24,6 @@ struct ImmersiveView: View {
             
             // initialize the globes
             updateGlobeEntity(to: content, attachments: attachments)
-            
-//            _ = content.subscribe(to: SceneEvents.DidAddEntity.self, handleDidAddEntity(_:))
         } update: { content, attachments in // synchronous on MainActor
             updateGlobeEntity(to: content, attachments: attachments)
         } attachments: { // synchronous on MainActor
@@ -49,6 +47,9 @@ struct ImmersiveView: View {
                     .fixedSize()
                     .glassBackgroundEffect()
             }
+        }
+        .onAppear() {
+            model.immersiveSpaceState = .open
         }
         .globeGestures(model: model, studyModel: studyModel)
     }
