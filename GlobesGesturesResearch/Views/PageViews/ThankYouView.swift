@@ -20,12 +20,6 @@ struct ThankYouView: View {
                 .padding()
         }
         .padding(40)
-        .onAppear{
-            SoundManager.shared.playSound(named: "enterAndExit")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                dismissWindow(id: ViewModel.windowID)
-            }
-        }
     }
 
 }
