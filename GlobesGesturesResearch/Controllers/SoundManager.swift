@@ -9,7 +9,9 @@ import UIKit
 import Foundation
 import AVFoundation
 
+@MainActor
 class SoundManager {
+    
     static let shared = SoundManager()
 
     private var audioPlayers: [String: AVAudioPlayer] = [:]
@@ -19,11 +21,15 @@ class SoundManager {
         preloadSound(named: "enterAndExit")
         
         NotificationCenter.default.addObserver(forName: Notification.Name("playCorrectSound"), object: nil, queue: .main) { [weak self] _ in
-            self?.playSound(named: "correct")
+            Task { @MainActor in
+                self?.playSound(named: "correct")
+            }
         }
         
         NotificationCenter.default.addObserver(forName: Notification.Name("playEnterAndExitSound"), object: nil, queue: .main) { [weak self] _ in
-            self?.playSound(named: "enterAndExit")
+            Task { @MainActor in
+                self?.playSound(named: "enterAndExit")
+            }
         }
     }
     

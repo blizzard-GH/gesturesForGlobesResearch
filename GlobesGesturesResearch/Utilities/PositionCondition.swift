@@ -7,7 +7,7 @@
 
 import Foundation
 
-
+@MainActor
 struct PositionCondition {
     
     let status: String

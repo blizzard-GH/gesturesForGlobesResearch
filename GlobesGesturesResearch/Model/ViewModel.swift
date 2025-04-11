@@ -20,7 +20,7 @@ import SwiftUI
 ///
 /// For the new Observable framework: https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro
 @Observable
-class ViewModel: CustomDebugStringConvertible {
+class ViewModel {
     
     /// Shared singleton that can be accessed by the AppDelegate.
     @MainActor
@@ -224,45 +224,8 @@ class ViewModel: CustomDebugStringConvertible {
         }
     }
     
-    // MARK: - Debug Description
-    
-    @MainActor
-    var debugDescription: String {
-        var description = "\(ViewModel.self)\n"
-        
-        // Memory
-        let availableProcMemory = os_proc_available_memory()
-        description += "Available memory: \(availableProcMemory / 1024 / 1024) MB\n"
-        
-        // Metal memory
-        if let defaultDevice = MTLCreateSystemDefaultDevice () {
-            let workingSet = defaultDevice.recommendedMaxWorkingSetSize
-            if workingSet > 0 {
-                let currentUse = defaultDevice.currentAllocatedSize
-                description += "Allocated GPU memory: \(100 * UInt64(currentUse) / workingSet)%, \(currentUse / 1024 / 1024) MB of \(workingSet / 1024 / 1024) MB\n"
-            }
-        }
-        
-        description += "Immersive space state: \(immersiveSpaceState)\n"
-        
-        // globes
-        description += "Globe configuration: \(globe.name), rotating: \(!configuration.isRotationPaused)\n"
-        if let firstGlobeEntity {
-            description += ", pos=\(firstGlobeEntity.position.x),\(firstGlobeEntity.position.y),\(firstGlobeEntity.position.z)"
-            description += ", scale=\(firstGlobeEntity.scale.x),\(firstGlobeEntity.scale.y),\(firstGlobeEntity.scale.z)"
-        }
-        description += "\n"
-        
-        // error handling
-        if let errorToShowInAlert {
-            description += "Error to show: \(errorToShowInAlert.localizedDescription)\n"
-        }
-        
-        return description
-    }
-    
     // MARK: - Gestures
-    
+    @MainActor
     func loadGestureConditions() {
         do {
             positionConditions = try PositionCondition.loadPositionConditions()

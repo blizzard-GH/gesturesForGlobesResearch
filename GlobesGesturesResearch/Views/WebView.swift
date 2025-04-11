@@ -6,7 +6,7 @@ import WebKit
 enum WebViewStatus: Equatable {
     case loading
     case finishedLoading
-    case failed(error: EquatableError)
+    case failed
     case googleFormsSubmitted(message: String)
 }
 
@@ -64,7 +64,7 @@ struct WebView: UIViewRepresentable {
                 """
             webView.evaluateJavaScript(javaScript) { (result, error) in
                 guard error == nil else {
-                    self.parent.status = .failed(error: error!.toEquatableError())
+                    self.parent.status = .failed
                     return
                 }
                 if result as? Bool == true {
@@ -75,7 +75,7 @@ struct WebView: UIViewRepresentable {
         
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             Task { @MainActor in
-                self.parent.status = .failed(error: error.toEquatableError())
+                self.parent.status = .failed
             }
         }
     }

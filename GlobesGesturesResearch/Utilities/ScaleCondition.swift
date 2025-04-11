@@ -7,7 +7,7 @@
 
 import Foundation
 
-
+@MainActor
 struct ScaleCondition {
     let status: String
     let condition1: String

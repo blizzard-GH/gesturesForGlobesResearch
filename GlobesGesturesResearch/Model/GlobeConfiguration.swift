@@ -8,6 +8,7 @@
 import SwiftUI
 
 /// Configuration information for globe entities.
+@MainActor
 struct GlobeConfiguration: Equatable {
     
     // The globe for this configuration

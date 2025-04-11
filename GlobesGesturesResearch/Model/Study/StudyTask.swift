@@ -9,7 +9,7 @@ import Foundation
 import RealityKit
 
 @MainActor
-protocol StudyTask: CustomStringConvertible {
+protocol StudyTask {
     var taskID: UUID { get }
     var actions: ThrottledArray<StudyAction> { get }
     var matcher: Matcher { get }
@@ -78,13 +78,5 @@ extension StudyTask {
         return matcher.isMatching(lastTransform)
     }
     
-}
-
-extension StudyTask {
-    
-    @MainActor
-    var description: String {
-        taskDescription
-    }
 }
 

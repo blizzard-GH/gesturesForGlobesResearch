@@ -34,10 +34,9 @@ struct WebViewDecorated: View {
                     .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 20))
             case .finishedLoading, .googleFormsSubmitted:
                 EmptyView()
-            case .failed(let error):
+            case .failed:
                 VStack {
                     Text("The page could not be loaded.")
-                    Text(error.localizedDescription)
                 }
                 .padding()
                 .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 20))

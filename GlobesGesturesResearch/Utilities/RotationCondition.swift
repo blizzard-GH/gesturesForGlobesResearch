@@ -7,7 +7,7 @@
 
 import Foundation
 
-
+@MainActor
 struct RotationCondition {
     let status: String
     let condition1: String

@@ -13,6 +13,7 @@ struct SphereLabelComponent: Component {
     let offset: Float
 }
 
+@MainActor
 struct SphereLabelSystem: System {
     static let query = EntityQuery(where: .has(SphereLabelComponent.self))
 

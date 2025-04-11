@@ -7,6 +7,7 @@
 import Foundation
 import os
 
+@MainActor
 class TaskStorageManager {
     
     enum TaskType {
@@ -24,7 +25,6 @@ class TaskStorageManager {
     }
     
     static let shared = TaskStorageManager()
-    
     
     private init() {}
     
