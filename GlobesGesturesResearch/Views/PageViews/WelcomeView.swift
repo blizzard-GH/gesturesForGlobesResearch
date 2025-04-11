@@ -46,6 +46,14 @@ struct WelcomeView: View {
                 Text("To move the window, look at the bar below the window, then pinch and move.")
                     .multilineTextAlignment(.center)
                 
+#if DEBUG
+                VStack {
+                    Label("DEBUG MODE", systemImage: "ant")
+                    Text(("Do not run the study in debug mode."))
+                }
+                .foregroundStyle(.red)
+                .controlSize(.extraLarge)
+#endif
                 NextPageButton(page: $currentPage, title: "Start") {
                     TaskStorageManager.shared.initialiseUserID()
                 }
