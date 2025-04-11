@@ -349,8 +349,10 @@ class ViewModel: CustomDebugStringConvertible {
             positionConditions = try PositionCondition.loadPositionConditions()
             rotationConditions = try RotationCondition.loadRotationConditions()
             scaleConditions = try ScaleCondition.loadScaleConditions()
-        } catch {
-            print("Failed to load gesture conditions: \(error.localizedDescription).")
+        } catch let err {
+            Task { @MainActor in
+                errorToShowInAlert = error("Failed to load gesture conditions: \(err.localizedDescription).")
+            }
         }
     }
     

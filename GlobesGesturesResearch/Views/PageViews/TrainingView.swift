@@ -92,11 +92,13 @@ struct TrainingView: View {
     
     func initialiseTrainingGlobes() {
         guard let firstGlobeEntity = model.firstGlobeEntity else {
+#warning("is this an error?")
             print("First globe does not exist")
             return
         }
         firstGlobeEntity.respawnGlobe(.left)
         guard let secondGlobeEntity = model.secondGlobeEntity else {
+#warning("is this an error?")
             print("Second globe does not exist")
             return
         }

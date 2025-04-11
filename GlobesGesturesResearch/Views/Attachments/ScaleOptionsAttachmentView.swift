@@ -17,7 +17,6 @@ struct ScaleOptionsAttachmentView: View {
                 model.moveGlobeWhileScaling
             },
             set: { newValue in
-                print("move globe", newValue)
                 model.moveGlobeWhileScaling = newValue
             }
         )

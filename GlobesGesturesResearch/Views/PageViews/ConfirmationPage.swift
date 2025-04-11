@@ -25,9 +25,6 @@ struct ConfirmationPage: View {
                 .padding()
         }
         .padding()
-        .onAppear{
-            model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
-        }
         .background(RoundedRectangle(cornerRadius: 15)
             .fill(Color(.systemGray4))
             .shadow(radius: 5))
@@ -44,21 +41,21 @@ struct ConfirmationPage: View {
         case .confirmationPagePosition2:
             do {
                 try PositionCondition.savePositionConditions(positionConditions: model.positionConditions)
-            } catch {
-                print("Failed to save position conditions: \(error.localizedDescription)")
+            } catch let err {
+                model.errorToShowInAlert = error("Failed to save position conditions: \(err.localizedDescription)")
             }
             
         case .confirmationPageRotation2:
             do {
                 try RotationCondition.saveRotationConditions(rotationConditions: model.rotationConditions)
-            } catch {
-                print("Failed to save rotation conditions: \(error.localizedDescription)")
+            } catch let err {
+                model.errorToShowInAlert = error("Failed to save rotation conditions: \(err.localizedDescription)")
             }
         case .confirmationPageScale2:
             do {
                 try ScaleCondition.saveScaleConditions(scaleConditions: model.scaleConditions)
-            } catch {
-                print("Failed to save position conditions: \(error.localizedDescription)")
+            } catch let err {
+                model.errorToShowInAlert = error("Failed to save position conditions: \(err.localizedDescription)")
             }
         default:
             break
