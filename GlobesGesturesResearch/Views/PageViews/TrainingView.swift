@@ -91,17 +91,11 @@ struct TrainingView: View {
     }
     
     func initialiseTrainingGlobes() {
-        guard let firstGlobeEntity = model.firstGlobeEntity else {
-#warning("is this an error?")
-            print("First globe does not exist")
-            return
+        guard let firstGlobeEntity = model.firstGlobeEntity,
+              let secondGlobeEntity = model.secondGlobeEntity else {
+            fatalError("Second globe does not exist")
         }
-        firstGlobeEntity.respawnGlobe(.left)
-        guard let secondGlobeEntity = model.secondGlobeEntity else {
-#warning("is this an error?")
-            print("Second globe does not exist")
-            return
-        }
+        
         firstGlobeEntity.respawnGlobe(.left)
         secondGlobeEntity.respawnGlobe(.right)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {

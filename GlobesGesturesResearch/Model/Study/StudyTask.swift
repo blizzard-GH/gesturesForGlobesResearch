@@ -30,8 +30,6 @@ extension StudyTask {
 
 extension StudyTask {
     
-    
-    
     var startTime: Date? { actions.first?.date }
     var endTime: Date? { actions.last?.date }
     

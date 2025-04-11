@@ -241,7 +241,6 @@ class ViewModel: CustomDebugStringConvertible {
             duration: duration)
                 
         Task {
-#warning("Is this correct?")
             try? await Task.sleep(for: .seconds(duration))
             await closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
         }

@@ -43,37 +43,27 @@ struct WebViewDecorated: View {
                 .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 20))
             }
         }
-        
-        //        .id(url)
+        .id(url)
         .onAppear{
             webViewStatus = .loading
-            
-#warning("Is the following needed?")
-//            let targetPages: Set<Page> = [
-//                .introForm,
-//                .positionExperimentForm1, .positionExperimentForm2,
-//                .rotationExperimentForm1, .rotationExperimentForm2,
-//                .scaleExperimentForm1, .scaleExperimentForm2
-//            ]
-//
-//            if !targetPages.contains(currentPage) && !model.configuration.isVisible {
-//                model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
-//            }
+            if showGlobe {
+                model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+            }
         }
         .onDisappear{
-#warning("Is the following needed?")
-            let targetPages: Set<Page> = [
-                .introForm,
-                .positionExperimentForm1, .positionExperimentForm2,
-                .rotationExperimentForm1, .rotationExperimentForm2,
-                .scaleExperimentForm1, .scaleExperimentForm2
-            ]
-
-            if !targetPages.contains(currentPage) {
+            if showGlobe {
                 model.hideGlobes(dismissImmersiveSpaceAction:dismissImmersiveSpaceAction)
             }
         }
-            
+    }
+    
+    private var showGlobe: Bool {
+        switch currentPage {
+        case .scaleComparison, .rotationComparison, .positionComparison, .outroForm:
+            true
+        default:
+            false
+        }
     }
 }
 

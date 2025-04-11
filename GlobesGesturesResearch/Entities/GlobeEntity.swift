@@ -369,7 +369,6 @@ class GlobeEntity: Entity {
         }
     }
     
-#warning("?")
     func refineGlobePosition(_ newCoordinate: SIMD3<Float>) {
         
         isInMovement = true
