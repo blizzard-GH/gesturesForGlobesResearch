@@ -17,56 +17,46 @@ struct WebViewDecorated: View {
     @Binding var currentPage: Page
     let url: URL
     var googleFormsConfirmationMessage: String? = nil
-    @State var loadingInformation: Bool = false
     
     @Binding var webViewStatus: WebViewStatus
     
     var body: some View {
         ZStack {
-            if loadingInformation {
-                ProgressView("Loading...")
-                    .font(.headline)
-                    .padding()
-            } else {
-                WebView(
-                    url: url,
-                    googleFormsConfirmationMessage: googleFormsConfirmationMessage,
-                    status: $webViewStatus
-                )
-                
-                switch webViewStatus {
-                case .loading:
-                    ProgressView("Loading Page")
-                        .padding()
-                        .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 20))
-                case .finishedLoading, .googleFormsSubmitted:
-                    EmptyView()
-                case .failed(let error):
-                    VStack {
-                        Text("The page could not be loaded.")
-                        Text(error.localizedDescription)
-                    }
+            WebView(
+                url: url,
+                googleFormsConfirmationMessage: googleFormsConfirmationMessage,
+                status: $webViewStatus
+            )
+            
+            switch webViewStatus {
+            case .loading:
+                ProgressView("Loading Page")
                     .padding()
                     .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 20))
+            case .finishedLoading, .googleFormsSubmitted:
+                EmptyView()
+            case .failed(let error):
+                VStack {
+                    Text("The page could not be loaded.")
+                    Text(error.localizedDescription)
                 }
+                .padding()
+                .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: 20))
             }
         }
+        
         //        .id(url)
         .onAppear{
-            Task { @MainActor in
-                loadingInformation = true
-
-                try? await Task.sleep(nanoseconds: 1_000_000_000)
-                
-                webViewStatus = .loading
-                model.updateAttachmentView(for: currentPage)
-                print("calling globes loading")
-                showOrHideGlobe(true)
-                loadingInformation = false
+            webViewStatus = .loading
+            model.updateAttachmentView(for: currentPage)
+            if currentPage != .introForm && !model.configuration.isVisible {
+                model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
             }
         }
         .onDisappear{
-            showOrHideGlobe(false)
+            if currentPage != .introForm && model.configuration.isVisible {
+                model.hideGlobes(dismissImmersiveSpaceAction:dismissImmersiveSpaceAction)
+            }
         }
             
     }
@@ -94,10 +84,10 @@ struct WebViewDecorated: View {
 
 
 #if DEBUG
-//#Preview(windowStyle: .automatic) {
-//    @Previewable @State var webViewStatus = WebViewStatus.loading
-//    WebViewDecorated(currentPage: .constant(.welcome), url: URL(string: "https://monash.edu")!, webViewStatus: $webViewStatus)
-//        .glassBackgroundEffect()
-//        .environment(ViewModel.preview)
-//}
+#Preview(windowStyle: .automatic) {
+    @Previewable @State var webViewStatus = WebViewStatus.loading
+    WebViewDecorated(currentPage: .constant(.welcome), url: URL(string: "https://monash.edu")!, webViewStatus: $webViewStatus)
+        .glassBackgroundEffect()
+        .environment(ViewModel.preview)
+}
 #endif

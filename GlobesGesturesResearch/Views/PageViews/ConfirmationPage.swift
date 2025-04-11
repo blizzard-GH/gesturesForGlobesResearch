@@ -28,10 +28,7 @@ struct ConfirmationPage: View {
         }
         .padding()
         .onAppear{
-            showOrHideGlobe(false)
-        }
-        .onDisappear{
-            showOrHideGlobe(false)
+            hideGlobe()
         }
         .background(RoundedRectangle(cornerRadius: 15)
             .fill(Color(.systemGray4))
@@ -68,24 +65,14 @@ struct ConfirmationPage: View {
         default:
             break
         }
-        showOrHideGlobe(false)
+        model.closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
         currentPage = currentPage.next()
     }
     
-    @MainActor
-    private func showOrHideGlobe(_ show: Bool) {
+    private func hideGlobe() {
         Task { @MainActor in
-            if show {
-                guard !model.configuration.isVisible else { return }
-                model.load(
-                    firstGlobe: model.globe,
-                    secondGlobe: model.secondGlobe,
-                    openImmersiveSpaceAction: openImmersiveSpaceAction
-                )
-            } else {
-                guard model.configuration.isVisible else { return }
-                model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
-            }
+            guard model.configuration.isVisible else { return }
+            model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
         }
     }
 }

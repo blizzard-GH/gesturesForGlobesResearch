@@ -61,7 +61,9 @@ struct TrainingView: View {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                 model.updateAttachmentView(for: currentPage)
-                showOrHideGlobe(true)
+                if !model.configuration.isVisible {
+                    model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+                }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     initialiseTrainingGlobes()
                     loadingInformation = false
@@ -69,7 +71,9 @@ struct TrainingView: View {
             }
         }
         .onDisappear{
-            showOrHideGlobe(false)
+            if model.configuration.isVisible {
+                model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
+            }
             player?.pause()
         }
         .frame(minWidth: 800)

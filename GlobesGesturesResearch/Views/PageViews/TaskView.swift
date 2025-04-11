@@ -36,8 +36,9 @@ struct TaskView: View {
                           
                             showTaskContent = true
                             // Show the globe
-                            showOrHideGlobe(true)
-                            
+                            if !model.configuration.isVisible {
+                                model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+                            }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                                 initializeGlobes()
                             }
@@ -59,7 +60,9 @@ struct TaskView: View {
             isDoingTask = false
             showTaskContent = false
             model.updateAttachmentView(for: currentPage)
-            showOrHideGlobe(false)
+            if model.configuration.isVisible {
+                model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
+            }
         }
     }
     
