@@ -9,58 +9,75 @@ import SwiftUI
 import AVKit
 import RealityFoundation
 
+enum TrainingPhase {
+    case watchingVideo
+    case practicingGesture
+    
+    var instructions: String {
+        switch self {
+        case .watchingVideo:
+            "Watch the video to understand the task and ask the instructor for help if needed."
+        case .practicingGesture:
+            "Practice the task as shown in the video. When ready, press \"Finish Training\""
+        }
+    }
+}
+
 struct TrainingView: View {
     @Environment(ViewModel.self) var model
     @Environment(StudyModel.self) var studyModel
     @Environment(\.openImmersiveSpace) var openImmersiveSpaceAction
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpaceAction
     
-    @State private var loadingInformation: Bool = false
     @State private var player: AVPlayer? = nil
-        
+    @State private var trainingPhase = TrainingPhase.watchingVideo
+    
     var body: some View {
         VStack {
-            if loadingInformation {
-                ProgressView("Loading...")
-                    .font(.headline)
+            let details = studyModel.currentPage.trainingDetails
+            Text(" Training for \(details.trainingType).")
+                .font(.title)
+                .padding()
+            
+            Text("Learn how to \(details.gestureMethod) the globe.")
+                .font(.headline)
+                .padding()
+            
+            if let player {
+                VideoPlayer(player: player)
+                    .frame(width: 640, height: 360)
+                    .cornerRadius(16)
                     .padding()
             } else {
-                let details = studyModel.currentPage.trainingDetails
-                Text(" Training for \(details.trainingType).")
-                    .font(.title)
-                    .padding()
-                
-                Text("Learn how to \(details.gestureMethod) the globe.")
-                    .font(.headline)
-                    .padding()
-                
-                if let player {
-                    VideoPlayer(player: player)
-                        .frame(width: 640, height: 360)
-                        .cornerRadius(16)
-                        .padding()
-                } else {
-                    ProgressView("Loading video...")
-                        .frame(height: 360)
+                ProgressView("Loading video...")
+                    .frame(height: 360)
+            }
+            
+            Text(trainingPhase.instructions)
+            
+            switch trainingPhase {
+            case .watchingVideo:
+                Button("Start Training") {
+                    trainingPhase = .practicingGesture
+                    Task {
+                        await model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+                        initialiseTrainingGlobes()
+                    }
                 }
-                
+                .controlSize(.large)
+                .padding()
+            case .practicingGesture:
                 NextPageButton(title: "Finish Training")
                     .padding()
-                
-                Spacer().frame(height: 50)
             }
+            
+            Spacer().frame(height: 50)
         }
         .task {
-            loadingInformation = true
-            
             if let videoURL = Bundle.main.url(forResource: videoFilename, withExtension: "mp4") {
                 player = AVPlayer(url: videoURL)
             }
             player?.play()
-            
-            await model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
-            initialiseTrainingGlobes()
-            loadingInformation = false
         }
         .onDisappear{
             model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
