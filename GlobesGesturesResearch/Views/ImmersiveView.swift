@@ -101,9 +101,6 @@ struct ImmersiveView: View {
              
         // update attachments
         addAttachments(attachments)
-
-        // update globe rotation
-        model.firstGlobeEntity?.updateRotation(configuration: model.configuration)
     }
     
     @MainActor

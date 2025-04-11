@@ -11,10 +11,7 @@ import SwiftUI
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
-        // register custom components and systems
-        RotationComponent.registerComponent()
-        RotationSystem.registerSystem()
-        
+        // register custom components and systems       
         SphereLabelComponent.registerComponent()
         SphereLabelSystem.registerSystem()
         

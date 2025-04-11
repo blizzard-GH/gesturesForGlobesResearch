@@ -109,24 +109,6 @@ class GlobeEntity: Entity {
         ))
     }
     
-    @MainActor
-    /// Set the speed of the automatic rotation
-    /// - Parameter configuration: Configuration with rotation speed information.
-    func updateRotation(configuration: GlobeConfiguration) {
-        guard let modelEntity else { return }
-        if var rotationComponent: RotationComponent = modelEntity.components[RotationComponent.self] {
-            rotationComponent.speed = configuration.currentRotationSpeed
-            rotationComponent.globeRadius = configuration.globe.radius
-            modelEntity.components[RotationComponent.self] = rotationComponent
-        } else {
-            let rotationComponent = RotationComponent(
-                speed: configuration.currentRotationSpeed,
-                globeRadius: configuration.globe.radius
-            )
-            modelEntity.components.set(rotationComponent)
-        }
-    }
-    
     /// Apply animated transformation. All values in global space. Stops any current animation and updates `self.animationPlaybackController`.
     /// - Parameters:
     ///   - scale: New scale. If nil, scale is not changed.
