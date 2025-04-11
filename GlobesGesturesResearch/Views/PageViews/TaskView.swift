@@ -27,22 +27,11 @@ struct TaskView: View {
                     Text("Press the button when you are ready.")
                         .padding()
                     
-                    StartExperimentButton(isDoingTask: $isDoingTask)
-                        .padding()
-                } else {
-                    if !showTaskContent {
-                        GetReady() {
-                            showTaskContent = true
-                            Task {
-                                // Show the globe
-                                await model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
-                                initializeGlobes()
-                                dismissWindow(id: ViewModel.windowID)
-                            }
-                        }
-                    } else {
-                        InstructionView()
+                    Button(action: { isDoingTask = true }) {
+                        Label("Start Experiment", systemImage: "globe")
                     }
+                    .tint(.accentColor)
+                    .padding()
                 }
             } else {
                 Text("Invalid Task")

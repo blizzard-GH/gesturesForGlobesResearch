@@ -80,8 +80,9 @@ extension StudyTask {
     
 }
 
-@MainActor
 extension StudyTask {
+    
+    @MainActor
     var description: String {
         taskDescription
     }

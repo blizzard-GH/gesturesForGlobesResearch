@@ -47,12 +47,9 @@
 		972409E62D5AE97A0006A1CD /* TrainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972409E52D5AE9760006A1CD /* TrainingView.swift */; };
 		9742BB292D33E1B7001079D4 /* GestureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9742BB282D33E1B2001079D4 /* GestureType.swift */; };
 		976EF99B2D87E39B008A56DA /* RotationOptionsAttachmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976EF99A2D87E391008A56DA /* RotationOptionsAttachmentView.swift */; };
-		9798B5372D11C7F400D0319C /* InstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9798B5362D11C7EF00D0319C /* InstructionView.swift */; };
 		97C198AF2D2ED1F100655735 /* RotationMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C198AE2D2ED1E100655735 /* RotationMatcher.swift */; };
 		97C198B12D2ED20100655735 /* ScaleMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C198B02D2ED1FA00655735 /* ScaleMatcher.swift */; };
-		97C37A202D12787200E628CB /* GetReady.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C37A1F2D12786F00E628CB /* GetReady.swift */; };
 		97C37A222D12DDCB00E628CB /* PositionMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C37A212D12DDC700E628CB /* PositionMatcher.swift */; };
-		97D85BFD2D09299300C9D1B9 /* StartExperimentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D85BFC2D09298B00C9D1B9 /* StartExperimentButton.swift */; };
 		97D8C1382D3FF3070079F1C1 /* GestureStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D8C1372D3FF3020079F1C1 /* GestureStatus.swift */; };
 		97D8C13A2D3FF4A50079F1C1 /* TaskStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D8C1392D3FF4A10079F1C1 /* TaskStorageManager.swift */; };
 		97E82D482D564F9600A94A2F /* ScaleCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E82D472D564F9100A94A2F /* ScaleCondition.swift */; };
@@ -108,12 +105,9 @@
 		972409E52D5AE9760006A1CD /* TrainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainingView.swift; sourceTree = "<group>"; };
 		9742BB282D33E1B2001079D4 /* GestureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureType.swift; sourceTree = "<group>"; };
 		976EF99A2D87E391008A56DA /* RotationOptionsAttachmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationOptionsAttachmentView.swift; sourceTree = "<group>"; };
-		9798B5362D11C7EF00D0319C /* InstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionView.swift; sourceTree = "<group>"; };
 		97C198AE2D2ED1E100655735 /* RotationMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationMatcher.swift; sourceTree = "<group>"; };
 		97C198B02D2ED1FA00655735 /* ScaleMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleMatcher.swift; sourceTree = "<group>"; };
-		97C37A1F2D12786F00E628CB /* GetReady.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReady.swift; sourceTree = "<group>"; };
 		97C37A212D12DDC700E628CB /* PositionMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionMatcher.swift; sourceTree = "<group>"; };
-		97D85BFC2D09298B00C9D1B9 /* StartExperimentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartExperimentButton.swift; sourceTree = "<group>"; };
 		97D8C1372D3FF3020079F1C1 /* GestureStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureStatus.swift; sourceTree = "<group>"; };
 		97D8C1392D3FF4A10079F1C1 /* TaskStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStorageManager.swift; sourceTree = "<group>"; };
 		97E82D472D564F9100A94A2F /* ScaleCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleCondition.swift; sourceTree = "<group>"; };
@@ -171,7 +165,6 @@
 		7D4357812DA8F96A005B64C6 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				97D85BFC2D09298B00C9D1B9 /* StartExperimentButton.swift */,
 				7D6CB8A02D9F9B1200F86560 /* NextPageButton.swift */,
 			);
 			path = Buttons;
@@ -310,8 +303,6 @@
 			children = (
 				7D4357812DA8F96A005B64C6 /* Buttons */,
 				7D839A142D41D4CA00F08DC3 /* Attachments */,
-				97C37A1F2D12786F00E628CB /* GetReady.swift */,
-				9798B5362D11C7EF00D0319C /* InstructionView.swift */,
 				7DD56E5A2C6CC830009AE72C /* ContentView.swift */,
 				7D60D9502CF84F2900D7C8AD /* PageViews */,
 				7DD56E5C2C6CC830009AE72C /* ImmersiveView.swift */,
@@ -412,7 +403,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D60D9562CF84F2C00D7C8AD /* CaseIterable+Next.swift in Sources */,
-				9798B5372D11C7F400D0319C /* InstructionView.swift in Sources */,
 				7DE6A6F62C6E1DCC00E0D956 /* WebView.swift in Sources */,
 				97C198AF2D2ED1F100655735 /* RotationMatcher.swift in Sources */,
 				97D8C13A2D3FF4A50079F1C1 /* TaskStorageManager.swift in Sources */,
@@ -443,7 +433,6 @@
 				97F4BB332D9689BB00314DD1 /* GestureCombinationAttachmentView.swift in Sources */,
 				7D60D9582CF8550F00D7C8AD /* Page.swift in Sources */,
 				7DD56E5D2C6CC830009AE72C /* ImmersiveView.swift in Sources */,
-				97C37A202D12787200E628CB /* GetReady.swift in Sources */,
 				97E82D4C2D56534F00A94A2F /* PositionCondition.swift in Sources */,
 				7D839A132D41D3A800F08DC3 /* PositionOptionsAttachmentView.swift in Sources */,
 				97E82D4E2D56536300A94A2F /* RotationCondition.swift in Sources */,
@@ -460,7 +449,6 @@
 				7DE6A6F72C6E1DCC00E0D956 /* WebViewDecorated.swift in Sources */,
 				7D2F439F2D3B50A300928A68 /* Matcher.swift in Sources */,
 				972409E62D5AE97A0006A1CD /* TrainingView.swift in Sources */,
-				97D85BFD2D09299300C9D1B9 /* StartExperimentButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,7 +585,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GlobesGesturesResearch/Preview Content\"";
-				DEVELOPMENT_TEAM = P3579KHFBJ;
+				DEVELOPMENT_TEAM = L8FKNLG3XM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
@@ -626,7 +614,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GlobesGesturesResearch/Preview Content\"";
-				DEVELOPMENT_TEAM = P3579KHFBJ;
+				DEVELOPMENT_TEAM = L8FKNLG3XM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
