@@ -28,7 +28,7 @@ struct PositionOptionsAttachmentView: View {
             .padding()
             
             Text(model.rotateGlobeWhileDragging ? rotateInfo : staticInfo)
-                .padding()
+                .padding(.bottom)
         }
         .padding()
     }
