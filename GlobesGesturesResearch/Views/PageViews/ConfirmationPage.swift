@@ -44,7 +44,6 @@ struct ConfirmationPage: View {
             } catch let err {
                 model.errorToShowInAlert = error("Failed to save position conditions: \(err.localizedDescription)")
             }
-            
         case .confirmationPageRotation2:
             do {
                 try RotationCondition.saveRotationConditions(rotationConditions: model.rotationConditions)

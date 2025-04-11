@@ -174,6 +174,15 @@
 			path = Matcher;
 			sourceTree = "<group>";
 		};
+		7D4357812DA8F96A005B64C6 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				97D85BFC2D09298B00C9D1B9 /* StartExperimentButton.swift */,
+				7D6CB8A02D9F9B1200F86560 /* NextPageButton.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
 		7D60D9502CF84F2900D7C8AD /* PageViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,16 +317,15 @@
 		7DD56E8C2C6CD171009AE72C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7D4357812DA8F96A005B64C6 /* Buttons */,
 				7D839A142D41D4CA00F08DC3 /* Attachments */,
 				97C37A1F2D12786F00E628CB /* GetReady.swift */,
 				9798B5362D11C7EF00D0319C /* InstructionView.swift */,
 				7DD56E5A2C6CC830009AE72C /* ContentView.swift */,
 				7D60D9502CF84F2900D7C8AD /* PageViews */,
-				97D85BFC2D09298B00C9D1B9 /* StartExperimentButton.swift */,
 				7DD56E5C2C6CC830009AE72C /* ImmersiveView.swift */,
 				7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */,
 				7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */,
-				7D6CB8A02D9F9B1200F86560 /* NextPageButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
