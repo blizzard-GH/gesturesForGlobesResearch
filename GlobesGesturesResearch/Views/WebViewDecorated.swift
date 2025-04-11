@@ -49,12 +49,26 @@ struct WebViewDecorated: View {
         .onAppear{
             webViewStatus = .loading
             model.updateAttachmentView(for: currentPage)
-            if currentPage != .introForm && !model.configuration.isVisible {
+            let targetPages: Set<Page> = [
+                .introForm,
+                .positionExperimentForm1, .positionExperimentForm2,
+                .rotationExperimentForm1, .rotationExperimentForm2,
+                .scaleExperimentForm1, .scaleExperimentForm2
+            ]
+
+            if !targetPages.contains(currentPage) && !model.configuration.isVisible {
                 model.loadSingleGlobe(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
             }
         }
         .onDisappear{
-            if currentPage != .introForm && model.configuration.isVisible {
+            let targetPages: Set<Page> = [
+                .introForm,
+                .positionExperimentForm1, .positionExperimentForm2,
+                .rotationExperimentForm1, .rotationExperimentForm2,
+                .scaleExperimentForm1, .scaleExperimentForm2
+            ]
+
+            if !targetPages.contains(currentPage) && !model.configuration.isVisible {
                 model.hideGlobes(dismissImmersiveSpaceAction:dismissImmersiveSpaceAction)
             }
         }
