@@ -50,7 +50,7 @@ struct TrainingView: View {
                 Spacer().frame(height: 50)
             }
         }
-        .onAppear{
+        .task {
             loadingInformation = true
             
             if let videoURL = Bundle.main.url(forResource: videoFilename, withExtension: "mp4") {
@@ -58,12 +58,9 @@ struct TrainingView: View {
             }
             player?.play()
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                model.updateAttachmentView(for: studyModel.currentPage)
-                model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
-                initialiseTrainingGlobes()
-                loadingInformation = false                
-            }
+            await model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+            initialiseTrainingGlobes()
+            loadingInformation = false
         }
         .onDisappear{
             model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
@@ -90,7 +87,7 @@ struct TrainingView: View {
         }
     }
     
-    func initialiseTrainingGlobes() {
+    private func initialiseTrainingGlobes() {
         guard let firstGlobeEntity = model.firstGlobeEntity,
               let secondGlobeEntity = model.secondGlobeEntity else {
             fatalError("Second globe does not exist")
@@ -98,13 +95,12 @@ struct TrainingView: View {
         
         firstGlobeEntity.respawnGlobe(.left)
         secondGlobeEntity.respawnGlobe(.right)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-            if studyModel.currentPage == .rotationTraining1 || studyModel.currentPage == .rotationTraining2 {
-                initialGlobesRotation(first: firstGlobeEntity, second: secondGlobeEntity)
-            }
-            if studyModel.currentPage == .scaleTraining {
-                initialGlobesScaling(first: firstGlobeEntity, second: secondGlobeEntity)
-            }
+        
+        if studyModel.currentPage == .rotationTraining1 || studyModel.currentPage == .rotationTraining2 {
+            initialGlobesRotation(first: firstGlobeEntity, second: secondGlobeEntity)
+        }
+        if studyModel.currentPage == .scaleTraining {
+            initialGlobesScaling(first: firstGlobeEntity, second: secondGlobeEntity)
         }
     }
     

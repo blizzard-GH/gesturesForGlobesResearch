@@ -138,28 +138,24 @@ class ViewModel: CustomDebugStringConvertible {
     ///   - globe: The globe to show.
     ///   - selection: When selection is not `none`, the texture is replaced periodically with a texture of one of the globes in the selection.
     ///   - openImmersiveSpaceAction: Action for opening an immersive space.
-    func load(firstGlobe: Globe, secondGlobe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) {
-        guard immersiveSpaceState == .closed else { return }
+    func load(firstGlobe: Globe, secondGlobe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) async {
+        await openImmersiveGlobeSpace(openImmersiveSpaceAction)
         
-        Task {
-            await openImmersiveGlobeSpace(openImmersiveSpaceAction)
+        do {
+            async let globe1 = GlobeEntity(globe: firstGlobe)
+            async let globe2 = GlobeEntity(globe: secondGlobe)
+            let entities = try await (globe1, globe2)
             
-            async let firstGlobeEntity = GlobeEntity(globe: firstGlobe)
-            async let secondGlobeEntity = GlobeEntity(globe: secondGlobe)
+            entities.0.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
+            entities.1.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: 0.5)
             
-            do {
-                let entities = try await (firstGlobeEntity, secondGlobeEntity)
-                Task { @MainActor in
-                    storeGlobeEntities(entities.0, entities.1)
-                    
-                    entities.0.respawnGlobe(.left)
-                    entities.1.respawnGlobe(.right)
-                }
-            } catch {
-                Task { @MainActor in
-                    loadingGlobeFailed(id: nil)
-                }
-            }
+            entities.0.respawnGlobe(.left)
+            entities.1.respawnGlobe(.right)
+            
+            firstGlobeEntity = entities.0
+            secondGlobeEntity = entities.1
+        } catch {
+            errorToShowInAlert = error
         }
     }
     
@@ -170,7 +166,7 @@ class ViewModel: CustomDebugStringConvertible {
     ///   - openImmersiveSpaceAction: Action for opening an immersive space.
     func loadSingleGlobe(globe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) {
         guard immersiveSpaceState == .closed else { return }
-
+#warning("Remove tasks?")
         Task {
             await openImmersiveGlobeSpace(openImmersiveSpaceAction)
             
@@ -194,23 +190,9 @@ class ViewModel: CustomDebugStringConvertible {
     @MainActor
     /// Called after a  globe entity has been loaded.
     /// - Parameter globeEntity: The globe entity to add.
-    func storeGlobeEntities(_ firstEntity: GlobeEntity, _ secondEntity: GlobeEntity) {
-        // Configure and position first globe
-        firstEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
-        
-        // Configure and position second globe
-        secondEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: 0.5)
-        
-        firstGlobeEntity = firstEntity
-        secondGlobeEntity = secondEntity
-    }
-    
-    @MainActor
-    /// Called after a  globe entity has been loaded.
-    /// - Parameter globeEntity: The globe entity to add.
     func storeSingleGlobeEntity(_ firstEntity: GlobeEntity) {
         firstEntity.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
-                
+        
         firstGlobeEntity = firstEntity
     }
     
@@ -239,7 +221,7 @@ class ViewModel: CustomDebugStringConvertible {
             newScale: 0.001,
             radius: secondGlobe.radius,
             duration: duration)
-                
+        
         Task {
             try? await Task.sleep(for: .seconds(duration))
             await closeImmersiveGlobeSpace(dismissImmersiveSpaceAction)
@@ -272,9 +254,7 @@ class ViewModel: CustomDebugStringConvertible {
         case .userCancelled:
             immersiveSpaceState = .closed
         case .error:
-            Task { @MainActor in
-                errorToShowInAlert = error("A globe could not be shown.")
-            }
+            errorToShowInAlert = error("A globe could not be shown.")
             fallthrough
         @unknown default:
             // On unknown response, assume space did not open.
@@ -359,7 +339,7 @@ class ViewModel: CustomDebugStringConvertible {
     func updatePositionConditions(currentPage: Page) {
         let rotatingGlobeList: [PositionCondition.PositioningGesture]
         rotatingGlobeList = PositionCondition.positionConditionsGetter(for: positionConditions,
-                                                                   lastUsedIndex: PositionCondition.lastUsedPositionConditionIndex).0
+                                                                       lastUsedIndex: PositionCondition.lastUsedPositionConditionIndex).0
         switch currentPage {
         case .positionExperiment1, .confirmationPagePosition1, .positionExperimentForm1:
             if rotatingGlobeList[0] == .notRotating{
@@ -382,7 +362,7 @@ class ViewModel: CustomDebugStringConvertible {
     func updateRotationConditions(currentPage: Page) {
         let modalitylist: [RotationCondition.RotationGestureModality]
         modalitylist = RotationCondition.rotationConditionsGetter(for: rotationConditions,
-                                                              lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex).0
+                                                                  lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex).0
         switch currentPage {
         case .rotationTraining1, .rotationExperiment1, .confirmationPageRotation1, .rotationExperimentForm1:
             if modalitylist[0] == .oneHanded{
@@ -405,7 +385,7 @@ class ViewModel: CustomDebugStringConvertible {
     func updateScaleConditions(currentPage: Page) {
         let movingGlobeList: [ScaleCondition.ScalingGesture]
         movingGlobeList = ScaleCondition.scaleConditionsGetter(for: scaleConditions,
-                                                                   lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex).0
+                                                               lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex).0
         switch currentPage {
         case .scaleExperiment1, .confirmationPageScale1, .scaleExperimentForm1:
             if movingGlobeList[0] == .notMoving{

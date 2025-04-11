@@ -33,12 +33,10 @@ struct TaskView: View {
                     if !showTaskContent {
                         GetReady() {
                             showTaskContent = true
-                            // Show the globe
-                            model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                            Task {
+                                // Show the globe
+                                await model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
                                 initializeGlobes()
-                            }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 dismissWindow(id: ViewModel.windowID)
                             }
                         }
@@ -51,10 +49,6 @@ struct TaskView: View {
                     .foregroundColor(.red)
                     .padding()
             }
-        }
-        .onAppear{
-            isDoingTask = false
-            showTaskContent = false
         }
     }
     
