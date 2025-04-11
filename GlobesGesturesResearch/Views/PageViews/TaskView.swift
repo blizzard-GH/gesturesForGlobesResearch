@@ -55,7 +55,6 @@ struct TaskView: View {
         .onAppear{
             isDoingTask = false
             showTaskContent = false
-            model.updateAttachmentView(for: studyModel.currentPage)
             model.hideGlobes(dismissImmersiveSpaceAction: dismissImmersiveSpaceAction)
         }
     }

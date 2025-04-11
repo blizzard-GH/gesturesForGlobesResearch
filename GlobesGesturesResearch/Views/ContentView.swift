@@ -42,6 +42,7 @@ struct ContentView: View {
                 _ = SoundManager.shared
             }
             .onChange(of: studyModel.currentPage) {
+                model.updateAttachmentView(for: studyModel.currentPage)
                 model.updatePositionConditions(currentPage: studyModel.currentPage)
                 model.updateRotationConditions(currentPage: studyModel.currentPage)
                 model.updateScaleConditions(currentPage: studyModel.currentPage)

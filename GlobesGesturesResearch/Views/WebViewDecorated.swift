@@ -47,7 +47,6 @@ struct WebViewDecorated: View {
         //        .id(url)
         .onAppear{
             webViewStatus = .loading
-            model.updateAttachmentView(for: currentPage)
             
 #warning("Is the following needed?")
 //            let targetPages: Set<Page> = [
