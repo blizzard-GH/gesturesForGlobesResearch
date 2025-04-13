@@ -34,24 +34,24 @@ class ViewModel {
         shortName: "Main Globe",
         nameTranslated: nil,
         authorSurname: "None",
-        authorFirstName: "None",
+        authorFirstName: "Natural Earth",
         date: "2025",
-        description: "This is the main globe used for gestures research.",
-        infoURL: URL(string: "https://www.solarsystemscope.com/textures/"),
+        description: "Natural Earth 8K version.",
+        infoURL: URL(string: "https://shadedrelief.com/ne-draft/"),
         radius: 0.325,
         texture: "NE1_HR_SR_OB_DR_8k"
     )
     
     @MainActor
     let secondGlobe = Globe(
-        name: "Second Globe",
+        name: "Target Globe",
         shortName: "Target Globe",
         nameTranslated: nil,
         authorSurname: "None",
-        authorFirstName: "None",
-        date: "2024",
-        description: "This is a target globe.",
-        infoURL: URL(string: "https://www.solarsystemscope.com/textures/"),
+        authorFirstName: "Natural Earth 8K version with Black and White layer",
+        date: "20245",
+        description: "This is a target globe used for gestures research.",
+        infoURL: URL(string: "https://shadedrelief.com/ne-draft/"),
         radius: 0.325,
         texture: "NE1_HR_SR_OB_DR_8k_MC"
     )
