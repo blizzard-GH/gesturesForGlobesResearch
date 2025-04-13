@@ -49,7 +49,7 @@ class ViewModel {
         nameTranslated: nil,
         authorSurname: "None",
         authorFirstName: "Natural Earth 8K version with Black and White layer and color-inverted",
-        date: "20245",
+        date: "2025",
         description: "This is a target globe used for gestures research.",
         infoURL: URL(string: "https://shadedrelief.com/ne-draft/"),
         radius: 0.325,
