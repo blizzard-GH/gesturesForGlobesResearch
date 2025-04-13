@@ -53,7 +53,7 @@ class ViewModel {
         description: "This is a target globe.",
         infoURL: URL(string: "https://www.solarsystemscope.com/textures/"),
         radius: 0.325,
-        texture: "EarthBW"
+        texture: "NE1_HR_SR_OB_DR_8k_MC"
     )
     
     var positionConditions: [PositionCondition] = []
