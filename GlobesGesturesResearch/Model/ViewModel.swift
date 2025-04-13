@@ -48,12 +48,12 @@ class ViewModel {
         shortName: "Target Globe",
         nameTranslated: nil,
         authorSurname: "None",
-        authorFirstName: "Natural Earth 8K version with Black and White layer",
+        authorFirstName: "Natural Earth 8K version with Black and White layer and color-inverted",
         date: "20245",
         description: "This is a target globe used for gestures research.",
         infoURL: URL(string: "https://shadedrelief.com/ne-draft/"),
         radius: 0.325,
-        texture: "NE1_HR_SR_OB_DR_8k_MC"
+        texture: "NE1_HR_SR_OB_DR_8k_MC_Inverted"
     )
     
     var positionConditions: [PositionCondition] = []
