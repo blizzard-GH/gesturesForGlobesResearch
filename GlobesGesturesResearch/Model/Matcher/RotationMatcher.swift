@@ -11,7 +11,7 @@ import RealityKit
 @Observable
 class RotationMatcher: Matcher {
     let rotationTarget: simd_quatf
-    let tolerance: Float = 10 * .pi * 180
+    let tolerance: Float = 15 * .pi / 180
         
     init(rotationTarget: simd_quatf) {
         self.rotationTarget = rotationTarget
@@ -29,9 +29,12 @@ class RotationMatcher: Matcher {
     private func quaternionAngleDifference(q1: simd_quatf, q2: simd_quatf) -> Float {
         let q1 = simd_normalize(q1)
         let q2 = simd_normalize(q2)
-        let v1 = q1.act([0, 1, 0])
-        let v2 = q2.act([0, 1, 0])
-        let angle = acos(simd_dot(v1, v2))
+        
+        // Compute the dot product and clamp to avoid numerical issues
+        let dotProduct = simd_dot(q1, q2)
+        let clampedDot = max(-1.0, min(1.0, dotProduct))
+        let angle = 2 * acos(clampedDot)
+       
         return angle
     }
 }
