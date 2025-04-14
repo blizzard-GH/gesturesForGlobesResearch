@@ -33,8 +33,14 @@ class RotationMatcher: Matcher {
         // Compute the dot product and clamp to avoid numerical issues
         let dotProduct = simd_dot(q1, q2)
         let clampedDot = max(-1.0, min(1.0, dotProduct))
-        let angle = 2 * acos(clampedDot)
-       
+        let angle = acos(clampedDot)
+        print("angle: \(angle / .pi * 180)")
+        
+        let dx = simd_length((q1 - q2).vector)
+        let dy = simd_length((q1 + q2).vector)
+        let angle2 = 2 * atan2(dx, dy)
+        print("angle2: \(angle2 / .pi * 180)")
+        
         return angle
     }
 }
