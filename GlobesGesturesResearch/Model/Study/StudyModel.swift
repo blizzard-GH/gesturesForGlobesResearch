@@ -34,7 +34,6 @@ class StudyModel {
 //    Current task
     var currentTask: StudyTask?
     var currentPage: Page = .welcome
-//    var currentTaskPage: Page = .welcome
     
     /// Create the next task
     func setupNextTask(gestureType: GestureType, originalTransform: Transform, targetTransform: Transform, soundManager: SoundManager) {
@@ -86,7 +85,7 @@ class StudyModel {
     func storeTask() {
         guard let task = currentTask else { return }
         Log.task(task)
-        print(task.isMatching ? "Globes matched." : "Globes are not matched.")
+        Log.info(task.isMatching ? "Globes matched." : "Globes are not matched.")
         task.saveToFile()
         
         switch task {
@@ -99,7 +98,6 @@ class StudyModel {
         default:
             fatalError("Unknown task type")
         }
-//        currentTask = nil
     }
     
     func log() {

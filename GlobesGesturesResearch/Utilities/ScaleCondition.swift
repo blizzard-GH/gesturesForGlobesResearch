@@ -154,7 +154,7 @@ struct ScaleCondition {
                            activeSubject.condition2]
         
         if conditionValues.isEmpty {
-            print("No conditions available.")
+            Log.error("No conditions available.")
             return ([.notMoving, .moving], .smallToLarge)
         }
         
@@ -181,7 +181,7 @@ struct ScaleCondition {
     
     static func scaleConditionsSetter(for scaleConditions: [ScaleCondition], lastUsedIndex: inout Int) {
         guard let activeSubject = scaleConditions.first(where: { $0.status == "Active"}) else {
-            print("No active subject exists.")
+            Log.error("No active subject exists.")
             return
         }
         
@@ -189,7 +189,7 @@ struct ScaleCondition {
                            activeSubject.condition2]
         
         if conditionValues.isEmpty {
-            print("No conditions available.")
+            Log.error("No conditions available.")
             return
         }
         

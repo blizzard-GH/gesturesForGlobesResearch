@@ -5,7 +5,6 @@
 //  Created by Faisal Agung Abdillah on 21/1/2025.
 //
 import Foundation
-import os
 
 @MainActor
 class TaskStorageManager {
@@ -113,10 +112,10 @@ class TaskStorageManager {
             } else {
                 try csvString.write(to: fileURL, atomically: true, encoding: .utf8)
             }
-            Logger().info("Data saved to \(fileURL.path)")
-            print("Path: \(fileURL.path)")
+            Log.info("Data saved to \(fileURL.path)")
+            Log.info("Path: \(fileURL.path)")
         } catch {
-            Logger().error("Failed to save CSV: \(error.localizedDescription)")
+            Log.error("Failed to save CSV: \(error.localizedDescription)")
         }
     }
     
@@ -138,19 +137,4 @@ class TaskStorageManager {
 
         return 1000  
     }
-    
-//    func convertToCSVRow<T: Encodable>(_ task: T) throws -> String {
-//        let data = try JSONEncoder().encode(task)
-//        let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] ?? [:]
-//        
-//        let row = dictionary.values.map { "\($0)" }.joined(separator: ",") + "\n"
-//        return row
-//    }
-//     
-//    func extractCSVHeaders<T: Encodable>(from task: T) -> String {
-//        let data = try? JSONEncoder().encode(task)
-//        let dictionary = (try? JSONSerialization.jsonObject(with: data!, options: [])) as? [String: Any] ?? [:]
-//        
-//        return dictionary.keys.joined(separator: ",") + "\n"
-//    }
 }

@@ -134,7 +134,7 @@ struct RotationCondition {
         var complexity: Complexity = .simple
         
         guard let activeSubject = rotationConditions.first(where: { $0.status == "Active"}) else {
-            print("No active subject exists.")
+            Log.error("No active subject exists.")
             return ([.oneHanded, .twoHanded], .simple)
         }
         
@@ -153,7 +153,7 @@ struct RotationCondition {
                            activeSubject.condition2]
         
         if conditionValues.isEmpty {
-            print("No conditions available.")
+            Log.error("No conditions available.")
             return ([.oneHanded, .twoHanded], .simple)
         }
         
@@ -181,7 +181,7 @@ struct RotationCondition {
     
     static func rotationConditionsSetter(for rotationConditions: [RotationCondition], lastUsedIndex: inout Int) {
         guard let activeSubject = rotationConditions.first(where: { $0.status == "Active"}) else {
-            print("No active subject exists.")
+            Log.error("No active subject exists.")
             return
         }
         
@@ -189,7 +189,7 @@ struct RotationCondition {
                            activeSubject.condition2]
         
         if conditionValues.isEmpty {
-            print("No conditions available.")
+            Log.error("No conditions available.")
             return
         }
         

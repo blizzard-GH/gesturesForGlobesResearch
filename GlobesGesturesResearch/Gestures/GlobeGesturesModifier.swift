@@ -1,5 +1,4 @@
 import ARKit
-import os
 import RealityKit
 import SwiftUI
 import simd
@@ -377,7 +376,6 @@ private struct GlobeGesturesModifier: ViewModifier {
                         PositionCondition.positionConditionsSetter(for: model.positionConditions,
                                                                    lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
                         model.secondGlobeEntity?.refineGlobePosition(counterPosition ?? SIMD3<Float>(0,0.9,-0.5))
-                        //                        print("POSITION INDEX: \(PositionCondition.lastUsedPositionConditionIndex)")
                         if PositionCondition.positionConditionsCompleted == true {
                             showNextPageOnWindow()
                         }
@@ -1155,8 +1153,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                 guard let firstGlobeEntity = model.firstGlobeEntity, let secondGlobeEntity = model.secondGlobeEntity else { return }
                 
                 guard let currentTask = studyModel.currentTask else {
-                    print("current task does not exist")
-                    return }
+                    Log.error("current task does not exist")
+                    return
+                }
                 studyModel.currentTask?.updateAccuracyResult()
                 
                 if currentTask.isMatching == true {

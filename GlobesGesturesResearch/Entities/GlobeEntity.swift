@@ -383,7 +383,7 @@ class GlobeEntity: Entity {
         isInMovement = true
         
         guard let cameraPosition = CameraTracker.shared.position else {
-            print("Camera position is unknown.")
+            Log.error("Camera position is unknown.")
             return SIMD3<Float>(0.0, 0.8, -1.5)
         }
         
@@ -528,8 +528,6 @@ class GlobeEntity: Entity {
         
         let (_, zoomDirection) = ScaleCondition.scaleConditionsGetter(for: scaleConditions, lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex)
         
-//        print("Current Condition: \(zoomDirection), useFirstScaleIndex: \(useFirstScaleIndex), is moving: \(movingGlobe)")
-        
         let firstZoomScale: Float = (zoomDirection == .smallToLarge) ? 0.33 : 1.5
         let secondZoomScale: Float = (zoomDirection == .smallToLarge) ? 0.17 : 2.0
         
@@ -540,8 +538,6 @@ class GlobeEntity: Entity {
         
         let counterScale = useFirstScaleIndex ? firstCounterScale: secondCounterScale
         
-//        print("Applying Scale: \(zoomDirectionScale), Counter Scale: \(counterScale)")
-
         
         useFirstScaleIndex.toggle()
         

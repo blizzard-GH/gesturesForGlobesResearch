@@ -169,7 +169,7 @@ struct PositionCondition {
         var direction: Direction = .none
         
         guard let activeSubject = positionConditions.first(where: { $0.status == "Active"}) else {
-            print("No active subject exists.")
+            Log.error("No active subject exists.")
             return ([.notRotating, .rotating], .near, .none)
         }
         
@@ -177,11 +177,6 @@ struct PositionCondition {
 //            if subject.status == "Active" {
 //                activeSubject = subject
 //            }
-//        }
-//
-//        guard let activeSubject = activeSubject else {
-//            print("No active subject exists.")
-//            return
 //        }
         
         let conditionValues = [activeSubject.condition1,
@@ -192,7 +187,7 @@ struct PositionCondition {
                                activeSubject.condition6]
         
         if conditionValues.isEmpty {
-            print("No conditions available.")
+            Log.error("No conditions available.")
             return ([.notRotating, .rotating], .near, .none)
         }
         
@@ -233,7 +228,7 @@ struct PositionCondition {
     
     static func positionConditionsSetter(for positionConditions: [PositionCondition], lastUsedIndex: inout Int) {
         guard let activeSubject = positionConditions.first(where: { $0.status == "Active"}) else {
-            print("No active subject exists.")
+            Log.error("No active subject exists.")
             return
         }
         
@@ -245,7 +240,7 @@ struct PositionCondition {
                                activeSubject.condition6]
         
         if conditionValues.isEmpty {
-            print("No conditions available.")
+            Log.error("No conditions available.")
         }
         
         if (lastUsedIndex + 1) == conditionValues.count {
