@@ -26,7 +26,7 @@ class PositionTask: StudyTask {
             Log.error("No last transform recorded.")
             return
         }
-        let accuracy = matcher.getAccuracy(lastTransform)
+        let accuracy = matcher.accuracy(of: lastTransform)
         accuracyResult = accuracy
         Log.info("Updated accuracy result: \(accuracyResult)")
     }

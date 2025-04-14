@@ -22,19 +22,16 @@ class RotationMatcher: Matcher {
         return angleDifference <= tolerance
     }
     
-    func quaternionAngleDifference(q1: simd_quatf, q2: simd_quatf) -> Float {
+    func accuracy(of transform: Transform) -> Float {
+        quaternionAngleDifference(q1: transform.rotation, q2: rotationTarget)
+    }
+    
+    private func quaternionAngleDifference(q1: simd_quatf, q2: simd_quatf) -> Float {
+        let normQ1 = simd_normalize(q1)
+        let normQ2 = simd_normalize(q2)
         let v1 = q1.act([0, 1, 0])
         let v2 = q2.act([0, 1, 0])
         let angle = acos(simd_dot(v1, v2))
         return angle
-    }
-    
-    func getAccuracy(_ transform: Transform) -> Float {
-//        let angleDifference = quaternionAngleDifference(q1: transform.rotation, q2: rotationTarget)
-//        return angleDifference
-        // Normalised: 
-        let normQ1 = simd_normalize(transform.rotation)
-        let normQ2 = simd_normalize(rotationTarget)
-        return quaternionAngleDifference(q1: normQ1, q2: normQ2)
     }
 }

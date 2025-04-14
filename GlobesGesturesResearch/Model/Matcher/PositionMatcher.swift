@@ -19,14 +19,11 @@ class PositionMatcher: Matcher {
     }
     
     func isMatching(_ transform: Transform) -> Bool {
-        let distance = simd_distance(transform.translation, targetPosition)
-        let matched = distance <= tolerance
-
-        return matched
+        let distance = accuracy(of: transform)
+        return distance <= tolerance
     }
     
-    func getAccuracy(_ transform: Transform) -> Float {
-        let distance = simd_distance(transform.translation, targetPosition)
-        return distance
+    func accuracy(of transform: Transform) -> Float {
+        simd_distance(transform.translation, targetPosition)
     }
 }

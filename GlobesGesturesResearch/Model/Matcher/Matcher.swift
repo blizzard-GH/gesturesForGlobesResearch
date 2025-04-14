@@ -11,5 +11,5 @@ import RealityKit
 @MainActor
 protocol Matcher {
     func isMatching(_ transform: Transform) -> Bool
-    func getAccuracy(_ transform: Transform) -> Float
+    func accuracy(of transform: Transform) -> Float
 }

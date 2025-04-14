@@ -26,7 +26,7 @@ class ScaleMatcher: Matcher {
         return matched
     }
     
-    func getAccuracy(_ transform: Transform) -> Float {
+    func accuracy(of transform: Transform) -> Float {
         let scaleDifference = abs(transform.scale - targetScale)
 //        return simd_length(scaleDifference) / simd_length(targetScale)
         return simd_length(scaleDifference)
