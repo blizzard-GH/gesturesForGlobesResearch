@@ -125,13 +125,13 @@ class ViewModel {
         loadGestureConditions()
     }
     
-    @MainActor
-    /// Open an immersive space if there is none and show a globe. Once loaded, the globe fades in.
+    /// Show two globes
     /// - Parameters:
-    ///   - globe: The globe to show.
-    ///   - selection: When selection is not `none`, the texture is replaced periodically with a texture of one of the globes in the selection.
-    ///   - openImmersiveSpaceAction: Action for opening an immersive space.
-    func load(firstGlobe: Globe, secondGlobe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) async {        
+    ///   - firstGlobe: First globe
+    ///   - secondGlobe: Second globe
+    @MainActor
+    
+    func load(firstGlobe: Globe, secondGlobe: Globe) async {
         do {
             async let globeEntity1 = GlobeEntity(globe: firstGlobe)
             async let globeEntity2 = GlobeEntity(globe: secondGlobe)
@@ -151,11 +151,10 @@ class ViewModel {
     }
     
     @MainActor
-    /// Open an immersive space if there is none and show a globe. Once loaded, the globe fades in.
+    /// Show a globe.
     /// - Parameters:
     ///   - globe: The globe to show.
-    ///   - openImmersiveSpaceAction: Action for opening an immersive space.
-    func load(globe: Globe, openImmersiveSpaceAction: OpenImmersiveSpaceAction) async {
+    func load(globe: Globe) async {
         do {
             firstGlobeEntity = try await GlobeEntity(globe: globe)
             firstGlobeEntity?.position = configuration.positionRelativeToCamera(distanceToGlobe: 0.5, xOffset: -0.5)
@@ -217,7 +216,8 @@ class ViewModel {
         }
     }
     
-    // MARK: - Gestures
+    // MARK: - Switch among study conditions
+    
     @MainActor
     func loadGestureConditions() {
         do {

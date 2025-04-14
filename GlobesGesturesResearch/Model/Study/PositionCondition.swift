@@ -28,10 +28,10 @@ struct PositionCondition {
     
     static var positionGestureOrder :  RotationOrder = .nonRotatingFirst
     
-    //Only for printing in csv
+    /// Only for printing in csv
     static var currentDistance: Distance = .near
     
-    //Only for printing in csv
+    /// Only for printing in csv
     static var currentDirection: Direction = .horizontal
     
     
@@ -68,8 +68,8 @@ struct PositionCondition {
         case none
     }
     
-    /// Load `Landmark`s from CSV file in the app bundle.
-    /// - Returns: Loaded landmarks.
+    /// Load from CSV file in the app bundle.
+    /// - Returns: Loaded `PositionCondition`s.
     static func loadPositionConditions() throws -> [PositionCondition] {
 //        Works for read-only:
 //        guard let url = Bundle.main.url(forResource: "Positioning", withExtension: "csv") else {
@@ -82,12 +82,11 @@ struct PositionCondition {
 //        let csvFileURL = currentDirectoryURL.appendingPathComponent("Positioning.csv")
 //        let csvFileURL = documentsDir.appendingPathComponent("Positioning.csv")
         
-//        Below works for the headset itself:
+        // Below works for the headset itself:
         let fileName = "Positioning.csv"
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let csvFileURL = documentDirectory.appending(path: fileName, directoryHint: .notDirectory)
 
-        
         let data = try String(contentsOf: csvFileURL, encoding: .utf8)
         var positionConditions: [PositionCondition] = []
         let rows = data.split(whereSeparator: \.isNewline).dropFirst().filter { !$0.isEmpty }

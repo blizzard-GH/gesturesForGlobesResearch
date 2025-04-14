@@ -133,6 +133,9 @@
 		7D2F438C2D3B2D7500928A68 /* Study */ = {
 			isa = PBXGroup;
 			children = (
+				97E82D4B2D56534800A94A2F /* PositionCondition.swift */,
+				97E82D4D2D56535A00A94A2F /* RotationCondition.swift */,
+				97E82D472D564F9100A94A2F /* ScaleCondition.swift */,
 				97D8C1392D3FF4A10079F1C1 /* TaskStorageManager.swift */,
 				97D8C1372D3FF3020079F1C1 /* GestureStatus.swift */,
 				7D2F43972D3B4FAF00928A68 /* PositionTask.swift */,
@@ -251,7 +254,6 @@
 				7D2F439D2D3B508400928A68 /* Matcher */,
 				7D2F438C2D3B2D7500928A68 /* Study */,
 				7D2F438A2D3B194D00928A68 /* Log.swift */,
-				9742BB282D33E1B2001079D4 /* GestureType.swift */,
 				7DD56E692C6CC93D009AE72C /* Globe.swift */,
 				7DD56E6A2C6CC93D009AE72C /* GlobeConfiguration.swift */,
 				7DD56E6C2C6CC93D009AE72C /* ViewModel.swift */,
@@ -280,9 +282,6 @@
 		7DD56E822C6CCAF3009AE72C /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				97E82D4B2D56534800A94A2F /* PositionCondition.swift */,
-				97E82D4D2D56535A00A94A2F /* RotationCondition.swift */,
-				97E82D472D564F9100A94A2F /* ScaleCondition.swift */,
 				7D8399B32D4095D800F08DC3 /* ThrottledArray.swift */,
 				7DD56E832C6CCB13009AE72C /* Error.swift */,
 			);
@@ -307,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				7DD56E982C6DB000009AE72C /* GlobeGesturesModifier.swift */,
+				9742BB282D33E1B2001079D4 /* GestureType.swift */,
 			);
 			path = Gestures;
 			sourceTree = "<group>";
