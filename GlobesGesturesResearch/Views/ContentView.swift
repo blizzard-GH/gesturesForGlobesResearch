@@ -36,8 +36,9 @@ struct ContentView: View {
                 HStack {
                     pageMenu
                     Text("\(studyModel.currentPage.index + 1)")
-                        .foregroundStyle(.secondary)
                 }
+                .padding(32)
+                .foregroundStyle(.secondary)
             }
             .task {
                 await model.openImmersiveSpace(openImmersiveSpaceAction)
@@ -55,6 +56,8 @@ struct ContentView: View {
     @ViewBuilder
     private var pageMenu: some View {
         Menu(content: {
+            Text("Talk to the researcher before selecting.")
+                .font(.callout)
             Section {
                 pageButton(.welcome)
                 pageButton(.introForm)
@@ -98,8 +101,6 @@ struct ContentView: View {
             Label("Page", systemImage: "ellipsis")
                 .labelStyle(.iconOnly)
         })
-        .padding(32)
-        .foregroundStyle(.secondary)
     }
     
     @ViewBuilder
