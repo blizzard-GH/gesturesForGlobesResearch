@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D187F792DACAAC800BA6635 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D187F782DACAAC800BA6635 /* SoundManager.swift */; };
 		7D2F438B2D3B195100928A68 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F438A2D3B194D00928A68 /* Log.swift */; };
 		7D2F438E2D3B2D8200928A68 /* StudyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F438D2D3B2D7F00928A68 /* StudyTask.swift */; };
 		7D2F43962D3B399800928A68 /* StudyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2F43952D3B399500928A68 /* StudyAction.swift */; };
@@ -59,6 +60,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7D187F782DACAAC800BA6635 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		7D2F438A2D3B194D00928A68 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		7D2F438D2D3B2D7F00928A68 /* StudyTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyTask.swift; sourceTree = "<group>"; };
 		7D2F43952D3B399500928A68 /* StudyAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyAction.swift; sourceTree = "<group>"; };
@@ -115,7 +117,6 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		976AAE0F2DA224E80014B397 /* Videos */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Videos; sourceTree = "<group>"; };
-		976EF9942D87A560008A56DA /* Controllers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Controllers; sourceTree = "<group>"; };
 		976EF9952D87B057008A56DA /* Sounds */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Sounds; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -130,6 +131,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7D187F8A2DACE1BB00BA6635 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				7D2F43972D3B4FAF00928A68 /* PositionTask.swift */,
+				7D2F43982D3B4FAF00928A68 /* RotationTask.swift */,
+				7D2F43992D3B4FAF00928A68 /* ScaleTask.swift */,
+				7D2F438D2D3B2D7F00928A68 /* StudyTask.swift */,
+			);
+			path = Task;
+			sourceTree = "<group>";
+		};
 		7D2F438C2D3B2D7500928A68 /* Study */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,11 +150,7 @@
 				97E82D472D564F9100A94A2F /* ScaleCondition.swift */,
 				97D8C1392D3FF4A10079F1C1 /* TaskStorageManager.swift */,
 				97D8C1372D3FF3020079F1C1 /* GestureStatus.swift */,
-				7D2F43972D3B4FAF00928A68 /* PositionTask.swift */,
-				7D2F43982D3B4FAF00928A68 /* RotationTask.swift */,
-				7D2F43992D3B4FAF00928A68 /* ScaleTask.swift */,
 				7D2F43952D3B399500928A68 /* StudyAction.swift */,
-				7D2F438D2D3B2D7F00928A68 /* StudyTask.swift */,
 				970D87692D0A636300700830 /* StudyModel.swift */,
 			);
 			path = Study;
@@ -230,7 +238,6 @@
 				7DD56E822C6CCAF3009AE72C /* Utilities */,
 				7DD56E5E2C6CC831009AE72C /* Assets.xcassets */,
 				7DD56E602C6CC831009AE72C /* Preview Content */,
-				976EF9942D87A560008A56DA /* Controllers */,
 				976EF9952D87B057008A56DA /* Sounds */,
 				976AAE0F2DA224E80014B397 /* Videos */,
 				7DD56E632C6CC831009AE72C /* Info.plist */,
@@ -253,10 +260,10 @@
 			children = (
 				7D2F439D2D3B508400928A68 /* Matcher */,
 				7D2F438C2D3B2D7500928A68 /* Study */,
-				7D2F438A2D3B194D00928A68 /* Log.swift */,
 				7DD56E692C6CC93D009AE72C /* Globe.swift */,
 				7DD56E6A2C6CC93D009AE72C /* GlobeConfiguration.swift */,
 				7DD56E6C2C6CC93D009AE72C /* ViewModel.swift */,
+				7D187F8A2DACE1BB00BA6635 /* Task */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -284,6 +291,8 @@
 			children = (
 				7D8399B32D4095D800F08DC3 /* ThrottledArray.swift */,
 				7DD56E832C6CCB13009AE72C /* Error.swift */,
+				7D2F438A2D3B194D00928A68 /* Log.swift */,
+				7D187F782DACAAC800BA6635 /* SoundManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -328,7 +337,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				976AAE0F2DA224E80014B397 /* Videos */,
-				976EF9942D87A560008A56DA /* Controllers */,
 				976EF9952D87B057008A56DA /* Sounds */,
 			);
 			name = GlobesGesturesResearch;
@@ -407,6 +415,7 @@
 				7DD56E6F2C6CC93D009AE72C /* GlobeConfiguration.swift in Sources */,
 				7DD56E592C6CC830009AE72C /* GlobeGestureStudyApp.swift in Sources */,
 				97D8C1382D3FF3070079F1C1 /* GestureStatus.swift in Sources */,
+				7D187F792DACAAC800BA6635 /* SoundManager.swift in Sources */,
 				976EF99B2D87E39B008A56DA /* RotationOptionsAttachmentView.swift in Sources */,
 				7D60D9512CF84F2900D7C8AD /* GoogleForm.swift in Sources */,
 				7D60D9522CF84F2900D7C8AD /* TaskView.swift in Sources */,

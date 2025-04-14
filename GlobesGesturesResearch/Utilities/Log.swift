@@ -18,7 +18,7 @@ actor Log {
     @MainActor
     static func task(_ task: StudyTask?) {
         if let task {
-//            shared.logger.info("\(task.taskDescription)")
+            shared.logger.info("\(task.taskDescription)")
         } else {
             Log.error("Logging invalid task")
         }
