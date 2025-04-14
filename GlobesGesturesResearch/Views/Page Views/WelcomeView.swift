@@ -41,11 +41,9 @@ struct WelcomeView: View {
             VStack(spacing: 50) {
                 Text("Welcome to the User Study")
                     .font(.largeTitle)
-                    .multilineTextAlignment(.center)
                 
+                Text("Sit on a chair and ensure there are no obstructing objects within a three-metre radius in front of you.")
                 Text("To move this window, look at the bar below the window, then pinch and move.")
-                    .multilineTextAlignment(.center)
-                
 #if DEBUG
                 VStack {
                     Label("DEBUG MODE", systemImage: "ant")
