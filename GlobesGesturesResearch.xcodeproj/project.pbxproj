@@ -170,7 +170,7 @@
 			path = Buttons;
 			sourceTree = "<group>";
 		};
-		7D60D9502CF84F2900D7C8AD /* PageViews */ = {
+		7D60D9502CF84F2900D7C8AD /* Page Views */ = {
 			isa = PBXGroup;
 			children = (
 				7D60D9572CF8550F00D7C8AD /* Page.swift */,
@@ -181,7 +181,7 @@
 				7D60D94D2CF84F2900D7C8AD /* GoogleForm.swift */,
 				7D60D9592CF85E9300D7C8AD /* ThankYouView.swift */,
 			);
-			path = PageViews;
+			path = "Page Views";
 			sourceTree = "<group>";
 		};
 		7D60D9552CF84F2C00D7C8AD /* Extensions */ = {
@@ -232,11 +232,11 @@
 				7D60D9552CF84F2C00D7C8AD /* Extensions */,
 				7DD56E822C6CCAF3009AE72C /* Utilities */,
 				7DD56E5E2C6CC831009AE72C /* Assets.xcassets */,
-				7DD56E632C6CC831009AE72C /* Info.plist */,
 				7DD56E602C6CC831009AE72C /* Preview Content */,
 				976EF9942D87A560008A56DA /* Controllers */,
 				976EF9952D87B057008A56DA /* Sounds */,
 				976AAE0F2DA224E80014B397 /* Videos */,
+				7DD56E632C6CC831009AE72C /* Info.plist */,
 			);
 			path = GlobesGesturesResearch;
 			sourceTree = "<group>";
@@ -304,7 +304,7 @@
 				7D4357812DA8F96A005B64C6 /* Buttons */,
 				7D839A142D41D4CA00F08DC3 /* Attachments */,
 				7DD56E5A2C6CC830009AE72C /* ContentView.swift */,
-				7D60D9502CF84F2900D7C8AD /* PageViews */,
+				7D60D9502CF84F2900D7C8AD /* Page Views */,
 				7DD56E5C2C6CC830009AE72C /* ImmersiveView.swift */,
 				7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */,
 				7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */,
@@ -581,11 +581,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = GlobesGesturesResearch/GlobesGesturesResearch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GlobesGesturesResearch/Preview Content\"";
-				DEVELOPMENT_TEAM = P3579KHFBJ;
+				DEVELOPMENT_TEAM = L8FKNLG3XM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
@@ -610,11 +611,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = GlobesGesturesResearch/GlobesGesturesResearch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GlobesGesturesResearch/Preview Content\"";
-				DEVELOPMENT_TEAM = P3579KHFBJ;
+				DEVELOPMENT_TEAM = L8FKNLG3XM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
