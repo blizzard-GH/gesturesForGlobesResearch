@@ -46,7 +46,11 @@ class StudyModel {
         }
     }
     
-    func isTaskRepeated(gestureType: GestureType) -> Bool {
+    
+    /// Increment the counter for position, rotation or scale tasks.
+    /// - Parameter gestureType: The type of task that was completed.
+    /// - Returns: True if another task of the same type and technique is to be run; false otherwise.
+    func taskCompleted(gestureType: GestureType) -> Bool {
         switch gestureType {
         case .position:
             positionTaskRepetitionCount += 1

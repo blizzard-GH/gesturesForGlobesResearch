@@ -360,7 +360,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                 if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
                     SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
-                    if studyModel.isTaskRepeated(gestureType: .position) {
+                    if studyModel.taskCompleted(gestureType: .position) {
                         if studyModel.positionTaskRepetitionCount % 2 != 0 {
                             model.firstGlobeEntity?.refineGlobePosition(model.firstGlobeEntity?.lastGlobeCounterReposition ?? SIMD3<Float>(0,0.9,-0.5))
                             model.secondGlobeEntity?.refineGlobePosition(model.firstGlobeEntity?.lastGlobeReposition ?? SIMD3<Float>(0,0.9,-0.5))
@@ -517,7 +517,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                     //                    studyModel.storeTask()
                     SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
-                    if studyModel.isTaskRepeated(gestureType: .scale) {
+                    if studyModel.taskCompleted(gestureType: .scale) {
                         if studyModel.scaleTaskRepetitionCount % 2 != 0 {
                             model.firstGlobeEntity?.respawnGlobe(.rightClose)
                             model.secondGlobeEntity?.respawnGlobe(.leftClose)
@@ -660,7 +660,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                     //                    studyModel.storeTask()
                     SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
-                    if studyModel.isTaskRepeated(gestureType: .rotation) {
+                    if studyModel.taskCompleted(gestureType: .rotation) {
                         if studyModel.rotationTaskRepetitionCount % 2 != 0 {
                             model.firstGlobeEntity?.respawnGlobe(.rightClose)
                             model.secondGlobeEntity?.respawnGlobe(.leftClose)
@@ -914,7 +914,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         //                        studyModel.storeTask()
                         SoundManager.shared.playSound(named: "correct")
                         studyModel.currentTask = nil
-                        if studyModel.isTaskRepeated(gestureType: .rotation) {
+                        if studyModel.taskCompleted(gestureType: .rotation) {
                             if studyModel.rotationTaskRepetitionCount % 2 != 0 {
                                 model.firstGlobeEntity?.respawnGlobe(.rightClose)
                                 model.secondGlobeEntity?.respawnGlobe(.leftClose)
