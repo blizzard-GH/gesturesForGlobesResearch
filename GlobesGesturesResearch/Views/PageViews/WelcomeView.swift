@@ -12,6 +12,7 @@ struct WelcomeView: View {
     @Environment(ViewModel.self) var model
     
     var body: some View {
+        let studyConditionsLoaded = !model.positionConditions.isEmpty && !model.rotationConditions.isEmpty && !model.scaleConditions.isEmpty
         ZStack {
             HStack {
                 Spacer()
@@ -26,7 +27,7 @@ struct WelcomeView: View {
                             .foregroundColor(.yellow)
                     }
                     
-                    if !model.positionConditions.isEmpty && !model.rotationConditions.isEmpty && !model.scaleConditions.isEmpty {
+                    if studyConditionsLoaded {
                         Label("Study conditions are loaded and ready.", systemImage: "checkmark.circle.fill")
                             .foregroundColor(.green)
                     } else {
@@ -42,7 +43,7 @@ struct WelcomeView: View {
                     .font(.largeTitle)
                     .multilineTextAlignment(.center)
                 
-                Text("To move the window, look at the bar below the window, then pinch and move.")
+                Text("To move this window, look at the bar below the window, then pinch and move.")
                     .multilineTextAlignment(.center)
                 
 #if DEBUG
@@ -56,6 +57,7 @@ struct WelcomeView: View {
                 NextPageButton(title: "Start") {
                     TaskStorageManager.shared.initialiseUserID()
                 }
+                .disabled(!studyConditionsLoaded || !TaskStorageManager.storageFileRead)
             }
             .padding(100)
         }
