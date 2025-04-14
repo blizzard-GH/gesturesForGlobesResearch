@@ -27,8 +27,8 @@ class RotationMatcher: Matcher {
     }
     
     private func quaternionAngleDifference(q1: simd_quatf, q2: simd_quatf) -> Float {
-        let normQ1 = simd_normalize(q1)
-        let normQ2 = simd_normalize(q2)
+        let q1 = simd_normalize(q1)
+        let q2 = simd_normalize(q2)
         let v1 = q1.act([0, 1, 0])
         let v2 = q2.act([0, 1, 0])
         let angle = acos(simd_dot(v1, v2))
