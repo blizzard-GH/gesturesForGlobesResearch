@@ -12,15 +12,11 @@ class RotationTask: StudyTask {
     var actions = ThrottledArray<StudyAction>(throttleInterval: RotationTask.throttleInterval)
     var accuracyResult: Float = 0.0
     
-    var matcher: any Matcher
-    var soundManager: SoundManager
+    let matcher: any Matcher
 
-    
-    init(originalRotation: simd_quatf, targetRotation: simd_quatf, soundManager: SoundManager) {
-        self.matcher = RotationMatcher(rotationTarget: targetRotation, soundManager: soundManager)
-        self.soundManager = soundManager
-    }
-    
+    init(targetRotation: simd_quatf) {
+        self.matcher = RotationMatcher(rotationTarget: targetRotation)
+    }    
     
     func saveToFile() {
         TaskStorageManager.shared.saveTask(self, type: .rotation)

@@ -13,12 +13,9 @@ import simd
 class PositionMatcher: Matcher {
     let targetPosition: SIMD3<Float>
     let tolerance: Float = 0.05
-    private let soundManager: SoundManager
-
     
-    init(targetPosition: SIMD3<Float>, soundManager: SoundManager) {
+    init(targetPosition: SIMD3<Float>) {
         self.targetPosition = targetPosition
-        self.soundManager = soundManager
     }
     
     func isMatching(_ transform: Transform) -> Bool {

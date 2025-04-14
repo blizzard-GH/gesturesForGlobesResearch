@@ -270,9 +270,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         
                         let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
                         let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
-                        studyModel.setupNextTask(gestureType: .position, originalTransform: originalTransform,
-                                                 targetTransform: targetTransform,
-                                                 soundManager: soundManager)
+                        studyModel.setupNextTask(gestureType: .position, targetTransform: targetTransform)
                         studyModel.currentTask?.start(type: .position,
                                                       originalTransform: originalTransform,
                                                       targetTransform: targetTransform)
@@ -427,9 +425,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         
                         let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
                         let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
-                        studyModel.setupNextTask(gestureType: .scale, originalTransform: originalTransform,
-                                                 targetTransform: targetTransform,
-                                                 soundManager: soundManager)
+                        studyModel.setupNextTask(gestureType: .scale, targetTransform: targetTransform)
                         studyModel.currentTask?.start(type: .scale,
                                                       originalTransform: originalTransform,
                                                       targetTransform: targetTransform)
@@ -586,9 +582,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                             pauseRotationAndStoreRotationState()
                             let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
                             let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
-                            studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform,
-                                                     targetTransform: targetTransform,
-                                                     soundManager: soundManager)
+                            studyModel.setupNextTask(gestureType: .rotation, targetTransform: targetTransform)
                             studyModel.currentTask?.start(type: .rotation,
                                                           originalTransform: originalTransform,
                                                           targetTransform: targetTransform)
@@ -729,9 +723,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         pauseRotationAndStoreRotationState()
                         let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
                         let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
-                        studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform,
-                                                 targetTransform: targetTransform,
-                                                 soundManager: soundManager)
+                        studyModel.setupNextTask(gestureType: .rotation, targetTransform: targetTransform)
                         studyModel.currentTask?.start(type: .rotation,
                                                       originalTransform: originalTransform,
                                                       targetTransform: targetTransform)
@@ -1065,9 +1057,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         state.localRotationAtGestureStart = (value.entity as? GlobeEntity)?.orientation
                         let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
                         let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
-                        studyModel.setupNextTask(gestureType: .position, originalTransform: originalTransform,
-                                                 targetTransform: targetTransform,
-                                                 soundManager: soundManager)
+                        studyModel.setupNextTask(gestureType: .position, targetTransform: targetTransform)
                         studyModel.currentTask?.start(type: .position,
                                                       originalTransform: originalTransform,
                                                       targetTransform: targetTransform)
@@ -1213,9 +1203,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         
                         let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
                         let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
-                        studyModel.setupNextTask(gestureType: .scale, originalTransform: originalTransform,
-                                                 targetTransform: targetTransform,
-                                                 soundManager: soundManager)
+                        studyModel.setupNextTask(gestureType: .scale, targetTransform: targetTransform)
                         studyModel.currentTask?.start(type: .scale,
                                                       originalTransform: originalTransform,
                                                       targetTransform: targetTransform)
@@ -1343,9 +1331,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                             pauseRotationAndStoreRotationState()
                             let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
                             let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
-                            studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform,
-                                                     targetTransform: targetTransform,
-                                                     soundManager: soundManager)
+                            studyModel.setupNextTask(gestureType: .rotation, targetTransform: targetTransform)
                             studyModel.currentTask?.start(type: .rotation,
                                                           originalTransform: originalTransform,
                                                           targetTransform: targetTransform)
@@ -1456,9 +1442,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         pauseRotationAndStoreRotationState()
                         let originalTransform = model.firstGlobeEntity?.transform ?? Transform.identity
                         let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
-                        studyModel.setupNextTask(gestureType: .rotation, originalTransform: originalTransform,
-                                                 targetTransform: targetTransform,
-                                                 soundManager: soundManager)
+                        studyModel.setupNextTask(gestureType: .rotation, targetTransform: targetTransform)
                         studyModel.currentTask?.start(type: .rotation,
                                                       originalTransform: originalTransform,
                                                       targetTransform: targetTransform)

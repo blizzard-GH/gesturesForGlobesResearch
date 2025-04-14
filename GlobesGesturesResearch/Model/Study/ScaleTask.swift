@@ -9,15 +9,11 @@ import Foundation
 class ScaleTask: StudyTask {
     let taskID = UUID()
     var actions = ThrottledArray<StudyAction>(throttleInterval: ScaleTask.throttleInterval)
-    var accuracyResult: Float = 0.0
-    
-    var matcher: any Matcher
-    var soundManager: SoundManager
+    var accuracyResult: Float = 0.0    
+    let matcher: any Matcher
 
-    
-    init(originalScale: Float, targetScale: Float, soundManager: SoundManager) {
-        self.matcher = ScaleMatcher(targetScale: SIMD3<Float>(repeating: targetScale), soundManager: soundManager)
-        self.soundManager = soundManager
+    init(targetScale: Float) {
+        self.matcher = ScaleMatcher(targetScale: SIMD3<Float>(repeating: targetScale))
     }
     
     func saveToFile() {

@@ -11,14 +11,10 @@ class PositionTask: StudyTask {
     let taskID = UUID()
     var actions = ThrottledArray<StudyAction>(throttleInterval: PositionTask.throttleInterval)
     var accuracyResult: Float = 0.0
-    
-    var matcher: any Matcher
-    var soundManager: SoundManager
+    let matcher: any Matcher
 
-    
-    init(originalPosition: SIMD3<Float>, targetPosition: SIMD3<Float>, soundManager: SoundManager) {
-        self.matcher = PositionMatcher(targetPosition: targetPosition, soundManager: soundManager)
-        self.soundManager = soundManager  
+    init(targetPosition: SIMD3<Float>) {
+        self.matcher = PositionMatcher(targetPosition: targetPosition)
     }
     
     func saveToFile() {

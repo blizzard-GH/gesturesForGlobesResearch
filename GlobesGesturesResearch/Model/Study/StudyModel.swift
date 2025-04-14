@@ -30,26 +30,21 @@ class StudyModel {
     
     var proceedToNextExperiment: Bool = false
     
-            
-//    Current task
+    /// Current task
     var currentTask: StudyTask?
+    
+    /// Current page
     var currentPage: Page = .welcome
     
     /// Create the next task
-    func setupNextTask(gestureType: GestureType, originalTransform: Transform, targetTransform: Transform, soundManager: SoundManager) {
+    func setupNextTask(gestureType: GestureType, targetTransform: Transform) {
         switch gestureType {
         case .position:
-            currentTask = PositionTask(originalPosition: originalTransform.translation,
-                                       targetPosition: targetTransform.translation,
-                                       soundManager: soundManager)
+            currentTask = PositionTask(targetPosition: targetTransform.translation)
         case .rotation:
-            currentTask = RotationTask(originalRotation: originalTransform.rotation,
-                                       targetRotation: targetTransform.rotation,
-                                       soundManager: soundManager)
+            currentTask = RotationTask(targetRotation: targetTransform.rotation)
         case .scale:
-            currentTask = ScaleTask(originalScale: originalTransform.scale.x,
-                                    targetScale: targetTransform.scale.x,
-                                    soundManager: soundManager)
+            currentTask = ScaleTask(targetScale: targetTransform.scale.x)
         }
     }
     
