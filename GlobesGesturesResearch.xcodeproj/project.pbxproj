@@ -170,7 +170,7 @@
 			path = Buttons;
 			sourceTree = "<group>";
 		};
-		7D60D9502CF84F2900D7C8AD /* PageViews */ = {
+		7D60D9502CF84F2900D7C8AD /* Page Views */ = {
 			isa = PBXGroup;
 			children = (
 				7D60D9572CF8550F00D7C8AD /* Page.swift */,
@@ -181,7 +181,7 @@
 				7D60D94D2CF84F2900D7C8AD /* GoogleForm.swift */,
 				7D60D9592CF85E9300D7C8AD /* ThankYouView.swift */,
 			);
-			path = PageViews;
+			path = "Page Views";
 			sourceTree = "<group>";
 		};
 		7D60D9552CF84F2C00D7C8AD /* Extensions */ = {
@@ -304,7 +304,7 @@
 				7D4357812DA8F96A005B64C6 /* Buttons */,
 				7D839A142D41D4CA00F08DC3 /* Attachments */,
 				7DD56E5A2C6CC830009AE72C /* ContentView.swift */,
-				7D60D9502CF84F2900D7C8AD /* PageViews */,
+				7D60D9502CF84F2900D7C8AD /* Page Views */,
 				7DD56E5C2C6CC830009AE72C /* ImmersiveView.swift */,
 				7DE6A6F42C6E1DCC00E0D956 /* WebView.swift */,
 				7DE6A6F52C6E1DCC00E0D956 /* WebViewDecorated.swift */,
