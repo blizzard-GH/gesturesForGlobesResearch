@@ -1,7 +1,0 @@
-status,condition1,condition2,condition3,condition4,condition5,condition6
-Active,A,B,F,C,E,D
-Inactive,B,C,A,D,F,E
-Inactive,C,D,B,E,A,F
-Inactive,D,E,C,F,B,A
-Inactive,E,F,D,A,C,B
-Inactive,F,A,E,B,D,C
