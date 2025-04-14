@@ -5,9 +5,10 @@
 //  Created by Faisal Agung Abdillah on 16/3/2025.
 //
 
-import UIKit
-import Foundation
 import AVFoundation
+import Foundation
+import os
+import UIKit
 
 @MainActor
 class SoundManager {
@@ -35,7 +36,7 @@ class SoundManager {
     
     func preloadSound(named soundName: String) {
         guard let soundURL = Bundle.main.url(forResource: soundName, withExtension: "mp3") else {
-            print("Sound file \(soundName).mp3 not found")
+            Logger().error("Sound file \(soundName).mp3 not found")
             return
         }
 
@@ -44,7 +45,7 @@ class SoundManager {
             player.prepareToPlay()
             audioPlayers[soundName] = player
         } catch {
-            print("Error preloading sound \(soundName): \(error.localizedDescription)")
+            Logger().error("Error preloading sound \(soundName): \(error.localizedDescription)")
         }
     }
 
