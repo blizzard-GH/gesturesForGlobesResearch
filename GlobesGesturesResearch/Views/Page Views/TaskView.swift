@@ -24,7 +24,7 @@ struct TaskView: View {
                 
                 Button(action: {
                     Task {
-                        await model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+                        await model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe)
                         initializeGlobes()
                         dismissWindow(id: ViewModel.windowID)
                     }

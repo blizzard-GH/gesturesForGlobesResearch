@@ -65,7 +65,7 @@ struct TrainingView: View {
                 Button("Start Training") {
                     trainingPhase = .practicingGesture
                     Task {
-                        await model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+                        await model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe)
                         initialiseTrainingGlobes()
                     }
                 }

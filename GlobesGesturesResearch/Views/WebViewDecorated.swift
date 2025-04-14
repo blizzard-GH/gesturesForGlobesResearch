@@ -46,7 +46,7 @@ struct WebViewDecorated: View {
         .task {
             webViewStatus = .loading
             if showGlobe {
-                await model.load(globe: model.globe, openImmersiveSpaceAction: openImmersiveSpaceAction)
+                await model.load(globe: model.globe)
             }
         }
     }
