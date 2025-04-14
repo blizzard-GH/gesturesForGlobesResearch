@@ -31,7 +31,6 @@ struct ConfirmationPage: View {
     }
     
     private func next() {
-        studyModel.proceedToNextExperiment = false
         PositionCondition.positionConditionsCompleted = false
         ScaleCondition.scaleConditionsCompleted = false
         RotationCondition.rotationConditionsCompleted = false

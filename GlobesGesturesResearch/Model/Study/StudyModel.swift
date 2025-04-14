@@ -28,8 +28,6 @@ class StudyModel {
     
     var scaleTaskRepetitionCount: Int = 0
     
-    var proceedToNextExperiment: Bool = false
-    
     /// Current task
     var currentTask: StudyTask?
     

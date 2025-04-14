@@ -124,7 +124,6 @@ private struct GlobeGesturesModifier: ViewModifier {
     
     private func showNextPageOnWindow() {
         openWindow(id: ViewModel.windowID)
-        studyModel.proceedToNextExperiment = true
         studyModel.currentPage = studyModel.currentPage.next()
     }
     
