@@ -10,26 +10,21 @@ import RealityKit
 
 @Observable
 class ScaleMatcher: Matcher {
-    let targetScale: SIMD3<Float>
-    let tolerance: Float = 0.175
+    let targetScale: Float
+    let tolerance: Float = 0.1
         
-    init(targetScale: SIMD3<Float>) {
+    init(targetScale: Float) {
         self.targetScale = targetScale
     }
     
     func isMatching(_ transform: Transform) -> Bool {
-        let scaleRatio = transform.scale / targetScale
-        let scaleDifferenceRelative = abs(scaleRatio - SIMD3<Float>(repeating: 1))
-        
-        let matched = all(scaleDifferenceRelative .<= SIMD3<Float>(repeating: tolerance))
-
-        return matched
+        let relativeDifference = accuracy(of: transform)
+        return relativeDifference <= tolerance
     }
     
     func accuracy(of transform: Transform) -> Float {
-        let scaleDifference = abs(transform.scale - targetScale)
-//        return simd_length(scaleDifference) / simd_length(targetScale)
-        return simd_length(scaleDifference)
-        
+        let scaleRatio = transform.scale.max() / targetScale
+        let relativeDifference = abs(scaleRatio - 1)
+        return relativeDifference
     }
 }

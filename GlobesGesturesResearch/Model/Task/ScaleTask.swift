@@ -13,7 +13,7 @@ class ScaleTask: StudyTask {
     let matcher: any Matcher
 
     init(targetScale: Float) {
-        self.matcher = ScaleMatcher(targetScale: SIMD3<Float>(repeating: targetScale))
+        self.matcher = ScaleMatcher(targetScale: targetScale)
     }
     
     func saveToFile() {
