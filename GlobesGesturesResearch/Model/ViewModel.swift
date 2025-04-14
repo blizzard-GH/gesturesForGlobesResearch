@@ -10,14 +10,7 @@ import RealityKit
 import SwiftUI
 
 /// A singleton model that can be accessed via `ViewModel.shared`, for example, by the app delegate. For SwiftUI, use the new Observable framework instead of accessing the shared singleton.
-///
-/// The `Globe` struct is a static description of a globe containing all metadata and a texture name.
-///
-/// A `Configuration` stores dynamic properties of a globe, such as the rotation, the loading status, whether an attachment is visible, etc.
-///
-/// After a globe is loaded, a `GlobeEntity` is initialized. SwiftUI observes this object and synchronises the content of the `ImmersiveView` (a `RealityView`)`.
-///
-///
+/// 
 /// For the new Observable framework: https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro
 @Observable
 class ViewModel {
