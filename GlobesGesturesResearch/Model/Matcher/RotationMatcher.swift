@@ -12,7 +12,7 @@ import RealityKit
 class RotationMatcher: Matcher {
     let targetTransform: Transform
     
-    let tolerance: Float = 15 * .pi / 180
+    let tolerance: Float = 10 * .pi / 180
 
     init(targetTransform: Transform) {
         self.targetTransform = targetTransform
@@ -40,20 +40,16 @@ class RotationMatcher: Matcher {
         let dyz = simd_normalize(SIMD3(0, d.y, d.z))
         
         // rotation from dyz to d
-        let correction1 = simd_quatf(from: dyz, to: d)
-        
+        let correction = simd_quatf(from: d, to: dyz)
         let rotation = simd_normalize(transform.rotation)
-        return rotation * correction1
+        return correction * rotation
     }
     
     private func quaternionAngleDifference(transform1: Transform, transform2: Transform) throws -> Float {
-        let originalAngle = angleBetweenQuaternions(q1: transform1.rotation, q2: transform2.rotation)
-        print("Original difference", originalAngle / .pi * 180)
-        
+        let uncompensatedAngle = angleBetweenQuaternions(q1: transform1.rotation, q2: transform2.rotation)
         let q1 = try Self.apparentRotation(transform: transform1)
         let q2 = try Self.apparentRotation(transform: transform2)
         let angle = angleBetweenQuaternions(q1: q1, q2: q2)
-        print("Apparent difference", angle / .pi * 180)
         return angle
     }
     
