@@ -48,7 +48,7 @@ struct TrainingView: View {
                 ProgressView("Loading video...")
                     .frame(height: 360)
             }
-            
+            Text("Tap the video to replay it.")
             Text(trainingPhase.instructions)
             
             if let details = studyModel.currentPage.next().taskDetails {
