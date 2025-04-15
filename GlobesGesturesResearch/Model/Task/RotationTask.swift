@@ -14,8 +14,8 @@ class RotationTask: StudyTask {
     
     let matcher: any Matcher
 
-    init(targetRotation: simd_quatf) {
-        self.matcher = RotationMatcher(rotationTarget: targetRotation)
+    init(targetTransform: Transform) {
+        self.matcher = RotationMatcher(targetTransform: targetTransform)
     }    
     
     func saveToFile() {

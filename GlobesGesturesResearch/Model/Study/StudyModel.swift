@@ -40,7 +40,7 @@ class StudyModel {
         case .position:
             currentTask = PositionTask(targetPosition: targetTransform.translation)
         case .rotation:
-            currentTask = RotationTask(targetRotation: targetTransform.rotation)
+            currentTask = RotationTask(targetTransform: targetTransform)
         case .scale:
             currentTask = ScaleTask(targetScale: targetTransform.scale.x)
         }

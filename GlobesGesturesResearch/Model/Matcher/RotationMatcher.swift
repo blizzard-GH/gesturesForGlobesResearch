@@ -10,37 +10,63 @@ import RealityKit
 
 @Observable
 class RotationMatcher: Matcher {
-    let rotationTarget: simd_quatf
+    let targetTransform: Transform
+    
     let tolerance: Float = 15 * .pi / 180
-        
-    init(rotationTarget: simd_quatf) {
-        self.rotationTarget = rotationTarget
+
+    init(targetTransform: Transform) {
+        self.targetTransform = targetTransform
     }
     
     func isMatching(_ transform: Transform) -> Bool {
-        let angleDifference = quaternionAngleDifference(q1: transform.rotation, q2: rotationTarget)
-        return angleDifference <= tolerance
+        let angleDifference = try? quaternionAngleDifference(transform1: transform, transform2: targetTransform)
+        return angleDifference ?? .infinity <= tolerance
     }
     
     func accuracy(of transform: Transform) -> Float {
-        quaternionAngleDifference(q1: transform.rotation, q2: rotationTarget)
+        let accuracy = try? quaternionAngleDifference(transform1: transform, transform2: targetTransform)
+        return accuracy ?? .infinity
+    }
+
+    static private func apparentRotation(transform: Transform) throws -> simd_quatf {
+        guard let cameraPosition = CameraTracker.shared.position else {
+            throw error("Camera position undefined")
+        }
+        
+        // unary direction from the globe to the camera
+        let d = simd_normalize(cameraPosition - transform.translation)
+        
+        // unary direction from the globe to the camera projected onto the y-z plane
+        let dyz = simd_normalize(SIMD3(0, d.y, d.z))
+        
+        // rotation from dyz to d
+        let correction1 = simd_quatf(from: dyz, to: d)
+        
+        let rotation = simd_normalize(transform.rotation)
+        return rotation * correction1
     }
     
-    private func quaternionAngleDifference(q1: simd_quatf, q2: simd_quatf) -> Float {
-        let q1 = simd_normalize(q1)
-        let q2 = simd_normalize(q2)
+    private func quaternionAngleDifference(transform1: Transform, transform2: Transform) throws -> Float {
+        let originalAngle = angleBetweenQuaternions(q1: transform1.rotation, q2: transform2.rotation)
+        print("Original difference", originalAngle / .pi * 180)
         
-        // Compute the dot product and clamp to avoid numerical issues
-        let dotProduct = simd_dot(q1, q2)
-        let clampedDot = max(-1.0, min(1.0, dotProduct))
-        let angle = acos(clampedDot)
-        print("angle: \(angle / .pi * 180)")
-        
+        let q1 = try Self.apparentRotation(transform: transform1)
+        let q2 = try Self.apparentRotation(transform: transform2)
+        let angle = angleBetweenQuaternions(q1: q1, q2: q2)
+        print("Apparent difference", angle / .pi * 180)
+        return angle
+    }
+    
+    /// The angle between two quaternions.
+    /// See equation #42 in Dantam, N. 2014. Quaternion Computation, Institute for Robotics and Intelligent Machines, Georgia Institute of Technology.
+    /// - Parameters:
+    ///   - q1: Quaternion one
+    ///   - q2: Quaternion two
+    /// - Returns: Angle in radians
+    private func angleBetweenQuaternions(q1: simd_quatf, q2: simd_quatf) -> Float {
         let dx = simd_length((q1 - q2).vector)
         let dy = simd_length((q1 + q2).vector)
-        let angle2 = 2 * atan2(dx, dy)
-        print("angle2: \(angle2 / .pi * 180)")
-        
+        let angle = 2 * atan2(dx, dy)
         return angle
     }
 }
