@@ -19,15 +19,31 @@ class RotationMatcher: Matcher {
     }
     
     func isMatching(_ transform: Transform) -> Bool {
-        let angleDifference = try? quaternionAngleDifference(transform1: transform, transform2: targetTransform)
+        let angleDifference = try? apparentAngularDifference(transform1: transform, transform2: targetTransform)
         return angleDifference ?? .infinity <= tolerance
     }
     
     func accuracy(of transform: Transform) -> Float {
-        let accuracy = try? quaternionAngleDifference(transform1: transform, transform2: targetTransform)
+        let accuracy = try? apparentAngularDifference(transform1: transform, transform2: targetTransform)
         return accuracy ?? .infinity
     }
 
+    /// The angular difference between two transforms compensated for the direction of view.
+    /// - Parameters:
+    ///   - transform1: First transform
+    ///   - transform2: Second transform
+    /// - Returns: Angle in radians
+    private func apparentAngularDifference(transform1: Transform, transform2: Transform) throws -> Float {
+        let uncompensatedAngle = angleBetweenQuaternions(q1: transform1.rotation, q2: transform2.rotation)
+        let q1 = try Self.apparentRotation(transform: transform1)
+        let q2 = try Self.apparentRotation(transform: transform2)
+        let angle = angleBetweenQuaternions(q1: q1, q2: q2)
+        return angle
+    }
+    
+    /// Computes a rotation to compensate for the direction of view.
+    /// - Parameter transform: Transform with rotation and position.
+    /// - Returns: Rotation quaternion.
     static private func apparentRotation(transform: Transform) throws -> simd_quatf {
         guard let cameraPosition = CameraTracker.shared.position else {
             throw error("Camera position undefined")
@@ -43,14 +59,6 @@ class RotationMatcher: Matcher {
         let correction = simd_quatf(from: d, to: dyz)
         let rotation = simd_normalize(transform.rotation)
         return correction * rotation
-    }
-    
-    private func quaternionAngleDifference(transform1: Transform, transform2: Transform) throws -> Float {
-        let uncompensatedAngle = angleBetweenQuaternions(q1: transform1.rotation, q2: transform2.rotation)
-        let q1 = try Self.apparentRotation(transform: transform1)
-        let q2 = try Self.apparentRotation(transform: transform2)
-        let angle = angleBetweenQuaternions(q1: q1, q2: q2)
-        return angle
     }
     
     /// The angle between two quaternions.
