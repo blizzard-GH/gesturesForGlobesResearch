@@ -34,10 +34,13 @@ class RotationMatcher: Matcher {
     ///   - transform2: Second transform
     /// - Returns: Angle in radians
     private func apparentAngularDifference(transform1: Transform, transform2: Transform) throws -> Float {
-        let uncompensatedAngle = angleBetweenQuaternions(q1: transform1.rotation, q2: transform2.rotation)
+//        let uncompensatedAngle = angleBetweenQuaternions(q1: transform1.rotation, q2: transform2.rotation)
+//        print("uncompensated", uncompensatedAngle / .pi * 180)
+        
         let q1 = try Self.apparentRotation(transform: transform1)
         let q2 = try Self.apparentRotation(transform: transform2)
         let angle = angleBetweenQuaternions(q1: q1, q2: q2)
+//        print("compensated", angle / .pi * 180)
         return angle
     }
     
@@ -61,16 +64,17 @@ class RotationMatcher: Matcher {
         return correction * rotation
     }
     
-    /// The angle between two quaternions.
-    /// See equation #42 in Dantam, N. 2014. Quaternion Computation, Institute for Robotics and Intelligent Machines, Georgia Institute of Technology.
+    /// The angle between two quaternions in radians between 0 and π.
+    /// https://math.stackexchange.com/a/90098
     /// - Parameters:
     ///   - q1: Quaternion one
     ///   - q2: Quaternion two
     /// - Returns: Angle in radians
     private func angleBetweenQuaternions(q1: simd_quatf, q2: simd_quatf) -> Float {
-        let dx = simd_length((q1 - q2).vector)
-        let dy = simd_length((q1 + q2).vector)
-        let angle = 2 * atan2(dx, dy)
+        let q1 = simd_normalize(q1)
+        let q2 = simd_normalize(q2)
+        let angle = 2 * acos(abs(simd_dot(q1, q2)))
+//        print(angle / .pi * 180)
         return angle
     }
 }
