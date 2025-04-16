@@ -16,15 +16,22 @@ struct GestureCombinationAttachmentView: View {
             PositionOptionsAttachmentView()
                 .padding()
             
-            ScaleOptionsAttachmentView()
-                .padding()
-            
             RotationOptionsAttachmentView()
                 .padding(.top)
-            Text("Pinch and hold for a moment to activate rotation with one hand.")
-                .opacity(model.oneHandedRotationGesture ? 1 : 0)
+            Text(rotationInfo)
                 .padding(.bottom, 30)
                 .padding(.horizontal)
+            
+            ScaleOptionsAttachmentView()
+                .padding()
+        }
+    }
+    
+    private var rotationInfo: String {
+        if model.oneHandedRotationGesture {
+            "Pinch and hold for a moment to activate rotation with one hand."
+        } else {
+            "Simultaneously pinch and rotate with both hands."
         }
     }
 }
