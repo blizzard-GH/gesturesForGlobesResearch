@@ -12,7 +12,7 @@ import RealityKit
 class RotationMatcher: Matcher {
     let targetTransform: Transform
     
-    let tolerance: Float = 10 * .pi / 180
+    let tolerance: Float = 15 * .pi / 180
 
     init(targetTransform: Transform) {
         self.targetTransform = targetTransform
