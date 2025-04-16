@@ -39,6 +39,7 @@ enum Page: String, CaseIterable {
     case outroForm
     case thankYou
     
+    
     /// A task number or nil if the page does not have a set of tasks.
     var taskDetails: (taskNumber: String,
                       partNumber: String,
@@ -212,7 +213,7 @@ enum Page: String, CaseIterable {
     }
     
     /// A `GoogleForm` or nil if the page does not display a form.
-    var googleForm: GoogleForm? {
+    @MainActor var googleForm: GoogleForm? {
         switch self {
         case .introForm:
             try? GoogleForm(
@@ -220,45 +221,87 @@ enum Page: String, CaseIterable {
                 confirmationMessage: "Your response has been recorded. (1)" // important: the confirmation message must be unique
             )
         case .positionExperimentForm1:
-            try? GoogleForm(
-                "https://docs.google.com/forms/d/e/1FAIpQLSdrtcQX0gCfNwKhpOvVRPGxkDG1r1Ex1R7G7F1ivb_xAvCoDg/viewform?usp=sf_link",
-                confirmationMessage: "Your response has been recorded. (2)" // important: the confirmation message must be unique
-            )
+            if ViewModel.shared.rotateGlobeWhileDragging {
+                try? GoogleForm(
+                    "https://docs.google.com/forms/d/e/1FAIpQLSdrtcQX0gCfNwKhpOvVRPGxkDG1r1Ex1R7G7F1ivb_xAvCoDg/viewform?usp=sf_link",
+                    confirmationMessage: "Your response has been recorded. (2)" // important: the confirmation message must be unique
+                )
+            } else {
+                try? GoogleForm(
+                    "https://docs.google.com/forms/d/e/1FAIpQLScYShkgJrhHjOstf6LzBCJhX4UzMsrQ4GXxeMQ06gW2xsfz9w/viewform?usp=dialog",
+                    confirmationMessage: "Your response has been recorded. (2)" // important: the confirmation message must be unique
+                )
+            }
         case .positionExperimentForm2:
-            try? GoogleForm(
-                "https://docs.google.com/forms/d/e/1FAIpQLScYShkgJrhHjOstf6LzBCJhX4UzMsrQ4GXxeMQ06gW2xsfz9w/viewform?usp=dialog",
-                confirmationMessage: "Your response has been recorded. (3)" // important: the confirmation message must be unique
-            )
+            if ViewModel.shared.rotateGlobeWhileDragging {
+                try? GoogleForm(
+                    "https://docs.google.com/forms/d/e/1FAIpQLSdrtcQX0gCfNwKhpOvVRPGxkDG1r1Ex1R7G7F1ivb_xAvCoDg/viewform?usp=sf_link",
+                    confirmationMessage: "Your response has been recorded. (3)" // important: the confirmation message must be unique
+                )
+            } else {
+                try? GoogleForm(
+                    "https://docs.google.com/forms/d/e/1FAIpQLScYShkgJrhHjOstf6LzBCJhX4UzMsrQ4GXxeMQ06gW2xsfz9w/viewform?usp=dialog",
+                    confirmationMessage: "Your response has been recorded. (3)" // important: the confirmation message must be unique
+                )
+            }
         case .positionComparison:
             try? GoogleForm(
                 "https://docs.google.com/forms/d/e/1FAIpQLScREXFLdnfY0SFlFYwoRp1huy-Awb8uJQsyk6w-JgwlTGAdrA/viewform?usp=dialog",
                 confirmationMessage: "Your response has been recorded. (4)" // important: the confirmation message must be unique
             )
         case .rotationExperimentForm1:
-            try? GoogleForm(
-                "https://docs.google.com/forms/d/e/1FAIpQLSexmhINS5CRPoVs0GscKjYpIuUo4nmCXdws04flPbzOadpYVg/viewform?usp=sf_link",
-                confirmationMessage: "Your response has been recorded. (5)" // important: the confirmation message must be unique
-            )
+            if ViewModel.shared.oneHandedRotationGesture {
+                try? GoogleForm(
+                    "https://docs.google.com/forms/d/e/1FAIpQLSexmhINS5CRPoVs0GscKjYpIuUo4nmCXdws04flPbzOadpYVg/viewform?usp=sf_link",
+                    confirmationMessage: "Your response has been recorded. (5)" // important: the confirmation message must be unique
+                )
+            } else {
+                try? GoogleForm(
+                    "https://docs.google.com/forms/d/e/1FAIpQLSdLM2qyhpqWVFUCXBLtDgZhmra2RzoM-2acC3ZA2yOFw5GLJw/viewform?usp=dialog",
+                    confirmationMessage: "Your response has been recorded. (5)" // important: the confirmation message must be unique
+                )
+            }
         case .rotationExperimentForm2:
-            try? GoogleForm(
-                "https://docs.google.com/forms/d/e/1FAIpQLSdLM2qyhpqWVFUCXBLtDgZhmra2RzoM-2acC3ZA2yOFw5GLJw/viewform?usp=dialog",
-                confirmationMessage: "Your response has been recorded. (6)" // important: the confirmation message must be unique
-            )
+            if ViewModel.shared.oneHandedRotationGesture {
+                try? GoogleForm(
+                    "https://docs.google.com/forms/d/e/1FAIpQLSexmhINS5CRPoVs0GscKjYpIuUo4nmCXdws04flPbzOadpYVg/viewform?usp=sf_link",
+                    confirmationMessage: "Your response has been recorded. (6)" // important: the confirmation message must be unique
+                )
+            } else {
+                try? GoogleForm(
+                    "https://docs.google.com/forms/d/e/1FAIpQLSdLM2qyhpqWVFUCXBLtDgZhmra2RzoM-2acC3ZA2yOFw5GLJw/viewform?usp=dialog",
+                    confirmationMessage: "Your response has been recorded. (6)" // important: the confirmation message must be unique
+                )
+            }
         case .rotationComparison:
             try? GoogleForm(
                 "https://docs.google.com/forms/d/e/1FAIpQLSeHuya6gsUG5g8oeXBhIWLUeO8rJcdCsG0uCzHnKKMYXG-5cw/viewform?usp=dialog",
                 confirmationMessage: "Your response has been recorded. (7)" // important: the confirmation message must be unique
             )
         case .scaleExperimentForm1:
-            try? GoogleForm(
-                "https://docs.google.com/forms/d/e/1FAIpQLSckrzXqM1lTyXppZxBu7stzjhL4uerWhbmA2ecGU9yi5fj5wg/viewform?usp=sf_link",
-                confirmationMessage: "Your response has been recorded. (8)" // important: the confirmation message must be unique
-            )
+            if ViewModel.shared.moveGlobeWhileScaling {
+                try? GoogleForm(
+                    "https://docs.google.com/forms/d/e/1FAIpQLSckrzXqM1lTyXppZxBu7stzjhL4uerWhbmA2ecGU9yi5fj5wg/viewform?usp=sf_link",
+                    confirmationMessage: "Your response has been recorded. (8)" // important: the confirmation message must be unique
+                )
+            } else {
+                try? GoogleForm(
+                    "https://docs.google.com/forms/d/e/1FAIpQLSckrUMK8jPUjr3Nkbvmy2BDh3x9wFPpX1edR7_eNHdQ-VHvuA/viewform?usp=dialog",
+                    confirmationMessage: "Your response has been recorded. (8)" // important: the confirmation message must be unique
+                )
+            }
         case .scaleExperimentForm2:
-            try? GoogleForm(
-                "https://docs.google.com/forms/d/e/1FAIpQLSckrUMK8jPUjr3Nkbvmy2BDh3x9wFPpX1edR7_eNHdQ-VHvuA/viewform?usp=dialog",
-                confirmationMessage: "Your response has been recorded. (9)" // important: the confirmation message must be unique
-            )
+            if ViewModel.shared.moveGlobeWhileScaling {
+                try? GoogleForm(
+                    "https://docs.google.com/forms/d/e/1FAIpQLSckrzXqM1lTyXppZxBu7stzjhL4uerWhbmA2ecGU9yi5fj5wg/viewform?usp=sf_link",
+                    confirmationMessage: "Your response has been recorded. (9)" // important: the confirmation message must be unique
+                )
+            } else {
+                try? GoogleForm(
+                    "https://docs.google.com/forms/d/e/1FAIpQLSckrUMK8jPUjr3Nkbvmy2BDh3x9wFPpX1edR7_eNHdQ-VHvuA/viewform?usp=dialog",
+                    confirmationMessage: "Your response has been recorded. (9)" // important: the confirmation message must be unique
+                )
+            }
         case .scaleComparison:
             try? GoogleForm(
                 "https://docs.google.com/forms/d/e/1FAIpQLSf9tKcgN72UUELSFL8fe1cYfRQSpmrED_nN6Vr6Q_AWl0vSiA/viewform?usp=dialog",
@@ -277,7 +320,7 @@ enum Page: String, CaseIterable {
     /// Returns a `Page` for a confirmation message.
     /// - Parameter confirmationMessage: The confirmation message displayed at the end of a Google Forms.
     /// - Returns: A page or nil if no page with a matching confirmation message exists.
-    static func pageForGoogleForm(confirmationMessage: String) -> Page? {
+    @MainActor static func pageForGoogleForm(confirmationMessage: String) -> Page? {
         Page.allCases.first(where: { $0.googleForm?.confirmationMessage == confirmationMessage })
     }
     
