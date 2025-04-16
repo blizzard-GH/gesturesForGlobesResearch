@@ -65,6 +65,10 @@ struct TrainingView: View {
                 Button("Start Training") {
                     trainingPhase = .practicingGesture
                     Task {
+                        // The immersive space is normally already open, in which case openImmersiveSpace will not do anything.
+                        // The immersive space is closed if the user previously pressed the crown button, in which case it needs to be opened again.
+                        await model.openImmersiveSpace(openImmersiveSpaceAction)
+                        
                         await model.load(firstGlobe: model.globe, secondGlobe: model.secondGlobe)
                         initialiseTrainingGlobes()
                     }
