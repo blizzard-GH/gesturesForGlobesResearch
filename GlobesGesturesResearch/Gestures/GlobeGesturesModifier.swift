@@ -731,6 +731,9 @@ private struct GlobeGesturesModifier: ViewModifier {
                             isInRotatingState = true
                         }
                     }
+                    Task { @MainActor in
+                        pauseRotationAndStoreRotationState()
+                    }
                     
                     guard let drag = drag else { return }
                     
