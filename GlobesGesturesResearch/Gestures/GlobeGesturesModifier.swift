@@ -452,9 +452,21 @@ private struct GlobeGesturesModifier: ViewModifier {
                                 radius: model.globe.radius,
                                 duration: animationDuration // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
                             )
+                            
                         } else {
                             globeEntity.scale = [scale, scale, scale]
                         }
+                        
+//                        var addOffsetInMovingGlobeWhileScaling: SIMD3<Float> = .zero
+//                        if let secondGlobeEntity = model.secondGlobeEntity {
+//                            if model.moveGlobeWhileScaling {
+//                                
+//                                let cameraPosition = cameraPositionAtGestureStart
+//                                let deltaRadius = (scale - globeScaleAtGestureStart) * model.globe.radius
+//                                let secondGlobeCameraDirection = normalize(cameraPositionAtGestureStart - secondGlobeEntity.position)
+//                                addOffsetInMovingGlobeWhileScaling = -secondGlobeCameraDirection * deltaRadius
+//                            }
+//                        }
                         
                         // This function below adjusts second globe's position according to the scale of the first globe
                         if let secondGlobeEntity = model.secondGlobeEntity,
@@ -468,7 +480,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                             let requiredDistance = currentRadius + secondRadius + middleOffset
                             
                             let basePosition = globeEntity.position(relativeTo: nil)
-                            let newSecondGlobePosition = basePosition + (direction * requiredDistance)
+                            let newSecondGlobePosition = basePosition + (direction * requiredDistance) //+ addOffsetInMovingGlobeWhileScaling
                             
                             let currentPosition = secondGlobeEntity.position(relativeTo: nil)
                             let distanceThreshold: Float = 0.001
@@ -1137,7 +1149,19 @@ private struct GlobeGesturesModifier: ViewModifier {
                             globeEntity.scale = [scale, scale, scale]
                         }
                         
-                        //                         This function below adjusts second globe's position according to the scale of the first globe
+//                        var addOffsetInMovingGlobeWhileScaling: SIMD3<Float> = .zero
+//                        
+//                        if let secondGlobeEntity = model.secondGlobeEntity {
+//                            if model.moveGlobeWhileScaling {
+//                                
+//                                let cameraPosition = cameraPositionAtGestureStart
+//                                let deltaRadius = (scale - globeScaleAtGestureStart) * model.globe.radius
+//                                let secondGlobeCameraDirection = normalize(cameraPositionAtGestureStart - secondGlobeEntity.position)
+//                                addOffsetInMovingGlobeWhileScaling = -secondGlobeCameraDirection * deltaRadius
+//                            }
+//                        }
+                        
+                        // This function below adjusts second globe's position according to the scale of the first globe
                         if let secondGlobeEntity = model.secondGlobeEntity,
                            let direction = state.directionVector {
                             
@@ -1149,7 +1173,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                             let requiredDistance = currentRadius + secondRadius + middleOffset
                             
                             let basePosition = globeEntity.position(relativeTo: nil)
-                            let newSecondGlobePosition = basePosition + (direction * requiredDistance)
+                            let newSecondGlobePosition = basePosition + (direction * requiredDistance) //+ addOffsetInMovingGlobeWhileScaling
                             
                             let currentPosition = secondGlobeEntity.position(relativeTo: nil)
                             let distanceThreshold: Float = 0.001
