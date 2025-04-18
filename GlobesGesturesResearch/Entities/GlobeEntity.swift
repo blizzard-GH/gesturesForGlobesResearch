@@ -283,6 +283,41 @@ class GlobeEntity: Entity {
         }
     }
     
+    /// Does not change the scale of the globe but only moves the globe along a line connecting the camera and the center of the globe,
+    /// such that the globe section facing the camera remains at a constant distance. The movement level is based on two scales difference
+    /// - Parameters:
+    ///   - newScale: The new scale of the globe as movement calculation only.
+    ///   - oldScale: The current scale of the globe as movement calculation only.
+    ///   - oldPosition: The current position of the globe.
+    ///   - cameraPosition: The camera position. If nil, the current camera position is retrieved.
+    ///   - radius: Radius of the unscaled globe.
+    ///   - duration: Animation duration in seconds.
+    func adjustDistanceToCamera(
+        newScale: Float,
+        oldScale: Float,
+        oldPosition: SIMD3<Float>,
+        cameraPosition: SIMD3<Float>? = nil,
+        radius: Float,
+        duration: Double = 0
+    ) {
+        let cameraPosition = cameraPosition ?? (CameraTracker.shared.position ?? SIMD3(0, 1, 0))
+        
+        // Compute by how much the globe radius changes.
+        let deltaRadius = (newScale - oldScale) * radius
+        
+        // The unary direction vector from the globe to the camera.
+        let globeCameraDirection = normalize(cameraPosition - oldPosition)
+        
+        // Move the globe center along that direction.
+        let position = oldPosition - globeCameraDirection * deltaRadius
+        if duration > 0 {
+            animateTransform(position: position, duration: duration)
+        } else {
+            self.scale = [newScale, newScale, newScale]
+            self.position = position
+        }
+    }
+    
     /// Changes the scale of the globe and moves the globe along a line connecting the camera and the center of the globe,
     /// such that the globe section facing the camera remains at a constant distance.
     /// - Parameters:

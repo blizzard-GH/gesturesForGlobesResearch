@@ -457,18 +457,25 @@ private struct GlobeGesturesModifier: ViewModifier {
                             globeEntity.scale = [scale, scale, scale]
                         }
                         
-//                        var addOffsetInMovingGlobeWhileScaling: SIMD3<Float> = .zero
-//                        if let secondGlobeEntity = model.secondGlobeEntity {
-//                            if model.moveGlobeWhileScaling {
-//                                
-//                                let cameraPosition = cameraPositionAtGestureStart
-//                                let deltaRadius = (scale - globeScaleAtGestureStart) * model.globe.radius
-//                                let secondGlobeCameraDirection = normalize(cameraPositionAtGestureStart - secondGlobeEntity.position)
-//                                addOffsetInMovingGlobeWhileScaling = -secondGlobeCameraDirection * deltaRadius
-//                            }
-//                        }
                         
-                        // This function below adjusts second globe's position according to the scale of the first globe
+//                        This function below adjusts second globe's z-axis position according to the scale of the first globe.
+//                        It only applies when the study's scaling condition is in "Adjust distance to the camera when scaling"
+                        if let secondGlobeEntity = model.secondGlobeEntity {
+                            if model.moveGlobeWhileScaling {
+
+                                let globeOldScale = (globeEntity.scale.x + globeEntity.scale.y + globeEntity.scale.z) / 3
+                                secondGlobeEntity.adjustDistanceToCamera(
+                                    newScale: scale,
+                                    oldScale: globeOldScale,
+                                    oldPosition: secondGlobeEntity.position,
+                                    cameraPosition: cameraPositionAtGestureStart,
+                                    radius: model.globe.radius,
+                                    duration: animationDuration // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
+                                )
+                            }
+                        }
+                        
+//                         This function below adjusts second globe's position according to the scale of the first globe
                         if let secondGlobeEntity = model.secondGlobeEntity,
                            let direction = state.directionVector {
                             
@@ -1149,17 +1156,24 @@ private struct GlobeGesturesModifier: ViewModifier {
                             globeEntity.scale = [scale, scale, scale]
                         }
                         
-//                        var addOffsetInMovingGlobeWhileScaling: SIMD3<Float> = .zero
-//                        
-//                        if let secondGlobeEntity = model.secondGlobeEntity {
-//                            if model.moveGlobeWhileScaling {
-//                                
-//                                let cameraPosition = cameraPositionAtGestureStart
-//                                let deltaRadius = (scale - globeScaleAtGestureStart) * model.globe.radius
-//                                let secondGlobeCameraDirection = normalize(cameraPositionAtGestureStart - secondGlobeEntity.position)
-//                                addOffsetInMovingGlobeWhileScaling = -secondGlobeCameraDirection * deltaRadius
-//                            }
-//                        }
+                        var addOffsetInMovingGlobeWhileScaling: SIMD3<Float> = .zero
+                        
+//                        This function below adjusts second globe's z-axis position according to the scale of the first globe.
+//                        It only applies when the study's scaling condition is in "Adjust distance to the camera when scaling"
+                        if let secondGlobeEntity = model.secondGlobeEntity {
+                            if model.moveGlobeWhileScaling {
+                                
+                                let globeOldScale = (globeEntity.scale.x + globeEntity.scale.y + globeEntity.scale.z) / 3
+                                secondGlobeEntity.adjustDistanceToCamera(
+                                    newScale: scale,
+                                    oldScale: globeOldScale,
+                                    oldPosition: secondGlobeEntity.position,
+                                    cameraPosition: cameraPositionAtGestureStart,
+                                    radius: model.globe.radius,
+                                    duration: animationDuration // animate the transformation to reduce jitter, as in the Apple EntityGestures sample project
+                                )
+                            }
+                        }
                         
                         // This function below adjusts second globe's position according to the scale of the first globe
                         if let secondGlobeEntity = model.secondGlobeEntity,
@@ -1173,7 +1187,8 @@ private struct GlobeGesturesModifier: ViewModifier {
                             let requiredDistance = currentRadius + secondRadius + middleOffset
                             
                             let basePosition = globeEntity.position(relativeTo: nil)
-                            let newSecondGlobePosition = basePosition + (direction * requiredDistance) //+ addOffsetInMovingGlobeWhileScaling
+                            let newSecondGlobePosition = basePosition + (direction * requiredDistance) + addOffsetInMovingGlobeWhileScaling
+                            
                             
                             let currentPosition = secondGlobeEntity.position(relativeTo: nil)
                             let distanceThreshold: Float = 0.001
