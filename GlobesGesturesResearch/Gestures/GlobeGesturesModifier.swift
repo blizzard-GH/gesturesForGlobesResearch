@@ -487,7 +487,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                             let requiredDistance = currentRadius + secondRadius + middleOffset
                             
                             let basePosition = globeEntity.position(relativeTo: nil)
-                            let newSecondGlobePosition = basePosition + (direction * requiredDistance) //+ addOffsetInMovingGlobeWhileScaling
+                            let newSecondGlobePosition = basePosition + (direction * requiredDistance) 
                             
                             let currentPosition = secondGlobeEntity.position(relativeTo: nil)
                             let distanceThreshold: Float = 0.001
@@ -1155,9 +1155,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         } else {
                             globeEntity.scale = [scale, scale, scale]
                         }
-                        
-                        var addOffsetInMovingGlobeWhileScaling: SIMD3<Float> = .zero
-                        
+                                                
 //                        This function below adjusts second globe's z-axis position according to the scale of the first globe.
 //                        It only applies when the study's scaling condition is in "Adjust distance to the camera when scaling"
                         if let secondGlobeEntity = model.secondGlobeEntity {
@@ -1187,7 +1185,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                             let requiredDistance = currentRadius + secondRadius + middleOffset
                             
                             let basePosition = globeEntity.position(relativeTo: nil)
-                            let newSecondGlobePosition = basePosition + (direction * requiredDistance) + addOffsetInMovingGlobeWhileScaling
+                            let newSecondGlobePosition = basePosition + (direction * requiredDistance)
                             
                             
                             let currentPosition = secondGlobeEntity.position(relativeTo: nil)
