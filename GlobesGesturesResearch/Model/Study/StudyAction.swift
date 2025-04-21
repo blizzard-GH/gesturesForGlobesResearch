@@ -9,7 +9,7 @@ import Foundation
 import RealityKit
 
 struct StudyAction: CustomStringConvertible {
-    let taskID: UUID
+    let actionID: UUID
     let date: Date
     let type: GestureType
     let status: GestureStatus
@@ -27,12 +27,12 @@ struct StudyAction: CustomStringConvertible {
         return "\(date), \(type), \(status), scale: \(targetScale), xyz: \(targetTranslation), rotation: \(targetRotation)"
     }
     
-    init(taskID: UUID,
+    init(actionID: UUID,
          type: GestureType,
          status: GestureStatus,
          originalTransform: Transform,
          targetTransform: Transform) {
-        self.taskID = taskID
+        self.actionID = actionID
         self.date = .now
         self.type = type
         self.status = status

@@ -319,7 +319,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
                         
                         currentTask.addAction(StudyAction(
-                            taskID: currentTask.taskID,
+                            actionID: currentTask.actionID,
                             type: .position,
                             status: .drag,
                             originalTransform: originalTransform,
@@ -514,7 +514,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                     }
                     let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
                     currentTask.addAction(StudyAction(
-                        taskID: currentTask.taskID,
+                        actionID: currentTask.actionID,
                         type: .scale,
                         status: .magnify,
                         originalTransform: originalTransform,
@@ -651,7 +651,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                     }
                     let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
                     currentTask.addAction(StudyAction(
-                        taskID: currentTask.taskID,
+                        actionID: currentTask.actionID,
                         type: .rotation,
                         status: .rotate,
                         originalTransform: originalTransform,
@@ -806,7 +806,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                             }
                             let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
                             currentTask.addAction(StudyAction(
-                                taskID: currentTask.taskID,
+                                actionID: currentTask.actionID,
                                 type: .rotation,
                                 status: .rotate,
                                 originalTransform: originalTransform,
@@ -1035,7 +1035,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
                         
                         currentTask.addAction(StudyAction(
-                            taskID: currentTask.taskID,
+                            actionID: currentTask.actionID,
                             type: .position,
                             status: .drag,
                             originalTransform: originalTransform,
@@ -1213,7 +1213,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                     }
                     let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
                     currentTask.addAction(StudyAction(
-                        taskID: currentTask.taskID,
+                        actionID: currentTask.actionID,
                         type: .scale,
                         status: .magnify,
                         originalTransform: originalTransform,
@@ -1322,7 +1322,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                     }
                     let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
                     currentTask.addAction(StudyAction(
-                        taskID: currentTask.taskID,
+                        actionID: currentTask.actionID,
                         type: .rotation,
                         status: .rotate,
                         originalTransform: originalTransform,
@@ -1452,7 +1452,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                             }
                             let targetTransform = model.secondGlobeEntity?.transform ?? Transform.identity
                             currentTask.addAction(StudyAction(
-                                taskID: currentTask.taskID,
+                                actionID: currentTask.actionID,
                                 type: .rotation,
                                 status: .rotate,
                                 originalTransform: originalTransform,

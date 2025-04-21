@@ -8,7 +8,7 @@ import Foundation
 import RealityKit
 
 class RotationTask: StudyTask {
-    let taskID = UUID()
+    let actionID = UUID()
     var actions = ThrottledArray<StudyAction>(throttleInterval: RotationTask.throttleInterval)
     var accuracyResult: Float = 0.0
     

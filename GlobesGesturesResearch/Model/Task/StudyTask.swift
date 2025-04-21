@@ -10,7 +10,7 @@ import RealityKit
 
 @MainActor
 protocol StudyTask {
-    var taskID: UUID { get }
+    var actionID: UUID { get }
     var actions: ThrottledArray<StudyAction> { get }
     var matcher: Matcher { get }
         
@@ -51,7 +51,7 @@ extension StudyTask {
     
     mutating func start(type: GestureType, originalTransform: Transform, targetTransform: Transform) {
         Log.info("Start gesture \(type)")
-        let action = StudyAction(taskID: taskID,
+        let action = StudyAction(actionID: actionID,
                                  type: type,
                                  status: type.startStatus,
                                  originalTransform: originalTransform,
@@ -61,7 +61,7 @@ extension StudyTask {
     
     mutating func end(type: GestureType, originalTransform: Transform, targetTransform: Transform) {
         Log.info("End gesture \(type)")
-        let action = StudyAction(taskID: taskID,
+        let action = StudyAction(actionID: actionID,
                                  type: type,
                                  status: type.endStatus,
                                  originalTransform: originalTransform,

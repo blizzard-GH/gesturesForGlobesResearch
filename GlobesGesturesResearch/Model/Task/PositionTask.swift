@@ -8,7 +8,7 @@ import Foundation
 
 @MainActor
 class PositionTask: StudyTask {
-    let taskID = UUID()
+    let actionID = UUID()
     var actions = ThrottledArray<StudyAction>(throttleInterval: PositionTask.throttleInterval)
     var accuracyResult: Float = 0.0
     let matcher: any Matcher
