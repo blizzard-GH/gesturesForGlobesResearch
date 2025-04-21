@@ -111,17 +111,17 @@ class TaskStorageManager {
                         default:
                         return "U"}
                     }
-                        return "U\(userID)_P_\(posBehaviour)\(distCode)\(dirCode)_\(String(format: "%02d", taskCounter))"
+                        return "U\(userID)_P_\(posBehaviour)\(distCode)\(dirCode)_\(String(format: "%04d", taskCounter))"
                         
                     case .rotation:
                     var rotBehaviour: String { oneHandedRotationGesture ? "OH" : "TH" }
                     var compCode: String { complexity == .simple ? "S" : "C" }
-                        return "U\(userID)_R_\(rotBehaviour)\(compCode)_\(String(format: "%02d", taskCounter))"
+                        return "U\(userID)_R_\(rotBehaviour)\(compCode)_\(String(format: "%04d", taskCounter))"
                         
                     case .scale:
                     var scaleBehaviour: String { moveGlobeWhileScaling ? "MG" : "NMG" }
                     var zoomCode: String { zoomDirection == .smallToLarge ? "StL" : "LtS" }
-                        return "U\(userID)_S_\(scaleBehaviour)\(zoomCode)_\(String(format: "%02d", taskCounter))"
+                        return "U\(userID)_S_\(scaleBehaviour)\(zoomCode)_\(String(format: "%04d", taskCounter))"
                     }
             }()
             
