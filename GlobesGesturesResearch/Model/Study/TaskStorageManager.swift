@@ -40,6 +40,9 @@ class TaskStorageManager {
     
     private var userID: Int = 0
     
+    private var taskCounter: Int = 1
+
+    
     func initialiseUserID() {
 //        if userID == 0 {
 //            let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appending(path: "study_tasks.csv", directoryHint: .notDirectory)
@@ -60,22 +63,22 @@ class TaskStorageManager {
         let fileURL = documentDirectory.appending(path: fileName, directoryHint: .notDirectory)
         let fileExists = FileManager.default.fileExists(atPath: fileURL.path)
         
-        var taskCounter = 0
-        
         var csvString = ""
                 
         if !fileExists {
-            csvString += "UserID,TaskID,GestureID,rotateGlobeWhileDragging,oneHandedRotationGesture,moveGlobeWhileScaling,distance,direction,complexity,zoomDirection,Date,Type,ActionStatus,main_translation_x,main_translation_y,main_translation_z,main_rotation_x,main_rotation_y,main_rotation_z,main_rotation_w,main_scale_x,main_scale_y,main_scale_z,target_translation_x,target_translation_y,target_translation_z,target_rotation_x,target_rotation_y,target_rotation_z,target_rotation_w,target_scale_x,target_scale_y,target_scale_z,match_accuracy_result,status\n"
+            csvString += "UserID,TaskID,ActionID,rotateGlobeWhileDragging,oneHandedRotationGesture,moveGlobeWhileScaling,distance,direction,complexity,zoomDirection,Date,Type,ActionStatus,main_translation_x,main_translation_y,main_translation_z,main_rotation_x,main_rotation_y,main_rotation_z,main_rotation_w,main_scale_x,main_scale_y,main_scale_z,target_translation_x,target_translation_y,target_translation_z,target_rotation_x,target_rotation_y,target_rotation_z,target_rotation_w,target_scale_x,target_scale_y,target_scale_z,match_accuracy_result,status\n"
         }
         
         // Convert each action to a CSV row
         let rows = task.actions.elements.enumerated().map { (index, action) in
             
-            
             let date = ISO8601DateFormatter().string(from: action.date)
+            let rotateGlobeWhileDragging = ViewModel.shared.rotateGlobeWhileDragging
             let distance = PositionCondition.currentDistance
             let direction = PositionCondition.currentDirection
+            let oneHandedRotationGesture = ViewModel.shared.oneHandedRotationGesture
             let complexity = RotationCondition.currentComplexity
+            let moveGlobeWhileScaling = ViewModel.shared.moveGlobeWhileScaling
             let zoomDirection = ScaleCondition.currentZoomDirection
             let targetTranslation = "\(action.targetTransform.translation.x),\(action.targetTransform.translation.y),\(action.targetTransform.translation.z)"
             let targetRotationVector = action.targetTransform.rotation.vector
@@ -92,10 +95,10 @@ class TaskStorageManager {
             let isLastAttempt = (index == totalActions - 1 && totalActions > 0)
 
             let taskID: String = {
-                taskCounter += 1
                 
                 switch type {
                     case .position:
+                    var posBehaviour: String { rotateGlobeWhileDragging ? "RG" : "NRG" }
                     var distCode: String { distance == .near ? "N" : "F" }
                     var dirCode: String {
                         switch direction {
@@ -108,15 +111,17 @@ class TaskStorageManager {
                         default:
                         return "U"}
                     }
-                        return "U\(userID)_P_\(distCode)\(dirCode)_\(String(format: "%02d", taskCounter))"
+                        return "U\(userID)_P_\(posBehaviour)\(distCode)\(dirCode)_\(String(format: "%02d", taskCounter))"
                         
                     case .rotation:
+                    var rotBehaviour: String { oneHandedRotationGesture ? "OH" : "TH" }
                     var compCode: String { complexity == .simple ? "S" : "C" }
-                        return "U\(userID)_R_\(compCode)_\(String(format: "%02d", taskCounter))"
+                        return "U\(userID)_R_\(rotBehaviour)\(compCode)_\(String(format: "%02d", taskCounter))"
                         
                     case .scale:
+                    var scaleBehaviour: String { moveGlobeWhileScaling ? "MG" : "NMG" }
                     var zoomCode: String { zoomDirection == .smallToLarge ? "StL" : "LtS" }
-                        return "U\(userID)_S_\(zoomCode)_\(String(format: "%02d", taskCounter))"
+                        return "U\(userID)_S_\(scaleBehaviour)\(zoomCode)_\(String(format: "%02d", taskCounter))"
                     }
             }()
             
@@ -136,7 +141,11 @@ class TaskStorageManager {
             
             var matchAccuracy: Float { (status == "Matched" || status == "Unmatched") ? task.accuracyResult : 0.0}
 
-            return "\(userID),\(taskID),\(action.actionID.uuidString),\(ViewModel.shared.rotateGlobeWhileDragging),\(ViewModel.shared.oneHandedRotationGesture),\(ViewModel.shared.moveGlobeWhileScaling),\(distance),\(direction),\(complexity),\(zoomDirection),\(date),\(typeString),\(action.status),\(originalTranslation),\(originalRotation),\(originalScale),\(targetTranslation),\(targetRotation),\(targetScale),\(matchAccuracy),\(status)"
+            if status == "Matched" {
+                taskCounter += 1
+            }
+            
+            return "\(userID),\(taskID),\(action.actionID.uuidString),\(rotateGlobeWhileDragging),\(oneHandedRotationGesture),\(moveGlobeWhileScaling),\(distance),\(direction),\(complexity),\(zoomDirection),\(date),\(typeString),\(action.status),\(originalTranslation),\(originalRotation),\(originalScale),\(targetTranslation),\(targetRotation),\(targetScale),\(matchAccuracy),\(status)"
         }
         
         csvString += rows.joined(separator: "\n") + "\n"
