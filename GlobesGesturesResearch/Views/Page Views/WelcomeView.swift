@@ -55,7 +55,9 @@ struct WelcomeView: View {
                 NextPageButton(title: "Start") {
                     TaskStorageManager.shared.initialiseUserID()
                 }
-                .disabled(!studyConditionsLoaded || !TaskStorageManager.storageFileRead)
+                .disabled(!studyConditionsLoaded
+//                          || !TaskStorageManager.storageFileRead
+                )
             }
             .padding(100)
         }
