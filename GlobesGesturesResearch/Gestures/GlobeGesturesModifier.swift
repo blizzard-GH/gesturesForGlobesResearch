@@ -137,12 +137,15 @@ private struct GlobeGesturesModifier: ViewModifier {
             content
                 .simultaneousGesture(dragTrainingGesture)
             
-        case    .positionExperiment1, .positionExperimentForm1,
-                .positionExperiment2, .positionExperimentForm2, .positionComparison:
+        case    .positionExperiment1,
+                .positionExperiment2:
             content
                 .simultaneousGesture(dragGesture)
-            
-        case .rotationTraining1, .rotationTraining2:
+        case    .positionExperimentForm1,
+                .positionExperimentForm2, .positionComparison:
+            content
+                .simultaneousGesture(dragTrainingGesture)
+        case .rotationTraining1, .rotationExperimentForm1, .rotationTraining2, .rotationExperimentForm2:
             if model.oneHandedRotationGesture {
                 content
                     .simultaneousGesture(rotateGlobeAxisTrainingGesture)
@@ -151,8 +154,8 @@ private struct GlobeGesturesModifier: ViewModifier {
                     .simultaneousGesture(rotateTrainingGesture)
             }
             
-        case    .rotationExperiment1, .rotationExperimentForm1,
-                .rotationExperiment2, .rotationExperimentForm2:
+        case    .rotationExperiment1,
+                .rotationExperiment2:
             if model.oneHandedRotationGesture {
                 content
                     .simultaneousGesture(rotateGlobeAxisGesture)
@@ -164,45 +167,44 @@ private struct GlobeGesturesModifier: ViewModifier {
         case .rotationComparison:
             if model.oneHandedRotationGesture {
                 content
-                    .simultaneousGesture(rotateGlobeAxisGesture)
+                    .simultaneousGesture(rotateGlobeAxisTrainingGesture)
             } else {
                 content
-                    .simultaneousGesture(rotateGesture)
+                    .simultaneousGesture(rotateTrainingGesture)
             }
             
         case .scaleTraining:
             content
                 .simultaneousGesture(magnifyTrainingGesture)
-        case    .scaleExperiment1, .scaleExperimentForm1,
-                .scaleExperiment2, .scaleExperimentForm2, .scaleComparison:
+        case    .scaleExperiment1,
+                .scaleExperiment2:
             content
                 .simultaneousGesture(magnifyGesture)
+        case    .scaleExperimentForm1,
+                .scaleExperimentForm2, .scaleComparison:
+            content
+                .simultaneousGesture(magnifyTrainingGesture)
         case .outroForm:
             if model.oneHandedRotationGesture {
                 content
-                    .simultaneousGesture(dragGesture)
-                    .simultaneousGesture(magnifyGesture)
-                    .simultaneousGesture(rotateGlobeAxisGesture)
+                    .simultaneousGesture(dragTrainingGesture)
+                    .simultaneousGesture(magnifyTrainingGesture)
+                    .simultaneousGesture(rotateGlobeAxisTrainingGesture)
             } else {
                 content
-                    .simultaneousGesture(dragGesture)
-                    .simultaneousGesture(magnifyGesture)
-                    .simultaneousGesture(rotateGesture)
+                    .simultaneousGesture(dragTrainingGesture)
+                    .simultaneousGesture(magnifyTrainingGesture)
+                    .simultaneousGesture(rotateTrainingGesture)
             }
             
         default :
             content
-                .simultaneousGesture(dragGesture)
-                .simultaneousGesture(magnifyGesture)
-                .simultaneousGesture(rotateGesture)
-                .simultaneousGesture(rotateGlobeAxisGesture)
+                .simultaneousGesture(dragTrainingGesture)
+                .simultaneousGesture(magnifyTrainingGesture)
+                .simultaneousGesture(rotateTrainingGesture)
+                .simultaneousGesture(rotateGlobeAxisTrainingGesture)
         }
-        //        content
-        //            .simultaneousGesture(doubleTapGesture)
-        //            .simultaneousGesture(dragGesture)
-        //            .simultaneousGesture(magnifyGesture)
-        //            .simultaneousGesture(rotateGesture)
-        //            .simultaneousGesture(rotateGlobeAxisGesture)
+
     }
     
     /// Convert a position on the globe in Cartesian coordinates to spherical coordinates.
@@ -325,10 +327,6 @@ private struct GlobeGesturesModifier: ViewModifier {
                             originalTransform: originalTransform,
                             targetTransform: targetTransform))
                         
-                        //                        if let targetTransform = model.secondGlobeEntity?.transform {
-                        //                            studyModel.setupNextTask(gestureType: .position, targetTransform: targetTransform)
-                        //                            studyModel.currentTask?.start(type: .position, transform: value.entity.transform)
-                        //                        }
                         
                         // This function applies transparency to second globe if it is in proximity to the first globe
                         let globesDistance = simd_distance(originalTransform.translation,targetTransform.translation)
@@ -358,8 +356,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                                             targetTransform: targetTransform)
                 
                 studyModel.currentTask?.updateAccuracyResult()
-                studyModel.storeTask()
-                if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
+                if studyModel.currentPage.isStoringRecordNeeded {
+                    studyModel.storeTask()
+                }
+                if studyModel.currentTask?.isMatching == true {
                     SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
                     if studyModel.taskCompleted(gestureType: .position) {
@@ -433,9 +433,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         
                     }
                     
-                    //                    if model.attachmentView == .none {
-                    //                        model.updateScaleConditions()
-                    //                    }
+
                     
                     if let globeScaleAtGestureStart = state.scaleAtGestureStart,
                        let globePositionAtGestureStart = state.positionAtGestureStart,
@@ -458,8 +456,8 @@ private struct GlobeGesturesModifier: ViewModifier {
                         }
                         
                         
-//                        This function below adjusts second globe's z-axis position according to the scale of the first globe.
-//                        It only applies when the study's scaling condition is in "Adjust distance to the camera when scaling"
+                       // This function below adjusts second globe's z-axis position according to the scale of the first globe.
+                       // It only applies when the study's scaling condition is in "Adjust distance to the camera when scaling"
                         if let secondGlobeEntity = model.secondGlobeEntity {
                             if model.moveGlobeWhileScaling {
 
@@ -475,7 +473,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                             }
                         }
                         
-//                         This function below adjusts second globe's position according to the scale of the first globe
+                      //   This function below adjusts second globe's position according to the scale of the first globe
                         if let secondGlobeEntity = model.secondGlobeEntity,
                            let direction = state.directionVector {
                             
@@ -532,8 +530,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                                             targetTransform: targetTransform)
                 
                 studyModel.currentTask?.updateAccuracyResult()
-                studyModel.storeTask()
-                if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
+                if studyModel.currentPage.isStoringRecordNeeded {
+                    studyModel.storeTask()
+                }
+                if studyModel.currentTask?.isMatching == true {
                     //                    studyModel.currentTask?.updateAccuracyResult()
                     //                    studyModel.storeTask()
                     SoundManager.shared.playSound(named: "correct")
@@ -610,9 +610,7 @@ private struct GlobeGesturesModifier: ViewModifier {
                         }
                     }
                     
-                    //                    if model.attachmentView == .none {
-                    //                        model.updateRotationConditions()
-                    //                    }
+
                     
                     if let globeEntity = value.entity as? GlobeEntity,
                        let orientationAtGestureStart = state.orientationAtGestureStart {
@@ -675,10 +673,10 @@ private struct GlobeGesturesModifier: ViewModifier {
                                             targetTransform: targetTransform)
                 
                 studyModel.currentTask?.updateAccuracyResult()
-                studyModel.storeTask()
-                if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
-                    //                    studyModel.currentTask?.updateAccuracyResult()
-                    //                    studyModel.storeTask()
+                if studyModel.currentPage.isStoringRecordNeeded {
+                    studyModel.storeTask()
+                }
+                if studyModel.currentTask?.isMatching == true {
                     SoundManager.shared.playSound(named: "correct")
                     studyModel.currentTask = nil
                     if studyModel.taskCompleted(gestureType: .rotation) {
@@ -836,10 +834,11 @@ private struct GlobeGesturesModifier: ViewModifier {
                                                 targetTransform: targetTransform)
                     
                     studyModel.currentTask?.updateAccuracyResult()
-                    studyModel.storeTask()
-                    if studyModel.currentPage.isStoringRecordNeeded, studyModel.currentTask?.isMatching == true {
-                        //                        studyModel.currentTask?.updateAccuracyResult()
-                        //                        studyModel.storeTask()
+                    if studyModel.currentPage.isStoringRecordNeeded {
+                        studyModel.storeTask()
+                    }
+                    if studyModel.currentTask?.isMatching == true {
+
                         SoundManager.shared.playSound(named: "correct")
                         studyModel.currentTask = nil
                         if studyModel.taskCompleted(gestureType: .rotation) {
@@ -1067,19 +1066,20 @@ private struct GlobeGesturesModifier: ViewModifier {
                 studyModel.currentTask?.end(type: .position,
                                             originalTransform: originalTransform,
                                             targetTransform: targetTransform)
-                guard let firstGlobeEntity = model.firstGlobeEntity, let secondGlobeEntity = model.secondGlobeEntity else { return }
+
                 
                 guard let currentTask = studyModel.currentTask else {
                     Log.error("current task does not exist")
                     return
                 }
                 studyModel.currentTask?.updateAccuracyResult()
-                
-                if currentTask.isMatching == true {
-                    studyModel.currentTask = nil
-                    SoundManager.shared.playSound(named: "correct")
-                    firstGlobeEntity.respawnGlobe(.left)
-                    secondGlobeEntity.respawnGlobe(.right)
+                if let firstGlobeEntity = model.firstGlobeEntity, let secondGlobeEntity = model.secondGlobeEntity {
+                    if currentTask.isMatching == true {
+                        studyModel.currentTask = nil
+                        SoundManager.shared.playSound(named: "correct")
+                        firstGlobeEntity.respawnGlobe(.left)
+                        secondGlobeEntity.respawnGlobe(.right)
+                    }
                 }
                 studyModel.currentTask = nil
             }
@@ -1156,8 +1156,8 @@ private struct GlobeGesturesModifier: ViewModifier {
                             globeEntity.scale = [scale, scale, scale]
                         }
                                                 
-//                        This function below adjusts second globe's z-axis position according to the scale of the first globe.
-//                        It only applies when the study's scaling condition is in "Adjust distance to the camera when scaling"
+                       // This function below adjusts second globe's z-axis position according to the scale of the first globe.
+                       // It only applies when the study's scaling condition is in "Adjust distance to the camera when scaling"
                         if let secondGlobeEntity = model.secondGlobeEntity {
                             if model.moveGlobeWhileScaling {
                                 
@@ -1228,21 +1228,21 @@ private struct GlobeGesturesModifier: ViewModifier {
                 studyModel.currentTask?.end(type: .scale,
                                             originalTransform: originalTransform,
                                             targetTransform: targetTransform)
-                guard let firstGlobeEntity = model.firstGlobeEntity, let secondGlobeEntity = model.secondGlobeEntity else { return }
+               
                 studyModel.currentTask?.updateAccuracyResult()
-                if studyModel.currentTask?.isMatching == true {
-                    SoundManager.shared.playSound(named: "correct")
-                    studyModel.currentTask = nil
-                    firstGlobeEntity.respawnGlobe(.left)
-                    secondGlobeEntity.respawnGlobe(.right)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        firstGlobeEntity.animateTransform(scale: 0.5, duration: 0.2)
-                        secondGlobeEntity.animateTransform(scale: 1.5, duration: 0.2)
+                if let firstGlobeEntity = model.firstGlobeEntity, let secondGlobeEntity = model.secondGlobeEntity {
+                    if studyModel.currentTask?.isMatching == true {
+                        SoundManager.shared.playSound(named: "correct")
+                        studyModel.currentTask = nil
+                        firstGlobeEntity.respawnGlobe(.left)
+                        secondGlobeEntity.respawnGlobe(.right)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            firstGlobeEntity.animateTransform(scale: 0.5, duration: 0.2)
+                            secondGlobeEntity.animateTransform(scale: 1.5, duration: 0.2)
+                        }
                     }
-                    
                 }
                 studyModel.currentTask = nil
-                
             }
     }
     
@@ -1343,15 +1343,16 @@ private struct GlobeGesturesModifier: ViewModifier {
                 studyModel.currentTask?.end(type: .rotation,
                                             originalTransform: originalTransform,
                                             targetTransform: targetTransform)
-                guard let firstGlobeEntity = model.firstGlobeEntity, let secondGlobeEntity = model.secondGlobeEntity else { return }
                 studyModel.currentTask?.updateAccuracyResult()
-                if studyModel.currentTask?.isMatching == true {
-                    SoundManager.shared.playSound(named: "correct")
-                    studyModel.currentTask = nil
-                    firstGlobeEntity.respawnGlobe(.leftClose)
-                    secondGlobeEntity.respawnGlobe(.rightClose)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                        firstGlobeEntity.animateTransform(orientation: simd_quatf(angle: 6 * Float.pi, axis: SIMD3<Float>(1, 1, 0)), duration: 0.1)
+                if let firstGlobeEntity = model.firstGlobeEntity, let secondGlobeEntity = model.secondGlobeEntity {
+                    if studyModel.currentTask?.isMatching == true {
+                        SoundManager.shared.playSound(named: "correct")
+                        studyModel.currentTask = nil
+                        firstGlobeEntity.respawnGlobe(.leftClose)
+                        secondGlobeEntity.respawnGlobe(.rightClose)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                            firstGlobeEntity.animateTransform(orientation: simd_quatf(angle: 6 * Float.pi, axis: SIMD3<Float>(1, 1, 0)), duration: 0.1)
+                        }
                     }
                 }
                 studyModel.currentTask = nil
@@ -1437,7 +1438,6 @@ private struct GlobeGesturesModifier: ViewModifier {
                             let currentScale = globeEntity.scale
                             let averageScale = (currentScale.x + currentScale.y + currentScale.z) / 3
                             
-                            //                            globeEntity.move(to: updatedTransform, relativeTo: nil, duration: animationDuration)
                             
                             let originalTransform = globeEntity.animateTransform(scale: averageScale,
                                                                                  orientation: globeEntity.orientation,
@@ -1479,16 +1479,17 @@ private struct GlobeGesturesModifier: ViewModifier {
                     studyModel.currentTask?.end(type: .rotation,
                                                 originalTransform: originalTransform,
                                                 targetTransform: targetTransform)
-                    guard let firstGlobeEntity = model.firstGlobeEntity, let secondGlobeEntity = model.secondGlobeEntity else { return }
+       
                     studyModel.currentTask?.updateAccuracyResult()
-                    
-                    if studyModel.currentTask?.isMatching == true {
-                        SoundManager.shared.playSound(named: "correct")
-                        studyModel.currentTask = nil
-                        firstGlobeEntity.respawnGlobe(.leftClose)
-                        secondGlobeEntity.respawnGlobe(.rightClose)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                            firstGlobeEntity.animateTransform(orientation: simd_quatf(angle: 6 * Float.pi, axis: SIMD3<Float>(1, 1, 0)), duration: 0.1)
+                    if let firstGlobeEntity = model.firstGlobeEntity, let secondGlobeEntity = model.secondGlobeEntity {
+                        if studyModel.currentTask?.isMatching == true {
+                            SoundManager.shared.playSound(named: "correct")
+                            studyModel.currentTask = nil
+                            firstGlobeEntity.respawnGlobe(.leftClose)
+                            secondGlobeEntity.respawnGlobe(.rightClose)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                                firstGlobeEntity.animateTransform(orientation: simd_quatf(angle: 6 * Float.pi, axis: SIMD3<Float>(1, 1, 0)), duration: 0.1)
+                            }
                         }
                     }
                     studyModel.currentTask = nil

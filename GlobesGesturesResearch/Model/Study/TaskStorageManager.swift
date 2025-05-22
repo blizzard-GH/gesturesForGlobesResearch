@@ -51,6 +51,7 @@ class TaskStorageManager {
         if userID == 0 {
             let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appending(path: "study_tasks.csv", directoryHint: .notDirectory)
             // Get the last userID from the CSV and increment it
+            cleanCSVFile(fileURL: fileURL)
             userID = getLastUserID(fileURL: fileURL) + 1
         }
         
@@ -168,19 +169,73 @@ class TaskStorageManager {
         }
     }
     
+//    private func getLastUserID(fileURL: URL) -> Int {
+//        guard let fileHandle = try? FileHandle(forReadingFrom: fileURL) else {
+//            return 0
+//        }
+//        
+//        let fileContent = String(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)
+//        fileHandle.closeFile()
+//
+//        let lines = fileContent?.split(separator: "\n").filter { !$0.isEmpty }
+//        if let lastLine = lines?.last {
+//            let components = lastLine.split(separator: ",")
+//            if let lastUserIDString = components.first, let lastUserID = Int(lastUserIDString) {
+//                return lastUserID  // Return the last used userID
+//            }
+//        }
+//
+//        return 0
+//    }
+    
+    func cleanCSVFile(fileURL: URL) {
+        do {
+            let originalData = try Data(contentsOf: fileURL)
+            var content = String(decoding: originalData, as: UTF8.self)
+
+            let originalContent = content
+
+            if content.hasPrefix("\u{feff}") {
+                content = content.replacingOccurrences(of: "\u{feff}", with: "")
+                print("Removed BOM from CSV.")
+            }
+
+            let cleanedContent = content
+                .replacingOccurrences(of: "\r\n", with: "\n")
+                .replacingOccurrences(of: "\r", with: "\n")
+                .trimmingCharacters(in: .whitespacesAndNewlines) + "\n" // ensure only one final newline
+
+            if cleanedContent != originalContent {
+                print("Cleaned up line endings and extra whitespace.")
+            } else {
+                print("No BOM or line ending issues detected.")
+            }
+
+            try cleanedContent.write(to: fileURL, atomically: true, encoding: .utf8)
+            print("Cleaned CSV saved back to: \(fileURL.lastPathComponent)")
+
+        } catch {
+            print("Failed to clean CSV file: \(error.localizedDescription)")
+        }
+    }
+    
     private func getLastUserID(fileURL: URL) -> Int {
         guard let fileHandle = try? FileHandle(forReadingFrom: fileURL) else {
             return 0
         }
-        
+
         let fileContent = String(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)
         fileHandle.closeFile()
 
-        let lines = fileContent?.split(separator: "\n").filter { !$0.isEmpty }
-        if let lastLine = lines?.last {
-            let components = lastLine.split(separator: ",")
-            if let lastUserIDString = components.first, let lastUserID = Int(lastUserIDString) {
-                return lastUserID  // Return the last used userID
+        let lines = fileContent?
+            .split(separator: "\n", omittingEmptySubsequences: false)
+            .reversed()
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+
+        if let lastValidLine = lines?.first(where: { !$0.isEmpty && !$0.starts(with: "UserID") }) {
+            let components = lastValidLine.split(separator: ",")
+            if let userIDString = components.first, let userID = Int(userIDString) {
+                return userID
             }
         }
 

@@ -13,18 +13,15 @@ struct ScaleCondition {
     let condition1: String
     let condition2: String
     
-//    static var gestureFeatureCompleted: Bool = false // Used to switch between technique in experiment 1 and 2
 
     static var lastUsedScaleConditionIndex: Int = -1
     
     static var scaleConditionsCompleted: Bool = false // Used to show 'next' button once all conditions are done
     
-//    static var scaleSwapTechnique: Bool = false // This var will swap technique, so that technique is implemented to Balanced Latin Square by half order
     
     static var scaleGestureOrder :  MovingOrder = .notMovingFirst
     
     
-    //Only for printing in csv
     static var currentZoomDirection: ZoomDirection = .smallToLarge
     
     enum MovingOrder{
@@ -54,15 +51,7 @@ struct ScaleCondition {
     /// Load `Landmark`s from CSV file in the app bundle.
     /// - Returns: Loaded landmarks.
     static func loadScaleConditions() throws -> [ScaleCondition] {
-//        guard let url = Bundle.main.url(forResource: "Scaling", withExtension: "csv") else {
-//            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Scaling.csv' not found in the directory."])
-//        }
-//        Works for simulator only:
-//        let currentFileURL = URL(fileURLWithPath: #file)
-//        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
-//        let csvFileURL = currentDirectoryURL.appendingPathComponent("Scaling.csv")
-        
-//        Below works for the headset itself:
+
         let fileName = "Scaling.csv"
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let csvFileURL = documentDirectory.appending(path: fileName, directoryHint: .notDirectory)
@@ -90,15 +79,7 @@ struct ScaleCondition {
     }
     
     static func saveScaleConditions(scaleConditions: [ScaleCondition]) throws {
-//        guard let url = Bundle.main.url(forResource: "Scaling", withExtension: "csv") else {
-//            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Scaling.csv' not found in the app bundle."])
-//        }
-//        Below works for simulators only:
-//        let currentFileURL = URL(fileURLWithPath: #file)
-//        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
-//        let csvFileURL = currentDirectoryURL.appendingPathComponent("Scaling.csv")
-        
-//        Below works for the headset itself:
+
         let fileName = "Scaling.csv"
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let csvFileURL = documentDirectory.appending(path: fileName, directoryHint: .notDirectory)
@@ -127,8 +108,7 @@ struct ScaleCondition {
     }
     
     static func scaleConditionsGetter(for scaleConditions: [ScaleCondition], lastUsedIndex: Int) -> (movingGlobeList: [ScalingGesture], zoomDirection: ZoomDirection) {
-//        var activeSubject: ScalingCondition?
-//        let movingGlobe: ScalingGesture = gestureFeatureCompleted ? .moving : .notMoving
+
         let movingGlobeList = scaleGestureOrder.list
 
         var zoomDirection: ZoomDirection = .smallToLarge
@@ -139,16 +119,6 @@ struct ScaleCondition {
             return ([.notMoving, .moving], .smallToLarge)
         }
         
-//        for subject in scalingConditions {
-//            if subject.status == "Active" {
-//                activeSubject = subject
-//            }
-//        }
-//
-//        guard let activeSubject = activeSubject else {
-//            print("No active subject exists.")
-//            return
-//        }
         
         let conditionValues = [activeSubject.condition1,
                            activeSubject.condition2]
@@ -158,8 +128,7 @@ struct ScaleCondition {
             return ([.notMoving, .moving], .smallToLarge)
         }
         
-//        for condition in conditionValues {
-//        conditionValues.forEach { condition in
+
         
         let safeIndex = min(max(lastUsedIndex, 0), conditionValues.count - 1)
 
@@ -175,7 +144,6 @@ struct ScaleCondition {
         }
         
         currentZoomDirection = zoomDirection
-//    }
         return (movingGlobeList, zoomDirection)
     }
     
@@ -194,7 +162,6 @@ struct ScaleCondition {
         }
         
         if (lastUsedIndex + 1) == conditionValues.count {
-//            gestureFeatureCompleted.toggle()
             scaleConditionsCompleted = true
             lastUsedIndex = -1
         } else {

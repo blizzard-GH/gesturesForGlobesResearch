@@ -201,7 +201,7 @@ class GlobeEntity: Entity {
 
             // rotate the point to the target position
             let orientation = simd_quatf(from: normalize(location), to: v)
-//            orientation = Self.orientToNorth(orientation: orientation)
+            // orientation = Self.orientToNorth(orientation: orientation)
             
             let duration = animationDuration(for: orientation, radius: radius)
             animateTransform(orientation: orientation, duration: duration)
@@ -390,16 +390,12 @@ class GlobeEntity: Entity {
     func refineGlobePosition(_ newCoordinate: SIMD3<Float>) {
         
         isInMovement = true
-//        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
-//        let fixedRotationY = Float.pi
-//        let newOrientation = simd_quatf(angle: fixedRotationY, axis: SIMD3<Float>(0, 1, 0))
         
         if self.components.has(OpacityComponent.self) {
             self.components[OpacityComponent.self] = OpacityComponent(opacity: 1.0)
         }
         
         animateTransform(
-//            orientation: newOrientation,
             position: newCoordinate,
             duration: 0.2)
         
@@ -424,8 +420,6 @@ class GlobeEntity: Entity {
         
         var counterPosition: SIMD3<Float> = SIMD3<Float>(0.0, 0.8, -1.5)
         
-//        PositionCondition.positionConditionsSetter(for: positionConditions,
-//                                                       lastUsedIndex: &PositionCondition.lastUsedPositionConditionIndex)
         
         let (globeRotates, distance, direction) = PositionCondition.positionConditionsGetter(for: positionConditions,
                                                                              lastUsedIndex: PositionCondition.lastUsedPositionConditionIndex)
@@ -437,8 +431,6 @@ class GlobeEntity: Entity {
         
         let offset: SIMD3<Float>
         
-//        let randomiseHorizontal = Float.random(in: -0.5...0.5)
-//        let randomiseVertical = Float.random(in: 0...1.8)
         
         switch direction {
         case .vertical:
@@ -450,12 +442,7 @@ class GlobeEntity: Entity {
         case .diagonal:
             offset = SIMD3<Float>(-0.5, 0.65, -1.5) * distanceMultiplier
             counterPosition = SIMD3<Float>(0.5, 1.5, -1.5) * distanceMultiplier
-//        case .diagonalUp:
-//            offset = SIMD3<Float>(randomiseHorizontalLeft, randomiseVerticalUp, -0.5) * distanceMultiplier
-//            counterPosition = ["Center", "CenterUp", "RightUp", "Right"].randomElement()!
-//        case .diagonalDown:
-//            offset = SIMD3<Float>(randomiseHorizontalLeft, randomiseVerticalDown, -0.5) * distanceMultiplier
-//            counterPosition = ["Center", "CenterDown", "RightDown", "Right"].randomElement()!
+
         case .none:
             offset = SIMD3<Float>(-0.8, 0.9, -1.5) * distanceMultiplier
             counterPosition = SIMD3<Float>(0.8, 0.9, -1.5) * distanceMultiplier
@@ -478,10 +465,6 @@ class GlobeEntity: Entity {
     func rerotateGlobe() -> simd_quatf {
         
         isInMovement = true
-//        if useFirstRotationIndex {
-//            RotationCondition.rotationConditionsSetter(for: rotationConditions,
-//                                                       lastUsedIndex: &RotationCondition.lastUsedRotationConditionIndex)
-//        }
                 
         let (_, complexity) = RotationCondition.rotationConditionsGetter(for: rotationConditions, lastUsedIndex: RotationCondition.lastUsedRotationConditionIndex)
         
@@ -535,16 +518,6 @@ class GlobeEntity: Entity {
 
         animateTransform(orientation: rotationQuaternion, duration: 0.2)
         
-//    Randomiser:
-//        guard let cameraPosition = CameraTracker.shared.position else {
-//            print("Camera position is unknown.")
-//            return
-//        }
-//        let randomRotationY = Float.random(in: -Float.pi...Float.pi)
-//        
-//        let rotationQuaternion = simd_quatf(angle: randomRotationY, axis: SIMD3<Float>(0, 1, 0))
-//        
-//        animateTransform(orientation: rotationQuaternion, duration: 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.isInMovement = false
         }
@@ -556,10 +529,6 @@ class GlobeEntity: Entity {
           
         isInMovement = true
         
-//        if useFirstScaleIndex {
-//            ScaleCondition.scaleConditionsSetter(for: scaleConditions,
-//                                                 lastUsedIndex: &ScaleCondition.lastUsedScaleConditionIndex)
-//        }
         
         let (_, zoomDirection) = ScaleCondition.scaleConditionsGetter(for: scaleConditions, lastUsedIndex: ScaleCondition.lastUsedScaleConditionIndex)
         

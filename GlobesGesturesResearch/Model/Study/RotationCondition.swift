@@ -54,15 +54,7 @@ struct RotationCondition {
     /// Load `Landmark`s from CSV file in the app bundle.
     /// - Returns: Loaded landmarks.
     static func loadRotationConditions() throws -> [RotationCondition] {
-//        guard let url = Bundle.main.url(forResource: "Rotation", withExtension: "csv") else {
-//            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Rotation.csv' not found in the app bundle."])
-//        }
-//        Works for simulator only:
-//        let currentFileURL = URL(fileURLWithPath: #file)
-//        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
-//        let csvFileURL = currentDirectoryURL.appendingPathComponent("Rotation.csv")
-        
-//        Below works for the headset itself:
+
         let fileName = "Rotation.csv"
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let csvFileURL = documentDirectory.appending(path: fileName, directoryHint: .notDirectory)
@@ -90,15 +82,8 @@ struct RotationCondition {
     }
     
     static func saveRotationConditions(rotationConditions: [RotationCondition]) throws {
-//        guard let url = Bundle.main.url(forResource: "Rotation", withExtension: "csv") else {
-//            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Rotation.csv' not found in the directory."])
-//        }
-//        Below works for simulators only:
-//        let currentFileURL = URL(fileURLWithPath: #file)
-//        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
-//        let csvFileURL = currentDirectoryURL.appendingPathComponent("Rotation.csv")
+
         
-//        Below works for the headset itself:
         let fileName = "Rotation.csv"
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let csvFileURL = documentDirectory.appending(path: fileName, directoryHint: .notDirectory)
@@ -138,16 +123,6 @@ struct RotationCondition {
             return ([.oneHanded, .twoHanded], .simple)
         }
         
-//        for subject in scalingConditions {
-//            if subject.status == "Active" {
-//                activeSubject = subject
-//            }
-//        }
-//
-//        guard let activeSubject = activeSubject else {
-//            print("No active subject exists.")
-//            return
-//        }
         
         let conditionValues = [activeSubject.condition1,
                            activeSubject.condition2]
@@ -157,10 +132,7 @@ struct RotationCondition {
             return ([.oneHanded, .twoHanded], .simple)
         }
         
-//        for condition in conditionValues {
-//        conditionValues.forEach { condition in
         
-//        rotationConditionsSetter(for: rotationConditions, lastUsedIndex: &lastUsedIndex)
         let safeIndex = min(max(lastUsedIndex, 0), conditionValues.count - 1)
         
         let selectedCondition = conditionValues[safeIndex]
@@ -175,7 +147,7 @@ struct RotationCondition {
         }
         
         currentComplexity = complexity
-//        }
+
         return (modalityOrderList, complexity)
     }
     
@@ -194,7 +166,6 @@ struct RotationCondition {
         }
         
         if (lastUsedIndex + 1) == conditionValues.count {
-//            gestureFeatureCompleted.toggle()
             rotationConditionsCompleted = true
             lastUsedIndex = -1
         } else {

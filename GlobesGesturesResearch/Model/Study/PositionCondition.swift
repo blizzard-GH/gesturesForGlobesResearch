@@ -71,16 +71,6 @@ struct PositionCondition {
     /// Load from CSV file in the app bundle.
     /// - Returns: Loaded `PositionCondition`s.
     static func loadPositionConditions() throws -> [PositionCondition] {
-//        Works for read-only:
-//        guard let url = Bundle.main.url(forResource: "Positioning", withExtension: "csv") else {
-//            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Positioning.csv' not found in the app bundle."])
-//        }
-        
-//        Works for simulator only:
-//        let currentFileURL = URL(fileURLWithPath: #file)
-//        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
-//        let csvFileURL = currentDirectoryURL.appendingPathComponent("Positioning.csv")
-//        let csvFileURL = documentsDir.appendingPathComponent("Positioning.csv")
         
         // Below works for the headset itself:
         let fileName = "Positioning.csv"
@@ -116,18 +106,12 @@ struct PositionCondition {
     }
     
     static func savePositionConditions(positionConditions: [PositionCondition]) throws {
-//        guard let url = Bundle.main.url(forResource: "Positioning", withExtension: "csv") else {
-//            throw NSError(domain: "CSVLoader", code: 1, userInfo: [NSLocalizedDescriptionKey: "CSV file 'Positioning.csv' not found in the directory."])
-//        }
+
         
-//        Below works for the headset itself:
         let fileName = "Positioning.csv"
         let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let csvFileURL = documentDirectory.appending(path: fileName, directoryHint: .notDirectory)
-//        Below works for simulator only:
-//        let currentFileURL = URL(fileURLWithPath: #file)
-//        let currentDirectoryURL = currentFileURL.deletingLastPathComponent()
-//        let csvFileURL = currentDirectoryURL.appendingPathComponent("Positioning.csv")
+
 
         guard let activeIndex = positionConditions.firstIndex(where: { $0.status == "Active" }) else {
             throw NSError(domain: "CSVLoader", code: 3, userInfo: [NSLocalizedDescriptionKey: "No active condition found"])
@@ -172,11 +156,6 @@ struct PositionCondition {
             return ([.notRotating, .rotating], .near, .none)
         }
         
-//        for subject in scalingConditions {
-//            if subject.status == "Active" {
-//                activeSubject = subject
-//            }
-//        }
         
         let conditionValues = [activeSubject.condition1,
                                activeSubject.condition2,
@@ -243,7 +222,6 @@ struct PositionCondition {
         }
         
         if (lastUsedIndex + 1) == conditionValues.count {
-//            gestureFeatureCompleted.toggle()
             positionConditionsCompleted = true
             lastUsedIndex = -1
         } else {

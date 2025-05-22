@@ -40,22 +40,6 @@ struct StudyAction: CustomStringConvertible {
         self.originalTransform = originalTransform
     }
     
-//    func encode(to encoder: Encoder) throws {
-//        var container = encoder.container(keyedBy: CodingKeys.self)
-//        try container.encode(taskID, forKey: .taskID)
-//        try container.encode(date, forKey: .date)
-//        try container.encode(type, forKey: .type)
-//        try container.encode(status, forKey: .status)
-//        try container.encode(transform, forKey: .transform)
-//    }
-//    
-//    enum CodingKeys: String, CodingKey {
-//        case taskID
-//        case date
-//        case type
-//        case status
-//        case transform
-//    }
     
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
